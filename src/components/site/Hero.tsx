@@ -64,6 +64,26 @@ export function Hero() {
               alt="Vista isométrica de una fábrica y centro logístico monitoreados por InspectIA"
               className="absolute inset-0 h-full w-full object-cover"
             />
+            {[
+              { left: "38%", top: "60%", label: "Recepción de mercadería" },
+              { left: "47%", top: "32%", label: "Línea de producción" },
+              { left: "52%", top: "52%", label: "Línea de producción" },
+              { left: "66%", top: "28%", label: "Almacenamiento" },
+              { left: "76%", top: "38%", label: "Almacenamiento" },
+              { left: "82%", top: "50%", label: "Armado y despacho" },
+            ].map((p, i) => (
+              <div
+                key={i}
+                className="group absolute -translate-x-1/2 -translate-y-1/2"
+                style={{ left: p.left, top: p.top }}
+              >
+                <span className="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 block h-5 w-5 rounded-full bg-[#17ccd3] opacity-60 animate-ping" />
+                <span className="relative block h-3 w-3 rounded-full bg-[#17ccd3] shadow-[0_0_10px_#17ccd3,0_0_24px_rgba(23,204,211,0.7)] ring-2 ring-white/40" />
+                <span className="pointer-events-none absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-[#041A1B]/90 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#17ccd3] opacity-0 transition-opacity group-hover:opacity-100">
+                  {p.label}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
