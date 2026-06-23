@@ -48,6 +48,16 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --shadow-glow: 0 0 15px rgba(23, 204, 211, 0.2);
   --shadow-glow-lg: 0 0 40px rgba(23, 204, 211, 0.35);
+  --animate-marquee: marquee 45s linear infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee { animation: none !important; }
 }
 
 :root {
