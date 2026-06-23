@@ -31,9 +31,9 @@ export function Hero() {
 
         {/* H2 */}
         <p className="mt-6 max-w-3xl text-base md:text-lg text-muted-foreground leading-relaxed">
-          Nuestra plataforma combina visión artificial, drones autónomos y sensores para
-          automatizar el control de calidad, optimizar el OEE y obtener visibilidad y
-          precisión en los inventarios. Integración nativa con tu PLC, WMS, ERP, MES, TMS...
+          Control de calidad automatizado, optimización del OEE, control de
+          recepción, stock y pedidos, todo en una sola plataforma con
+          integración nativa PLC, WMS, ERP, MES...
         </p>
 
         {/* CTAs */}
