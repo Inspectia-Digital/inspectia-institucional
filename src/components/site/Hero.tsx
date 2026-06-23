@@ -1,5 +1,6 @@
 import { ArrowRight, Calculator } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import fabricaAsset from "@/assets/fabrica-logistica.png.asset.json";
 
 export function Hero() {
   return (
@@ -59,8 +60,8 @@ export function Hero() {
         <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-card shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)]">
           <div className="relative aspect-[16/9]">
             <img
-              src="https://images.unsplash.com/photo-1565514020179-026b92b84bb6?auto=format&fit=crop&w=1600&q=80"
-              alt="Vista de un almacén automatizado analizado por visión artificial InspectIA"
+              src={fabricaAsset.url}
+              alt="Vista isométrica de una fábrica y centro logístico monitoreados por InspectIA"
               className="absolute inset-0 h-full w-full object-cover"
             />
             {/* Dark overlay for legibility */}
