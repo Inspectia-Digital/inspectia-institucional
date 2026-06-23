@@ -23,9 +23,9 @@ export function Hero() {
 
         {/* H1 */}
         <h1 className="mt-8 text-4xl md:text-6xl font-bold leading-[1.05] tracking-tight text-foreground">
-          Aplicamos Inteligencia Artificial Industrial integrada a los sistemas existentes.{" "}
+          Aplicamos IA Industrial sin cambiar procesos ni sistemas.{" "}
           <span className="bg-gradient-to-r from-white to-[#17ccd3] bg-clip-text text-transparent">
-            Resultados a partir de los 15 días.
+            Resultados en menos de 15 días.
           </span>
         </h1>
 
