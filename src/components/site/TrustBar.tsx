@@ -54,15 +54,19 @@ export function TrustBar() {
               "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
           }}
         >
-          <div className="flex w-max items-center gap-14 md:gap-20 animate-marquee group-hover:[animation-play-state:paused]">
+          <div className="flex w-max items-center gap-6 md:gap-8 animate-marquee group-hover:[animation-play-state:paused]">
             {[...partners, ...partners].map((p, i) => (
-              <img
+              <div
                 key={`${p.name}-${i}`}
-                src={p.url}
-                alt={p.name}
-                loading="lazy"
-                className="h-10 md:h-12 w-auto object-contain shrink-0 opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition duration-300"
-              />
+                className="shrink-0 flex items-center justify-center h-20 w-44 md:h-24 md:w-52 rounded-2xl bg-white/95 border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.25)] px-5 py-4 transition hover:bg-white hover:shadow-[var(--shadow-glow)]"
+              >
+                <img
+                  src={p.url}
+                  alt={p.name}
+                  loading="lazy"
+                  className="max-h-full max-w-full object-contain"
+                />
+              </div>
             ))}
           </div>
         </div>
