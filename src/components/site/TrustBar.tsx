@@ -25,7 +25,7 @@ export function TrustBar() {
     <section className="px-4 pt-12 pb-20">
       <div className="mx-auto max-w-6xl">
         <p className="text-center text-xs md:text-sm text-slate-500">
-          Infraestructura, validación científica y confianza enterprise:
+          Confían en nosotros
         </p>
         <div className="mt-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 md:gap-x-10">
           {partners.map((p) => (
