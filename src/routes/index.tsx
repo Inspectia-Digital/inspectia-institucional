@@ -4,6 +4,7 @@ import { Hero } from "@/components/site/Hero";
 import { TrustBar } from "@/components/site/TrustBar";
 import { MoatBento } from "@/components/site/MoatBento";
 import { AudienceTabs } from "@/components/site/AudienceTabs";
+import { ProductWalkthrough } from "@/components/site/ProductWalkthrough";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -33,6 +34,7 @@ function Index() {
         <Hero />
         <TrustBar />
         <MoatBento />
+        <ProductWalkthrough />
         <AudienceTabs />
       </main>
     </div>
