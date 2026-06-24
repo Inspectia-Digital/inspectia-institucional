@@ -188,7 +188,7 @@ export function CalidadCalculator() {
             max={500}
             step={0.1}
             onChange={setCostoScrap}
-            format={(v) => `$${v.toFixed(1)}`}
+            suffix="USD"
           />
           <SliderRow
             label="Rendimiento Actual"
@@ -197,7 +197,7 @@ export function CalidadCalculator() {
             max={99.9}
             step={0.1}
             onChange={handleActual}
-            format={(v) => `${v.toFixed(1)}%`}
+            suffix="%"
           />
           <SliderRow
             label="Rendimiento Esperado"
@@ -206,7 +206,7 @@ export function CalidadCalculator() {
             max={100}
             step={0.1}
             onChange={handleEsperado}
-            format={(v) => `${v.toFixed(1)}%`}
+            suffix="%"
           />
           <SliderRow
             label="FTE (Personas dedicadas a calidad visual)"
@@ -221,7 +221,7 @@ export function CalidadCalculator() {
             min={100}
             max={5000}
             onChange={setCostoXpersona}
-            format={(v) => `$${fmtNum(v)}`}
+            suffix="USD"
           />
           <SliderRow
             label="Costo de Implementación por línea"
@@ -230,7 +230,7 @@ export function CalidadCalculator() {
             max={50000}
             step={500}
             onChange={setCostoImplementacion}
-            format={(v) => `$${fmtNum(v)}`}
+            suffix="USD"
           />
         </div>
 
