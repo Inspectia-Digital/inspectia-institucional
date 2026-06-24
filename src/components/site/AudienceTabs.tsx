@@ -41,9 +41,9 @@ export function AudienceTabs() {
     <section className="px-4 py-16 md:py-24">
       <div className="mx-auto max-w-6xl">
         <h2 className="text-center text-3xl md:text-5xl font-bold leading-tight tracking-tight text-foreground">
-          Soluciones diseñadas para tus{" "}
+          Soluciones diseñadas para mejorar tus{" "}
           <span className="bg-gradient-to-r from-white to-[#17ccd3] bg-clip-text text-transparent">
-            objetivos métricos
+            KPIs
           </span>
         </h2>
 
