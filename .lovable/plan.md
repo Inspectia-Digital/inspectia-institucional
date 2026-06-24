@@ -1,27 +1,43 @@
-# Plan: Trust bar — logos uniformes en gris
+# Plan: Bento Box "The Moat" + Tabs por perfil
 
-## Objetivo
-Lograr el mismo efecto que la referencia (Firstbase): todos los logos en un tono gris uniforme, mismo tamaño visual, sin recuadros blancos. Y agrandar el título "Confían en nosotros".
+Agregar dos secciones nuevas justo debajo del mapa interactivo del Hero, antes de `TrustBar`, en `src/routes/index.tsx`.
 
-## Cambios en `src/components/site/TrustBar.tsx`
+## 1) Nuevo componente `src/components/site/MoatBento.tsx`
 
-### 1. Quitar la caja blanca
-- Eliminar el contenedor `bg-white/95 border shadow rounded-3xl`. Los logos van directamente sobre el fondo oscuro de la sección (como en la referencia). Conservar el `mask-image` para el fade lateral del marquee.
+Sección con título centrado y grilla asimétrica tipo Bento.
 
-### 2. Uniformar tamaño y color
-- Cada `<img>`: misma altura fija (`h-8 md:h-10`), `w-auto`, `object-contain`. Mismo gap entre logos (`gap-12 md:gap-16`).
-- Aplicar tratamiento monocromo gris:
-  - `filter brightness-0 invert opacity-60` → fuerza todos los píxeles a blanco y los baja a ~gris claro (#9ca3af aprox), igual que la referencia.
-  - `hover:opacity-100 transition-opacity` para un sutil realce al pasar el mouse.
-- Esto neutraliza el problema de los logos con fondo (Springwall rojo, Quantit negro, Las Marías con marco): todos pasan a ser siluetas grises uniformes.
+- Título h2: "La capa de inteligencia que unifica el control de tus procesos" (mismo tratamiento tipográfico del Hero: gradient en remate corto).
+- Grid: `grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6`.
+- Cards: `rounded-3xl bg-[#084749] border border-white/10 text-white p-6 md:p-8`, hover sutil (`hover:border-white/20 transition`).
+- Estructura de cada card: eyebrow chip (ícono lucide + label corta), `h3` (título), `p` (texto).
 
-### 3. Agrandar el título
-- Cambiar `text-xs md:text-sm text-slate-500` por `text-sm md:text-base text-muted-foreground` y dejar `mb-10` para separar.
-- (Si se prefiere aún más grande, podemos ir a `text-base md:text-lg` — confirmar si querés ese tamaño en lugar del propuesto.)
+Distribución:
+
+```text
+┌───────────────────────────────┬───────────────────┐
+│ Convertimos la operación en   │ Hardware          │
+│ datos  (md:col-span-2)        │ Agnóstico         │
+├───────────────────────────────┴───────────────────┤
+│ Resultados concretos en tiempo récord (col-span-3)│
+└───────────────────────────────────────────────────┘
+```
+
+Iconos lucide: `Database` (grande), `Cable` (agnóstico), `Zap` (resultados). Textos exactos los provistos por el usuario.
+
+## 2) Nuevo componente `src/components/site/AudienceTabs.tsx`
+
+- Título h2: "Soluciones diseñadas para tus objetivos métricos".
+- `Tabs` de shadcn (`@/components/ui/tabs`) con dos triggers: "Manufactura y Calidad" / "Logística y Supply Chain". `TabsList` centrado, estilo dark adaptado (`bg-white/5 border border-white/10 rounded-full p-1`, trigger activo `data-[state=active]:bg-[#17ccd3] data-[state=active]:text-[#041A1B]`).
+- Cada `TabsContent` envuelto en `motion.div` (framer-motion, `AnimatePresence mode="wait"` por el value activo) con fade + slide suave (mismo easing que las hotspot cards: `[0.22,1,0.36,1]`, ~0.25s).
+- Layout del contenido: card `rounded-3xl bg-[#084749] border border-white/10 p-8 md:p-10`, grid `md:grid-cols-[auto_1fr_auto]` con icono grande a la izquierda (lucide `Factory` / `Warehouse`), bloque de texto al centro (subtítulo de audiencia + párrafo con foco en scrap/OEE/24-7 o descuadres/auditorías/capital inmovilizado), y CTA a la derecha.
+- CTA: `Button` con clase `bg-[#17ccd3] text-[#041A1B] hover:bg-[#17ccd3]/90 rounded-full font-semibold` y label correspondiente ("Solicitar visita sin cargo a la planta" / "...al CD").
+
+## 3) Wire-up en `src/routes/index.tsx`
+
+Orden dentro de `<main>`: `Hero` → `MoatBento` → `AudienceTabs` → `TrustBar`. Spacing vertical consistente con el resto (`py-16 md:py-24`, `max-w-6xl mx-auto px-4`).
 
 ## Fuera de alcance
-- No se cambia la lista de partners ni el orden.
-- No se toca la animación marquee ni el mask de fade.
 
-## Nota técnica
-El filtro `brightness-0 invert` es la técnica estándar para uniformar logos heterogéneos (PNGs con color, con fondo blanco, con marco) a un color sólido. Algunos logos muy detallados (Las Marías con texto fino, Molens con molino) pueden perder algo de detalle visual, pero ganan coherencia con el resto — exactamente el trade-off que hace la referencia.
+- No se toca Hero, TrustBar, ni tokens globales.
+- Sin lógica de submit en los CTAs (solo botones visuales por ahora).
+- Sin colores nuevos en `styles.css`: se usan los HEX pedidos (`#084749`, `#17ccd3`) inline tal como ya hace Hero.
