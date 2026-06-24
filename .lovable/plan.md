@@ -1,81 +1,81 @@
-# Tab 2 — TYMEO OEE (Matriz de Sensibilidad de ROI por Línea)
+# Tab 4 — App de Control de Stock + rename Tab 3
 
-Matriz de sensibilidad 5×5 que demuestra cómo pequeñas mejoras de OEE generan retornos exponenciales. **Todos los cálculos son por 1 línea de producción** (se aclara en UI). Sin inversión inicial: el único costo es el SaaS mensual de la herramienta por línea.
+Implementar el simulador de ROI para la app de picking/control manual en la Tab "Stock y Despachos" (renombrada a **"App de control de Stock"**), y renombrar la Tab 3 de "Recepción y Docks" a **"Software de recepción"**. Se reutiliza el patrón de `RecepcionCalculator.tsx` (glass + bloqueo + LeadForm) y los componentes compartidos de `shared.tsx`.
 
-## 1. Nuevo componente `src/components/roi/TymeoCalculator.tsx`
+## 1. Nuevo componente `src/components/roi/StockCalculator.tsx`
 
 Estructura paralela a `RecepcionCalculator.tsx`:
 - Grid `lg:grid-cols-[40%_60%]` con tarjetas glass `bg-[#084749]/40`.
-- Aviso en el header de la columna izquierda: *"Cálculo unitario por 1 línea de producción."*
-- Columna derecha con bloqueo inicial + botón `Calcular Matriz de ROI`.
-- `LeadForm` debajo con `title="Descargá tu Matriz de Sensibilidad OEE"` y `ctaLabel="Descargar Matriz y Reporte de OEE en PDF"`.
+- Columna izquierda: header + 7 `SliderRow` (de `shared.tsx`).
+- Columna derecha: bloqueo inicial con `calculosHabilitados` + botón "Calcular Impacto de App"; al desbloquear, Bloque A (impacto operativo) y Bloque B (impacto financiero) + insight dinámico.
+- `LeadForm` debajo con `title="Descargá el Caso de Uso Logístico"` y `ctaLabel="Descargar Caso de Uso Logístico en PDF"`.
 
-### Sliders (estado `useState`)
+### Sliders (`useState`)
 | State | min | max | step | default | suffix |
 |---|---|---|---|---|---|
-| volumenMensual | 1000 | 200000 | 1000 | 9000 | u/mes |
-| costoUnitario | 1 | 1000 | 1 | 50 | USD |
-| mejoraEsperada | 0.05 | 5 | 0.05 | 0.20 | % |
-| saasMensual | 50 | 2000 | 50 | 250 | USD/mes |
-
-Sin slider de inversión inicial.
+| ftesActuales | 1 | 100 | 1 | 8 | FTEs |
+| costoFte | 500 | 5000 | 50 | 1500 | USD/mes |
+| ubicacionesTurno | 100 | 10000 | 100 | 1200 | ubic. |
+| precisionActual | 50 | 99 | 1 | 85 | % |
+| mejoraVelocidad | 10 | 100 | 5 | 40 | % |
+| inversionInicial | 500 | 20000 | 100 | 3000 | USD |
+| saasMensual | 50 | 2000 | 50 | 400 | USD/mes |
 
 ### Cálculos (`useMemo`)
 ```text
-costoAnualInspectIA  = saasMensual * 12          // único costo (por línea)
-
-// Eje X — mejora: el valor del usuario al centro, 2 abajo y 2 arriba
-porcentajesMejora    = [
-  mejoraEsperada * 0.25,
-  mejoraEsperada * 0.5,
-  mejoraEsperada,
-  mejoraEsperada * 2,
-  mejoraEsperada * 4,
-]
-
-// Eje Y — volumen: el valor del usuario al centro, ±10% y ±20%
-escenariosVolumen    = [0.8, 0.9, 1.0, 1.1, 1.2]
-                       .map(f => Math.round(volumenMensual * f))
-
-calcularROI(volumen, mejora):
-  ahorroAnual = (volumen * 12) * costoUnitario * (mejora / 100)
-  return ((ahorroAnual - costoAnualInspectIA) / costoAnualInspectIA) * 100
+precisionLograda          = 99.9                       // estático
+incrementoPrecision       = 99.9 - precisionActual
+ubicacionesProyectadas    = Math.round(ubicacionesTurno * (1 + mejoraVelocidad/100))
+ftesAhorrados             = ftesActuales * (mejoraVelocidad/100)   // decimal, mostrar 1 decimal
+ahorroLaboralAnual        = ftesAhorrados * costoFte * 13
+costoSaasAnual            = saasMensual * 12
+ahorroNetoAnual           = ahorroLaboralAnual - costoSaasAnual
+roiOperativo              = ((ahorroNetoAnual - inversionInicial) / inversionInicial) * 100
+paybackMeses              = Math.max(1, Math.ceil(inversionInicial / (ahorroNetoAnual / 12)))
+                            // si ahorroNetoAnual <= 0 → mostrar "—"
 ```
-
-La matriz se memoiza como `number[][]` (5 filas × 5 columnas) dependiendo de los 4 sliders. La fila central (índice 2) y la columna central (índice 2) corresponden a los valores ingresados por el usuario.
 
 ## 2. Panel de resultados (columna derecha)
 
 Cuando `calculosHabilitados === true`:
 
-1. **Encabezado**:
-   - Título: `Matriz de Retorno de Inversión (1er Año, por línea)`.
-   - Subtítulo: `Proyección del % de ROI según la mejora de OEE y el volumen mensual de la línea.`
-2. **Tabla HTML** (scroll horizontal en mobile):
-   - **Header**: primera celda `Volumen / Mejora`, luego 5 columnas con los `porcentajesMejora` formateados (`0.05%`, `0.10%`, `0.20%`, `0.40%`, `0.80%` por ejemplo, según el slider). La columna central recibe `bg-white/5 border-b-2 border-[#17ccd3]` para resaltar la mejora ingresada.
-   - **Body**: map sobre `escenariosVolumen`. Cada fila empieza con `fmtNum(vol) + " u/mes"`.
-     - La fila central (`vol === volumenMensual`, índice 2): `bg-white/5 border-l-2 border-[#17ccd3]`.
-     - La **celda intersección** (fila central × columna central) recibe énfasis adicional: `ring-1 ring-[#17ccd3]/40`.
-     - Celdas ROI: `${Math.round(roi)}%` con color condicional:
-       - `roi < 0` → `text-red-400`
-       - `0 ≤ roi < 100` → `text-yellow-400`
-       - `roi ≥ 100` → `text-[#17ccd3] font-bold`
-     - Mono font, alineación derecha.
-3. **Pie** (`BreakdownRow`):
-   - Costo anual InspectIA por línea → `fmtMoney(costoAnualInspectIA)`.
-   - Volumen anual base por línea → `fmtNum(volumenMensual * 12)` u/año.
+### Bloque A — Impacto Operativo (2 tarjetas)
+Grid `md:grid-cols-2 gap-4`. Cada tarjeta: `bg-[#041A1B] border border-[#17ccd3]/30 rounded-2xl p-5`, ícono Lucide en pill cyan, título blanco, subtexto slate-400.
 
-Cuando bloqueado: la tabla se muestra con `blur-sm opacity-60` y botón central `Calcular Matriz de ROI`.
+1. **Tarjeta 1** — ícono `Target`:
+   - Título: `Precisión Elevada al 99.9%`
+   - Subtexto: `Eliminación del descuadre de inventario. Mejora del {incrementoPrecision.toFixed(1)}%.`
+2. **Tarjeta 2** — ícono `Gauge` (o `Zap`):
+   - Título: `Velocidad de Auditoría`
+   - Subtexto: `De {fmtNum(ubicacionesTurno)} a {fmtNum(ubicacionesProyectadas)} ubicaciones por turno.`
 
-## 3. Wiring en `RoiSimulator.tsx`
+### Bloque B — Impacto Financiero (3 KpiCard)
+Grid `md:grid-cols-3 gap-4` usando el `KpiCard` existente:
+1. `Ahorro Laboral Neto Anual` → `fmtMoney(ahorroNetoAnual)`
+2. `Tiempo de Repago` → `${paybackMeses} meses` (o `—`)
+3. `ROI Operativo` → `${Math.round(roiOperativo)}%`
 
-Reemplazar el `<ComingSoonPanel>` del `TabsContent value="tymeo"` por `<TymeoCalculator />`. La tab `stock` sigue con ComingSoon.
+### Insight dinámico
+Debajo de las métricas, párrafo pequeño en `bg-[#17ccd3]/5 border border-[#17ccd3]/20 rounded-xl p-4 text-sm text-slate-300`:
+
+> "Al aumentar su velocidad un **{mejoraVelocidad}%**, InspectIA OS le permite reasignar el equivalente a **{ftesAhorrados.toFixed(1)} operarios** hacia tareas de valor agregado, sin incrementar su nómina."
+
+### Bloqueado
+Versión blur (`blur-sm opacity-60`) del contenido + botón central "Calcular Impacto de App" (mismo patrón que `RecepcionCalculator`).
+
+## 3. Wiring en `src/components/roi/RoiSimulator.tsx`
+
+- Importar `StockCalculator`.
+- Tab `recepcion`: cambiar label de `Recepción y Docks` → **`Software de recepción`**.
+- Tab `stock`: cambiar label de `Stock y Despachos` → **`App de control de Stock`**.
+- En `TabsContent value="stock"`, reemplazar `<ComingSoonPanel />` por `<StockCalculator />`.
 
 ## 4. Reutilización
-- `SliderRow`, `BreakdownRow`, `fmtMoney`, `fmtNum` → importados de `src/components/roi/shared.tsx` sin cambios.
+- `SliderRow`, `KpiCard`, `BreakdownRow`, `fmtMoney`, `fmtNum` → `src/components/roi/shared.tsx` sin cambios.
 - `LeadForm` → ya acepta `title` y `ctaLabel`.
+- Íconos: `Target`, `Gauge` (o `Zap`) de `lucide-react`.
 
 ## Fuera de alcance
-- Cambios visuales en Calidad, Recepción, Hero, Navbar o Footer.
-- Tab Stock (sigue "Próximamente").
-- Persistencia, PDF real, gráficos adicionales.
+- Cambios visuales en Calidad, TYMEO, Recepción, Hero, Navbar o Footer.
+- Persistencia, PDF real, gráficos.
+- Cambios en metadata SEO de `/roi`.
