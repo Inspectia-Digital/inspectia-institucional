@@ -12,7 +12,7 @@ export function TymeoCalculator() {
   const [volumenMensual, setVolumenMensual] = useState(9000);
   const [costoUnitario, setCostoUnitario] = useState(50);
   const [mejoraEsperada, setMejoraEsperada] = useState(0.2);
-  const [saasMensual, setSaasMensual] = useState(250);
+  const saasMensual = 250;
   const [calculosHabilitados, setCalculosHabilitados] = useState(false);
 
   const { porcentajesMejora, escenariosVolumen, matriz, costoAnualInspectIA } =
@@ -87,15 +87,11 @@ export function TymeoCalculator() {
             onChange={setMejoraEsperada}
             suffix="%"
           />
-          <SliderRow
-            label="Costo Mensual InspectIA OS (SaaS)"
-            value={saasMensual}
-            min={50}
-            max={2000}
-            step={50}
-            onChange={setSaasMensual}
-            suffix="USD/mes"
-          />
+          <div className="rounded-2xl border border-white/10 bg-[#041A1B]/60 p-4 text-xs text-slate-400">
+            Costo fijo de InspectIA OS:{" "}
+            <span className="font-mono text-[#17ccd3]">USD 250</span> por línea
+            / mes.
+          </div>
         </div>
 
         {/* RIGHT: Results */}
