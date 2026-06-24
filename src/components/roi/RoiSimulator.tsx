@@ -2,7 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CalidadCalculator } from "./CalidadCalculator";
 import { RecepcionCalculator } from "./RecepcionCalculator";
 import { TymeoCalculator } from "./TymeoCalculator";
-import { ComingSoonPanel } from "./ComingSoonPanel";
+import { StockCalculator } from "./StockCalculator";
 
 export function RoiSimulator() {
   return (
@@ -25,13 +25,13 @@ export function RoiSimulator() {
             value="recepcion"
             className="rounded-full px-4 md:px-6 py-2 text-sm text-slate-300 data-[state=active]:bg-[#17ccd3] data-[state=active]:text-[#041A1B] data-[state=active]:shadow-none whitespace-nowrap"
           >
-            Recepción y Docks
+            Software de recepción
           </TabsTrigger>
           <TabsTrigger
             value="stock"
             className="rounded-full px-4 md:px-6 py-2 text-sm text-slate-300 data-[state=active]:bg-[#17ccd3] data-[state=active]:text-[#041A1B] data-[state=active]:shadow-none whitespace-nowrap"
           >
-            Stock y Despachos
+            App de control de Stock
           </TabsTrigger>
         </TabsList>
       </div>
@@ -46,7 +46,7 @@ export function RoiSimulator() {
         <RecepcionCalculator />
       </TabsContent>
       <TabsContent value="stock" className="mt-0">
-        <ComingSoonPanel message="Próximamente disponible — Simulador de Drones y App de Stock en desarrollo." />
+        <StockCalculator />
       </TabsContent>
     </Tabs>
   );
