@@ -41,34 +41,33 @@ export function TrustBar() {
       className="px-4 pt-12 pb-20"
     >
       <div className="mx-auto max-w-6xl">
-        <p className="text-center text-xs md:text-sm text-slate-500">
+        <p className="text-center text-sm md:text-base text-muted-foreground">
           Confían en nosotros
         </p>
 
-        <div className="mt-8 rounded-3xl bg-white/95 border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.3)] px-4 md:px-8 py-6 md:py-8">
-          <div
-            className="group relative overflow-hidden"
-            style={{
-              maskImage:
-                "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
-              WebkitMaskImage:
-                "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
-            }}
-          >
-            <div className="flex w-max items-center gap-14 md:gap-20 animate-marquee group-hover:[animation-play-state:paused]">
-              {[...partners, ...partners].map((p, i) => (
-                <img
-                  key={`${p.name}-${i}`}
-                  src={p.url}
-                  alt={p.name}
-                  loading="lazy"
-                  className="h-10 md:h-14 w-auto object-contain shrink-0"
-                />
-              ))}
-            </div>
+        <div
+          className="group relative mt-10 overflow-hidden"
+          style={{
+            maskImage:
+              "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent, black 6%, black 94%, transparent)",
+          }}
+        >
+          <div className="flex w-max items-center gap-12 md:gap-16 animate-marquee group-hover:[animation-play-state:paused]">
+            {[...partners, ...partners].map((p, i) => (
+              <img
+                key={`${p.name}-${i}`}
+                src={p.url}
+                alt={p.name}
+                loading="lazy"
+                className="h-8 md:h-10 w-auto object-contain shrink-0 [filter:brightness(0)_invert(1)] opacity-60 hover:opacity-100 transition-opacity"
+              />
+            ))}
           </div>
         </div>
       </div>
+
     </section>
   );
 }
