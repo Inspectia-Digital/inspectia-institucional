@@ -38,6 +38,7 @@ function Index() {
         <ProductWalkthrough />
         <AudienceTabs />
       </main>
+      <Footer />
     </div>
   );
 }
