@@ -5,6 +5,7 @@ import { TrustBar } from "@/components/site/TrustBar";
 import { MoatBento } from "@/components/site/MoatBento";
 import { AudienceTabs } from "@/components/site/AudienceTabs";
 import { ProductWalkthrough } from "@/components/site/ProductWalkthrough";
+import { Footer } from "@/components/site/Footer";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -37,6 +38,7 @@ function Index() {
         <ProductWalkthrough />
         <AudienceTabs />
       </main>
+      <Footer />
     </div>
   );
 }
