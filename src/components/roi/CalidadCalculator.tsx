@@ -11,7 +11,6 @@ type SliderRowProps = {
   step?: number;
   onChange: (v: number) => void;
   suffix?: string;
-  format?: (v: number) => string;
 };
 
 function SliderRow({
@@ -22,17 +21,39 @@ function SliderRow({
   step = 1,
   onChange,
   suffix,
-  format,
 }: SliderRowProps) {
-  const display = format ? format(value) : value.toString();
+  const decimals = step < 1 ? Math.max(0, -Math.floor(Math.log10(step))) : 0;
+  const clamp = (n: number) => Math.min(max, Math.max(min, n));
+  const inputDisplay = value.toFixed(decimals);
+
   return (
     <div className="space-y-2">
-      <div className="flex items-baseline justify-between gap-3">
+      <div className="flex items-center justify-between gap-3">
         <label className="text-sm text-slate-300">{label}</label>
-        <span className="font-mono text-[#17ccd3] text-sm">
-          {display}
-          {suffix ? ` ${suffix}` : ""}
-        </span>
+        <div className="flex items-center gap-1.5">
+          <input
+            type="number"
+            value={inputDisplay}
+            min={min}
+            max={max}
+            step={step}
+            onChange={(e) => {
+              const raw = e.target.value;
+              if (raw === "" || raw === "-") return;
+              const n = Number(raw);
+              if (!Number.isNaN(n)) onChange(clamp(n));
+            }}
+            onBlur={(e) => {
+              const n = Number(e.target.value);
+              if (Number.isNaN(n)) onChange(min);
+              else onChange(clamp(n));
+            }}
+            className="w-24 bg-[#041A1B] border border-white/10 rounded-md px-2 py-1 text-right font-mono text-[#17ccd3] text-sm focus:border-[#17ccd3] outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          />
+          {suffix && (
+            <span className="text-xs text-slate-500 w-8">{suffix}</span>
+          )}
+        </div>
       </div>
       <Slider
         value={[value]}
@@ -45,6 +66,7 @@ function SliderRow({
     </div>
   );
 }
+
 
 const fmtMoney = (n: number) =>
   new Intl.NumberFormat("en-US", {
@@ -162,7 +184,7 @@ export function CalidadCalculator() {
             max={500}
             step={0.1}
             onChange={setCostoScrap}
-            format={(v) => `$${v.toFixed(1)}`}
+            suffix="USD"
           />
           <SliderRow
             label="Rendimiento Actual"
@@ -171,7 +193,7 @@ export function CalidadCalculator() {
             max={99.9}
             step={0.1}
             onChange={handleActual}
-            format={(v) => `${v.toFixed(1)}%`}
+            suffix="%"
           />
           <SliderRow
             label="Rendimiento Esperado"
@@ -180,7 +202,7 @@ export function CalidadCalculator() {
             max={100}
             step={0.1}
             onChange={handleEsperado}
-            format={(v) => `${v.toFixed(1)}%`}
+            suffix="%"
           />
           <SliderRow
             label="FTE (Personas dedicadas a calidad visual)"
@@ -195,7 +217,7 @@ export function CalidadCalculator() {
             min={100}
             max={5000}
             onChange={setCostoXpersona}
-            format={(v) => `$${fmtNum(v)}`}
+            suffix="USD"
           />
           <SliderRow
             label="Costo de Implementación por línea"
@@ -204,7 +226,7 @@ export function CalidadCalculator() {
             max={50000}
             step={500}
             onChange={setCostoImplementacion}
-            format={(v) => `$${fmtNum(v)}`}
+            suffix="USD"
           />
         </div>
 

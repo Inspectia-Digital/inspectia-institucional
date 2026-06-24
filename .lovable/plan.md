@@ -1,42 +1,29 @@
-# Plan: Footer global de InspectIA
+# Plan: Arreglar `/roi` y agregar inputs editables a los sliders
 
-Componente de footer reutilizable acoplado en Home y `/roi`, con grid de 4 columnas en desktop y stack vertical en mobile.
+## 1) Diagnóstico del error en `/roi`
 
-## 1) Nuevo componente `src/components/site/Footer.tsx`
+El error `Invariant failed: Expected to find a match below the root match in SPA mode` viene del hidratado de TanStack Start cuando el HTML inicial difiere del cliente. La causa real más probable es que un compile-error de Vite (overlay visto en el session replay) rompe el módulo de la ruta. Voy a revisar los logs del dev server al entrar a build mode para confirmar el archivo culpable y corregir el import / sintaxis que falla.
 
-- Wrapper: `<footer className="bg-[#020d0e] border-t border-white/5 font-[Poppins]">` con contenedor interior `max-w-6xl mx-auto px-4 py-16`.
-- Grid principal: `grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10`.
+Pasos:
+- `sqlite3 /tmp/sandbox-state.db ...` para leer los últimos errores de Vite y ubicar el archivo exacto.
+- Corregir el archivo (probablemente `CalidadCalculator.tsx` o `LeadForm.tsx`).
+- Hacer un hard reload del preview si queda hidratación stale.
 
-### Col 1 — Marca
-- Logo: `<span className="text-xl font-bold text-white">InspectIA<span className="text-[#17ccd3]">.</span></span>`.
-- Descripción: copia del brief, `text-xs text-slate-400 max-w-xs mt-3`.
-- Social: `<a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">` con icono `Linkedin` (lucide), color `text-slate-500 hover:text-[#17ccd3] transition-colors`, padding `p-2 rounded-full border border-white/10`.
+## 2) Inputs numéricos editables junto a cada slider
 
-### Col 2 — Productos
-- Título `text-sm font-semibold uppercase tracking-wider text-white mb-4`.
-- Lista `ul space-y-2` con `<a href="#">` por enlace, clase `text-sm text-slate-400 hover:text-[#17ccd3] transition-colors`. Items: Recepción de Mercadería, TYMEO OEE, Control de Calidad, Productividad y Seguridad, Stock y Despachos.
+`SliderRow` actual sólo muestra el valor; lo voy a convertir en un control combo:
 
-### Col 3 — Recursos
-- Misma estructura. "Calcular ROI" usa `<Link to="/roi">` de tanstack-router; el resto `<a href="#">` por ahora. Items: Calcular ROI, Casos de Éxito, Blog Técnico, Documentación API.
+- Reemplazar el `<span>` derecho por un `<input type="number">` controlado: mismo estado, validación clamp entre `min`/`max`, mismo `step`. Estilo: `w-24 bg-[#041A1B] border border-white/10 rounded-md px-2 py-1 text-right font-mono text-[#17ccd3] text-sm focus:border-[#17ccd3] outline-none`.
+- onChange del input: `const n = Number(e.target.value); if (!Number.isNaN(n)) onChange(Math.min(max, Math.max(min, n)))`.
+- onBlur: re-clamp por si el usuario escribió fuera de rango.
+- El sufijo (`%`, `u/h`, `$`) se muestra a la derecha del input como pequeño `text-slate-500`.
+- El slider sigue funcionando normal y queda sincronizado bidireccionalmente.
 
-### Col 4 — Newsletter
-- Título "Newsletter" + subtexto del brief.
-- Form local con `useState` para email + estado `"idle" | "loading" | "success"`:
-  - Submit: validación email simple (regex), simula request 800ms, setea `success`, muestra "✓ Suscripto" 3s y vuelve a idle.
-  - Layout: `flex flex-col gap-2` con `<input type="email">` (`bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm text-white placeholder:text-slate-500 focus:border-[#17ccd3] outline-none`) y botón `bg-[#17ccd3] text-[#041A1B] rounded-full px-4 py-2 text-sm font-semibold hover:bg-[#17ccd3]/90 disabled:opacity-60`.
+## 3) Regla cruzada rendimiento
 
-### Bottom bar
-- `mt-12 pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-3`.
-- Izq: "© 2026 InspectIA. Todos los derechos reservados." (`text-xs text-slate-500`).
-- Der: dos `<a href="#" className="text-xs text-slate-500 hover:text-[#17ccd3]">` — Términos y Condiciones · Política de Privacidad.
-
-## 2) Wire-up
-
-- `src/routes/index.tsx`: importar `<Footer />` y agregarlo al final del `<main>` (o bajo `<main>` como sibling, dentro del wrapper).
-- `src/routes/roi.tsx`: agregar `<Footer />` al final, fuera del `<main>` pero dentro del wrapper, para que pegue con el fondo dark.
+Mantener: si `rendimientoActual >= rendimientoEsperado`, el otro se ajusta — funciona tanto por slider como por input gracias al handler centralizado (`handleActual`, `handleEsperado`).
 
 ## Fuera de alcance
 
-- Páginas reales detrás de los links (Casos de Éxito, Blog, etc.).
-- Backend de newsletter (sólo simulación local con toast/estado visual).
-- Más redes sociales (sólo LinkedIn como pidió el brief).
+- No cambia layout ni fórmulas.
+- No toca Footer, Navbar ni LeadForm (más allá del fix de error si está ahí).
