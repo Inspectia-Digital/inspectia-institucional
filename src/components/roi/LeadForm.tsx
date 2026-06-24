@@ -196,9 +196,7 @@ export function LeadForm({
           disabled={isSubmitting}
           className="mt-6 w-full rounded-full bg-[#17ccd3] text-[#041A1B] font-bold py-3 px-6 shadow-[0_0_30px_rgba(23,204,211,0.4)] hover:bg-[#17ccd3]/90 transition disabled:opacity-60"
         >
-          {isSubmitting
-            ? "Enviando..."
-            : "Descargar Reporte Financiero Completo en PDF"}
+          {isSubmitting ? "Enviando..." : ctaLabel}
         </button>
       </form>
 
