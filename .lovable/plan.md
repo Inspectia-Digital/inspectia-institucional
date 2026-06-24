@@ -1,29 +1,91 @@
-# Plan: Arreglar `/roi` y agregar inputs editables a los sliders
+# Tab 3 — Recepción y Docks (Simulador ROI)
 
-## 1) Diagnóstico del error en `/roi`
+Construir el módulo logístico replicando el patrón visual y técnico del módulo de Calidad (sliders + input numérico editable, panel bloqueado, métrica destacada, KPIs, desglose y LeadForm).
 
-El error `Invariant failed: Expected to find a match below the root match in SPA mode` viene del hidratado de TanStack Start cuando el HTML inicial difiere del cliente. La causa real más probable es que un compile-error de Vite (overlay visto en el session replay) rompe el módulo de la ruta. Voy a revisar los logs del dev server al entrar a build mode para confirmar el archivo culpable y corregir el import / sintaxis que falla.
+## 1. Nuevo componente `src/components/roi/RecepcionCalculator.tsx`
 
-Pasos:
-- `sqlite3 /tmp/sandbox-state.db ...` para leer los últimos errores de Vite y ubicar el archivo exacto.
-- Corregir el archivo (probablemente `CalidadCalculator.tsx` o `LeadForm.tsx`).
-- Hacer un hard reload del preview si queda hidratación stale.
+Estructura idéntica a `CalidadCalculator.tsx`:
+- Reutiliza el `SliderRow` (input numérico cyan + slider bidireccional + sufijo) — se extrae a `src/components/roi/SliderRow.tsx` para compartirlo entre Calidad y Recepción sin duplicar código.
+- Grid `lg:grid-cols-[40%_60%]` con tarjetas glassmorphism `bg-[#084749]/40`.
+- Bloqueo inicial (`calculosHabilitados`) con botón "Calcular mi ROI Operativo".
+- `LeadForm` debajo con copy "Descargar Reporte Logístico" (se agrega prop `title`/`subtitle` opcional al `LeadForm` para personalizar sin romper Calidad).
 
-## 2) Inputs numéricos editables junto a cada slider
+### Sliders (estado `useState`)
+| State | min | max | step | default | suffix |
+|---|---|---|---|---|---|
+| volumenDiario | 1000 | 200000 | 1000 | 74000 | u/día |
+| valorUnitario | 1 | 1000 | 1 | 50 | USD |
+| tasaErrorActual | 0.1 | 15 | 0.1 | 2.5 | % |
+| ftesActuales | 1 | 100 | 1 | 24 | FTE |
+| costoFte | 500 | 5000 | 1 | 2500 | USD |
+| porcentajeConteo | 10 | 100 | 1 | 80 | % |
+| leadTimeActual | 1 | 168 | 1 | 48 | h |
+| lineasInspectia | 1 | 20 | 1 | 4 | — |
+| ftesInspectia | 1 | 50 | 1 | 15 | FTE |
+| inversionInicial | 5000 | 250000 | 1000 | 70000 | USD |
+| saasMensual | 200 | 10000 | 100 | 800 | USD |
 
-`SliderRow` actual sólo muestra el valor; lo voy a convertir en un control combo:
+Regla cruzada: `ftesInspectia < ftesActuales`. Handlers análogos a `handleActual/handleEsperado`:
+- Si suben `ftesInspectia ≥ ftesActuales`, se eleva `ftesActuales` a `ftesInspectia + 1` (cap 100).
+- Si bajan `ftesActuales ≤ ftesInspectia`, se baja `ftesInspectia` a `ftesActuales - 1` (mín 1).
 
-- Reemplazar el `<span>` derecho por un `<input type="number">` controlado: mismo estado, validación clamp entre `min`/`max`, mismo `step`. Estilo: `w-24 bg-[#041A1B] border border-white/10 rounded-md px-2 py-1 text-right font-mono text-[#17ccd3] text-sm focus:border-[#17ccd3] outline-none`.
-- onChange del input: `const n = Number(e.target.value); if (!Number.isNaN(n)) onChange(Math.min(max, Math.max(min, n)))`.
-- onBlur: re-clamp por si el usuario escribió fuera de rango.
-- El sufijo (`%`, `u/h`, `$`) se muestra a la derecha del input como pequeño `text-slate-500`.
-- El slider sigue funcionando normal y queda sincronizado bidireccionalmente.
+### Cálculos (`useMemo`, 360 días)
+```text
+volumenAnual          = volumenDiario * 360
+ahorroLaboralAnual    = (ftesActuales - ftesInspectia) * costoFte * 13
+ahorroErroresAnual    = tasaErrorActual > 1
+                        ? volumenAnual * valorUnitario * ((tasaErrorActual - 1) / 100)
+                        : 0
+ahorroOperativoAnual  = ahorroLaboralAnual + ahorroErroresAnual
+costoSaasAnual        = saasMensual * 12
+ahorroNetoAnual       = ahorroOperativoAnual - costoSaasAnual
+roi                   = ((ahorroNetoAnual - inversionInicial) / inversionInicial) * 100
+paybackMeses          = ahorroNetoAnual > 0
+                        ? Math.ceil(inversionInicial / (ahorroNetoAnual / 12))
+                        : 999
+leadTimeEsperado      = leadTimeActual - (leadTimeActual * (porcentajeConteo/100) * 0.4)
+wipActual             = volumenDiario * valorUnitario * (leadTimeActual / 24)
+wipProyectado         = volumenDiario * valorUnitario * (leadTimeEsperado / 24)
+capitalLiberado       = wipActual - wipProyectado
+```
 
-## 3) Regla cruzada rendimiento
+## 2. Panel de resultados (columna derecha)
 
-Mantener: si `rendimientoActual >= rendimientoEsperado`, el otro se ajusta — funciona tanto por slider como por input gracias al handler centralizado (`handleActual`, `handleEsperado`).
+Cuando `calculosHabilitados === true`:
+
+1. **Trofeo superior** — tarjeta destacada (full width del panel):
+   - Borde `border-[#17ccd3]` + glow `shadow-[0_0_40px_rgba(23,204,211,0.25)]`, fondo gradient cyan→teal sutil.
+   - Título `💰 Capital de Trabajo Liberado (WIP)`.
+   - Valor grande mono cyan: `fmtMoney(capitalLiberado)`.
+   - Subtítulo: `Capital recuperado por la reducción del Lead Time a {leadTimeEsperado.toFixed(1)} horas.`
+2. **Grilla 3 KPIs** (reutiliza `KpiCard` — se extrae a `src/components/roi/KpiCard.tsx`):
+   - Ahorro Anual Neto → `fmtMoney(ahorroNetoAnual)`
+   - Tiempo de Repago → `${paybackMeses} meses`
+   - ROI Operativo → `${roi.toFixed(0)}%`
+3. **Desglose** (mismo patrón `BreakdownRow`, también extraído):
+   - Volumen anual, Ahorro laboral, Ahorro por errores, Costo SaaS anual, WIP actual, WIP proyectado, Lead Time esperado.
+
+Cuando bloqueado: el trofeo + grilla se muestran con `blur-sm opacity-60` y botón central `Calcular mi ROI Operativo`.
+
+## 3. Refactor de código compartido
+
+Para evitar duplicación:
+- Extraer `SliderRow`, `KpiCard`, `BreakdownRow`, `fmtMoney`, `fmtNum` a `src/components/roi/shared.tsx`.
+- `CalidadCalculator.tsx` y nuevo `RecepcionCalculator.tsx` los importan.
+- Esto es el único cambio en Calidad — sin tocar UI ni fórmulas.
+
+## 4. Wiring en `RoiSimulator.tsx`
+
+Reemplazar el `<ComingSoonPanel>` del `TabsContent value="recepcion"` por `<RecepcionCalculator />`. Las demás tabs (`tymeo`, `stock`) siguen con ComingSoon.
+
+## 5. LeadForm — personalización mínima
+
+Agregar dos props opcionales a `LeadForm`: `title?: string` y `ctaLabel?: string`, con los valores actuales como default. En Recepción pasar:
+- `title="Descargá tu Reporte Logístico personalizado"`
+- `ctaLabel="Descargar Reporte Logístico en PDF"`
 
 ## Fuera de alcance
-
-- No cambia layout ni fórmulas.
-- No toca Footer, Navbar ni LeadForm (más allá del fix de error si está ahí).
+- Cambios visuales en Calidad, Hero, Navbar o Footer.
+- Tabs TYMEO y Stock (siguen "Próximamente").
+- Persistencia o envío real del lead.
+- Gráficos/visualizaciones adicionales (Lead Time barra comparativa, etc.).

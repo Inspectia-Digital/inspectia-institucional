@@ -1,5 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CalidadCalculator } from "./CalidadCalculator";
+import { RecepcionCalculator } from "./RecepcionCalculator";
 import { ComingSoonPanel } from "./ComingSoonPanel";
 
 export function RoiSimulator() {
@@ -41,7 +42,7 @@ export function RoiSimulator() {
         <ComingSoonPanel message="Próximamente disponible — Módulo en fase de calibración de downtime." />
       </TabsContent>
       <TabsContent value="recepcion" className="mt-0">
-        <ComingSoonPanel message="Próximamente disponible — Calculadora de eficiencia de docks en preparación." />
+        <RecepcionCalculator />
       </TabsContent>
       <TabsContent value="stock" className="mt-0">
         <ComingSoonPanel message="Próximamente disponible — Simulador de Drones y App de Stock en desarrollo." />
