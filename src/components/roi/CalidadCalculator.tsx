@@ -21,13 +21,10 @@ function SliderRow({
   step = 1,
   onChange,
   suffix,
-  format,
 }: SliderRowProps) {
   const decimals = step < 1 ? Math.max(0, -Math.floor(Math.log10(step))) : 0;
   const clamp = (n: number) => Math.min(max, Math.max(min, n));
-  const inputDisplay = format
-    ? format(value).replace(/[^0-9.\-]/g, "")
-    : value.toFixed(decimals);
+  const inputDisplay = value.toFixed(decimals);
 
   return (
     <div className="space-y-2">
