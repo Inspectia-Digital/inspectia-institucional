@@ -218,16 +218,6 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Architecture CTA */}
-        <div className="mt-6 flex justify-center">
-          <Button
-            variant="outline"
-            size="lg"
-            className="rounded-full border-primary/40 bg-transparent text-primary hover:bg-primary/10 hover:text-primary px-6"
-          >
-            <Network className="mr-1" /> Ver Arquitectura de Integraciones Técnicas (WMS/PLC)
-          </Button>
-        </div>
       </div>
     </section>
   );
