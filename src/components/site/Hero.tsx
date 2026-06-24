@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Calculator } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import fabricaAsset from "@/assets/fabrica-logistica.png.asset.json";
 
@@ -123,11 +124,14 @@ export function Hero() {
             Agendar Demo <ArrowRight className="ml-1" />
           </Button>
           <Button
+            asChild
             variant="outline"
             size="lg"
             className="rounded-full border-primary/40 bg-transparent text-primary hover:bg-primary/10 hover:text-primary px-6"
           >
-            <Calculator className="mr-1" /> Calcular mi ROI
+            <Link to="/roi">
+              <Calculator className="mr-1" /> Calcular mi ROI
+            </Link>
           </Button>
         </div>
       </div>
