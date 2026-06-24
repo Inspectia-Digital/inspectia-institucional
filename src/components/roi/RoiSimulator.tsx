@@ -1,5 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CalidadCalculator } from "./CalidadCalculator";
+import { RecepcionCalculator } from "./RecepcionCalculator";
 import { ComingSoonPanel } from "./ComingSoonPanel";
 
 export function RoiSimulator() {
