@@ -82,7 +82,7 @@ export function ProductWalkthrough() {
       <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
         <div className="max-w-3xl">
           <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight">
-            La Suite de Módulos de InspectIA OS en Acción
+            Los Productos de InspectIA en Acción
           </h2>
           <p className="mt-3 text-slate-400 text-base md:text-lg">
             Módulos independientes potenciados por Inteligencia Artificial, diseñados para integrarse nativamente a su infraestructura actual sin disrupciones.
