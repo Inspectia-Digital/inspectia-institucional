@@ -41,6 +41,7 @@ function RoiPage() {
 
         <RoiSimulator />
       </main>
+      <Footer />
     </div>
   );
 }
