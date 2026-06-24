@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/site/Navbar";
 import { RoiSimulator } from "@/components/roi/RoiSimulator";
+import { Footer } from "@/components/site/Footer";
 
 export const Route = createFileRoute("/roi")({
   head: () => ({
