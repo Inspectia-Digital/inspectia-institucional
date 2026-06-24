@@ -95,7 +95,7 @@ export function LeadForm({
         className="bg-[#084749]/40 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8"
       >
         <h3 className="text-xl font-bold text-white">
-          Descargá el reporte financiero completo
+          {title}
         </h3>
         <p className="text-sm text-slate-400 mt-1 mb-6">
           Generamos un PDF personalizado con tu simulación, escenarios y un plan
