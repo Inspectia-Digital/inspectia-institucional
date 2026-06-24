@@ -55,7 +55,15 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-export function LeadForm() {
+type LeadFormProps = {
+  title?: string;
+  ctaLabel?: string;
+};
+
+export function LeadForm({
+  title = "Descargá el reporte financiero completo",
+  ctaLabel = "Descargar Reporte Financiero Completo en PDF",
+}: LeadFormProps = {}) {
   const [country, setCountry] = useState("+54");
   const {
     register,
