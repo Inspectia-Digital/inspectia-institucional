@@ -1,8 +1,85 @@
-import { ArrowRight, Calculator } from "lucide-react";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowRight, Calculator, Network } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import fabricaAsset from "@/assets/fabrica-logistica.png.asset.json";
 
+type Hotspot = {
+  left: string;
+  top: string;
+  title: string;
+  body: string;
+  /** Card placement relative to the dot */
+  side?: "bottom" | "top";
+  align?: "left" | "center" | "right";
+};
+
+// Order: left → right across the plant
+const HOTSPOTS: Hotspot[] = [
+  {
+    left: "33.5%",
+    top: "44.7%",
+    title: "Software de Recepción",
+    body: "Auditoría automatizada con cámaras e inteligencia artificial de mercadería entrante. Sincronización directa vía API con WMS. Reduce FTEs, disminuye el lead time de recepción y reduce errores.",
+    side: "bottom",
+    align: "center",
+  },
+  {
+    left: "44.9%",
+    top: "23.8%",
+    title: "Monitoreo de Productividad y Eficiencia (TYMEO OEE)",
+    body: "Dashboards e información de las líneas en tiempo real. Expone cuellos de botella ocultos y minimiza paradas de producción. Implementación en menos de 15 días.",
+    side: "bottom",
+    align: "center",
+  },
+  {
+    left: "49.3%",
+    top: "36.9%",
+    title: "Control de Calidad Automatizado (QCaaS)",
+    body: "Control de calidad como servicio. Modelos de IA que detectan fallas en tiempo real. Integración al PLC para derivar si corresponde. No se cansa, no se distrae, no falla.",
+    side: "bottom",
+    align: "center",
+  },
+  {
+    left: "57.6%",
+    top: "13.8%",
+    title: "Drones Autónomos en Racks de Altura",
+    body: "Control de posiciones de sobrestock autónomo. Drones con navegación autónoma para control regular de sobrestock. Detecta inconsistencias y estado general, informa al WMS vía API para corregir.",
+    side: "bottom",
+    align: "center",
+  },
+  {
+    left: "64.7%",
+    top: "45%",
+    title: "Monitoreo de Productividad y Seguridad",
+    body: "Integración de modelos de IA a las cámaras de seguridad existentes para seguimiento de movimientos, control de EPP, ingreso a zonas restringidas y prevención de accidentes.",
+    side: "bottom",
+    align: "center",
+  },
+  {
+    left: "69.5%",
+    top: "32.7%",
+    title: "App de Control de Stock en Posiciones",
+    body: "Aplicación para simplificar el control del stock en posiciones de picking por parte de los operarios.",
+    side: "bottom",
+    align: "right",
+  },
+  {
+    left: "76.1%",
+    top: "44.5%",
+    title: "Control de Armado de Pedidos",
+    body: "Validación óptica por cantidad de unidades en mesas de despacho. Sistema de canal verde (aprobación automática al WMS) o canal rojo (revisión manual ante discrepancias).",
+    side: "top",
+    align: "right",
+  },
+];
+
 export function Hero() {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [pinnedIndex, setPinnedIndex] = useState<number | null>(null);
+
+  const openIndex = pinnedIndex ?? activeIndex;
+
   return (
     <section className="relative px-4 pt-16 pb-12 md:pt-24 md:pb-16">
       {/* Ambient glow */}
@@ -64,28 +141,92 @@ export function Hero() {
               alt="Vista isométrica de una fábrica y centro logístico monitoreados por InspectIA"
               className="absolute inset-0 h-full w-full object-cover"
             />
-            {[
-              { left: "33.5%", top: "44.7%", label: "Recepción de mercadería" },
-              { left: "44.9%", top: "23.8%", label: "Línea de producción" },
-              { left: "49.3%", top: "36.9%", label: "Línea de producción" },
-              { left: "57.6%", top: "13.8%", label: "Almacenamiento" },
-              { left: "69.5%", top: "32.7%", label: "Almacenamiento" },
-              { left: "76.1%", top: "44.5%", label: "Armado y despacho" },
-              { left: "64.7%", top: "45%", label: "Visión global de planta" },
-            ].map((p, i) => (
-              <div
-                key={i}
-                className="group absolute -translate-x-1/2 -translate-y-1/2"
-                style={{ left: p.left, top: p.top }}
-              >
-                <span className="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 block h-5 w-5 rounded-full bg-[#17ccd3] opacity-60 animate-ping" />
-                <span className="relative block h-3 w-3 rounded-full bg-[#17ccd3] shadow-[0_0_10px_#17ccd3,0_0_24px_rgba(23,204,211,0.7)] ring-2 ring-white/40" />
-                <span className="pointer-events-none absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-[#041A1B]/90 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#17ccd3] opacity-0 transition-opacity group-hover:opacity-100">
-                  {p.label}
-                </span>
-              </div>
-            ))}
+
+            {/* Click-away overlay when a card is pinned */}
+            {pinnedIndex !== null && (
+              <button
+                type="button"
+                aria-label="Cerrar tarjeta"
+                className="absolute inset-0 z-10 cursor-default"
+                onClick={() => setPinnedIndex(null)}
+              />
+            )}
+
+            {HOTSPOTS.map((p, i) => {
+              const isOpen = openIndex === i;
+              const sideClass =
+                p.side === "top"
+                  ? "bottom-full mb-4"
+                  : "top-full mt-4";
+              const alignClass =
+                p.align === "right"
+                  ? "right-0"
+                  : p.align === "left"
+                  ? "left-0"
+                  : "left-1/2 -translate-x-1/2";
+
+              return (
+                <div
+                  key={i}
+                  className="absolute z-20 -translate-x-1/2 -translate-y-1/2"
+                  style={{ left: p.left, top: p.top }}
+                  onMouseEnter={() => setActiveIndex(i)}
+                  onMouseLeave={() => setActiveIndex(null)}
+                >
+                  <button
+                    type="button"
+                    aria-label={p.title}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setPinnedIndex(pinnedIndex === i ? null : i);
+                    }}
+                    className="relative block cursor-pointer"
+                  >
+                    <span className="absolute left-1/2 top-1/2 block h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#17ccd3] opacity-60 animate-ping" />
+                    <span className="relative block h-3 w-3 rounded-full bg-[#17ccd3] shadow-[0_0_10px_#17ccd3,0_0_24px_rgba(23,204,211,0.7)] ring-2 ring-white/40" />
+                  </button>
+
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 6, scale: 0.97 }}
+                        transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                        className={`pointer-events-none absolute z-30 w-72 ${sideClass} ${alignClass}`}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <div className="pointer-events-auto rounded-xl border border-white/15 bg-[#084749]/70 p-4 text-left shadow-[0_20px_60px_-15px_rgba(0,0,0,0.7)] backdrop-blur-xl">
+                          <div className="flex items-center gap-2">
+                            <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#17ccd3] text-[10px] font-bold text-[#041A1B]">
+                              {i + 1}
+                            </span>
+                            <span className="text-[10px] font-semibold uppercase tracking-wider text-[#17ccd3]">
+                              {p.title}
+                            </span>
+                          </div>
+                          <p className="mt-2 text-sm leading-relaxed text-foreground/90">
+                            {p.body}
+                          </p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
           </div>
+        </div>
+
+        {/* Architecture CTA */}
+        <div className="mt-6 flex justify-center">
+          <Button
+            variant="outline"
+            size="lg"
+            className="rounded-full border-primary/40 bg-transparent text-primary hover:bg-primary/10 hover:text-primary px-6"
+          >
+            <Network className="mr-1" /> Ver Arquitectura de Integraciones Técnicas (WMS/PLC)
+          </Button>
         </div>
       </div>
     </section>
