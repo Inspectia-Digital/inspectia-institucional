@@ -1,72 +1,70 @@
-# Plan: Interactive Product Walkthrough (5 módulos de InspectIA OS)
+# Plan: Página `/roi` — Central de Simulación Financiera
 
-Nueva sección de alto impacto, estética premium estilo Voxel AI, ubicada en la Home **entre `MoatBento` y `AudienceTabs`** en `src/routes/index.tsx`.
+Nueva ruta independiente `/roi` con el Simulador de ROI de Control de Calidad totalmente funcional, más tabs placeholder para los otros 3 módulos, CTA visible "Calcular ROI" en el Navbar, y un CTA paralelo de "Solicitar Demo" vinculado a Google Calendar.
 
-## 1) Nuevo componente `src/components/site/ProductWalkthrough.tsx`
+## 1) Navbar — agregar CTA "Calcular ROI"
 
-Sección self-contained con fondo `bg-[#041A1B]`, tipografía Poppins (ya cargada en `__root.tsx`) forzada vía `font-[Poppins]` en el wrapper para garantizar consistencia.
+`src/components/site/Navbar.tsx`:
+- A la derecha, antes de "Ingresar", insertar `<Link to="/roi">` estilo botón outline cyan (`border-[#17ccd3] text-[#17ccd3] hover:bg-[#17ccd3]/10 rounded-full`), copia **"Calcular ROI"**. Visible desktop (`hidden md:inline-flex`).
+- En `Sheet` mobile, agregar item destacado "Calcular ROI" → `/roi`.
 
-### Encabezado
-- H2: "La Suite de Módulos de InspectIA OS en Acción" (`text-3xl md:text-4xl font-bold text-white`).
-- Subtítulo: párrafo `text-slate-400 mt-2 max-w-3xl`.
-- Centrado, `max-w-6xl mx-auto px-4 py-16 md:py-24`.
+## 2) Nueva ruta `src/routes/roi.tsx`
 
-### Layout 40/60 desktop, stack en mobile
-Contenedor: `grid grid-cols-1 lg:grid-cols-[40%_60%] gap-6 lg:gap-8 mt-12`.
+- `createFileRoute("/roi")` con `head()` propio.
+- `<Navbar />` reutilizado + `<main className="bg-[#041A1B] font-[Poppins] min-h-screen text-white">`.
+- Hero centrado: H1 "Simulador de Impacto Financiero y ROI" + subtítulo del brief.
 
-### Columna izquierda — Tabs verticales
-- Desktop: `hidden lg:flex flex-col space-y-3`.
-- Cada tab es un `<button>`:
-  - Estado activo: `bg-[#084749] border-l-4 border-[#17ccd3] text-white`.
-  - Inactivo: `bg-transparent border-l-4 border-transparent text-slate-500 hover:text-slate-300 hover:bg-white/[0.02]`.
-  - Padding `p-5`, rounded a la derecha `rounded-r-2xl`, transición suave.
-  - Contenido: grid de 2 cols `auto 1fr` con número `01`–`05` en `text-[#17ccd3] text-sm font-semibold tracking-wider`, y bloque con título (`text-lg font-bold`) + subtexto (`text-sm text-slate-400 mt-1`).
+## 3) Componentes nuevos
 
-- Mobile: `flex lg:hidden overflow-x-auto select-none flex-row whitespace-nowrap gap-2 pb-2 -mx-4 px-4`.
-  - Cada chip: pill `rounded-full px-4 py-2 text-sm`, activo `bg-[#084749] text-white border border-[#17ccd3]`, inactivo `text-slate-400 border border-white/10`.
-  - Solo muestra número + título corto.
+### `src/components/roi/RoiSimulator.tsx`
+- shadcn `Tabs` horizontal centrado, 4 triggers:
+  1. **Control de Calidad** (funcional).
+  2. **TYMEO OEE** → `<ComingSoonPanel />` "Próximamente disponible — Módulo en fase de calibración de downtime".
+  3. **Recepción y Docks** → placeholder.
+  4. **Stock y Despachos (Drones/App)** → placeholder.
+- Tabs: pista `bg-[#084749]/40 border border-white/10 rounded-full p-1`, activo `data-[state=active]:bg-[#17ccd3] data-[state=active]:text-[#041A1B]`.
 
-### Columna derecha — Showcase Bento dinámico
-- Contenedor fijo: `rounded-3xl bg-[#084749]/20 border border-white/10 overflow-hidden p-6 shadow-2xl min-h-[460px] flex flex-col`.
-- `AnimatePresence mode="wait"` envolviendo un `motion.div` keyado por el tab activo.
-  - `initial={{ opacity: 0, y: 16 }}`, `animate={{ opacity: 1, y: 0 }}`, `exit={{ opacity: 0, y: -8 }}`, `transition={{ duration: 0.35, ease: [0.22,1,0.36,1] }}`.
-- Estructura interna por slide:
-  1. **Mockup visual** (área principal `flex-1 rounded-2xl bg-[#041A1B] border border-white/5 p-4 relative overflow-hidden`).
-  2. **Texto descriptivo** debajo (`mt-4 text-sm md:text-base text-slate-300 leading-relaxed`).
+### `src/components/roi/ComingSoonPanel.tsx`
+- Bento glass con icono lucide `Construction` cyan + copia por prop.
 
-### Mockups (puro CSS/SVG, sin assets externos)
-Cada mockup se construye con Tailwind + SVG inline para mantenerlo liviano y temático:
+### `src/components/roi/CalidadCalculator.tsx`
+- Grid `lg:grid-cols-[40%_60%] gap-8`.
+- **Izquierda — Sliders** (shadcn `Slider` con track cyan custom). Estados con defaults del brief: `cantidadLineas=2`, `unidadesXhora=50`, `horasXdia=16`, `costoScrap=5`, `rendimientoActual=90`, `rendimientoEsperado=99.5`, `personasDedicadas=4`, `costoXpersona=1500`, `costoImplementacion=15000`. Handler cruzado: si `actual >= esperado`, ajusta el contrario (clamp en límites).
+- **Derecha — Resultados** (panel glass `bg-[#084749]/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8`):
+  - `useState calculosHabilitados=false`.
+  - `useMemo` con todas las fórmulas (Unidades anuales, scrapActual/Esperado, ahorroXScrap, ahorroLaboral, ahorroTotal, costoTotalProyecto, payback `Math.max(1, Math.ceil(...))`, ROI %).
+  - Estado inicial: 3 KPI con "---" `blur-sm`, overlay con botón cyan "Calcular mi ROI Operativo".
+  - Estado calculado: 3 KPI en `text-[#17ccd3] font-mono text-4xl` (Ahorro Anual USD, Payback meses, ROI %), + desglose secundario.
+  - **Alerta**: si `payback < 6 && roi > 300`, banner cyan/esmeralda con `Sparkles`: *"¡Impacto Financiero Crítico Detectado! Su operación califica para un despliegue prioritario de InspectIA OS por repago acelerado."*
 
-- **01 Recepción:** grid de 4 "dock lanes" con `<Truck>`/`<Package>` lucide; bounding boxes cyan (`border border-[#17ccd3] rounded-md` con label `SKU-####`); barra inferior verde con dot pulsante: `SKU VERIFIED — WMS API: CONNECTED`.
-- **02 TYMEO OEE:** dashboard con (a) gauge circular SVG cyan mostrando "OEE 88.5%", (b) barras horizontales de tiempos de ciclo, (c) lista con dots de estado (Línea A run / Línea B paused) + chip "Bottleneck detected: Estación 3".
-- **03 Calidad:** canvas oscuro con producto centrado, líneas de escaneo cyan horizontales animadas (`animate-pulse` o keyframe simple), banner superior verde brillante `PLC SIGNAL: DISCARD EXECUTED — 0% scrap tolerance`.
-- **04 Productividad y Seguridad:** mock de feed CCTV (placeholder con gradient + silueta `User` lucide), bounding boxes verdes `EPP: OK` sobre casco/chaleco, overlay de heatmap (gradiente radial rojo→amarillo→transparente), badge rojo parpadeante `Acceso No Autorizado · Zona Restringida`.
-- **05 Stock y Despachos:** grid 2x2 con (a) rack 3D iso (CSS perspective) + dron silhouette + códigos base64; (b) wireframe app móvil con lista de SKUs; (c) banner top `Canal Verde · Aprobación WMS`; (d) chip alterno `Canal Rojo · Discrepancia`.
+### `src/components/roi/LeadForm.tsx` + CTA Demo lateral
+Sección bajo las métricas en grid `lg:grid-cols-[1fr_360px] gap-6`:
 
-Cada mockup se aísla como subcomponente local (`function Mock01()`, etc.) dentro del mismo archivo para evitar archivos extra.
+- **Izquierda — Formulario** (`react-hook-form` + `zod`): Nombre, Email corporativo, Teléfono (input `tel` + `Select` país con ~15 opciones de prefijo +XX), Cargo (`Select`: Director de Planta, Gerente de Calidad, Logística, Inversor, Otro). Submit → `toast.success` "Reporte enviado". Botón: **"Descargar Reporte Financiero Completo en PDF"** estilo cyan glow.
 
-### Estado
-- `const [active, setActive] = useState<TabKey>("recepcion")`.
-- Array `MODULES` con `{ key, number, title, sub, body }` y `mockup: ReactNode`. Render condicional por `key`.
+- **Derecha — CTA "Solicitar Demo"** (`<aside>` glass `bg-[#084749]/60 border border-[#17ccd3]/30 rounded-3xl p-6 flex flex-col justify-between`):
+  - Icono `CalendarCheck` cyan + titular "Hablá con un especialista".
+  - Copia: "Reservá una demo personalizada de 30 min con nuestro equipo y validá tu caso con un experto en automatización industrial."
+  - Mini-bullets: "✓ Demo en vivo del módulo", "✓ Revisión de tu ROI estimado", "✓ Plan de despliegue sugerido".
+  - Botón principal `<a href={GCAL_URL} target="_blank" rel="noopener noreferrer">` con clase cyan sólido + icono `ExternalLink`, copia **"Agendar Demo por Calendar"**.
+  - Constante `GCAL_URL` placeholder editable en el archivo (`https://calendar.google.com/calendar/u/0/appointments/...` — el usuario reemplaza con su link real más tarde).
+  - Mobile: stack vertical bajo el formulario.
 
-## 2) Wire-up en `src/routes/index.tsx`
+## 4) Responsive
 
-Insertar `<ProductWalkthrough />` entre `<MoatBento />` y `<AudienceTabs />`:
+- `lg:grid-cols-[40%_60%]` colapsa a 1 col; tabs con `overflow-x-auto`; form+CTA Demo apilados en mobile.
 
-```text
-Hero → TrustBar → MoatBento → ProductWalkthrough → AudienceTabs
-```
+## 5) Fuera de alcance
 
-## 3) Fuera de alcance
-
-- Sin nuevos tokens en `styles.css` (se usan HEX inline igual que en otras secciones).
-- Sin assets de imagen externos (todos los mockups son SVG/Tailwind inline).
-- Sin lógica de submit ni navegación a páginas de módulo (futuro).
-- No se modifican Hero, TrustBar, MoatBento, AudienceTabs.
+- Generación real de PDF.
+- Backend de leads.
+- Calculadoras de los 3 tabs restantes.
+- Integración nativa con Google Calendar API (sólo link externo a la página pública del calendar).
 
 ## Notas técnicas
 
-- Animación con `framer-motion` (ya instalado, usado en `AudienceTabs`).
-- Iconos lucide: `Truck`, `Package`, `Activity`, `ScanLine`, `ShieldCheck`, `HardHat`, `Boxes`, `Plane`, etc.
-- Poppins ya está en `__root.tsx`; se aplica con `className="font-[Poppins]"` en el wrapper.
-- Accesibilidad: tabs como `<button role="tab" aria-selected>` dentro de `role="tablist"`; panel con `role="tabpanel"`.
+- TanStack Start: `src/routes/roi.tsx` con `createFileRoute("/roi")`.
+- Poppins ya cargado en `__root.tsx`.
+- HEX inline (sin nuevos tokens), alineado con `ProductWalkthrough`.
+- shadcn `Tabs`, `Slider`, `Select`, `Input`, `Form`, `Button` y sonner ya disponibles.
+- `GCAL_URL` queda como constante editable en `LeadForm.tsx` — el usuario debe pegar su URL real de Google Calendar Appointments.
