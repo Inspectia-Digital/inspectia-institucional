@@ -65,13 +65,13 @@ export function Hero() {
               className="absolute inset-0 h-full w-full object-cover"
             />
             {[
-              { left: "15.4%", top: "70.8%", label: "Recepción de mercadería" },
-              { left: "27.6%", top: "37%", label: "Línea de producción" },
-              { left: "36.8%", top: "57.7%", label: "Línea de producción" },
-              { left: "50.2%", top: "20.6%", label: "Almacenamiento" },
-              { left: "69.8%", top: "51%", label: "Almacenamiento" },
-              { left: "78.3%", top: "68.8%", label: "Armado y despacho" },
-              { left: "61.7%", top: "71.9%", label: "Visión global de planta" },
+              { left: "33.5%", top: "44.7%", label: "Recepción de mercadería" },
+              { left: "44.9%", top: "23.8%", label: "Línea de producción" },
+              { left: "49.3%", top: "36.9%", label: "Línea de producción" },
+              { left: "57.6%", top: "13.8%", label: "Almacenamiento" },
+              { left: "69.5%", top: "32.7%", label: "Almacenamiento" },
+              { left: "76.1%", top: "44.5%", label: "Armado y despacho" },
+              { left: "64.7%", top: "45%", label: "Visión global de planta" },
             ].map((p, i) => (
               <div
                 key={i}
