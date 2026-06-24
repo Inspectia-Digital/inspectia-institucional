@@ -31,9 +31,9 @@ function Index() {
       <Navbar />
       <main>
         <Hero />
+        <TrustBar />
         <MoatBento />
         <AudienceTabs />
-        <TrustBar />
       </main>
     </div>
   );
