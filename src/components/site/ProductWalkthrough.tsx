@@ -80,7 +80,7 @@ export function ProductWalkthrough() {
   return (
     <section className="bg-[#041A1B] font-[Poppins]">
       <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
-        <div className="max-w-3xl">
+        <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight">
             Los Productos de InspectIA en Acción
           </h2>
