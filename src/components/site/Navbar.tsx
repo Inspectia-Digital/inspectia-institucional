@@ -161,6 +161,12 @@ export function Navbar() {
           <SheetContent side="right" className="bg-background border-white/10">
             <SheetTitle className="text-foreground">Menú</SheetTitle>
             <nav className="mt-6 flex flex-col gap-1">
+              <Link
+                to="/roi"
+                className="rounded-lg px-3 py-2 font-semibold text-[#17ccd3] border border-[#17ccd3]/40 bg-[#17ccd3]/5"
+              >
+                Calcular ROI
+              </Link>
               {["Productos", "Soluciones", "Tecnología", "Institucional"].map((l) => (
                 <a
                   key={l}
