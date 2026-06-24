@@ -11,7 +11,6 @@ type SliderRowProps = {
   step?: number;
   onChange: (v: number) => void;
   suffix?: string;
-  format?: (v: number) => string;
 };
 
 function SliderRow({
