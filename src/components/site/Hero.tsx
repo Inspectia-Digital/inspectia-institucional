@@ -186,8 +186,8 @@ export function Hero() {
                     }}
                     className="relative block cursor-pointer"
                   >
-                    <span className="absolute left-1/2 top-1/2 block h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#17ccd3] opacity-60 animate-ping" />
-                    <span className="relative block h-3 w-3 rounded-full bg-[#17ccd3] shadow-[0_0_10px_#17ccd3,0_0_24px_rgba(23,204,211,0.7)] ring-2 ring-white/40" />
+                    <span className="absolute left-1/2 top-1/2 block h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#084749] opacity-70 animate-ping" />
+                    <span className="relative block h-3 w-3 rounded-full bg-[#084749] shadow-[0_0_12px_#084749,0_0_28px_rgba(8,71,73,0.8)] ring-2 ring-white/70" />
                   </button>
 
                   <AnimatePresence>
