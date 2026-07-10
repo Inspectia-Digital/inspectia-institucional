@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TymeoRouteImport } from './routes/tymeo'
+import { Route as StockPickingRouteImport } from './routes/stock-picking'
 import { Route as RoiRouteImport } from './routes/roi'
 import { Route as RecepcionRouteImport } from './routes/recepcion'
 import { Route as IndexRouteImport } from './routes/index'
@@ -17,6 +18,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const TymeoRoute = TymeoRouteImport.update({
   id: '/tymeo',
   path: '/tymeo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StockPickingRoute = StockPickingRouteImport.update({
+  id: '/stock-picking',
+  path: '/stock-picking',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RoiRoute = RoiRouteImport.update({
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/recepcion': typeof RecepcionRoute
   '/roi': typeof RoiRoute
+  '/stock-picking': typeof StockPickingRoute
   '/tymeo': typeof TymeoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/recepcion': typeof RecepcionRoute
   '/roi': typeof RoiRoute
+  '/stock-picking': typeof StockPickingRoute
   '/tymeo': typeof TymeoRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,22 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/recepcion': typeof RecepcionRoute
   '/roi': typeof RoiRoute
+  '/stock-picking': typeof StockPickingRoute
   '/tymeo': typeof TymeoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/recepcion' | '/roi' | '/tymeo'
+  fullPaths: '/' | '/recepcion' | '/roi' | '/stock-picking' | '/tymeo'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/recepcion' | '/roi' | '/tymeo'
-  id: '__root__' | '/' | '/recepcion' | '/roi' | '/tymeo'
+  to: '/' | '/recepcion' | '/roi' | '/stock-picking' | '/tymeo'
+  id: '__root__' | '/' | '/recepcion' | '/roi' | '/stock-picking' | '/tymeo'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   RecepcionRoute: typeof RecepcionRoute
   RoiRoute: typeof RoiRoute
+  StockPickingRoute: typeof StockPickingRoute
   TymeoRoute: typeof TymeoRoute
 }
 
@@ -76,6 +86,13 @@ declare module '@tanstack/react-router' {
       path: '/tymeo'
       fullPath: '/tymeo'
       preLoaderRoute: typeof TymeoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stock-picking': {
+      id: '/stock-picking'
+      path: '/stock-picking'
+      fullPath: '/stock-picking'
+      preLoaderRoute: typeof StockPickingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/roi': {
@@ -106,6 +123,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   RecepcionRoute: RecepcionRoute,
   RoiRoute: RoiRoute,
+  StockPickingRoute: StockPickingRoute,
   TymeoRoute: TymeoRoute,
 }
 export const routeTree = rootRouteImport
