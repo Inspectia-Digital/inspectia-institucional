@@ -13,6 +13,7 @@ import { Route as TymeoRouteImport } from './routes/tymeo'
 import { Route as StockPickingRouteImport } from './routes/stock-picking'
 import { Route as RoiRouteImport } from './routes/roi'
 import { Route as RecepcionRouteImport } from './routes/recepcion'
+import { Route as OutboundRouteImport } from './routes/outbound'
 import { Route as DronesRouteImport } from './routes/drones'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -36,6 +37,11 @@ const RecepcionRoute = RecepcionRouteImport.update({
   path: '/recepcion',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OutboundRoute = OutboundRouteImport.update({
+  id: '/outbound',
+  path: '/outbound',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DronesRoute = DronesRouteImport.update({
   id: '/drones',
   path: '/drones',
@@ -50,6 +56,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/drones': typeof DronesRoute
+  '/outbound': typeof OutboundRoute
   '/recepcion': typeof RecepcionRoute
   '/roi': typeof RoiRoute
   '/stock-picking': typeof StockPickingRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/drones': typeof DronesRoute
+  '/outbound': typeof OutboundRoute
   '/recepcion': typeof RecepcionRoute
   '/roi': typeof RoiRoute
   '/stock-picking': typeof StockPickingRoute
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/drones': typeof DronesRoute
+  '/outbound': typeof OutboundRoute
   '/recepcion': typeof RecepcionRoute
   '/roi': typeof RoiRoute
   '/stock-picking': typeof StockPickingRoute
@@ -77,16 +86,25 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/drones'
+    | '/outbound'
     | '/recepcion'
     | '/roi'
     | '/stock-picking'
     | '/tymeo'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/drones' | '/recepcion' | '/roi' | '/stock-picking' | '/tymeo'
+  to:
+    | '/'
+    | '/drones'
+    | '/outbound'
+    | '/recepcion'
+    | '/roi'
+    | '/stock-picking'
+    | '/tymeo'
   id:
     | '__root__'
     | '/'
     | '/drones'
+    | '/outbound'
     | '/recepcion'
     | '/roi'
     | '/stock-picking'
@@ -96,6 +114,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DronesRoute: typeof DronesRoute
+  OutboundRoute: typeof OutboundRoute
   RecepcionRoute: typeof RecepcionRoute
   RoiRoute: typeof RoiRoute
   StockPickingRoute: typeof StockPickingRoute
@@ -132,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RecepcionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/outbound': {
+      id: '/outbound'
+      path: '/outbound'
+      fullPath: '/outbound'
+      preLoaderRoute: typeof OutboundRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/drones': {
       id: '/drones'
       path: '/drones'
@@ -152,6 +178,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DronesRoute: DronesRoute,
+  OutboundRoute: OutboundRoute,
   RecepcionRoute: RecepcionRoute,
   RoiRoute: RoiRoute,
   StockPickingRoute: StockPickingRoute,
