@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TymeoRouteImport } from './routes/tymeo'
 import { Route as RoiRouteImport } from './routes/roi'
+import { Route as RecepcionRouteImport } from './routes/recepcion'
 import { Route as IndexRouteImport } from './routes/index'
 
 const TymeoRoute = TymeoRouteImport.update({
@@ -23,6 +24,11 @@ const RoiRoute = RoiRouteImport.update({
   path: '/roi',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RecepcionRoute = RecepcionRouteImport.update({
+  id: '/recepcion',
+  path: '/recepcion',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,30 +37,34 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/recepcion': typeof RecepcionRoute
   '/roi': typeof RoiRoute
   '/tymeo': typeof TymeoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/recepcion': typeof RecepcionRoute
   '/roi': typeof RoiRoute
   '/tymeo': typeof TymeoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/recepcion': typeof RecepcionRoute
   '/roi': typeof RoiRoute
   '/tymeo': typeof TymeoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/roi' | '/tymeo'
+  fullPaths: '/' | '/recepcion' | '/roi' | '/tymeo'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/roi' | '/tymeo'
-  id: '__root__' | '/' | '/roi' | '/tymeo'
+  to: '/' | '/recepcion' | '/roi' | '/tymeo'
+  id: '__root__' | '/' | '/recepcion' | '/roi' | '/tymeo'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  RecepcionRoute: typeof RecepcionRoute
   RoiRoute: typeof RoiRoute
   TymeoRoute: typeof TymeoRoute
 }
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/recepcion': {
+      id: '/recepcion'
+      path: '/recepcion'
+      fullPath: '/recepcion'
+      preLoaderRoute: typeof RecepcionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -87,19 +104,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  RecepcionRoute: RecepcionRoute,
   RoiRoute: RoiRoute,
   TymeoRoute: TymeoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
