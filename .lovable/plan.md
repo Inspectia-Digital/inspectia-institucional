@@ -1,91 +1,87 @@
-# Landing Page: Software de Recepción Logística
+# Landing Page: App de Control de Stock y Picking con IA
 
-Nueva ruta independiente `/recepcion` reutilizando el Design System InspectIA (fondo `#041A1B`, superficies `#084749`, bordes `border-white/10`, acento `#17ccd3`, Poppins) y el patrón de composición ya usado en `/tymeo` (FadeInSection + secciones modulares).
+Nueva ruta independiente `/stock-picking` siguiendo el mismo patrón modular de `/recepcion` y `/tymeo`, con el Design System InspectIA (fondo `#041A1B`, superficies `#084749`, bordes `border-white/10`, acento `#17ccd3`, Poppins) y `framer-motion` vía `FadeInSection`.
 
 ## Ruta y estructura
 
-Nueva ruta file-based: `src/routes/recepcion.tsx` con `head()` propio (title, description, og:title, og:description específicos de recepción — sin og:image en root/layout).
+Nueva ruta file-based: `src/routes/stock-picking.tsx` con `head()` propio (title, description, og:title/og:description específicos). Sin `og:image`.
 
-Componentes nuevos bajo `src/components/recepcion/`:
+Componentes nuevos bajo `src/components/stock/`:
 
 ```text
-recepcion/
-  RecepcionLanding.tsx   # compone todas las secciones con FadeInSection
-  Hero.tsx               # sección 1
-  FeaturesBento.tsx      # sección 2
-  DeploymentPlans.tsx    # sección 3
-  ExpoyerBanner.tsx      # sección 4
-  BottomCta.tsx          # sección 5
+stock/
+  StockLanding.tsx       # compone las secciones con FadeInSection
+  Hero.tsx               # sección 1 — mockup mobile
+  FeaturesBento.tsx      # sección 2 — 3 tarjetas Bento
+  PricingPlans.tsx       # sección 3 — Starter vs Connected
+  ImpactBanner.tsx       # sección 4a — banner impacto + CTA ROI
+  BottomCta.tsx          # sección 4b — CTA final
 ```
 
-Se reutiliza:
-- `Navbar` y `Footer` de `@/components/site/`
-- `FadeInSection` de `@/components/tymeo/FadeInSection` (framer-motion, ya instalado)
-- Tokens de color inline (`#041A1B`, `#084749`, `#17ccd3`) consistentes con el resto del sitio
+Se reutiliza: `Navbar`, `Footer`, `FadeInSection` de `tymeo/`.
 
 ## Secciones
 
 ### 1. Hero (50/50)
-- **Izq**: badge cyan translúcido "INBOUND & RECEPCIÓN"; H1 con span "en segundos" con text-shadow/glow cyan; párrafo; CTAs "Agendar Demo" (cyan sólido) + "Ver Opciones de Despliegue" (ghost border-white/20).
-- **Der**: card glassmorphism (`bg-white/5 backdrop-blur-xl border border-white/10`) simulando feed de cámara:
-  - Fondo oscuro con "PALLET" central (SVG/CSS simple: rectángulos apilados representando cajas)
-  - 3-4 bounding boxes cyan animadas (`border-2 border-[#17ccd3]` con pulse suave) sobre las cajas
-  - Overlay HUD: badge "● LIVE", esquinas tipo mira, y en la parte inferior chip verde/cyan: **"MATCH WMS: 120/120 UNIDADES — APROBADO"**
-  - Puntos de esquina en `#17ccd3`
+- **Izq**: badge cyan translúcido "INVENTARIO & PICKING"; H1 "No escanee códigos. Cuente el **stock real** con una simple foto." con gradiente cyan (`bg-gradient-to-r from-[#17ccd3] to-[#7ef7fc] bg-clip-text text-transparent`) sobre "stock real"; párrafo `text-slate-400`; CTAs "Probar App Gratis" (cyan sólido) + "Agendar Demo Integrada" (ghost).
+- **Der**: mockup de smartphone construido en puro CSS/SVG:
+  - Contenedor con resplandor cyan (`blur-3xl bg-[#17ccd3]/25`) detrás.
+  - Frame de phone: `rounded-[2.5rem] border border-white/15 bg-gradient-to-b from-slate-900 to-black shadow-2xl`, notch superior, aspect ratio ~9:19.
+  - Pantalla interior: fondo dark con status bar simulado (hora, ícono batería/señal), header app (logo InspectIA + "Depósito · Rack B-04").
+  - Zona "cámara en vivo": grid CSS de cajas (SVG con rectángulos apilados en 3 filas de estilo pallet) sobre fondo gris oscuro; 6-8 bounding boxes cyan `border-2 border-[#17ccd3]` con `animate-pulse` y esquinas resaltadas.
+  - Pop-up inferior sobre pantalla: card `bg-[#084749]/90 backdrop-blur border border-[#17ccd3]/40 rounded-2xl p-3` con texto "Conteo IA: **42 Unidades** · WMS Esperado: 42" y chip verde "MATCH EXACTO ✅".
+  - Mobile: el mockup se centra debajo y reduce a max-width ~280px.
 
 ### 2. Features Bento
-Título centrado: "El fin del conteo manual ciego."
+Título centrado: "Más que un escáner. Un auditor de inventario en su bolsillo."
 
-Grid asimétrico (`md:grid-cols-3 md:grid-rows-2`):
-- **Card 1** (span 3 col, row 1) — "Conciliación Nativa API": ilustración inline SVG con nodos (Cámara → WMS/SAP) conectados por líneas cyan animadas + copy.
-- **Card 2** (col 1-2 row 2) — "Cero Discrepancias": ícono Lucide (`ShieldCheck`) + copy sobre fatiga humana.
-- **Card 3** (col 3 row 2) — "Lead Time Reducido": mini bar chart CSS (2 barras: 48h gris, 30h cyan con altura proporcional) + labels.
+Grid `md:grid-cols-2` con primera card `md:col-span-2`:
+- **Card 1 (full-width)** — "Conteo Oportunístico Inteligente": icono `Scan` + inline SVG a la derecha ilustrando "recorrido de picking → foto → update WMS" con nodos cyan conectados por líneas dashed animadas.
+- **Card 2 (½)** — "Validación Física, no solo digital": icono `Eye` cyan + copy comparando láser vs visión.
+- **Card 3 (½)** — "Integración Nativa API": icono `Plug` cyan + tres chips pequeños ("Cygnus", "SAP", "Otros WMS") con línea de estado verde "Canal Verde" y roja "Canal Rojo".
 
-Todas: `bg-[#084749]/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8`.
+Estilo card: `bg-[#084749]/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8`.
 
-### 3. Deployment Plans (2 tarjetas grandes)
-Título: "Opciones de despliegue adaptadas a su volumen."
+### 3. Pricing Plans (2 niveles)
+Título: "Escale la digitalización de su equipo." + subtítulo corto.
 
-Grid `md:grid-cols-2 max-w-5xl gap-6`, ambas tarjetas grandes (`p-10`):
+Grid `md:grid-cols-2 gap-6 max-w-5xl`:
+- **App Starter** (izq): badge "Rápida Adopción" (cyan tenue), descripción, features con `Check` cyan (Conteo por IA desde cámara móvil, Registro digital de posiciones, Exportación CSV/Excel, Soporte estándar), CTA ghost "Descargar y Probar".
+- **App Connected** (der, destacada): `border-2 border-[#17ccd3] shadow-[0_0_60px_rgba(23,204,211,0.25)] md:scale-[1.02]`, badge superior "MÁS ELEGIDO", features (Todo lo de Starter + Integración API bidireccional WMS + Alertas Canal Rojo/Verde en tiempo real + Entrenamiento IA SKUs personalizados), CTA cyan sólido "Contactar a Ingeniería".
 
-- **Izq — "Recepción Mobile"**: badge "Despliegue Inmediato" (cyan tenue), descripción, feature list con `Check` cyan (App móvil, Cero infra, Integración WMS, TTV < 7 días), CTA ghost "Consultar".
-- **Der — "Recepción Continua"** (destacada): `border-2 border-[#17ccd3] shadow-[0_0_60px_rgba(23,204,211,0.25)] md:scale-[1.02]`, badge superior "ALTO VOLUMEN", features (Cámaras alta velocidad, Integración cinta, Conteo continuo, Reducción masiva FTEs), CTA cyan sólido.
+Sin precios; ambos CTAs a `#demo`.
 
-Sin precios; ambas apuntan a `#demo`.
+### 4a. Impact Banner
+Banner `bg-[#084749] border border-white/10 rounded-3xl p-10` con:
+- Copy grande: "Reasigne a sus operarios a tareas de valor. Multiplique **x2** la velocidad de auditoría de su depósito." (el "x2" en cyan gigante).
+- CTA intermedio con `<Link to="/roi">`: icono `Calculator` + "Simular ROI de la App →".
 
-### 4. Banner Expoyer
-Banner horizontal `bg-[#084749] border border-white/10 rounded-3xl p-10` con etiqueta "CASO DE ÉXITO — EXPOYER" y 3 métricas gigantes en grid:
-
-- `24 → 15 FTEs` (Reducción de headcount)
-- `−40%` (Lead Time)
-- `+$240k USD` (Capital Liberado)
-
-Números en `text-4xl md:text-5xl font-bold text-[#17ccd3]`. CTA secundario ghost con `ArrowRight`: **"Simular ROI para mi operación →"** que enlaza con `<Link to="/roi">` (indica textualmente que lleva al simulador).
-
-### 5. Bottom CTA
-Reutiliza el patrón de `tymeo/BottomCta.tsx` adaptado: card `#084749` con glow cyan superior, H2 "¿Listo para auditar su próxima recepción?", CTAs "Agendar Demo Técnica" (cyan) + "Hablar con Ingeniería" (ghost).
+### 4b. Bottom CTA
+Card final `bg-[#084749]` con glow cyan superior:
+- H2: "¿Listo para erradicar el descuadre de inventario? Implemente la App en su primer turno mañana mismo."
+- Botón grande cyan "Crear Cuenta de Empresa" + botón ghost "Agendar Demo".
 
 ## Detalles técnicos
 
-- **Routing**: `createFileRoute("/recepcion")` — la Vite plugin regenera `routeTree.gen.ts` automáticamente. No se edita a mano.
-- **Head metadata**: title y description específicos ("Software de Recepción con IA — InspectIA"), og:title/og:description propios. Sin og:image (se omite si no hay imagen específica).
-- **Responsive**: mobile-first. Hero apila (`grid-cols-1 lg:grid-cols-2`). Bento colapsa a una columna en `< md`. Planes stack en mobile.
-- **Animaciones**: cada sección envuelta en `<FadeInSection>` (fade-in + translateY). Bounding boxes del hero con `animate-pulse` Tailwind. Bar chart con transición `height` CSS.
-- **Sin imágenes generadas**: el visual del hero y los gráficos son puro CSS/SVG inline para mantener el build ligero y coherente con el estilo Voxel-like ya presente en el sitio.
-- **Sin backend**: es solo frontend/presentación. No se toca Lovable Cloud.
-
-## Enlace desde el resto del sitio
-Fuera de scope de este plan (no se pidió). Si querés, después agrego un link en Navbar/Footer o desde `AudienceTabs` de la home.
+- **Routing**: `createFileRoute("/stock-picking")` — el plugin regenera `routeTree.gen.ts` automáticamente.
+- **Head metadata**: title "App de Control de Stock y Picking con IA — InspectIA", description enfocada en conteo por visión + integración WMS.
+- **Responsive**: mobile-first. Hero apila (`grid-cols-1 lg:grid-cols-2`); el mockup del phone se centra y limita su ancho (~260-280px) en mobile. Bento colapsa a 1 columna en `< md`. Planes stack en mobile.
+- **Animaciones**: `FadeInSection` en cada bloque; bounding boxes con `animate-pulse` Tailwind; líneas dashed del SVG con `stroke-dasharray` + animación CSS.
+- **Sin imágenes generadas**: mockup del teléfono y todos los visuales son CSS/SVG inline.
+- **Sin backend**: puro frontend.
 
 ## Archivos a crear
-- `src/routes/recepcion.tsx`
-- `src/components/recepcion/RecepcionLanding.tsx`
-- `src/components/recepcion/Hero.tsx`
-- `src/components/recepcion/FeaturesBento.tsx`
-- `src/components/recepcion/DeploymentPlans.tsx`
-- `src/components/recepcion/ExpoyerBanner.tsx`
-- `src/components/recepcion/BottomCta.tsx`
+- `src/routes/stock-picking.tsx`
+- `src/components/stock/StockLanding.tsx`
+- `src/components/stock/Hero.tsx`
+- `src/components/stock/FeaturesBento.tsx`
+- `src/components/stock/PricingPlans.tsx`
+- `src/components/stock/ImpactBanner.tsx`
+- `src/components/stock/BottomCta.tsx`
 
 ## Archivos NO tocados
-- `routeTree.gen.ts` (regenerado automáticamente)
-- Home, ROI, Tymeo y componentes existentes permanecen intactos.
+- `routeTree.gen.ts` (regenerado automáticamente).
+- Home, `/roi`, `/tymeo`, `/recepcion` y componentes existentes permanecen intactos.
+
+## Fuera de scope
+- No se agrega link desde Navbar/Footer/Home a la nueva ruta (avisar si se desea).
