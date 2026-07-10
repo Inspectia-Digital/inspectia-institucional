@@ -14,6 +14,7 @@ import { Route as StockPickingRouteImport } from './routes/stock-picking'
 import { Route as RoiRouteImport } from './routes/roi'
 import { Route as RecepcionRouteImport } from './routes/recepcion'
 import { Route as OutboundRouteImport } from './routes/outbound'
+import { Route as ManufacturaRouteImport } from './routes/manufactura'
 import { Route as LogisticaRouteImport } from './routes/logistica'
 import { Route as DronesRouteImport } from './routes/drones'
 import { Route as IndexRouteImport } from './routes/index'
@@ -43,6 +44,11 @@ const OutboundRoute = OutboundRouteImport.update({
   path: '/outbound',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ManufacturaRoute = ManufacturaRouteImport.update({
+  id: '/manufactura',
+  path: '/manufactura',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LogisticaRoute = LogisticaRouteImport.update({
   id: '/logistica',
   path: '/logistica',
@@ -63,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/drones': typeof DronesRoute
   '/logistica': typeof LogisticaRoute
+  '/manufactura': typeof ManufacturaRoute
   '/outbound': typeof OutboundRoute
   '/recepcion': typeof RecepcionRoute
   '/roi': typeof RoiRoute
@@ -73,6 +80,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/drones': typeof DronesRoute
   '/logistica': typeof LogisticaRoute
+  '/manufactura': typeof ManufacturaRoute
   '/outbound': typeof OutboundRoute
   '/recepcion': typeof RecepcionRoute
   '/roi': typeof RoiRoute
@@ -84,6 +92,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/drones': typeof DronesRoute
   '/logistica': typeof LogisticaRoute
+  '/manufactura': typeof ManufacturaRoute
   '/outbound': typeof OutboundRoute
   '/recepcion': typeof RecepcionRoute
   '/roi': typeof RoiRoute
@@ -96,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/drones'
     | '/logistica'
+    | '/manufactura'
     | '/outbound'
     | '/recepcion'
     | '/roi'
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/drones'
     | '/logistica'
+    | '/manufactura'
     | '/outbound'
     | '/recepcion'
     | '/roi'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '/'
     | '/drones'
     | '/logistica'
+    | '/manufactura'
     | '/outbound'
     | '/recepcion'
     | '/roi'
@@ -127,6 +139,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DronesRoute: typeof DronesRoute
   LogisticaRoute: typeof LogisticaRoute
+  ManufacturaRoute: typeof ManufacturaRoute
   OutboundRoute: typeof OutboundRoute
   RecepcionRoute: typeof RecepcionRoute
   RoiRoute: typeof RoiRoute
@@ -171,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OutboundRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/manufactura': {
+      id: '/manufactura'
+      path: '/manufactura'
+      fullPath: '/manufactura'
+      preLoaderRoute: typeof ManufacturaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/logistica': {
       id: '/logistica'
       path: '/logistica'
@@ -199,6 +219,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DronesRoute: DronesRoute,
   LogisticaRoute: LogisticaRoute,
+  ManufacturaRoute: ManufacturaRoute,
   OutboundRoute: OutboundRoute,
   RecepcionRoute: RecepcionRoute,
   RoiRoute: RoiRoute,
