@@ -2,24 +2,34 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { TymeoLanding } from "@/components/tymeo/TymeoLanding";
+import { FAQ_ITEMS } from "@/components/tymeo/Faq";
+
+const TITLE = "Planes TYMEO — Toda tu planta en un solo lugar | InspectIA";
+const DESCRIPTION =
+  "OEE en tiempo real, turnos, paradas, personal y producción en una sola plataforma. Empezá gratis sin hardware y sumá sensores cuando estés listo.";
 
 export const Route = createFileRoute("/tymeo")({
   head: () => ({
     meta: [
-      { title: "TYMEO OEE — Productividad en tiempo real | InspectIA" },
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    scripts: [
       {
-        name: "description",
-        content:
-          "Mide el OEE de tu planta en tiempo real. Empieza gratis con formularios móviles o escala a integración PLC en menos de 15 días.",
-      },
-      {
-        property: "og:title",
-        content: "TYMEO OEE — Productividad en tiempo real | InspectIA",
-      },
-      {
-        property: "og:description",
-        content:
-          "Olvida las planillas. TYMEO expone cuellos de botella ocultos al instante. Asset-light, time-to-value < 15 días.",
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: FAQ_ITEMS.map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: { "@type": "Answer", text: f.a },
+          })),
+        }),
       },
     ],
   }),
