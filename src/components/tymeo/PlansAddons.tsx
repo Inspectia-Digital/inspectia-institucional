@@ -212,7 +212,7 @@ function PlanCard({ plan }: { plan: Plan }) {
         {...(isExternal
           ? { target: "_blank", rel: "noopener noreferrer" }
           : {})}
-        className={`mt-7 inline-flex items-center justify-center rounded-full py-3 px-6 font-bold transition ${ctaClass(plan.ctaVariant)}`}
+        className={`mt-7 inline-flex items-center justify-center whitespace-nowrap rounded-full py-3 px-5 text-sm font-bold transition ${ctaClass(plan.ctaVariant)}`}
       >
         {plan.cta}
       </a>
