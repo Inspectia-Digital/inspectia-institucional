@@ -63,20 +63,36 @@ export function Footer() {
             </a>
           </div>
 
-          {/* Col 2 — Productos */}
+          {/* Col 2 — Módulos */}
           <div>
             <h4 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
-              Productos
+              Módulos
             </h4>
             <ul className="space-y-2">
               {PRODUCTOS.map((p) => (
-                <li key={p}>
-                  <a
-                    href="#"
+                <li key={p.label}>
+                  <Link
+                    to={p.to}
                     className="text-sm text-slate-400 hover:text-[#17ccd3] transition-colors duration-200"
                   >
-                    {p}
-                  </a>
+                    {p.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-white mt-6 mb-3">
+              Verticales
+            </h4>
+            <ul className="space-y-2">
+              {VERTICALES.map((v) => (
+                <li key={v.label}>
+                  <Link
+                    to={v.to}
+                    className="text-sm text-slate-400 hover:text-[#17ccd3] transition-colors duration-200"
+                  >
+                    {v.label}
+                  </Link>
                 </li>
               ))}
             </ul>
