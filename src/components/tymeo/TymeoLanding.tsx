@@ -3,7 +3,10 @@ import { RelatedLinks } from "@/components/site/RelatedLinks";
 import { Hero } from "./Hero";
 import { IntegrationsBar } from "./IntegrationsBar";
 import { ZigZag } from "./ZigZag";
-import { Pricing } from "./Pricing";
+import { PlansAddons } from "./PlansAddons";
+import { ModulesTable } from "./ModulesTable";
+import { Implementation } from "./Implementation";
+import { Faq } from "./Faq";
 import { RoiTtv } from "./RoiTtv";
 import { BottomCta } from "./BottomCta";
 
@@ -18,7 +21,16 @@ export function TymeoLanding() {
       </FadeInSection>
       <ZigZag />
       <FadeInSection>
-        <Pricing />
+        <PlansAddons />
+      </FadeInSection>
+      <FadeInSection>
+        <ModulesTable />
+      </FadeInSection>
+      <FadeInSection>
+        <Implementation />
+      </FadeInSection>
+      <FadeInSection>
+        <Faq />
       </FadeInSection>
       <FadeInSection>
         <RoiTtv />
