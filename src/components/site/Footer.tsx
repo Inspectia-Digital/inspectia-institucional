@@ -114,12 +114,12 @@ export function Footer() {
                       {r.label}
                     </Link>
                   ) : (
-                    <a
-                      href="#"
-                      className="text-sm text-slate-400 hover:text-[#17ccd3] transition-colors duration-200"
-                    >
-                      {r.label}
-                    </a>
+                    <span className="text-sm text-slate-600 cursor-default">
+                      {r.label}{" "}
+                      <span className="text-[10px] uppercase tracking-wider">
+                        (pronto)
+                      </span>
+                    </span>
                   )}
                 </li>
               ))}
