@@ -1,4 +1,5 @@
 import { FadeInSection } from "./FadeInSection";
+import { RelatedLinks } from "@/components/site/RelatedLinks";
 import { Hero } from "./Hero";
 import { IntegrationsBar } from "./IntegrationsBar";
 import { ZigZag } from "./ZigZag";
@@ -21,6 +22,14 @@ export function TymeoLanding() {
       </FadeInSection>
       <FadeInSection>
         <RoiTtv />
+      </FadeInSection>
+      <FadeInSection>
+        <RelatedLinks
+          items={[
+            { label: "Vertical Manufactura", to: "/manufactura" },
+            { label: "Calcular ROI", to: "/roi" },
+          ]}
+        />
       </FadeInSection>
       <FadeInSection>
         <BottomCta />
