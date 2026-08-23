@@ -2,12 +2,17 @@ import { useState, type FormEvent } from "react";
 import { Link } from "@tanstack/react-router";
 import { Linkedin, Check } from "lucide-react";
 
-const PRODUCTOS = [
-  "Recepción de Mercadería",
-  "TYMEO OEE",
-  "Control de Calidad",
-  "Productividad y Seguridad",
-  "Stock y Despachos",
+const PRODUCTOS: Array<{ label: string; to: string }> = [
+  { label: "Recepción de Mercadería", to: "/recepcion" },
+  { label: "TYMEO OEE", to: "/tymeo" },
+  { label: "App de Stock y Picking", to: "/stock-picking" },
+  { label: "Drones de Inventario", to: "/drones" },
+  { label: "Armado y Despacho", to: "/outbound" },
+];
+
+const VERTICALES: Array<{ label: string; to: string }> = [
+  { label: "Manufactura", to: "/manufactura" },
+  { label: "Logística", to: "/logistica" },
 ];
 
 const RECURSOS: Array<{ label: string; to?: string }> = [
