@@ -26,7 +26,9 @@ export function Hero() {
 
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
           <a
-            href="#contacto"
+            href="https://calendar.google.com/calendar/u/0/appointments/schedules/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 rounded-full bg-[#17ccd3] px-6 py-3 text-sm font-bold text-[#041A1B] shadow-[0_0_40px_rgba(23,204,211,0.4)] hover:brightness-110 transition"
           >
             Hablar con un Experto 4.0 <ArrowRight className="h-4 w-4" />
