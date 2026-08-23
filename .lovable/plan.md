@@ -8,7 +8,7 @@ Hoy existen 9 rutas (`/`, `/manufactura`, `/logistica`, `/tymeo`, `/recepcion`, 
   - Manufactura: TYMEO OEE → `/tymeo`; se elimina "OEE Control" del menú; Control de Calidad → sin página propia (queda apuntando a `/manufactura`).
   - Logística: Drones de Inventario → `/drones`; App Control de Stock → `/stock-picking`; Recepción de Mercadería → `/recepcion`; Control de Pedidos → `/outbound`.
 - **Soluciones**: Logística → `/logistica`; Automotriz, Autopartista, Alimentos, Textil → `/manufactura` (aún no tienen landing propia).
-- **Tecnología / Institucional**: no existen páginas; quedan deshabilitados visualmente (sin link muerto) hasta que se creen.
+- **Programa para Consultores / Institucional**: se reemplaza "Tecnología" por "Programa para Consultores"; ambos quedan visibles en el menú y, hasta que existan sus páginas, apuntan a la sección correspondiente de la home.
 - **Menú mobile**: mismos destinos, con secciones colapsables Productos / Soluciones en lugar de los 4 links a `#`.
 - "Calcular ROI" ya apunta a `/roi` (se mantiene).
 
