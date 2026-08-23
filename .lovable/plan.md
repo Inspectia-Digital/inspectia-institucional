@@ -5,7 +5,7 @@ Hoy existen 9 rutas (`/`, `/manufactura`, `/logistica`, `/tymeo`, `/recepcion`, 
 ## Navbar
 
 - **Productos**
-  - Manufactura: TYMEO OEE → `/tymeo`; OEE Control → `/tymeo`; Control de Calidad → sin página propia (queda apuntando a `/manufactura`).
+  - Manufactura: TYMEO OEE → `/tymeo`; se elimina "OEE Control" del menú; Control de Calidad → sin página propia (queda apuntando a `/manufactura`).
   - Logística: Drones de Inventario → `/drones`; App Control de Stock → `/stock-picking`; Recepción de Mercadería → `/recepcion`; Control de Pedidos → `/outbound`.
 - **Soluciones**: Logística → `/logistica`; Automotriz, Autopartista, Alimentos, Textil → `/manufactura` (aún no tienen landing propia).
 - **Tecnología / Institucional**: no existen páginas; quedan deshabilitados visualmente (sin link muerto) hasta que se creen.
