@@ -168,18 +168,12 @@ export function Footer() {
             © 2026 InspectIA. Todos los derechos reservados.
           </p>
           <div className="flex items-center gap-5">
-            <a
-              href="#"
-              className="text-xs text-slate-500 hover:text-[#17ccd3] transition-colors"
-            >
+            <span className="text-xs text-slate-600 cursor-default">
               Términos y Condiciones
-            </a>
-            <a
-              href="#"
-              className="text-xs text-slate-500 hover:text-[#17ccd3] transition-colors"
-            >
+            </span>
+            <span className="text-xs text-slate-600 cursor-default">
               Política de Privacidad
-            </a>
+            </span>
           </div>
         </div>
       </div>
