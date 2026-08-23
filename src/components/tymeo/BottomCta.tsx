@@ -10,14 +10,18 @@ export function BottomCta() {
         </h2>
         <div className="relative mt-8 flex flex-wrap gap-3 justify-center">
           <a
-            href="#crear-cuenta"
+            href="https://calendar.google.com/calendar/u/0/appointments/schedules/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-[#17ccd3] text-[#041A1B] font-bold py-3 px-6 shadow-[0_0_30px_rgba(23,204,211,0.4)] hover:bg-[#17ccd3]/90 transition"
           >
             Iniciar Prueba Gratuita
             <ArrowRight className="h-4 w-4" />
           </a>
           <a
-            href="#ingenieria"
+            href="https://calendar.google.com/calendar/u/0/appointments/schedules/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full border border-slate-500 text-white font-semibold py-3 px-6 hover:bg-white/5 transition"
           >
             <Play className="h-4 w-4" />

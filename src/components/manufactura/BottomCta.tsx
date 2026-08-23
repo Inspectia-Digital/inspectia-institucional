@@ -14,13 +14,17 @@ export function BottomCta() {
           </h2>
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
-              href="#contacto"
+              href="https://calendar.google.com/calendar/u/0/appointments/schedules/"
+            target="_blank"
+            rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-[#17ccd3] px-7 py-3.5 text-sm font-bold text-[#041A1B] shadow-[0_0_40px_rgba(23,204,211,0.4)] hover:brightness-110 transition"
             >
               Agendar Diagnóstico de Planta
             </a>
             <a
-              href="#demo"
+              href="https://calendar.google.com/calendar/u/0/appointments/schedules/"
+            target="_blank"
+            rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white hover:bg-white/10 transition"
             >
               Ver Demo Integral

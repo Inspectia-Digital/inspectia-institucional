@@ -1,4 +1,5 @@
 import { FadeInSection } from "@/components/tymeo/FadeInSection";
+import { RelatedLinks } from "@/components/site/RelatedLinks";
 import { Hero } from "./Hero";
 import { FeaturesBento } from "./FeaturesBento";
 import { PricingPlans } from "./PricingPlans";
@@ -19,6 +20,16 @@ export function StockLanding() {
       </FadeInSection>
       <FadeInSection>
         <ImpactBanner />
+      </FadeInSection>
+      <FadeInSection>
+        <RelatedLinks
+          items={[
+            { label: "Recepción de Mercadería", to: "/recepcion" },
+            { label: "Drones de Inventario", to: "/drones" },
+            { label: "Armado y Despacho", to: "/outbound" },
+            { label: "Vertical Logística", to: "/logistica" },
+          ]}
+        />
       </FadeInSection>
       <FadeInSection>
         <BottomCta />

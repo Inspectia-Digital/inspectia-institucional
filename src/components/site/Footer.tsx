@@ -2,12 +2,17 @@ import { useState, type FormEvent } from "react";
 import { Link } from "@tanstack/react-router";
 import { Linkedin, Check } from "lucide-react";
 
-const PRODUCTOS = [
-  "Recepción de Mercadería",
-  "TYMEO OEE",
-  "Control de Calidad",
-  "Productividad y Seguridad",
-  "Stock y Despachos",
+const PRODUCTOS: Array<{ label: string; to: string }> = [
+  { label: "Recepción de Mercadería", to: "/recepcion" },
+  { label: "TYMEO OEE", to: "/tymeo" },
+  { label: "App de Stock y Picking", to: "/stock-picking" },
+  { label: "Drones de Inventario", to: "/drones" },
+  { label: "Armado y Despacho", to: "/outbound" },
+];
+
+const VERTICALES: Array<{ label: string; to: string }> = [
+  { label: "Manufactura", to: "/manufactura" },
+  { label: "Logística", to: "/logistica" },
 ];
 
 const RECURSOS: Array<{ label: string; to?: string }> = [
@@ -58,20 +63,36 @@ export function Footer() {
             </a>
           </div>
 
-          {/* Col 2 — Productos */}
+          {/* Col 2 — Módulos */}
           <div>
             <h4 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
-              Productos
+              Módulos
             </h4>
             <ul className="space-y-2">
               {PRODUCTOS.map((p) => (
-                <li key={p}>
-                  <a
-                    href="#"
+                <li key={p.label}>
+                  <Link
+                    to={p.to}
                     className="text-sm text-slate-400 hover:text-[#17ccd3] transition-colors duration-200"
                   >
-                    {p}
-                  </a>
+                    {p.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-white mt-6 mb-3">
+              Verticales
+            </h4>
+            <ul className="space-y-2">
+              {VERTICALES.map((v) => (
+                <li key={v.label}>
+                  <Link
+                    to={v.to}
+                    className="text-sm text-slate-400 hover:text-[#17ccd3] transition-colors duration-200"
+                  >
+                    {v.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -93,12 +114,12 @@ export function Footer() {
                       {r.label}
                     </Link>
                   ) : (
-                    <a
-                      href="#"
-                      className="text-sm text-slate-400 hover:text-[#17ccd3] transition-colors duration-200"
-                    >
-                      {r.label}
-                    </a>
+                    <span className="text-sm text-slate-600 cursor-default">
+                      {r.label}{" "}
+                      <span className="text-[10px] uppercase tracking-wider">
+                        (pronto)
+                      </span>
+                    </span>
                   )}
                 </li>
               ))}
@@ -147,18 +168,12 @@ export function Footer() {
             © 2026 InspectIA. Todos los derechos reservados.
           </p>
           <div className="flex items-center gap-5">
-            <a
-              href="#"
-              className="text-xs text-slate-500 hover:text-[#17ccd3] transition-colors"
-            >
+            <span className="text-xs text-slate-600 cursor-default">
               Términos y Condiciones
-            </a>
-            <a
-              href="#"
-              className="text-xs text-slate-500 hover:text-[#17ccd3] transition-colors"
-            >
+            </span>
+            <span className="text-xs text-slate-600 cursor-default">
               Política de Privacidad
-            </a>
+            </span>
           </div>
         </div>
       </div>
