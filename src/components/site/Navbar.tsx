@@ -16,34 +16,43 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { DEMO_URL } from "@/lib/links";
 
-const productos = {
-  Manufactura: ["Control de Calidad", "OEE Control", "TYMEO"],
-  Logística: [
-    "Drones de Inventario",
-    "App Control de Stock",
-    "Recepción de Mercadería",
-    "Control de Pedidos",
+type NavLink = { label: string; to: string };
+
+const modulos: Record<string, NavLink[]> = {
+  Manufactura: [
+    { label: "TYMEO OEE", to: "/tymeo" },
+    { label: "Control de Calidad", to: "/manufactura" },
   ],
+  Logística: [
+    { label: "Drones de Inventario", to: "/drones" },
+    { label: "App Control de Stock", to: "/stock-picking" },
+    { label: "Recepción de Mercadería", to: "/recepcion" },
+    { label: "Control de Pedidos", to: "/outbound" },
+  ],
+  Plataforma: [{ label: "Marketplace", to: "/" }],
 };
 
-const soluciones = [
-  "Logística",
-  "Automotriz",
-  "Autopartista",
-  "Alimentos",
-  "Textil",
+const soluciones: NavLink[] = [
+  { label: "Logística", to: "/logistica" },
+  { label: "Manufactura", to: "/manufactura" },
+  { label: "Automotriz", to: "/manufactura" },
+  { label: "Autopartista", to: "/manufactura" },
+  { label: "Alimentos", to: "/manufactura" },
+  { label: "Textil", to: "/manufactura" },
 ];
 
-function MenuLinkItem({ children }: { children: React.ReactNode }) {
+function MenuLinkItem({ to, children }: { to: string; children: React.ReactNode }) {
   return (
     <NavigationMenuLink asChild>
-      <a
-        href="#"
+      <Link
+        to={to}
         className="block rounded-lg px-3 py-2 text-sm text-foreground/80 hover:bg-white/5 hover:text-foreground transition-colors"
+        activeProps={{ className: "text-foreground bg-white/5" }}
       >
         {children}
-      </a>
+      </Link>
     </NavigationMenuLink>
   );
 }
@@ -71,19 +80,19 @@ export function Navbar() {
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger className="bg-transparent text-foreground/80 hover:text-foreground data-[state=open]:bg-white/5">
-                Productos
+                Módulos
               </NavigationMenuTrigger>
               <NavigationMenuContent>
-                <div className="grid w-[520px] grid-cols-2 gap-6 p-6 bg-card/95 backdrop-blur-md border border-white/10 rounded-2xl">
-                  {Object.entries(productos).map(([cat, items]) => (
+                <div className="grid w-[620px] grid-cols-3 gap-6 p-6 bg-card/95 backdrop-blur-md border border-white/10 rounded-2xl">
+                  {Object.entries(modulos).map(([cat, items]) => (
                     <div key={cat}>
                       <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-primary">
                         {cat}
                       </p>
                       <ul className="space-y-1">
                         {items.map((it) => (
-                          <li key={it}>
-                            <MenuLinkItem>{it}</MenuLinkItem>
+                          <li key={it.label}>
+                            <MenuLinkItem to={it.to}>{it.label}</MenuLinkItem>
                           </li>
                         ))}
                       </ul>
@@ -98,11 +107,11 @@ export function Navbar() {
                 Soluciones
               </NavigationMenuTrigger>
               <NavigationMenuContent>
-                <div className="w-[240px] p-4 bg-card/95 backdrop-blur-md border border-white/10 rounded-2xl">
+                <div className="w-[260px] p-4 bg-card/95 backdrop-blur-md border border-white/10 rounded-2xl">
                   <ul className="space-y-1">
                     {soluciones.map((s) => (
-                      <li key={s}>
-                        <MenuLinkItem>{s}</MenuLinkItem>
+                      <li key={s.label}>
+                        <MenuLinkItem to={s.to}>{s.label}</MenuLinkItem>
                       </li>
                     ))}
                   </ul>
@@ -115,7 +124,9 @@ export function Navbar() {
                 asChild
                 className="px-4 py-2 text-sm text-foreground/80 hover:text-foreground transition-colors"
               >
-                <a href="#tecnologia">Tecnología</a>
+                <Link to="/" hash="consultores">
+                  Programa para Consultores
+                </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
 
@@ -124,7 +135,9 @@ export function Navbar() {
                 asChild
                 className="px-4 py-2 text-sm text-foreground/80 hover:text-foreground transition-colors"
               >
-                <a href="#institucional">Institucional</a>
+                <Link to="/" hash="institucional">
+                  Institucional
+                </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
@@ -145,9 +158,12 @@ export function Navbar() {
             Ingresar
           </Button>
           <Button
+            asChild
             className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-[var(--shadow-glow)] font-semibold"
           >
-            Agendar Demo
+            <a href={DEMO_URL} target="_blank" rel="noopener noreferrer">
+              Agendar Demo
+            </a>
           </Button>
         </div>
 
@@ -158,7 +174,10 @@ export function Navbar() {
               <Menu className="h-5 w-5" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="bg-background border-white/10">
+          <SheetContent
+            side="right"
+            className="bg-background border-white/10 overflow-y-auto"
+          >
             <SheetTitle className="text-foreground">Menú</SheetTitle>
             <nav className="mt-6 flex flex-col gap-1">
               <Link
@@ -167,19 +186,61 @@ export function Navbar() {
               >
                 Calcular ROI
               </Link>
-              {["Productos", "Soluciones", "Tecnología", "Institucional"].map((l) => (
-                <a
-                  key={l}
-                  href="#"
+
+              <p className="mt-4 px-3 text-xs font-semibold uppercase tracking-wider text-primary">
+                Módulos
+              </p>
+              {Object.values(modulos)
+                .flat()
+                .map((it) => (
+                  <Link
+                    key={`m-${it.label}`}
+                    to={it.to}
+                    className="rounded-lg px-3 py-2 text-foreground/80 hover:bg-white/5 hover:text-foreground"
+                  >
+                    {it.label}
+                  </Link>
+                ))}
+
+              <p className="mt-4 px-3 text-xs font-semibold uppercase tracking-wider text-primary">
+                Soluciones
+              </p>
+              {soluciones.map((s) => (
+                <Link
+                  key={`s-${s.label}`}
+                  to={s.to}
                   className="rounded-lg px-3 py-2 text-foreground/80 hover:bg-white/5 hover:text-foreground"
                 >
-                  {l}
-                </a>
+                  {s.label}
+                </Link>
               ))}
+
+              <Link
+                to="/"
+                hash="consultores"
+                className="mt-4 rounded-lg px-3 py-2 text-foreground/80 hover:bg-white/5 hover:text-foreground"
+              >
+                Programa para Consultores
+              </Link>
+              <Link
+                to="/"
+                hash="institucional"
+                className="rounded-lg px-3 py-2 text-foreground/80 hover:bg-white/5 hover:text-foreground"
+              >
+                Institucional
+              </Link>
+
               <div className="mt-4 flex flex-col gap-2">
-                <Button variant="ghost" className="rounded-full justify-center">Ingresar</Button>
-                <Button className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-[var(--shadow-glow)]">
-                  Agendar Demo
+                <Button variant="ghost" className="rounded-full justify-center">
+                  Ingresar
+                </Button>
+                <Button
+                  asChild
+                  className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-[var(--shadow-glow)]"
+                >
+                  <a href={DEMO_URL} target="_blank" rel="noopener noreferrer">
+                    Agendar Demo
+                  </a>
                 </Button>
               </div>
             </nav>
