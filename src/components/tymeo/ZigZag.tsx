@@ -109,22 +109,23 @@ const STEPS = [
   {
     n: "01",
     icon: ClipboardList,
-    title: "Captura ágil en el piso de planta.",
-    body: "Reemplace el papel al instante. Interfaz diseñada para que el operario declare inicios de orden, fin de lote y motivos de parada con dos clics.",
+    title: "Empezá a medir hoy, con un formulario.",
+    body: "Sin hardware ni instalación: el operario declara inicios de orden, fin de lote y motivos de parada desde el celular. En minutos ya tenés tu primer OEE.",
     Visual: TabletMock,
   },
   {
     n: "02",
     icon: Cpu,
-    title: "Mapeo ciberfísico en milisegundos.",
-    body: "Cuando esté listo para la verdad absoluta, conectamos sus máquinas. Sensores de borde miden tiempos de ciclo y paradas automáticas sin intervención humana.",
+    title: "Automatizá cuando estés listo.",
+    body: "Sumás sensores, lectoras o el PLC sin cambiar de plataforma. Los tiempos de ciclo y las paradas se registran solos, sin intervención humana.",
     Visual: BlueprintMock,
   },
   {
     n: "03",
     icon: BarChart3,
-    title: "Dashboards que dictan rentabilidad.",
-    body: "Disponibilidad, Rendimiento y Calidad (OEE) calculados al segundo. Pase de reaccionar a prevenir.",
+    title: "Operá toda la planta desde un solo lugar.",
+    body: "OEE, turnos, paradas, personal, planificación y mantenimiento en la misma plataforma. Activás módulos a medida que tu operación los necesita.",
+
     Visual: DashboardMock,
   },
 ];
