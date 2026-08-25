@@ -4,6 +4,7 @@ import { PageHero } from "@/components/site/PageHero";
 import { ModuleGrid } from "@/components/site/ModuleGrid";
 import { MODULES } from "@/content/modules";
 import { INDUSTRIES } from "@/content/solutions";
+import { useSolutionViewEvent } from "@/lib/useViewEvents";
 
 /**
  * Página de industria (§7.5).
@@ -38,6 +39,7 @@ export const Route = createFileRoute("/soluciones/$industria")({
 function IndustryPage() {
   const { slug } = Route.useLoaderData();
   const industry = INDUSTRIES.find((i) => i.slug === slug)!;
+  useSolutionViewEvent({ industry: industry.slug });
   // Ordenados por impacto, que es el orden en que están declarados.
   const modules = industry.modules
     .map((k) => MODULES.find((m) => m.key === k))

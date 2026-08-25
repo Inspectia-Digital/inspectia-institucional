@@ -4,9 +4,11 @@ import { Hero } from "@/components/site/Hero";
 import { TrustBar } from "@/components/site/TrustBar";
 import { FloorPlan } from "@/components/site/FloorPlan";
 import { ModuleGrid } from "@/components/site/ModuleGrid";
+import { AudienceTabs } from "@/components/site/AudienceTabs";
 import {
   CostOfNotMeasuring,
   Faq,
+  HomeRoi,
   HOME_FAQ,
   MarketplaceTeaser,
   PartnersBand,
@@ -62,16 +64,17 @@ function Home() {
       <CostOfNotMeasuring />
       {/* 05 */}
       <StartFree />
+      {/* 06 */}
+      <AudienceTabs />
 
-      {/* TODO(fase 2/3): faltan tres bloques de §7.1.
-          06 · Selector de perfil — site/AudienceTabs.tsx se repinta y pasa a cuatro
-               pestañas con el dolor, los módulos, un dato y un CTA por perfil.
-          07 · Caso destacado — bloqueado por la aprobación de nombres y cifras (§15.7).
-          09 · ROI en la home — la variante mini depende de extraer los modelos de cálculo
-               a funciones puras, que es la etapa siguiente. */}
+      {/* TODO(fase 3): 07 · Caso destacado. Un caso a sangre con foto y tres números,
+          rotando entre manufactura y logística. Bloqueado por la aprobación de nombres y
+          cifras de cliente (§15.7). */}
 
       {/* 08 */}
       <MarketplaceTeaser />
+      {/* 09 */}
+      <HomeRoi />
       {/* 10 */}
       <PartnersBand />
       {/* 11 · Precios queda fuera del aire hasta tener el precio de todos los módulos. */}

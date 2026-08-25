@@ -2,6 +2,7 @@ import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { BottomCta } from "@/components/site/BottomCta";
 import { CtaPair } from "@/components/site/CtaPair";
+import { CookieBanner } from "@/components/site/CookieBanner";
 
 /**
  * Cáscara común de todas las páginas. Antes cada una de las nueve rutas montaba Navbar,
@@ -27,6 +28,7 @@ export function SiteLayout({
       {bottomCta && <BottomCta module={module} industry={industry} />}
       <Footer />
       <MobileCtaBar module={module} />
+      <CookieBanner />
     </div>
   );
 }

@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { gtmHeadScripts } from "../lib/gtm";
 
 function NotFoundComponent() {
   return (
@@ -104,6 +105,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap",
       },
     ],
+    // Vacío mientras no haya VITE_GTM_ID. El primero de los dos scripts es el
+    // consentimiento por defecto y tiene que ir antes del contenedor.
+    scripts: gtmHeadScripts(),
   }),
   shellComponent: RootShell,
   component: RootComponent,

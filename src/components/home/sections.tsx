@@ -8,6 +8,8 @@ import {
 } from "@/components/ui/accordion";
 import { CtaPair } from "@/components/site/CtaPair";
 import { ImplementationTimeline } from "@/components/site/ImplementationTimeline";
+import { RoiMini } from "@/components/roi/RoiMini";
+import { tymeoModel } from "@/lib/roi/tymeo";
 
 /** Bloques propios de la home. Los que se usan en más de una página viven en site/. */
 
@@ -244,6 +246,34 @@ export function Faq() {
             </AccordionItem>
           ))}
         </Accordion>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- 09 · ROI en la home ---------- */
+
+/**
+ * Tres controles, un número grande y el enlace al cálculo completo. Sin formulario: acá
+ * no se pide nada, y el resultado nunca aparece detrás de un velo.
+ *
+ * Arranca por TYMEO porque es el módulo con el que más gente entra; desde /roi se cambia
+ * a cualquier otro.
+ */
+export function HomeRoi() {
+  return (
+    <section className={`bg-surface-sunken ${SECTION}`}>
+      <div className={CONTAINER}>
+        <p className="eyebrow">Cuánto te rinde</p>
+        <h2 className={`mt-4 max-w-[24ch] ${H2}`}>Poné tus números y mirá qué pasa.</h2>
+        <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
+          Tres datos de tu línea alcanzan para tener una primera idea. El cálculo completo, con
+          todos los parámetros y los supuestos a la vista, está en la calculadora.
+        </p>
+
+        <div className="mt-12">
+          <RoiMini model={tymeoModel} />
+        </div>
       </div>
     </section>
   );

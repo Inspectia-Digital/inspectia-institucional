@@ -3,6 +3,7 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { ModuleGrid } from "@/components/site/ModuleGrid";
 import { MODULES, MODULE_BY_KEY, type ModuleKey } from "@/content/modules";
+import { useModuleViewEvent } from "@/lib/useViewEvents";
 
 /**
  * Plantilla única de las ocho páginas de módulo (§7.3).
@@ -42,6 +43,7 @@ export const Route = createFileRoute("/plataforma/$modulo")({
 function ModulePage() {
   const { key } = Route.useLoaderData();
   const m = MODULE_BY_KEY.get(key)!;
+  useModuleViewEvent(m.key);
   const related = MODULES.filter((o) => m.buildsOn.includes(o.key));
 
   return (

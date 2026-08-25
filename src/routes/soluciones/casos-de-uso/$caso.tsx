@@ -4,6 +4,7 @@ import { PageHero } from "@/components/site/PageHero";
 import { ModuleGrid } from "@/components/site/ModuleGrid";
 import { MODULES } from "@/content/modules";
 import { USE_CASES } from "@/content/solutions";
+import { useSolutionViewEvent } from "@/lib/useViewEvents";
 
 /**
  * Página de caso de uso (§7.5). Más corta que la de industria: el problema, cómo se
@@ -36,6 +37,7 @@ export const Route = createFileRoute("/soluciones/casos-de-uso/$caso")({
 function UseCasePage() {
   const { slug } = Route.useLoaderData();
   const useCase = USE_CASES.find((u) => u.slug === slug)!;
+  useSolutionViewEvent({ use_case: useCase.slug });
   const modules = useCase.modules
     .map((k) => MODULES.find((m) => m.key === k))
     .filter((m): m is NonNullable<typeof m> => Boolean(m));
