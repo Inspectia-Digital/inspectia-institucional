@@ -9,49 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TymeoRouteImport } from './routes/tymeo'
-import { Route as StockPickingRouteImport } from './routes/stock-picking'
-import { Route as RoiRouteImport } from './routes/roi'
-import { Route as RecepcionRouteImport } from './routes/recepcion'
-import { Route as OutboundRouteImport } from './routes/outbound'
-import { Route as ManufacturaRouteImport } from './routes/manufactura'
-import { Route as LogisticaRouteImport } from './routes/logistica'
-import { Route as DronesRouteImport } from './routes/drones'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DronesRouteImport } from './routes/drones'
+import { Route as LogisticaRouteImport } from './routes/logistica'
+import { Route as ManufacturaRouteImport } from './routes/manufactura'
+import { Route as OutboundRouteImport } from './routes/outbound'
+import { Route as RecepcionRouteImport } from './routes/recepcion'
+import { Route as RoiRouteImport } from './routes/roi'
+import { Route as StockPickingRouteImport } from './routes/stock-picking'
+import { Route as TymeoRouteImport } from './routes/tymeo'
 
-const TymeoRoute = TymeoRouteImport.update({
-  id: '/tymeo',
-  path: '/tymeo',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StockPickingRoute = StockPickingRouteImport.update({
-  id: '/stock-picking',
-  path: '/stock-picking',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RoiRoute = RoiRouteImport.update({
-  id: '/roi',
-  path: '/roi',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RecepcionRoute = RecepcionRouteImport.update({
-  id: '/recepcion',
-  path: '/recepcion',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OutboundRoute = OutboundRouteImport.update({
-  id: '/outbound',
-  path: '/outbound',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ManufacturaRoute = ManufacturaRouteImport.update({
-  id: '/manufactura',
-  path: '/manufactura',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LogisticaRoute = LogisticaRouteImport.update({
-  id: '/logistica',
-  path: '/logistica',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DronesRoute = DronesRouteImport.update({
@@ -59,9 +29,39 @@ const DronesRoute = DronesRouteImport.update({
   path: '/drones',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const LogisticaRoute = LogisticaRouteImport.update({
+  id: '/logistica',
+  path: '/logistica',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ManufacturaRoute = ManufacturaRouteImport.update({
+  id: '/manufactura',
+  path: '/manufactura',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OutboundRoute = OutboundRouteImport.update({
+  id: '/outbound',
+  path: '/outbound',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecepcionRoute = RecepcionRouteImport.update({
+  id: '/recepcion',
+  path: '/recepcion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoiRoute = RoiRouteImport.update({
+  id: '/roi',
+  path: '/roi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StockPickingRoute = StockPickingRouteImport.update({
+  id: '/stock-picking',
+  path: '/stock-picking',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TymeoRoute = TymeoRouteImport.update({
+  id: '/tymeo',
+  path: '/tymeo',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -149,53 +149,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/tymeo': {
-      id: '/tymeo'
-      path: '/tymeo'
-      fullPath: '/tymeo'
-      preLoaderRoute: typeof TymeoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/stock-picking': {
-      id: '/stock-picking'
-      path: '/stock-picking'
-      fullPath: '/stock-picking'
-      preLoaderRoute: typeof StockPickingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/roi': {
-      id: '/roi'
-      path: '/roi'
-      fullPath: '/roi'
-      preLoaderRoute: typeof RoiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/recepcion': {
-      id: '/recepcion'
-      path: '/recepcion'
-      fullPath: '/recepcion'
-      preLoaderRoute: typeof RecepcionRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/outbound': {
-      id: '/outbound'
-      path: '/outbound'
-      fullPath: '/outbound'
-      preLoaderRoute: typeof OutboundRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/manufactura': {
-      id: '/manufactura'
-      path: '/manufactura'
-      fullPath: '/manufactura'
-      preLoaderRoute: typeof ManufacturaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/logistica': {
-      id: '/logistica'
-      path: '/logistica'
-      fullPath: '/logistica'
-      preLoaderRoute: typeof LogisticaRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/drones': {
@@ -205,11 +163,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DronesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/logistica': {
+      id: '/logistica'
+      path: '/logistica'
+      fullPath: '/logistica'
+      preLoaderRoute: typeof LogisticaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/manufactura': {
+      id: '/manufactura'
+      path: '/manufactura'
+      fullPath: '/manufactura'
+      preLoaderRoute: typeof ManufacturaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/outbound': {
+      id: '/outbound'
+      path: '/outbound'
+      fullPath: '/outbound'
+      preLoaderRoute: typeof OutboundRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recepcion': {
+      id: '/recepcion'
+      path: '/recepcion'
+      fullPath: '/recepcion'
+      preLoaderRoute: typeof RecepcionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/roi': {
+      id: '/roi'
+      path: '/roi'
+      fullPath: '/roi'
+      preLoaderRoute: typeof RoiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stock-picking': {
+      id: '/stock-picking'
+      path: '/stock-picking'
+      fullPath: '/stock-picking'
+      preLoaderRoute: typeof StockPickingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tymeo': {
+      id: '/tymeo'
+      path: '/tymeo'
+      fullPath: '/tymeo'
+      preLoaderRoute: typeof TymeoRouteImport
       parentRoute: typeof rootRouteImport
     }
   }

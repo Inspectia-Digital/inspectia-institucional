@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Calculator } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import fabricaAsset from "@/assets/fabrica-logistica.png.asset.json";
+import { PLANT_PLAN } from "@/content/assets";
 
 type Hotspot = {
   left: string;
@@ -119,7 +119,7 @@ export function Hero() {
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
           <Button
             size="lg"
-            className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-[var(--shadow-glow-lg)] font-semibold px-6"
+            className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-6"
           >
             Agendar Demo <ArrowRight className="ml-1" />
           </Button>
@@ -141,8 +141,12 @@ export function Hero() {
         <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-card shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)]">
           <div className="relative aspect-[16/9]">
             <img
-              src={fabricaAsset.url}
-              alt="Vista isométrica de una fábrica y centro logístico monitoreados por InspectIA"
+              src={PLANT_PLAN.src}
+              srcSet={`${PLANT_PLAN.src960} 960w, ${PLANT_PLAN.src} 1920w`}
+              sizes="(max-width: 1024px) 100vw, 1024px"
+              width={PLANT_PLAN.width}
+              height={PLANT_PLAN.height}
+              alt={PLANT_PLAN.alt}
               className="absolute inset-0 h-full w-full object-cover"
             />
 
