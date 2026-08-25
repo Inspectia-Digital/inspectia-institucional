@@ -6,6 +6,8 @@ import { MODULES } from "@/content/modules";
 import { USE_CASES } from "@/content/solutions";
 import { useSolutionViewEvent } from "@/lib/useViewEvents";
 import { breadcrumbJsonLd, pageHead } from "@/lib/seo";
+import { RoiMini } from "@/components/roi/RoiMini";
+import { roiModelFor } from "@/lib/roi";
 
 /**
  * Página de caso de uso (§7.5). Más corta que la de industria: el problema, cómo se
@@ -42,6 +44,8 @@ function UseCasePage() {
   const modules = useCase.modules
     .map((k) => MODULES.find((m) => m.key === k))
     .filter((m): m is NonNullable<typeof m> => Boolean(m));
+  // La calculadora del primer módulo que resuelve el caso, si ese módulo tiene modelo.
+  const roiModel = useCase.modules.map(roiModelFor).find(Boolean);
 
   return (
     <SiteLayout>
@@ -54,7 +58,22 @@ function UseCasePage() {
         </div>
       </section>
 
-      {/* TODO(fase 3): el número del caso y la calculadora embebida de ese módulo. */}
+      {roiModel && (
+        <section className="bg-surface-sunken px-5 py-[var(--section-pad-md)] md:px-8">
+          <div className="mx-auto max-w-[var(--content-max)]">
+            <p className="eyebrow">Cuánto te rinde</p>
+            <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+              Poné los números de tu operación.
+            </h2>
+            <div className="mt-12">
+              <RoiMini model={roiModel} />
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* TODO(fase 3): el número propio del caso y el caso de cliente que lo prueba.
+          Bloqueado por la aprobación de nombres y cifras (§15.7). */}
     </SiteLayout>
   );
 }

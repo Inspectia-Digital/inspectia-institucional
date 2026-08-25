@@ -5,6 +5,8 @@ import { ModuleGrid } from "@/components/site/ModuleGrid";
 import { MODULES, MODULE_BY_KEY, type ModuleKey } from "@/content/modules";
 import { useModuleViewEvent } from "@/lib/useViewEvents";
 import { breadcrumbJsonLd, pageHead } from "@/lib/seo";
+import { RoiMini } from "@/components/roi/RoiMini";
+import { roiModelFor } from "@/lib/roi";
 
 /**
  * Plantilla única de las ocho páginas de módulo (§7.3).
@@ -46,6 +48,9 @@ function ModulePage() {
   const m = MODULE_BY_KEY.get(key)!;
   useModuleViewEvent(m.key);
   const related = MODULES.filter((o) => m.buildsOn.includes(o.key));
+  // Cuatro de los ocho módulos tienen modelo. Los otros se cotizan por alcance y la
+  // sección no aparece, en vez de mostrar una cuenta inventada.
+  const roiModel = roiModelFor(m.key);
 
   return (
     <SiteLayout module={m.key}>
@@ -75,8 +80,22 @@ function ModulePage() {
         </div>
       </section>
 
-      {related.length > 0 && (
+      {roiModel && (
         <section className="bg-surface-sunken px-5 py-[var(--section-pad-md)] md:px-8">
+          <div className="mx-auto max-w-[var(--content-max)]">
+            <p className="eyebrow">Cuánto te rinde</p>
+            <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+              Poné los números de tu operación.
+            </h2>
+            <div className="mt-12">
+              <RoiMini model={roiModel} />
+            </div>
+          </div>
+        </section>
+      )}
+
+      {related.length > 0 && (
+        <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8">
           <div className="mx-auto max-w-[var(--content-max)]">
             <p className="eyebrow">Se apoya en</p>
             <h2 className="mt-4 text-[28px] leading-tight text-ink md:text-[var(--text-section)]">

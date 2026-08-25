@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
-  Link,
   createRootRouteWithContext,
   useRouter,
   HeadContent,
@@ -12,26 +11,33 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { gtmHeadScripts } from "../lib/gtm";
+import { SiteLayout } from "@/components/site/SiteLayout";
+import { PageHero } from "@/components/site/PageHero";
+import { ModuleGrid } from "@/components/site/ModuleGrid";
 
+/**
+ * 404 con la navegación del sitio.
+ *
+ * Una pantalla suelta con un botón "volver al inicio" deja al visitante con una sola
+ * salida. Con la barra puesta, la mayoría de las 404 vienen de un enlace viejo a un
+ * módulo, y desde el mega-menú llega al que buscaba sin volver a empezar. Debajo van los
+ * ocho módulos, que es a donde apuntaban casi todas las URLs de la web anterior.
+ */
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">No encontramos esa página</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          La página que buscás no existe o cambió de dirección.
-        </p>
-        <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Volver al inicio
-          </Link>
+    <SiteLayout>
+      <PageHero
+        eyebrow="Error 404"
+        title="No encontramos esa página"
+        lead="Puede que el enlace sea viejo: el sitio se reorganizó y las páginas de producto ahora viven bajo /plataforma. Abajo están los ocho módulos."
+        cta={false}
+      />
+      <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8">
+        <div className="mx-auto max-w-[var(--content-max)]">
+          <ModuleGrid />
         </div>
-      </div>
-    </div>
+      </section>
+    </SiteLayout>
   );
 }
 
