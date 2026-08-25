@@ -5,6 +5,20 @@
  */
 
 /**
+ * Origen canónico del sitio. Lo consumen el sitemap, el robots.txt y las canónicas.
+ *
+ * Sale del entorno para que el preview y producción no se declaren la misma URL —dos
+ * dominios que dicen ser canónicos del mismo contenido es contenido duplicado—.
+ *
+ * TODO(equipo): confirmar el dominio definitivo. inspectia.ai sale de que la aplicación
+ * vive en app.inspectia.ai, pero no está escrito en ninguna parte del documento.
+ */
+export const SITE_URL: string =
+  // `import.meta.env` no existe cuando el script del sitemap importa este archivo desde
+  // Node a secas; el encadenamiento opcional lo deja caer en el valor por omisión.
+  (import.meta.env?.VITE_SITE_URL ?? "https://inspectia.ai").replace(/\/+$/, "");
+
+/**
  * Agendar tiene que ser un clic. El botón abre el calendario de InspectIA en pestaña
  * nueva: sin página intermedia, sin formulario propio y sin calendario embebido (§7.10).
  *

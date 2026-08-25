@@ -1,0 +1,25 @@
+/* Fuentes autoalojadas (§9).
+ *
+ * Antes venían del CDN de Google, que suma dos conexiones —fonts.googleapis.com y
+ * fonts.gstatic.com— antes de que se pinte la primera línea de texto. Sirviéndolas del
+ * mismo origen esas dos negociaciones de TLS desaparecen.
+ *
+ * Sólo el subconjunto latino: el paquete completo de Poppins trae devanagari, que no se
+ * usa en ninguna superficie de este sitio.
+ *
+ * Todos los archivos declaran font-display:swap, así que el texto se ve desde el primer
+ * fotograma con la fuente de respaldo y se reemplaza cuando llega la real.
+ */
+
+/* Poppins: 300 para los números livianos, 400 cuerpo, 500 medium, 600 títulos, 700 marca. */
+@import "@fontsource/poppins/latin-300.css";
+@import "@fontsource/poppins/latin-400.css";
+@import "@fontsource/poppins/latin-500.css";
+@import "@fontsource/poppins/latin-600.css";
+@import "@fontsource/poppins/latin-700.css";
+@import "@fontsource/poppins/latin-ext-400.css";
+@import "@fontsource/poppins/latin-ext-600.css";
+
+/* JetBrains Mono variable: un solo archivo cubre de 100 a 800. Trae los subconjuntos
+   con su unicode-range, así que el navegador baja únicamente el latino. */
+@import "@fontsource-variable/jetbrains-mono/wght.css";

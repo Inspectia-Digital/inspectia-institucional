@@ -5,6 +5,7 @@ import { ModuleGrid } from "@/components/site/ModuleGrid";
 import { MODULES } from "@/content/modules";
 import { USE_CASES } from "@/content/solutions";
 import { useSolutionViewEvent } from "@/lib/useViewEvents";
+import { breadcrumbJsonLd, pageHead } from "@/lib/seo";
 
 /**
  * Página de caso de uso (§7.5). Más corta que la de industria: el problema, cómo se
@@ -21,15 +22,15 @@ export const Route = createFileRoute("/soluciones/casos-de-uso/$caso")({
   head: ({ loaderData }) => {
     const u = loaderData && USE_CASES.find((x) => x.slug === loaderData.slug);
     if (!u) return {};
-    const title = `${u.name} · InspectIA`;
-    return {
-      meta: [
-        { title },
-        { name: "description", content: `${u.pain}. Cómo se resuelve con InspectIA.` },
-        { property: "og:title", content: title },
-        { property: "og:type", content: "website" },
-      ],
-    };
+    return pageHead({
+      title: `${u.name} · InspectIA`,
+      description: `«${u.pain}». Cómo se resuelve con InspectIA, con qué módulos y qué cambia.`,
+      path: `/soluciones/casos-de-uso/${u.slug}`,
+      jsonLd: breadcrumbJsonLd([
+        { name: "Soluciones", path: "/soluciones" },
+        { name: u.name, path: `/soluciones/casos-de-uso/${u.slug}` },
+      ]),
+    });
   },
   component: UseCasePage,
 });

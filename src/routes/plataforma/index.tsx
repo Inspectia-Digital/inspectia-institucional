@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { ModuleGrid } from "@/components/site/ModuleGrid";
+import { pageHead } from "@/lib/seo";
 
 const TITLE = "Una plataforma, ocho módulos, un solo tablero · InspectIA";
 const DESCRIPTION =
@@ -10,15 +11,7 @@ const DESCRIPTION =
 
 /** Pillar page de producto y destino del mega-menú (§7.2). */
 export const Route = createFileRoute("/plataforma/")({
-  head: () => ({
-    meta: [
-      { title: TITLE },
-      { name: "description", content: DESCRIPTION },
-      { property: "og:title", content: TITLE },
-      { property: "og:description", content: DESCRIPTION },
-      { property: "og:type", content: "website" },
-    ],
-  }),
+  head: () => pageHead({ title: TITLE, description: DESCRIPTION, path: "/plataforma" }),
   component: PlatformPage,
 });
 

@@ -1,21 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
+import { pageHead } from "@/lib/seo";
 
 const TITLE = "Lo que cambió, con números · InspectIA";
 const DESCRIPTION =
   "Casos de cliente de InspectIA en manufactura y logística, con los números de cada implementación.";
 
 export const Route = createFileRoute("/soluciones/casos")({
-  head: () => ({
-    meta: [
-      { title: TITLE },
-      { name: "description", content: DESCRIPTION },
-      { property: "og:title", content: TITLE },
-      { property: "og:description", content: DESCRIPTION },
-      { property: "og:type", content: "website" },
-    ],
-  }),
+  head: () => pageHead({ title: TITLE, description: DESCRIPTION, path: "/soluciones/casos" }),
   component: Page,
 });
 

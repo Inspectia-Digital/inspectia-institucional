@@ -94,17 +94,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       // TODO(equipo): falta la imagen de compartido propia (1200x630).
     ],
-    links: [
-      { rel: "stylesheet", href: appCss },
-      // TODO(seo): autoalojar las dos familias. §9 lo pide por Core Web Vitals — el CDN
-      // suma dos conexiones antes del primer texto. Pendiente de esta tanda.
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap",
-      },
-    ],
+    links: [{ rel: "stylesheet", href: appCss }],
     // Vacío mientras no haya VITE_GTM_ID. El primero de los dos scripts es el
     // consentimiento por defecto y tiene que ir antes del contenedor.
     scripts: gtmHeadScripts(),

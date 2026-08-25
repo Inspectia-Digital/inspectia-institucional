@@ -4,6 +4,7 @@ import { PageHero } from "@/components/site/PageHero";
 import { ModuleGrid } from "@/components/site/ModuleGrid";
 import { MODULES, MODULE_BY_KEY, type ModuleKey } from "@/content/modules";
 import { useModuleViewEvent } from "@/lib/useViewEvents";
+import { breadcrumbJsonLd, pageHead } from "@/lib/seo";
 
 /**
  * Plantilla única de las ocho páginas de módulo (§7.3).
@@ -26,16 +27,16 @@ export const Route = createFileRoute("/plataforma/$modulo")({
   head: ({ loaderData }) => {
     const m = loaderData && MODULE_BY_KEY.get(loaderData.key);
     if (!m) return {};
-    const title = `${m.name} · InspectIA`;
-    return {
-      meta: [
-        { title },
-        { name: "description", content: m.promise },
-        { property: "og:title", content: title },
-        { property: "og:description", content: m.promise },
-        { property: "og:type", content: "website" },
-      ],
-    };
+    return pageHead({
+      // El nombre del módulo primero: es el término por el que se busca.
+      title: `${m.name} · InspectIA`,
+      description: m.promise,
+      path: `/plataforma/${m.slug}`,
+      jsonLd: breadcrumbJsonLd([
+        { name: "Plataforma", path: "/plataforma" },
+        { name: m.name, path: `/plataforma/${m.slug}` },
+      ]),
+    });
   },
   component: ModulePage,
 });

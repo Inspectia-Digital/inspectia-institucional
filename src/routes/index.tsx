@@ -14,8 +14,9 @@ import {
   PartnersBand,
   StartFree,
 } from "@/components/home/sections";
+import { faqJsonLd, organizationJsonLd, pageHead } from "@/lib/seo";
 
-const TITLE = "Toda tu operación medida, en una sola plataforma · InspectIA";
+const TITLE = "Software de OEE, calidad e inventario · InspectIA";
 const DESCRIPTION =
   "Ocho módulos sobre la operación que ya tenés: OEE, calidad, recepción, inventario y pedidos. De la reunión de arranque a producción, entre 5 y 15 días.";
 
@@ -24,30 +25,18 @@ const DESCRIPTION =
  * muestra la punta, no el contenido.
  */
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: TITLE },
-      { name: "description", content: DESCRIPTION },
-      { property: "og:title", content: TITLE },
-      { property: "og:description", content: DESCRIPTION },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: HOME_FAQ.map((f) => ({
-            "@type": "Question",
-            name: f.q,
-            acceptedAnswer: { "@type": "Answer", text: f.a },
-          })),
-        }),
+  head: () =>
+    pageHead({
+      title: TITLE,
+      description: DESCRIPTION,
+      path: "/",
+      // Los dos en un solo grafo: Google acepta un @graph con varias entidades y así no
+      // hay dos bloques de JSON-LD compitiendo por describir la misma página.
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@graph": [organizationJsonLd(), faqJsonLd(HOME_FAQ)],
       },
-    ],
-  }),
+    }),
   component: Home,
 });
 

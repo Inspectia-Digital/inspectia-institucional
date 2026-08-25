@@ -5,6 +5,7 @@
 /* Design system de InspectIA. El orden importa poco para las variables —var() resuelve al
    usarse— pero se mantiene de crudo a semántico para que se lea de arriba abajo:
    valores de marca → rampa → escalas → alias → defaults de elemento. */
+@import "./tokens/fonts.css";
 @import "./tokens/brand.css";
 @import "./tokens/colors.css";
 @import "./tokens/typography.css";

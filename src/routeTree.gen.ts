@@ -9,93 +9,33 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TymeoRouteImport } from './routes/tymeo'
-import { Route as StockPickingRouteImport } from './routes/stock-picking'
-import { Route as RoiRouteImport } from './routes/roi'
-import { Route as RecepcionRouteImport } from './routes/recepcion'
-import { Route as PrivacidadRouteImport } from './routes/privacidad'
-import { Route as PreciosRouteImport } from './routes/precios'
-import { Route as PartnersRouteImport } from './routes/partners'
-import { Route as OutboundRouteImport } from './routes/outbound'
-import { Route as NosotrosRouteImport } from './routes/nosotros'
-import { Route as ManufacturaRouteImport } from './routes/manufactura'
-import { Route as LogisticaRouteImport } from './routes/logistica'
-import { Route as LegalesRouteImport } from './routes/legales'
-import { Route as DronesRouteImport } from './routes/drones'
-import { Route as DemoRouteImport } from './routes/demo'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as SolucionesIndexRouteImport } from './routes/soluciones/index'
+import { Route as DemoRouteImport } from './routes/demo'
+import { Route as DronesRouteImport } from './routes/drones'
+import { Route as LegalesRouteImport } from './routes/legales'
+import { Route as LogisticaRouteImport } from './routes/logistica'
+import { Route as ManufacturaRouteImport } from './routes/manufactura'
+import { Route as NosotrosRouteImport } from './routes/nosotros'
+import { Route as OutboundRouteImport } from './routes/outbound'
+import { Route as PartnersRouteImport } from './routes/partners'
+import { Route as PreciosRouteImport } from './routes/precios'
+import { Route as PrivacidadRouteImport } from './routes/privacidad'
+import { Route as RecepcionRouteImport } from './routes/recepcion'
+import { Route as RoiRouteImport } from './routes/roi'
+import { Route as StockPickingRouteImport } from './routes/stock-picking'
+import { Route as TymeoRouteImport } from './routes/tymeo'
 import { Route as PlataformaIndexRouteImport } from './routes/plataforma/index'
-import { Route as SolucionesCasosRouteImport } from './routes/soluciones/casos'
-import { Route as SolucionesIndustriaRouteImport } from './routes/soluciones/$industria'
-import { Route as PlataformaMarketplaceRouteImport } from './routes/plataforma/marketplace'
-import { Route as PlataformaIntegracionesRouteImport } from './routes/plataforma/integraciones'
 import { Route as PlataformaModuloRouteImport } from './routes/plataforma/$modulo'
+import { Route as PlataformaIntegracionesRouteImport } from './routes/plataforma/integraciones'
+import { Route as PlataformaMarketplaceRouteImport } from './routes/plataforma/marketplace'
+import { Route as SolucionesIndexRouteImport } from './routes/soluciones/index'
+import { Route as SolucionesIndustriaRouteImport } from './routes/soluciones/$industria'
+import { Route as SolucionesCasosRouteImport } from './routes/soluciones/casos'
 import { Route as SolucionesCasosDeUsoCasoRouteImport } from './routes/soluciones/casos-de-uso/$caso'
 
-const TymeoRoute = TymeoRouteImport.update({
-  id: '/tymeo',
-  path: '/tymeo',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StockPickingRoute = StockPickingRouteImport.update({
-  id: '/stock-picking',
-  path: '/stock-picking',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RoiRoute = RoiRouteImport.update({
-  id: '/roi',
-  path: '/roi',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RecepcionRoute = RecepcionRouteImport.update({
-  id: '/recepcion',
-  path: '/recepcion',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacidadRoute = PrivacidadRouteImport.update({
-  id: '/privacidad',
-  path: '/privacidad',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PreciosRoute = PreciosRouteImport.update({
-  id: '/precios',
-  path: '/precios',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PartnersRoute = PartnersRouteImport.update({
-  id: '/partners',
-  path: '/partners',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OutboundRoute = OutboundRouteImport.update({
-  id: '/outbound',
-  path: '/outbound',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NosotrosRoute = NosotrosRouteImport.update({
-  id: '/nosotros',
-  path: '/nosotros',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ManufacturaRoute = ManufacturaRouteImport.update({
-  id: '/manufactura',
-  path: '/manufactura',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LogisticaRoute = LogisticaRouteImport.update({
-  id: '/logistica',
-  path: '/logistica',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LegalesRoute = LegalesRouteImport.update({
-  id: '/legales',
-  path: '/legales',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DronesRoute = DronesRouteImport.update({
-  id: '/drones',
-  path: '/drones',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DemoRoute = DemoRouteImport.update({
@@ -103,14 +43,69 @@ const DemoRoute = DemoRouteImport.update({
   path: '/demo',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const DronesRoute = DronesRouteImport.update({
+  id: '/drones',
+  path: '/drones',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SolucionesIndexRoute = SolucionesIndexRouteImport.update({
-  id: '/soluciones/',
-  path: '/soluciones/',
+const LegalesRoute = LegalesRouteImport.update({
+  id: '/legales',
+  path: '/legales',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LogisticaRoute = LogisticaRouteImport.update({
+  id: '/logistica',
+  path: '/logistica',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ManufacturaRoute = ManufacturaRouteImport.update({
+  id: '/manufactura',
+  path: '/manufactura',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NosotrosRoute = NosotrosRouteImport.update({
+  id: '/nosotros',
+  path: '/nosotros',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OutboundRoute = OutboundRouteImport.update({
+  id: '/outbound',
+  path: '/outbound',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnersRoute = PartnersRouteImport.update({
+  id: '/partners',
+  path: '/partners',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PreciosRoute = PreciosRouteImport.update({
+  id: '/precios',
+  path: '/precios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacidadRoute = PrivacidadRouteImport.update({
+  id: '/privacidad',
+  path: '/privacidad',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecepcionRoute = RecepcionRouteImport.update({
+  id: '/recepcion',
+  path: '/recepcion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoiRoute = RoiRouteImport.update({
+  id: '/roi',
+  path: '/roi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StockPickingRoute = StockPickingRouteImport.update({
+  id: '/stock-picking',
+  path: '/stock-picking',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TymeoRoute = TymeoRouteImport.update({
+  id: '/tymeo',
+  path: '/tymeo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlataformaIndexRoute = PlataformaIndexRouteImport.update({
@@ -118,19 +113,9 @@ const PlataformaIndexRoute = PlataformaIndexRouteImport.update({
   path: '/plataforma/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SolucionesCasosRoute = SolucionesCasosRouteImport.update({
-  id: '/soluciones/casos',
-  path: '/soluciones/casos',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SolucionesIndustriaRoute = SolucionesIndustriaRouteImport.update({
-  id: '/soluciones/$industria',
-  path: '/soluciones/$industria',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PlataformaMarketplaceRoute = PlataformaMarketplaceRouteImport.update({
-  id: '/plataforma/marketplace',
-  path: '/plataforma/marketplace',
+const PlataformaModuloRoute = PlataformaModuloRouteImport.update({
+  id: '/plataforma/$modulo',
+  path: '/plataforma/$modulo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlataformaIntegracionesRoute = PlataformaIntegracionesRouteImport.update({
@@ -138,9 +123,24 @@ const PlataformaIntegracionesRoute = PlataformaIntegracionesRouteImport.update({
   path: '/plataforma/integraciones',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PlataformaModuloRoute = PlataformaModuloRouteImport.update({
-  id: '/plataforma/$modulo',
-  path: '/plataforma/$modulo',
+const PlataformaMarketplaceRoute = PlataformaMarketplaceRouteImport.update({
+  id: '/plataforma/marketplace',
+  path: '/plataforma/marketplace',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolucionesIndexRoute = SolucionesIndexRouteImport.update({
+  id: '/soluciones/',
+  path: '/soluciones/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolucionesIndustriaRoute = SolucionesIndustriaRouteImport.update({
+  id: '/soluciones/$industria',
+  path: '/soluciones/$industria',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolucionesCasosRoute = SolucionesCasosRouteImport.update({
+  id: '/soluciones/casos',
+  path: '/soluciones/casos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SolucionesCasosDeUsoCasoRoute =
@@ -332,95 +332,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/tymeo': {
-      id: '/tymeo'
-      path: '/tymeo'
-      fullPath: '/tymeo'
-      preLoaderRoute: typeof TymeoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/stock-picking': {
-      id: '/stock-picking'
-      path: '/stock-picking'
-      fullPath: '/stock-picking'
-      preLoaderRoute: typeof StockPickingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/roi': {
-      id: '/roi'
-      path: '/roi'
-      fullPath: '/roi'
-      preLoaderRoute: typeof RoiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/recepcion': {
-      id: '/recepcion'
-      path: '/recepcion'
-      fullPath: '/recepcion'
-      preLoaderRoute: typeof RecepcionRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacidad': {
-      id: '/privacidad'
-      path: '/privacidad'
-      fullPath: '/privacidad'
-      preLoaderRoute: typeof PrivacidadRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/precios': {
-      id: '/precios'
-      path: '/precios'
-      fullPath: '/precios'
-      preLoaderRoute: typeof PreciosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/partners': {
-      id: '/partners'
-      path: '/partners'
-      fullPath: '/partners'
-      preLoaderRoute: typeof PartnersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/outbound': {
-      id: '/outbound'
-      path: '/outbound'
-      fullPath: '/outbound'
-      preLoaderRoute: typeof OutboundRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/nosotros': {
-      id: '/nosotros'
-      path: '/nosotros'
-      fullPath: '/nosotros'
-      preLoaderRoute: typeof NosotrosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/manufactura': {
-      id: '/manufactura'
-      path: '/manufactura'
-      fullPath: '/manufactura'
-      preLoaderRoute: typeof ManufacturaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/logistica': {
-      id: '/logistica'
-      path: '/logistica'
-      fullPath: '/logistica'
-      preLoaderRoute: typeof LogisticaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/legales': {
-      id: '/legales'
-      path: '/legales'
-      fullPath: '/legales'
-      preLoaderRoute: typeof LegalesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/drones': {
-      id: '/drones'
-      path: '/drones'
-      fullPath: '/drones'
-      preLoaderRoute: typeof DronesRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo': {
@@ -430,18 +346,95 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/drones': {
+      id: '/drones'
+      path: '/drones'
+      fullPath: '/drones'
+      preLoaderRoute: typeof DronesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/soluciones/': {
-      id: '/soluciones/'
-      path: '/soluciones'
-      fullPath: '/soluciones/'
-      preLoaderRoute: typeof SolucionesIndexRouteImport
+    '/legales': {
+      id: '/legales'
+      path: '/legales'
+      fullPath: '/legales'
+      preLoaderRoute: typeof LegalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/logistica': {
+      id: '/logistica'
+      path: '/logistica'
+      fullPath: '/logistica'
+      preLoaderRoute: typeof LogisticaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/manufactura': {
+      id: '/manufactura'
+      path: '/manufactura'
+      fullPath: '/manufactura'
+      preLoaderRoute: typeof ManufacturaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nosotros': {
+      id: '/nosotros'
+      path: '/nosotros'
+      fullPath: '/nosotros'
+      preLoaderRoute: typeof NosotrosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/outbound': {
+      id: '/outbound'
+      path: '/outbound'
+      fullPath: '/outbound'
+      preLoaderRoute: typeof OutboundRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partners': {
+      id: '/partners'
+      path: '/partners'
+      fullPath: '/partners'
+      preLoaderRoute: typeof PartnersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/precios': {
+      id: '/precios'
+      path: '/precios'
+      fullPath: '/precios'
+      preLoaderRoute: typeof PreciosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacidad': {
+      id: '/privacidad'
+      path: '/privacidad'
+      fullPath: '/privacidad'
+      preLoaderRoute: typeof PrivacidadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recepcion': {
+      id: '/recepcion'
+      path: '/recepcion'
+      fullPath: '/recepcion'
+      preLoaderRoute: typeof RecepcionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/roi': {
+      id: '/roi'
+      path: '/roi'
+      fullPath: '/roi'
+      preLoaderRoute: typeof RoiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stock-picking': {
+      id: '/stock-picking'
+      path: '/stock-picking'
+      fullPath: '/stock-picking'
+      preLoaderRoute: typeof StockPickingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tymeo': {
+      id: '/tymeo'
+      path: '/tymeo'
+      fullPath: '/tymeo'
+      preLoaderRoute: typeof TymeoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/plataforma/': {
@@ -451,25 +444,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlataformaIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/soluciones/casos': {
-      id: '/soluciones/casos'
-      path: '/soluciones/casos'
-      fullPath: '/soluciones/casos'
-      preLoaderRoute: typeof SolucionesCasosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/soluciones/$industria': {
-      id: '/soluciones/$industria'
-      path: '/soluciones/$industria'
-      fullPath: '/soluciones/$industria'
-      preLoaderRoute: typeof SolucionesIndustriaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/plataforma/marketplace': {
-      id: '/plataforma/marketplace'
-      path: '/plataforma/marketplace'
-      fullPath: '/plataforma/marketplace'
-      preLoaderRoute: typeof PlataformaMarketplaceRouteImport
+    '/plataforma/$modulo': {
+      id: '/plataforma/$modulo'
+      path: '/plataforma/$modulo'
+      fullPath: '/plataforma/$modulo'
+      preLoaderRoute: typeof PlataformaModuloRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/plataforma/integraciones': {
@@ -479,11 +458,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlataformaIntegracionesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/plataforma/$modulo': {
-      id: '/plataforma/$modulo'
-      path: '/plataforma/$modulo'
-      fullPath: '/plataforma/$modulo'
-      preLoaderRoute: typeof PlataformaModuloRouteImport
+    '/plataforma/marketplace': {
+      id: '/plataforma/marketplace'
+      path: '/plataforma/marketplace'
+      fullPath: '/plataforma/marketplace'
+      preLoaderRoute: typeof PlataformaMarketplaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/soluciones/': {
+      id: '/soluciones/'
+      path: '/soluciones'
+      fullPath: '/soluciones/'
+      preLoaderRoute: typeof SolucionesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/soluciones/$industria': {
+      id: '/soluciones/$industria'
+      path: '/soluciones/$industria'
+      fullPath: '/soluciones/$industria'
+      preLoaderRoute: typeof SolucionesIndustriaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/soluciones/casos': {
+      id: '/soluciones/casos'
+      path: '/soluciones/casos'
+      fullPath: '/soluciones/casos'
+      preLoaderRoute: typeof SolucionesCasosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/soluciones/casos-de-uso/$caso': {

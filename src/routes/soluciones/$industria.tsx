@@ -5,6 +5,7 @@ import { ModuleGrid } from "@/components/site/ModuleGrid";
 import { MODULES } from "@/content/modules";
 import { INDUSTRIES } from "@/content/solutions";
 import { useSolutionViewEvent } from "@/lib/useViewEvents";
+import { breadcrumbJsonLd, pageHead } from "@/lib/seo";
 
 /**
  * Página de industria (§7.5).
@@ -22,16 +23,15 @@ export const Route = createFileRoute("/soluciones/$industria")({
   head: ({ loaderData }) => {
     const i = loaderData && INDUSTRIES.find((x) => x.slug === loaderData.slug);
     if (!i) return {};
-    const title = `${i.name} · InspectIA`;
-    return {
-      meta: [
-        { title },
-        { name: "description", content: i.pain },
-        { property: "og:title", content: title },
-        { property: "og:description", content: i.pain },
-        { property: "og:type", content: "website" },
-      ],
-    };
+    return pageHead({
+      title: `${i.name} · InspectIA`,
+      description: i.pain,
+      path: `/soluciones/${i.slug}`,
+      jsonLd: breadcrumbJsonLd([
+        { name: "Soluciones", path: "/soluciones" },
+        { name: i.name, path: `/soluciones/${i.slug}` },
+      ]),
+    });
   },
   component: IndustryPage,
 });

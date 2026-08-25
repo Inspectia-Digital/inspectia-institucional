@@ -5,6 +5,7 @@ import { RoiCalculator } from "@/components/roi/RoiCalculator";
 import { ROI_MODELS, isRoiModule } from "@/lib/roi";
 import type { ModuleKey } from "@/content/modules";
 import { cn } from "@/lib/utils";
+import { pageHead } from "@/lib/seo";
 
 const TITLE = "Calculá el retorno de tu operación · InspectIA";
 const DESCRIPTION =
@@ -28,15 +29,9 @@ export const Route = createFileRoute("/roi")({
     const raw = typeof search.modulo === "string" ? search.modulo : "";
     return isRoiModule(raw) ? { modulo: raw } : {};
   },
-  head: () => ({
-    meta: [
-      { title: TITLE },
-      { name: "description", content: DESCRIPTION },
-      { property: "og:title", content: TITLE },
-      { property: "og:description", content: DESCRIPTION },
-      { property: "og:type", content: "website" },
-    ],
-  }),
+  // Sin el parámetro en la canónica: /roi y /roi?modulo=tymeo son la misma página con
+  // otra pestaña abierta, no dos documentos.
+  head: () => pageHead({ title: TITLE, description: DESCRIPTION, path: "/roi" }),
   component: RoiPage,
 });
 

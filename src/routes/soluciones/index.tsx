@@ -4,6 +4,7 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { MODULES } from "@/content/modules";
 import { USE_CASES, publishedIndustries } from "@/content/solutions";
+import { pageHead } from "@/lib/seo";
 
 const TITLE = "Soluciones por industria y por problema · InspectIA";
 const DESCRIPTION =
@@ -14,15 +15,7 @@ const DESCRIPTION =
  * agrupación de industrias y no como dos productos separados.
  */
 export const Route = createFileRoute("/soluciones/")({
-  head: () => ({
-    meta: [
-      { title: TITLE },
-      { name: "description", content: DESCRIPTION },
-      { property: "og:title", content: TITLE },
-      { property: "og:description", content: DESCRIPTION },
-      { property: "og:type", content: "website" },
-    ],
-  }),
+  head: () => pageHead({ title: TITLE, description: DESCRIPTION, path: "/soluciones" }),
   component: SolutionsPage,
 });
 
