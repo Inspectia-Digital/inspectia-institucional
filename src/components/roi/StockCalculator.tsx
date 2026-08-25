@@ -16,17 +16,13 @@ export function StockCalculator() {
   const m = useMemo(() => {
     const precisionLograda = 99.9;
     const incrementoPrecision = precisionLograda - precisionActual;
-    const ubicacionesProyectadas = Math.round(
-      ubicacionesTurno * (1 + mejoraVelocidad / 100),
-    );
+    const ubicacionesProyectadas = Math.round(ubicacionesTurno * (1 + mejoraVelocidad / 100));
     const ftesAhorrados = ftesActuales * (mejoraVelocidad / 100);
     const ahorroLaboralAnual = ftesAhorrados * costoFte * 13;
     const costoSaasAnual = saasMensual * 12;
     const ahorroNetoAnual = ahorroLaboralAnual - costoSaasAnual;
     const roi =
-      inversionInicial > 0
-        ? ((ahorroNetoAnual - inversionInicial) / inversionInicial) * 100
-        : 0;
+      inversionInicial > 0 ? ((ahorroNetoAnual - inversionInicial) / inversionInicial) * 100 : 0;
     const paybackMeses =
       ahorroNetoAnual > 0
         ? Math.max(1, Math.ceil(inversionInicial / (ahorroNetoAnual / 12)))
@@ -141,15 +137,11 @@ export function StockCalculator() {
                   <div className="rounded-xl bg-[#17ccd3]/10 border border-[#17ccd3]/30 p-2 w-fit">
                     <Target className="h-5 w-5 text-[#17ccd3]" />
                   </div>
-                  <p className="mt-3 text-base font-bold text-white">
-                    Precisión Elevada al 99.9%
-                  </p>
+                  <p className="mt-3 text-base font-bold text-white">Precisión Elevada al 99.9%</p>
                   <p className="mt-1 text-xs text-slate-400 leading-relaxed">
                     Eliminación del descuadre de inventario. Mejora del{" "}
                     <span className="font-mono text-[#17ccd3]">
-                      {calculosHabilitados
-                        ? `${m.incrementoPrecision.toFixed(1)}%`
-                        : "--"}
+                      {calculosHabilitados ? `${m.incrementoPrecision.toFixed(1)}%` : "--"}
                     </span>
                     .
                   </p>
@@ -159,19 +151,11 @@ export function StockCalculator() {
                   <div className="rounded-xl bg-[#17ccd3]/10 border border-[#17ccd3]/30 p-2 w-fit">
                     <Gauge className="h-5 w-5 text-[#17ccd3]" />
                   </div>
-                  <p className="mt-3 text-base font-bold text-white">
-                    Velocidad de Auditoría
-                  </p>
+                  <p className="mt-3 text-base font-bold text-white">Velocidad de Auditoría</p>
                   <p className="mt-1 text-xs text-slate-400 leading-relaxed">
-                    De{" "}
-                    <span className="font-mono text-white">
-                      {fmtNum(ubicacionesTurno)}
-                    </span>{" "}
-                    a{" "}
+                    De <span className="font-mono text-white">{fmtNum(ubicacionesTurno)}</span> a{" "}
                     <span className="font-mono text-[#17ccd3]">
-                      {calculosHabilitados
-                        ? fmtNum(m.ubicacionesProyectadas)
-                        : "--"}
+                      {calculosHabilitados ? fmtNum(m.ubicacionesProyectadas) : "--"}
                     </span>{" "}
                     ubicaciones por turno.
                   </p>
@@ -182,36 +166,27 @@ export function StockCalculator() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <KpiCard
                   label="Ahorro Laboral Neto Anual"
-                  value={
-                    calculosHabilitados ? fmtMoney(m.ahorroNetoAnual) : "---"
-                  }
+                  value={calculosHabilitados ? fmtMoney(m.ahorroNetoAnual) : "---"}
                 />
                 <KpiCard
                   label="Tiempo de Repago"
                   value={
-                    calculosHabilitados
-                      ? m.paybackMeses
-                        ? `${m.paybackMeses} meses`
-                        : "—"
-                      : "---"
+                    calculosHabilitados ? (m.paybackMeses ? `${m.paybackMeses} meses` : "—") : "---"
                   }
                 />
                 <KpiCard
                   label="ROI Operativo"
-                  value={
-                    calculosHabilitados ? `${Math.round(m.roi)}%` : "---"
-                  }
+                  value={calculosHabilitados ? `${Math.round(m.roi)}%` : "---"}
                 />
               </div>
 
               {/* Insight dinámico */}
               <div className="bg-[#17ccd3]/5 border border-[#17ccd3]/20 rounded-xl p-4 text-sm text-slate-300 leading-relaxed">
                 Al aumentar su velocidad un{" "}
-                <strong className="text-white">{mejoraVelocidad}%</strong>,
-                InspectIA OS le permite reasignar el equivalente a{" "}
+                <strong className="text-white">{mejoraVelocidad}%</strong>, InspectIA OS le permite
+                reasignar el equivalente a{" "}
                 <strong className="text-[#17ccd3]">
-                  {calculosHabilitados ? m.ftesAhorrados.toFixed(1) : "--"}{" "}
-                  operarios
+                  {calculosHabilitados ? m.ftesAhorrados.toFixed(1) : "--"} operarios
                 </strong>{" "}
                 hacia tareas de valor agregado, sin incrementar su nómina.
               </div>

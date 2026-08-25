@@ -1,12 +1,6 @@
 import { useMemo, useState } from "react";
 import { Lock, Sparkles } from "lucide-react";
-import {
-  SliderRow,
-  KpiCard,
-  BreakdownRow,
-  fmtMoney,
-  fmtNum,
-} from "./shared";
+import { SliderRow, KpiCard, BreakdownRow, fmtMoney, fmtNum } from "./shared";
 import { LeadForm } from "./LeadForm";
 
 export function RecepcionCalculator() {
@@ -37,25 +31,17 @@ export function RecepcionCalculator() {
     const volumenAnual = volumenDiario * 360;
     const ahorroLaboralAnual = (ftesActuales - ftesInspectia) * costoFte * 13;
     const ahorroErroresAnual =
-      tasaErrorActual > 1
-        ? volumenAnual * valorUnitario * ((tasaErrorActual - 1) / 100)
-        : 0;
+      tasaErrorActual > 1 ? volumenAnual * valorUnitario * ((tasaErrorActual - 1) / 100) : 0;
     const ahorroOperativoAnual = ahorroLaboralAnual + ahorroErroresAnual;
     const costoSaasAnual = saasMensual * 12;
     const ahorroNetoAnual = ahorroOperativoAnual - costoSaasAnual;
     const roi =
-      inversionInicial > 0
-        ? ((ahorroNetoAnual - inversionInicial) / inversionInicial) * 100
-        : 0;
+      inversionInicial > 0 ? ((ahorroNetoAnual - inversionInicial) / inversionInicial) * 100 : 0;
     const paybackMeses =
-      ahorroNetoAnual > 0
-        ? Math.max(1, Math.ceil(inversionInicial / (ahorroNetoAnual / 12)))
-        : 999;
-    const leadTimeEsperado =
-      leadTimeActual - leadTimeActual * (porcentajeConteo / 100) * 0.4;
+      ahorroNetoAnual > 0 ? Math.max(1, Math.ceil(inversionInicial / (ahorroNetoAnual / 12))) : 999;
+    const leadTimeEsperado = leadTimeActual - leadTimeActual * (porcentajeConteo / 100) * 0.4;
     const wipActual = volumenDiario * valorUnitario * (leadTimeActual / 24);
-    const wipProyectado =
-      volumenDiario * valorUnitario * (leadTimeEsperado / 24);
+    const wipProyectado = volumenDiario * valorUnitario * (leadTimeEsperado / 24);
     const capitalLiberado = wipActual - wipProyectado;
     return {
       volumenAnual,
@@ -84,8 +70,7 @@ export function RecepcionCalculator() {
     saasMensual,
   ]);
 
-  const showAlert =
-    calculosHabilitados && m.paybackMeses < 6 && m.roi > 300;
+  const showAlert = calculosHabilitados && m.paybackMeses < 6 && m.roi > 300;
 
   return (
     <div className="space-y-8">
@@ -194,9 +179,8 @@ export function RecepcionCalculator() {
             <div className="mb-6 flex items-start gap-3 rounded-2xl border border-[#17ccd3] bg-gradient-to-r from-[#17ccd3]/20 to-emerald-400/10 p-4">
               <Sparkles className="h-5 w-5 text-[#17ccd3] shrink-0 mt-0.5" />
               <p className="text-sm text-white">
-                <strong>¡Impacto Financiero Crítico Detectado!</strong> Su
-                operación logística califica para un despliegue prioritario de
-                InspectIA OS por repago acelerado.
+                <strong>¡Impacto Financiero Crítico Detectado!</strong> Su operación logística
+                califica para un despliegue prioritario de InspectIA OS por repago acelerado.
               </p>
             </div>
           )}
@@ -231,21 +215,15 @@ export function RecepcionCalculator() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <KpiCard
                   label="Ahorro Anual Neto"
-                  value={
-                    calculosHabilitados ? fmtMoney(m.ahorroNetoAnual) : "---"
-                  }
+                  value={calculosHabilitados ? fmtMoney(m.ahorroNetoAnual) : "---"}
                 />
                 <KpiCard
                   label="Tiempo de Repago"
-                  value={
-                    calculosHabilitados ? `${m.paybackMeses} meses` : "---"
-                  }
+                  value={calculosHabilitados ? `${m.paybackMeses} meses` : "---"}
                 />
                 <KpiCard
                   label="ROI Operativo"
-                  value={
-                    calculosHabilitados ? `${m.roi.toFixed(0)}%` : "---"
-                  }
+                  value={calculosHabilitados ? `${m.roi.toFixed(0)}%` : "---"}
                 />
               </div>
             </div>

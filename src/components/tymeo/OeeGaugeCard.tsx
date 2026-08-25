@@ -6,9 +6,7 @@ export function OeeGaugeCard() {
   return (
     <div className="relative mx-auto max-w-md rounded-3xl bg-[#084749]/60 backdrop-blur-xl border border-white/10 p-6 shadow-[0_30px_80px_rgba(0,0,0,0.5)]">
       <div className="flex items-center justify-between">
-        <span className="text-xs text-slate-300 font-mono">
-          Línea 1 · Turno mañana
-        </span>
+        <span className="text-xs text-slate-300 font-mono">Línea 1 · Turno mañana</span>
         <span className="inline-flex items-center gap-2 rounded-full border border-[#17ccd3]/40 bg-[#17ccd3]/10 px-2.5 py-1 text-[10px] font-mono font-bold uppercase tracking-widest text-[#17ccd3]">
           <span className="h-1.5 w-1.5 rounded-full bg-[#17ccd3] animate-pulse" />
           En vivo
@@ -34,7 +32,15 @@ export function OeeGaugeCard() {
             strokeDashoffset={ARC * (1 - OEE)}
           />
           <g style={{ transformOrigin: "110px 110px", transform: `rotate(${-90 + OEE * 180}deg)` }}>
-            <line x1="110" y1="110" x2="110" y2="38" stroke="#ffffff" strokeWidth="3" strokeLinecap="round" />
+            <line
+              x1="110"
+              y1="110"
+              x2="110"
+              y2="38"
+              stroke="#ffffff"
+              strokeWidth="3"
+              strokeLinecap="round"
+            />
             <circle cx="110" cy="110" r="6" fill="#ffffff" />
           </g>
         </svg>

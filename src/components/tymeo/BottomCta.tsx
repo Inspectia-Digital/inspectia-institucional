@@ -10,8 +10,7 @@ export function BottomCta() {
           Empezá a medir hoy.
         </h2>
         <p className="relative mt-4 text-slate-300 max-w-xl mx-auto">
-          Sin tarjeta, sin instalar nada. Subís de plan el día que tu planta lo
-          pida.
+          Sin tarjeta, sin instalar nada. Subís de plan el día que tu planta lo pida.
         </p>
         <div className="relative mt-8 flex flex-wrap gap-3 justify-center">
           <a

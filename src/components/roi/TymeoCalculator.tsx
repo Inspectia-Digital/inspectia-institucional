@@ -15,32 +15,29 @@ export function TymeoCalculator() {
   const saasMensual = 250;
   const [calculosHabilitados, setCalculosHabilitados] = useState(false);
 
-  const { porcentajesMejora, escenariosVolumen, matriz, costoAnualInspectIA } =
-    useMemo(() => {
-      const costoAnualInspectIA = saasMensual * 12;
-      const porcentajesMejora = [
-        mejoraEsperada * 0.25,
-        mejoraEsperada * 0.5,
-        mejoraEsperada,
-        mejoraEsperada * 2,
-        mejoraEsperada * 4,
-      ];
-      const escenariosVolumen = [0.8, 0.9, 1.0, 1.1, 1.2].map((f) =>
-        Math.round(volumenMensual * f),
-      );
-      const matriz = escenariosVolumen.map((vol) =>
-        porcentajesMejora.map((mejora) => {
-          const ahorroAnual = vol * 12 * costoUnitario * (mejora / 100);
-          return ((ahorroAnual - costoAnualInspectIA) / costoAnualInspectIA) * 100;
-        }),
-      );
-      return {
-        porcentajesMejora,
-        escenariosVolumen,
-        matriz,
-        costoAnualInspectIA,
-      };
-    }, [volumenMensual, costoUnitario, mejoraEsperada, saasMensual]);
+  const { porcentajesMejora, escenariosVolumen, matriz, costoAnualInspectIA } = useMemo(() => {
+    const costoAnualInspectIA = saasMensual * 12;
+    const porcentajesMejora = [
+      mejoraEsperada * 0.25,
+      mejoraEsperada * 0.5,
+      mejoraEsperada,
+      mejoraEsperada * 2,
+      mejoraEsperada * 4,
+    ];
+    const escenariosVolumen = [0.8, 0.9, 1.0, 1.1, 1.2].map((f) => Math.round(volumenMensual * f));
+    const matriz = escenariosVolumen.map((vol) =>
+      porcentajesMejora.map((mejora) => {
+        const ahorroAnual = vol * 12 * costoUnitario * (mejora / 100);
+        return ((ahorroAnual - costoAnualInspectIA) / costoAnualInspectIA) * 100;
+      }),
+    );
+    return {
+      porcentajesMejora,
+      escenariosVolumen,
+      matriz,
+      costoAnualInspectIA,
+    };
+  }, [volumenMensual, costoUnitario, mejoraEsperada, saasMensual]);
 
   const roiColor = (roi: number) => {
     if (roi < 0) return "text-red-400";
@@ -54,9 +51,7 @@ export function TymeoCalculator() {
         {/* LEFT: Controls */}
         <div className="bg-[#084749]/40 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8 space-y-5">
           <div className="mb-2">
-            <h3 className="text-lg font-bold text-white">
-              Parámetros de tu línea de producción
-            </h3>
+            <h3 className="text-lg font-bold text-white">Parámetros de tu línea de producción</h3>
             <p className="text-xs text-slate-400 mt-1">
               Cálculo unitario por 1 línea de producción.
             </p>
@@ -88,9 +83,8 @@ export function TymeoCalculator() {
             suffix="%"
           />
           <div className="rounded-2xl border border-white/10 bg-[#041A1B]/60 p-4 text-xs text-slate-400">
-            Costo fijo de InspectIA OS:{" "}
-            <span className="font-mono text-[#17ccd3]">USD 250</span> por línea
-            / mes.
+            Costo fijo de InspectIA OS: <span className="font-mono text-[#17ccd3]">USD 250</span>{" "}
+            por línea / mes.
           </div>
         </div>
 
@@ -100,8 +94,7 @@ export function TymeoCalculator() {
             Matriz de Retorno de Inversión (1er Año, por línea)
           </h3>
           <p className="text-sm text-slate-400 mt-1 mb-6">
-            Proyección del % de ROI según la mejora de OEE y el volumen mensual
-            de la línea.
+            Proyección del % de ROI según la mejora de OEE y el volumen mensual de la línea.
           </p>
 
           <div className="relative">
@@ -121,9 +114,7 @@ export function TymeoCalculator() {
                         <th
                           key={i}
                           className={`text-right font-medium px-3 py-3 border-b border-white/10 ${
-                            i === 2
-                              ? "bg-white/5 border-b-2 border-[#17ccd3] text-[#17ccd3]"
-                              : ""
+                            i === 2 ? "bg-white/5 border-b-2 border-[#17ccd3] text-[#17ccd3]" : ""
                           }`}
                         >
                           {fmtPct(p)}
@@ -137,17 +128,10 @@ export function TymeoCalculator() {
                       return (
                         <tr
                           key={rowIdx}
-                          className={
-                            isCenterRow
-                              ? "bg-white/5 border-l-2 border-[#17ccd3]"
-                              : ""
-                          }
+                          className={isCenterRow ? "bg-white/5 border-l-2 border-[#17ccd3]" : ""}
                         >
                           <td className="px-3 py-3 text-slate-300 whitespace-nowrap border-b border-white/5">
-                            <span className="font-mono text-white">
-                              {fmtNum(vol)}
-                            </span>{" "}
-                            u/mes
+                            <span className="font-mono text-white">{fmtNum(vol)}</span> u/mes
                           </td>
                           {matriz[rowIdx].map((roi, colIdx) => {
                             const isCenterCol = colIdx === 2;
@@ -200,10 +184,7 @@ export function TymeoCalculator() {
                 label="Volumen anual base por línea"
                 value={`${fmtNum(volumenMensual * 12)} u/año`}
               />
-              <BreakdownRow
-                label="Mejora de OEE ingresada"
-                value={fmtPct(mejoraEsperada)}
-              />
+              <BreakdownRow label="Mejora de OEE ingresada" value={fmtPct(mejoraEsperada)} />
             </div>
           )}
         </div>

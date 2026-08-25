@@ -31,9 +31,7 @@ export function Faq() {
         <p className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#17ccd3]">
           Antes de arrancar
         </p>
-        <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white">
-          Preguntas frecuentes
-        </h2>
+        <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white">Preguntas frecuentes</h2>
       </div>
 
       <Accordion
@@ -42,17 +40,11 @@ export function Faq() {
         className="max-w-3xl mx-auto rounded-3xl border border-white/10 bg-[#084749]/40 backdrop-blur-xl px-6"
       >
         {FAQ_ITEMS.map((item, i) => (
-          <AccordionItem
-            key={item.q}
-            value={`item-${i}`}
-            className="border-white/10"
-          >
+          <AccordionItem key={item.q} value={`item-${i}`} className="border-white/10">
             <AccordionTrigger className="text-left text-white hover:text-[#17ccd3] hover:no-underline">
               {item.q}
             </AccordionTrigger>
-            <AccordionContent className="text-slate-400 leading-relaxed">
-              {item.a}
-            </AccordionContent>
+            <AccordionContent className="text-slate-400 leading-relaxed">{item.a}</AccordionContent>
           </AccordionItem>
         ))}
       </Accordion>

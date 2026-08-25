@@ -14,8 +14,7 @@ import {
 } from "@/components/ui/select";
 
 // TODO: reemplazar con el link real de Google Calendar Appointments
-const GCAL_URL =
-  "https://calendar.google.com/calendar/u/0/appointments/schedules/";
+const GCAL_URL = "https://calendar.google.com/calendar/u/0/appointments/schedules/";
 
 const COUNTRIES = [
   { code: "+54", label: "🇦🇷 Argentina (+54)" },
@@ -35,13 +34,7 @@ const COUNTRIES = [
   { code: "+86", label: "🇨🇳 China (+86)" },
 ];
 
-const ROLES = [
-  "Director de Planta",
-  "Gerente de Calidad",
-  "Logística",
-  "Inversor",
-  "Otro",
-];
+const ROLES = ["Director de Planta", "Gerente de Calidad", "Logística", "Inversor", "Otro"];
 
 const schema = z.object({
   nombre: z.string().trim().min(3, "Mínimo 3 caracteres").max(100),
@@ -94,52 +87,36 @@ export function LeadForm({
         onSubmit={handleSubmit(onSubmit)}
         className="bg-[#084749]/40 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8"
       >
-        <h3 className="text-xl font-bold text-white">
-          {title}
-        </h3>
+        <h3 className="text-xl font-bold text-white">{title}</h3>
         <p className="text-sm text-slate-400 mt-1 mb-6">
-          Generamos un PDF personalizado con tu simulación, escenarios y un plan
-          de despliegue sugerido.
+          Generamos un PDF personalizado con tu simulación, escenarios y un plan de despliegue
+          sugerido.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="text-xs text-slate-300 mb-1 block">
-              Nombre completo
-            </label>
+            <label className="text-xs text-slate-300 mb-1 block">Nombre completo</label>
             <Input
               {...register("nombre")}
               placeholder="Ej. Juan Pérez"
               className="bg-[#041A1B] border-white/10 text-white placeholder:text-slate-500"
             />
-            {errors.nombre && (
-              <p className="text-xs text-red-400 mt-1">
-                {errors.nombre.message}
-              </p>
-            )}
+            {errors.nombre && <p className="text-xs text-red-400 mt-1">{errors.nombre.message}</p>}
           </div>
 
           <div>
-            <label className="text-xs text-slate-300 mb-1 block">
-              Email corporativo
-            </label>
+            <label className="text-xs text-slate-300 mb-1 block">Email corporativo</label>
             <Input
               type="email"
               {...register("email")}
               placeholder="juan@empresa.com"
               className="bg-[#041A1B] border-white/10 text-white placeholder:text-slate-500"
             />
-            {errors.email && (
-              <p className="text-xs text-red-400 mt-1">
-                {errors.email.message}
-              </p>
-            )}
+            {errors.email && <p className="text-xs text-red-400 mt-1">{errors.email.message}</p>}
           </div>
 
           <div>
-            <label className="text-xs text-slate-300 mb-1 block">
-              Teléfono
-            </label>
+            <label className="text-xs text-slate-300 mb-1 block">Teléfono</label>
             <div className="flex gap-2">
               <Select value={country} onValueChange={setCountry}>
                 <SelectTrigger className="w-[110px] bg-[#041A1B] border-white/10 text-white">
@@ -160,9 +137,7 @@ export function LeadForm({
               />
             </div>
             {errors.telefono && (
-              <p className="text-xs text-red-400 mt-1">
-                {errors.telefono.message}
-              </p>
+              <p className="text-xs text-red-400 mt-1">{errors.telefono.message}</p>
             )}
           </div>
 
@@ -170,9 +145,7 @@ export function LeadForm({
             <label className="text-xs text-slate-300 mb-1 block">Cargo</label>
             <Select
               value={cargo}
-              onValueChange={(v) =>
-                setValue("cargo", v, { shouldValidate: true })
-              }
+              onValueChange={(v) => setValue("cargo", v, { shouldValidate: true })}
             >
               <SelectTrigger className="bg-[#041A1B] border-white/10 text-white">
                 <SelectValue placeholder="Seleccioná tu cargo" />
@@ -185,9 +158,7 @@ export function LeadForm({
                 ))}
               </SelectContent>
             </Select>
-            {errors.cargo && (
-              <p className="text-xs text-red-400 mt-1">{errors.cargo.message}</p>
-            )}
+            {errors.cargo && <p className="text-xs text-red-400 mt-1">{errors.cargo.message}</p>}
           </div>
         </div>
 
@@ -206,12 +177,10 @@ export function LeadForm({
           <div className="rounded-2xl bg-[#17ccd3]/10 border border-[#17ccd3]/30 p-3 w-fit">
             <CalendarCheck className="h-6 w-6 text-[#17ccd3]" />
           </div>
-          <h3 className="text-xl font-bold text-white mt-4">
-            Hablá con un especialista
-          </h3>
+          <h3 className="text-xl font-bold text-white mt-4">Hablá con un especialista</h3>
           <p className="text-sm text-slate-300 mt-2 leading-relaxed">
-            Reservá una demo personalizada de 30 min con nuestro equipo y validá
-            tu caso con un experto en automatización industrial.
+            Reservá una demo personalizada de 30 min con nuestro equipo y validá tu caso con un
+            experto en automatización industrial.
           </p>
 
           <ul className="mt-4 space-y-2 text-sm text-slate-200">
@@ -219,12 +188,10 @@ export function LeadForm({
               <span className="text-[#17ccd3]">✓</span> Demo en vivo del módulo
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-[#17ccd3]">✓</span> Revisión de tu ROI
-              estimado
+              <span className="text-[#17ccd3]">✓</span> Revisión de tu ROI estimado
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-[#17ccd3]">✓</span> Plan de despliegue
-              sugerido
+              <span className="text-[#17ccd3]">✓</span> Plan de despliegue sugerido
             </li>
           </ul>
         </div>

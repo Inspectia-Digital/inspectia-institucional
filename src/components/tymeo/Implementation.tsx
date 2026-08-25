@@ -25,9 +25,8 @@ export function Implementation() {
             El precio del plan es solo del software.
           </h2>
           <p className="mt-4 text-slate-400 leading-relaxed">
-            Instalar sensores, PLC o terminales en tu planta es un paso aparte —
-            no está incluido en ningún plan, y no hace falta resolverlo antes de
-            empezar.
+            Instalar sensores, PLC o terminales en tu planta es un paso aparte — no está incluido en
+            ningún plan, y no hace falta resolverlo antes de empezar.
           </p>
         </div>
 
@@ -37,9 +36,7 @@ export function Implementation() {
               key={p.n}
               className="flex gap-4 rounded-2xl border border-white/10 bg-[#041A1B]/70 p-5"
             >
-              <span className="font-mono text-sm font-bold text-[#17ccd3] shrink-0">
-                {p.n}
-              </span>
+              <span className="font-mono text-sm font-bold text-[#17ccd3] shrink-0">{p.n}</span>
               <div>
                 <p className="font-semibold text-white">{p.t}</p>
                 <p className="mt-1 text-sm text-slate-400 leading-relaxed">{p.d}</p>

@@ -128,8 +128,7 @@ function PlanCard({ plan }: { plan: Plan }) {
   const addonTotal = selected.length * ADDON_PRICE;
   const total = plan.base === null ? null : plan.base + addonTotal;
 
-  const priceLabel =
-    total === null ? "A medida" : total === 0 ? "Gratis" : `USD ${total}`;
+  const priceLabel = total === null ? "A medida" : total === 0 ? "Gratis" : `USD ${total}`;
 
   const note =
     plan.id === "free" && addonTotal > 0
@@ -190,9 +189,7 @@ function PlanCard({ plan }: { plan: Plan }) {
                     type="checkbox"
                     checked={checked}
                     onChange={() =>
-                      setSelected((prev) =>
-                        checked ? prev.filter((x) => x !== a) : [...prev, a],
-                      )
+                      setSelected((prev) => (checked ? prev.filter((x) => x !== a) : [...prev, a]))
                     }
                     className="h-4 w-4 shrink-0 accent-[#17ccd3]"
                   />
@@ -209,9 +206,7 @@ function PlanCard({ plan }: { plan: Plan }) {
 
       <a
         href={plan.href}
-        {...(isExternal
-          ? { target: "_blank", rel: "noopener noreferrer" }
-          : {})}
+        {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
         className={`mt-7 inline-flex items-center justify-center whitespace-nowrap rounded-full py-3 px-5 text-sm font-bold transition ${ctaClass(plan.ctaVariant)}`}
       >
         {plan.cta}
@@ -231,13 +226,9 @@ export function PlansAddons() {
           Un plan para cada etapa de tu planta
         </h2>
         <p className="mt-4 text-slate-400">
-          Subís de plan cuando tu operación lo necesita — no antes. Todos los
-          planes corren sobre la misma plataforma, sin migraciones. Cada add-on
-          suma{" "}
-          <span className="text-[#17ccd3] font-mono font-semibold">
-            USD {ADDON_PRICE}/mes
-          </span>
-          .
+          Subís de plan cuando tu operación lo necesita — no antes. Todos los planes corren sobre la
+          misma plataforma, sin migraciones. Cada add-on suma{" "}
+          <span className="text-[#17ccd3] font-mono font-semibold">USD {ADDON_PRICE}/mes</span>.
         </p>
       </div>
 

@@ -13,15 +13,7 @@ type SliderRowProps = {
   suffix?: string;
 };
 
-function SliderRow({
-  label,
-  value,
-  min,
-  max,
-  step = 1,
-  onChange,
-  suffix,
-}: SliderRowProps) {
+function SliderRow({ label, value, min, max, step = 1, onChange, suffix }: SliderRowProps) {
   const decimals = step < 1 ? Math.max(0, -Math.floor(Math.log10(step))) : 0;
   const clamp = (n: number) => Math.min(max, Math.max(min, n));
   const inputDisplay = value.toFixed(decimals);
@@ -50,9 +42,7 @@ function SliderRow({
             }}
             className="w-24 bg-[#041A1B] border border-white/10 rounded-md px-2 py-1 text-right font-mono text-[#17ccd3] text-sm focus:border-[#17ccd3] outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           />
-          {suffix && (
-            <span className="text-xs text-slate-500 w-8">{suffix}</span>
-          )}
+          {suffix && <span className="text-xs text-slate-500 w-8">{suffix}</span>}
         </div>
       </div>
       <Slider
@@ -66,7 +56,6 @@ function SliderRow({
     </div>
   );
 }
-
 
 const fmtMoney = (n: number) =>
   new Intl.NumberFormat("en-US", {
@@ -105,21 +94,17 @@ export function CalidadCalculator() {
   };
 
   const metrics = useMemo(() => {
-    const unidadesAnuales =
-      cantidadLineas * unidadesXhora * horasXdia * 360;
+    const unidadesAnuales = cantidadLineas * unidadesXhora * horasXdia * 360;
     const scrapActual = unidadesAnuales * (1 - rendimientoActual / 100);
     const scrapEsperado = unidadesAnuales * (1 - rendimientoEsperado / 100);
     const ahorroXScrap = (scrapActual - scrapEsperado) * costoScrap;
     const ahorroLaboral = personasDedicadas * costoXpersona * 13;
     const ahorroTotal = ahorroXScrap + ahorroLaboral;
     const costoTotalProyecto = costoImplementacion * cantidadLineas;
-    const paybackRaw =
-      ahorroTotal > 0 ? costoTotalProyecto / (ahorroTotal / 12) : 999;
+    const paybackRaw = ahorroTotal > 0 ? costoTotalProyecto / (ahorroTotal / 12) : 999;
     const paybackMeses = Math.max(1, Math.ceil(paybackRaw));
     const roi =
-      costoTotalProyecto > 0
-        ? ((ahorroTotal - costoTotalProyecto) / costoTotalProyecto) * 100
-        : 0;
+      costoTotalProyecto > 0 ? ((ahorroTotal - costoTotalProyecto) / costoTotalProyecto) * 100 : 0;
     return {
       unidadesAnuales,
       scrapActual,
@@ -143,17 +128,14 @@ export function CalidadCalculator() {
     costoImplementacion,
   ]);
 
-  const showAlert =
-    calculosHabilitados && metrics.paybackMeses < 6 && metrics.roi > 300;
+  const showAlert = calculosHabilitados && metrics.paybackMeses < 6 && metrics.roi > 300;
 
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-1 lg:grid-cols-[40%_60%] gap-6 lg:gap-8">
         {/* LEFT: Controls */}
         <div className="bg-[#084749]/40 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8 space-y-5">
-          <h3 className="text-lg font-bold text-white mb-2">
-            Parámetros de tu operación
-          </h3>
+          <h3 className="text-lg font-bold text-white mb-2">Parámetros de tu operación</h3>
           <SliderRow
             label="Cantidad de Líneas"
             value={cantidadLineas}
@@ -236,16 +218,13 @@ export function CalidadCalculator() {
             <div className="mb-6 flex items-start gap-3 rounded-2xl border border-[#17ccd3] bg-gradient-to-r from-[#17ccd3]/20 to-emerald-400/10 p-4">
               <Sparkles className="h-5 w-5 text-[#17ccd3] shrink-0 mt-0.5" />
               <p className="text-sm text-white">
-                <strong>¡Impacto Financiero Crítico Detectado!</strong> Su
-                operación califica para un despliegue prioritario de InspectIA
-                OS por repago acelerado.
+                <strong>¡Impacto Financiero Crítico Detectado!</strong> Su operación califica para
+                un despliegue prioritario de InspectIA OS por repago acelerado.
               </p>
             </div>
           )}
 
-          <h3 className="text-lg font-bold text-white mb-6">
-            Resultados de la simulación
-          </h3>
+          <h3 className="text-lg font-bold text-white mb-6">Resultados de la simulación</h3>
 
           <div className="relative">
             <div
@@ -255,25 +234,15 @@ export function CalidadCalculator() {
             >
               <KpiCard
                 label="Ahorro Anual Proyectado"
-                value={
-                  calculosHabilitados ? fmtMoney(metrics.ahorroTotal) : "---"
-                }
+                value={calculosHabilitados ? fmtMoney(metrics.ahorroTotal) : "---"}
               />
               <KpiCard
                 label="Tiempo de Repago"
-                value={
-                  calculosHabilitados
-                    ? `${metrics.paybackMeses} meses`
-                    : "---"
-                }
+                value={calculosHabilitados ? `${metrics.paybackMeses} meses` : "---"}
               />
               <KpiCard
                 label="ROI (1er año)"
-                value={
-                  calculosHabilitados
-                    ? `${metrics.roi.toFixed(0)}%`
-                    : "---"
-                }
+                value={calculosHabilitados ? `${metrics.roi.toFixed(0)}%` : "---"}
               />
             </div>
 
@@ -333,9 +302,7 @@ function KpiCard({ label, value }: { label: string; value: string }) {
   return (
     <div className="bg-[#041A1B] border border-white/10 rounded-2xl p-5">
       <p className="text-xs text-slate-400 uppercase tracking-wider">{label}</p>
-      <p className="mt-2 font-mono text-[#17ccd3] text-3xl md:text-4xl font-bold">
-        {value}
-      </p>
+      <p className="mt-2 font-mono text-[#17ccd3] text-3xl md:text-4xl font-bold">{value}</p>
     </div>
   );
 }

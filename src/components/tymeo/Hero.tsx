@@ -17,10 +17,9 @@ export function Hero() {
           .
         </h1>
         <p className="mt-6 text-slate-400 text-base md:text-lg leading-relaxed max-w-xl">
-          OEE en tiempo real, turnos, paradas, personal y producción — sin
-          planillas sueltas ni sistemas desconectados entre sí. Empezá gratis con
-          un formulario, y sumá sensores cuando estés listo, sin cambiar de
-          plataforma.
+          OEE en tiempo real, turnos, paradas, personal y producción — sin planillas sueltas ni
+          sistemas desconectados entre sí. Empezá gratis con un formulario, y sumá sensores cuando
+          estés listo, sin cambiar de plataforma.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <a

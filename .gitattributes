@@ -1,0 +1,16 @@
+# Finales de línea LF en el árbol de trabajo, en cualquier sistema operativo.
+#
+# Sin esto, en Windows core.autocrlf=true convierte todo a CRLF al hacer checkout y
+# `npm run lint` falla con miles de errores "Delete `␍`" de prettier — en archivos que
+# nadie tocó. El repositorio ya guarda LF; el problema es sólo la copia de trabajo.
+* text=auto eol=lf
+
+# Binarios: que git no intente normalizar nada adentro.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.pdf binary

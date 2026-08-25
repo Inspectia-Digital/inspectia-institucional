@@ -33,16 +33,47 @@ function BlueprintMock() {
       <div
         className="absolute inset-0 opacity-30"
         style={{
-          backgroundImage:
-            "radial-gradient(circle, #17ccd320 1px, transparent 1px)",
+          backgroundImage: "radial-gradient(circle, #17ccd320 1px, transparent 1px)",
           backgroundSize: "20px 20px",
         }}
       />
       <svg viewBox="0 0 320 200" className="relative w-full h-56">
-        <line x1="40" y1="100" x2="160" y2="60" stroke="#17ccd3" strokeWidth="1.5" strokeDasharray="4 4" />
-        <line x1="40" y1="100" x2="160" y2="140" stroke="#17ccd3" strokeWidth="1.5" strokeDasharray="4 4" />
-        <line x1="160" y1="60" x2="280" y2="100" stroke="#17ccd3" strokeWidth="1.5" strokeDasharray="4 4" />
-        <line x1="160" y1="140" x2="280" y2="100" stroke="#17ccd3" strokeWidth="1.5" strokeDasharray="4 4" />
+        <line
+          x1="40"
+          y1="100"
+          x2="160"
+          y2="60"
+          stroke="#17ccd3"
+          strokeWidth="1.5"
+          strokeDasharray="4 4"
+        />
+        <line
+          x1="40"
+          y1="100"
+          x2="160"
+          y2="140"
+          stroke="#17ccd3"
+          strokeWidth="1.5"
+          strokeDasharray="4 4"
+        />
+        <line
+          x1="160"
+          y1="60"
+          x2="280"
+          y2="100"
+          stroke="#17ccd3"
+          strokeWidth="1.5"
+          strokeDasharray="4 4"
+        />
+        <line
+          x1="160"
+          y1="140"
+          x2="280"
+          y2="100"
+          stroke="#17ccd3"
+          strokeWidth="1.5"
+          strokeDasharray="4 4"
+        />
         {[
           { x: 40, y: 100, l: "PLC" },
           { x: 160, y: 60, l: "Edge" },
@@ -52,7 +83,14 @@ function BlueprintMock() {
           <g key={n.l}>
             <circle cx={n.x} cy={n.y} r="22" fill="#084749" stroke="#17ccd3" strokeWidth="1.5" />
             <circle cx={n.x} cy={n.y} r="6" fill="#17ccd3" />
-            <text x={n.x} y={n.y + 38} textAnchor="middle" fill="#cbd5e1" fontSize="11" fontFamily="monospace">
+            <text
+              x={n.x}
+              y={n.y + 38}
+              textAnchor="middle"
+              fill="#cbd5e1"
+              fontSize="11"
+              fontFamily="monospace"
+            >
               {n.l}
             </text>
           </g>
@@ -68,9 +106,7 @@ function DashboardMock() {
     <div className="rounded-3xl bg-[#084749] border border-white/10 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.4)]">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <p className="text-[10px] text-slate-500 uppercase tracking-wider">
-            OEE Tiempo real
-          </p>
+          <p className="text-[10px] text-slate-500 uppercase tracking-wider">OEE Tiempo real</p>
           <p className="font-mono text-[#17ccd3] text-3xl font-bold">88.5%</p>
         </div>
         <div className="text-right">
@@ -82,9 +118,7 @@ function DashboardMock() {
         {bars.map((h, i) => (
           <div
             key={i}
-            className={`flex-1 rounded-t ${
-              h < 50 ? "bg-red-400/80" : "bg-[#17ccd3]"
-            }`}
+            className={`flex-1 rounded-t ${h < 50 ? "bg-red-400/80" : "bg-[#17ccd3]"}`}
             style={{ height: `${h}%` }}
           />
         ))}
@@ -153,9 +187,7 @@ export function ZigZag() {
                 <h3 className="text-2xl md:text-3xl font-bold text-white leading-tight">
                   {s.title}
                 </h3>
-                <p className="mt-4 text-slate-400 leading-relaxed max-w-lg">
-                  {s.body}
-                </p>
+                <p className="mt-4 text-slate-400 leading-relaxed max-w-lg">{s.body}</p>
               </div>
               <div className={reverse ? "lg:order-1" : ""}>
                 <Visual />

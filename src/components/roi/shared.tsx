@@ -11,15 +11,7 @@ export type SliderRowProps = {
   suffix?: string;
 };
 
-export function SliderRow({
-  label,
-  value,
-  min,
-  max,
-  step = 1,
-  onChange,
-  suffix,
-}: SliderRowProps) {
+export function SliderRow({ label, value, min, max, step = 1, onChange, suffix }: SliderRowProps) {
   const decimals = step < 1 ? Math.max(0, -Math.floor(Math.log10(step))) : 0;
   const clamp = (n: number) => Math.min(max, Math.max(min, n));
   const [inputDisplay, setInputDisplay] = useState(value.toFixed(decimals));
@@ -53,9 +45,7 @@ export function SliderRow({
             }}
             className="w-24 bg-[#041A1B] border border-white/10 rounded-md px-2 py-1 text-right font-mono text-[#17ccd3] text-sm focus:border-[#17ccd3] outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           />
-          {suffix && (
-            <span className="text-xs text-slate-500 w-12">{suffix}</span>
-          )}
+          {suffix && <span className="text-xs text-slate-500 w-12">{suffix}</span>}
         </div>
       </div>
       <Slider
@@ -74,20 +64,12 @@ export function KpiCard({ label, value }: { label: string; value: string }) {
   return (
     <div className="bg-[#041A1B] border border-white/10 rounded-2xl p-5">
       <p className="text-xs text-slate-400 uppercase tracking-wider">{label}</p>
-      <p className="mt-2 font-mono text-[#17ccd3] text-3xl md:text-4xl font-bold">
-        {value}
-      </p>
+      <p className="mt-2 font-mono text-[#17ccd3] text-3xl md:text-4xl font-bold">{value}</p>
     </div>
   );
 }
 
-export function BreakdownRow({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
+export function BreakdownRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between text-sm">
       <span className="text-slate-400">{label}</span>

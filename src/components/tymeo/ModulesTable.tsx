@@ -97,8 +97,8 @@ export function ModulesTable() {
           Qué hace cada cosa, en criollo
         </h2>
         <p className="mt-4 text-slate-400">
-          Sin jerga de sistema — esto es lo que cada módulo te resuelve en el día
-          a día de la planta.
+          Sin jerga de sistema — esto es lo que cada módulo te resuelve en el día a día de la
+          planta.
         </p>
       </div>
 
@@ -122,9 +122,7 @@ export function ModulesTable() {
               >
                 <td className="px-5 py-4">
                   <span className="font-semibold text-white">{m.name}</span>
-                  <span className="block text-xs text-slate-500 mt-0.5">
-                    {m.desc}
-                  </span>
+                  <span className="block text-xs text-slate-500 mt-0.5">{m.desc}</span>
                 </td>
                 {m.cells.map((c, i) => (
                   <td key={i} className="px-5 py-4 text-center">

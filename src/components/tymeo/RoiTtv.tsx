@@ -13,9 +13,8 @@ export function RoiTtv() {
           El impacto de mover la aguja.
         </h3>
         <p className="mt-3 text-slate-400 leading-relaxed flex-1">
-          Vea cómo una reducción del{" "}
-          <span className="text-[#17ccd3] font-mono">0.5%</span> en costos
-          operativos genera retornos superiores al{" "}
+          Vea cómo una reducción del <span className="text-[#17ccd3] font-mono">0.5%</span> en
+          costos operativos genera retornos superiores al{" "}
           <span className="text-[#17ccd3] font-mono">1000%</span>.
         </p>
         <Link
