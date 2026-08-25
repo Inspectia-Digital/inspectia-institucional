@@ -1,0 +1,36 @@
+/* Base 4px, ritmo de 8. El aire es lo que hace que una página con doce bloques se sienta
+   simple, así que los pasos grandes importan más acá que en la aplicación (§10.3). */
+:root {
+  --space-0: 0px;
+  --space-1: 2px;
+  --space-2: 4px;
+  --space-3: 8px;
+  --space-4: 12px;
+  --space-5: 16px; /* eyebrow → título */
+  --space-6: 20px;
+  --space-7: 24px; /* gap de grilla de cards */
+  --space-8: 32px;
+  --space-9: 40px;
+  --space-10: 48px; /* título → contenido */
+  --space-11: 64px;
+  --space-12: 80px;
+  --space-13: 120px;
+
+  /* Padding vertical de sección, por ancho de viewport. */
+  --section-pad: 120px; /* ≥1100 */
+  --section-pad-md: 72px; /* 720–1100 */
+  --section-pad-sm: 56px; /* <720 */
+
+  /* Padding lateral de página. */
+  --page-pad: 32px;
+  --page-pad-sm: 20px;
+
+  --gutter: 24px; /* grilla de 12 columnas */
+  --content-max: 1200px;
+  --content-max-hero: 1320px;
+  --read-max: 640px; /* ancho de lectura del cuerpo */
+  --lead-max: 60ch; /* el lead se mide en caracteres, no en px */
+
+  --navbar-h: 72px;
+  --navbar-h-sm: 60px; /* <900px */
+}

@@ -1,0 +1,101 @@
+@layer base {
+  html,
+  body {
+    background-color: var(--surface-page);
+    color: var(--text-primary);
+    font-family: var(--font-brand);
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Redundante con la herencia del body, y a propósito. Un selector de elemento le gana a
+     la herencia, así que basta con que cualquier hoja de terceros declare la familia de
+     h1–h6 para que los títulos se rendericen en otra fuente sin avisar. Ya nos pasó. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-brand);
+    font-weight: var(--weight-semibold);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+  }
+
+  /* El foco es visible en todo elemento interactivo, no sólo al navegar con teclado. */
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+}
+
+@layer components {
+  /* Los números llevan numerales tabulares para que no bailen al actualizarse. */
+  .metric {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  .eyebrow {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-brand);
+  }
+
+  /* La columna del titular del hero. --text-hero se mide en cqw, así que sin esto el
+     clamp no tiene contra qué resolver y colapsa al mínimo. */
+  .hero-col {
+    container-type: inline-size;
+  }
+}
+
+/* Entrada al viewport: fundido más 12px hacia arriba, una sola vez.
+   El escalonado de 60ms entre hermanos lo pone el componente con --stagger. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Único lugar donde algo queda en loop: el indicador en vivo. Pulsa el valor y no
+   reacomoda el layout. */
+@keyframes live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* Con prefers-reduced-motion quedan sólo los fundidos: nada se desplaza, nada late. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

@@ -1,0 +1,112 @@
+/* Dos capas en el mismo bloque:
+   1. Los ALIAS del design system, que es lo que consume el código del sitio.
+   2. El CONTRATO de nombres de shadcn, para que los primitivos de components/ui adopten
+      la marca cambiando valores y no componentes.
+
+   Ningún componente escribe un hex ni consume la rampa directo: se pide `var(--text-brand)`,
+   nunca `var(--teal-700)` y muchísimo menos `#0d7377`.
+
+   Las razones de contraste anotadas son contra el fondo que indica cada línea. */
+:root {
+  /* ---------- Texto ---------- */
+  --text-primary: var(--grey-900);
+  --text-secondary: var(--grey-600);
+  --text-muted: var(--grey-500);
+  --text-inverse: #ffffff;
+  /* Color del eyebrow, siempre. 5,62:1 sobre blanco. --teal-650 (4,60:1) es el mínimo;
+     --teal-600 ya falla. */
+  --text-brand: var(--teal-700);
+  --text-link: var(--teal-700);
+  --text-link-hover: var(--teal-800);
+  /* Mientras un logo sea texto y no imagen va acá: 5,63:1. --grey-400 da 2,33:1 y es
+     ilegible. La regla de "grises al 60%" es de opacidad de imagen, no de color de texto. */
+  --text-logo: var(--grey-600);
+
+  /* Sobre teal profundo. Blanco puro para titulares (12,4:1), 72% para cuerpo (6,25:1,
+     el mínimo), 62% sólo para etiquetas en mayúscula (5,07:1). Al 55% da 4,33 y al 32%
+     da 2,45: los dos fallan AA. */
+  --text-on-brand: #ffffff;
+  --text-on-brand-secondary: rgba(255, 255, 255, 0.72);
+  --text-on-brand-label: rgba(255, 255, 255, 0.62);
+
+  /* ---------- Superficies ---------- */
+  /* La web alterna blanco y teal profundo para marcar el ritmo. El teal es la única
+     superficie de color grande; el cian nunca lo es. */
+  --surface-page: #ffffff;
+  --surface-card: #ffffff;
+  /* Tercer fondo, sólo si hacen falta tres secciones seguidas sin teal. */
+  --surface-sunken: var(--grey-050);
+  --surface-brand-deep: var(--teal-900); /* hero, banda de cierre, footer */
+  --surface-brand-subtle: var(--teal-050);
+  --surface-overlay: rgba(4, 41, 43, 0.6);
+  /* Una card sobre teal se define con relleno, no con sombra. */
+  --surface-on-brand: rgba(255, 255, 255, 0.08);
+
+  /* ---------- Bordes ---------- */
+  --border-subtle: var(--grey-200);
+  --border-default: var(--grey-300);
+  --border-brand: var(--teal-700);
+  --border-on-brand: rgba(255, 255, 255, 0.14);
+
+  /* ---------- Acción ---------- */
+  /* El más claro que todavía sostiene 4,6:1 con texto blanco. Relleno del primario,
+     foco y enlaces. */
+  --action-primary: var(--teal-650);
+  --action-primary-hover: var(--teal-700);
+  --action-primary-active: var(--teal-800);
+  /* El segundo primario sobre blanco: relleno lavado con borde y texto teal. */
+  --action-soft-bg: var(--teal-050);
+  --action-soft-text: var(--teal-700);
+  --action-disabled-bg: var(--grey-150);
+  --action-disabled-text: var(--grey-400);
+
+  /* Acento sobre teal: número de módulo activo, subrayado de un dato, punto en vivo.
+     5,29:1. Nunca como fondo de bloque grande ni color de botón. */
+  --accent-on-brand: var(--cyan-400);
+  /* Sobre card translúcida el cian cae a 4,47:1, por debajo del piso; --teal-300 da 5,26:1. */
+  --accent-on-brand-subtle: var(--teal-300);
+  /* Relleno y nunca texto: 3,25:1 sobre teal y 3,22:1 sobre blanco. */
+  --fill-accent: var(--teal-500);
+
+  /* ---------- Estados ----------
+     En la web los colores de estado sólo aparecen si hay un dato real de producto en
+     pantalla. Nunca de adorno. El ámbar tiene además un uso propio: los add-ons de la
+     tabla de planes y la única etapa del timeline cuya duración es variable. */
+  --status-ok: var(--green-600);
+  --status-ok-bg: var(--green-100);
+  --status-warn: var(--amber-700);
+  --status-warn-bg: var(--amber-100);
+  --status-stop: var(--red-600);
+  --status-stop-bg: var(--red-100);
+  --status-info: var(--blue-600);
+  --status-info-bg: var(--blue-100);
+
+  /* ---------- Contrato shadcn ----------
+     Este repo consume los tokens sin envolver —bg-background resuelve a var(--background)
+     directo—, así que van como color y no como tripleta HSL. */
+  --background: var(--surface-page);
+  --foreground: var(--text-primary);
+  --card: var(--surface-card);
+  --card-foreground: var(--text-primary);
+  --popover: var(--surface-card);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--action-primary);
+  --primary-foreground: #ffffff;
+  --secondary: var(--surface-brand-subtle);
+  --secondary-foreground: var(--action-soft-text);
+  --muted: var(--grey-100);
+  --muted-foreground: var(--text-secondary);
+  --accent: var(--surface-brand-subtle);
+  --accent-foreground: var(--action-soft-text);
+  --destructive: var(--status-stop);
+  --destructive-foreground: #ffffff;
+  --border: var(--border-subtle);
+  --input: var(--border-default);
+  --ring: var(--action-primary);
+
+  --chart-1: var(--teal-700);
+  --chart-2: var(--teal-500);
+  --chart-3: var(--teal-300);
+  --chart-4: var(--amber-500);
+  --chart-5: var(--grey-500);
+}

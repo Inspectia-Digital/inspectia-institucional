@@ -1,0 +1,22 @@
+/* La aplicación usa 6px de base. La web no lo copia: son dos superficies con trabajos
+   distintos y un botón de la web no tiene que parecerse a uno de la app (§10.4). */
+:root {
+  --radius-none: 0px;
+  --radius-xs: 2px;
+  --radius-sm: 4px; /* checkbox */
+  --radius-md: 8px; /* botón, campo de formulario */
+  --radius-lg: 12px; /* card, panel, foto recortada, captura de producto */
+  --radius-xl: 16px;
+  --radius-pill: 999px; /* chip, pill, filtro */
+
+  /* El que lee el contrato de shadcn. */
+  --radius: 12px;
+
+  --border-hairline: 1px;
+  --border-strong: 2px; /* sólo para la pestaña activa */
+
+  /* 2px de separación más 2px de color: el anillo se ve sobre cualquier superficie
+     y queda siempre visible, no sólo al navegar con teclado. */
+  --focus-ring: 0 0 0 2px var(--surface-page), 0 0 0 4px var(--action-primary);
+  --focus-ring-on-brand: 0 0 0 2px var(--surface-brand-deep), 0 0 0 4px var(--cyan-400);
+}

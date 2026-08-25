@@ -1,0 +1,16 @@
+/* Plano por defecto: una superficie que no flota no lleva sombra. La elevación sube sólo
+   con interacción o superposición.
+   Todas las sombras llevan tinte teal —rgba(8,71,73,…)— y desplazamiento vertical.
+   Nunca negro neutro. No hay glow: el --shadow-glow cian de la web anterior se eliminó
+   junto con el glass y los degradados (§10.4). */
+:root {
+  --shadow-none: none;
+  --shadow-xs: 0 1px 2px rgba(8, 71, 73, 0.06);
+  --shadow-sm: 0 1px 3px rgba(8, 71, 73, 0.08), 0 1px 2px rgba(8, 71, 73, 0.04); /* hover de card clickeable */
+  --shadow-md: 0 4px 12px rgba(8, 71, 73, 0.09); /* panel del mega-menú, modal del plano */
+  --shadow-lg: 0 12px 28px rgba(8, 71, 73, 0.12); /* diálogo, hoja */
+  --shadow-xl: 0 24px 60px rgba(8, 71, 73, 0.18);
+
+  /* Único desenfoque que sobrevive: la barra al scrollear. No es decorativo. */
+  --blur-panel: saturate(140%) blur(12px);
+}

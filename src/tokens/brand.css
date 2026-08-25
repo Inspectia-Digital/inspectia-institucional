@@ -1,0 +1,21 @@
+/* Valores de marca sin interpretar — la chapa de color entregada por el cliente.
+   Nada de esto se usa directo en un componente: se consume vía los alias de theme-light.css. */
+:root{
+  --brand-teal-deep:#084749;
+  --brand-teal:#0d7377;
+  --brand-teal-mid:#129fa5;
+  --brand-cyan:#17ccd3;
+  --brand-grey:#e6e6e6;
+  --brand-white:#ffffff;
+
+  /* Teal de acción: un paso más luminoso que el teal de marca y el más claro que
+     todavía mantiene 4.6:1 con texto blanco (AA). Botones, links y foco. */
+  --brand-teal-action:#0c8288;
+
+  /* Tripletas HSL — el front consume cada token envuelto en hsl(). */
+  --h-brand-teal-deep:182 80% 16%; /* @kind color */
+  --h-brand-teal:182 80% 26%; /* @kind color */
+  --h-brand-teal-action:183 84% 29%; /* @kind color */
+  --h-brand-teal-mid:182 80% 36%; /* @kind color */
+  --h-brand-cyan:182 80% 46%; /* @kind color */
+}

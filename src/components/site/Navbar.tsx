@@ -159,7 +159,7 @@ export function Navbar() {
           </Button>
           <Button
             asChild
-            className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-[var(--shadow-glow)] font-semibold"
+            className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold"
           >
             <a href={DEMO_URL} target="_blank" rel="noopener noreferrer">
               Agendar Demo
@@ -236,7 +236,7 @@ export function Navbar() {
                 </Button>
                 <Button
                   asChild
-                  className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 shadow-[var(--shadow-glow)]"
+                  className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
                 >
                   <a href={DEMO_URL} target="_blank" rel="noopener noreferrer">
                     Agendar Demo

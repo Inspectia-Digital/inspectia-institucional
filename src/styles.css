@@ -2,17 +2,82 @@
 @source "../src";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+/* Design system de InspectIA. El orden importa poco para las variables —var() resuelve al
+   usarse— pero se mantiene de crudo a semántico para que se lea de arriba abajo:
+   valores de marca → rampa → escalas → alias → defaults de elemento. */
+@import "./tokens/brand.css";
+@import "./tokens/colors.css";
+@import "./tokens/typography.css";
+@import "./tokens/radius.css";
+@import "./tokens/spacing.css";
+@import "./tokens/motion.css";
+@import "./tokens/elevation.css";
+@import "./tokens/theme.css";
+@import "./tokens/base.css";
 
+/* Puente hacia las utilidades de Tailwind. Todo apunta a un token: acá no se define un
+   color, se expone uno que ya existe. */
+/* Los nombres que Tailwind ya usa para sus propias utilidades —--font-mono, --radius-lg,
+   --shadow-md— no se redeclaran acá: tokens/ los define en :root y, al importarse después
+   del tema, gana por orden de fuente. Redeclararlos en @theme con el mismo nombre a ambos
+   lados (`--radius-sm: var(--radius-sm)`) sería autorreferente y dejaría la propiedad
+   inválida. Los que sí van son los que Tailwind no conoce. */
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
-  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-brand);
+
+  /* Rampa cruda, para los casos donde hace falta el paso exacto —el relleno de un punto
+     del plano, el ámbar de un add-on— y no hay alias que lo nombre. */
+  --color-teal-950: var(--teal-950);
+  --color-teal-900: var(--teal-900);
+  --color-teal-800: var(--teal-800);
+  --color-teal-700: var(--teal-700);
+  --color-teal-650: var(--teal-650);
+  --color-teal-600: var(--teal-600);
+  --color-teal-500: var(--teal-500);
+  --color-cyan-400: var(--cyan-400);
+  --color-teal-300: var(--teal-300);
+  --color-teal-200: var(--teal-200);
+  --color-teal-100: var(--teal-100);
+  --color-teal-050: var(--teal-050);
+  --color-amber-700: var(--amber-700);
+  --color-amber-500: var(--amber-500);
+  --color-amber-100: var(--amber-100);
+
+  /* Alias semánticos: lo que consume el sitio. */
+  --color-ink: var(--text-primary);
+  --color-ink-secondary: var(--text-secondary);
+  --color-ink-muted: var(--text-muted);
+  --color-brand: var(--text-brand);
+  --color-logo: var(--text-logo);
+  --color-on-brand: var(--text-on-brand);
+  --color-on-brand-secondary: var(--text-on-brand-secondary);
+  --color-on-brand-label: var(--text-on-brand-label);
+
+  --color-surface: var(--surface-page);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-brand-deep: var(--surface-brand-deep);
+  --color-brand-subtle: var(--surface-brand-subtle);
+  --color-on-brand-fill: var(--surface-on-brand);
+
+  --color-line: var(--border-subtle);
+  --color-line-strong: var(--border-default);
+  --color-line-brand: var(--border-brand);
+  --color-line-on-brand: var(--border-on-brand);
+
+  --color-action: var(--action-primary);
+  --color-action-hover: var(--action-primary-hover);
+  --color-action-active: var(--action-primary-active);
+  --color-action-soft: var(--action-soft-bg);
+  --color-action-soft-text: var(--action-soft-text);
+
+  --color-status-ok: var(--status-ok);
+  --color-status-ok-bg: var(--status-ok-bg);
+  --color-status-warn: var(--status-warn);
+  --color-status-warn-bg: var(--status-warn-bg);
+  --color-status-stop: var(--status-stop);
+  --color-status-stop-bg: var(--status-stop-bg);
+
+  /* Contrato de shadcn: lo consumen los primitivos de components/ui. */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -38,75 +103,8 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --shadow-glow: 0 0 15px rgba(23, 204, 211, 0.2);
-  --shadow-glow-lg: 0 0 40px rgba(23, 204, 211, 0.35);
-  --animate-marquee: marquee 45s linear infinite;
-}
 
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .animate-marquee { animation: none !important; }
-}
-
-:root {
-  --radius: 0.75rem;
-  /* InspectIA dark-only palette */
-  --background: oklch(0.22 0.025 200);          /* #041A1B deep teal-black */
-  --foreground: oklch(1 0 0);                   /* white */
-  --card: oklch(0.34 0.045 195);                /* #084749 bento surface */
-  --card-foreground: oklch(1 0 0);
-  --popover: oklch(0.28 0.04 198);
-  --popover-foreground: oklch(1 0 0);
-  --primary: oklch(0.78 0.13 198);              /* #17ccd3 cyan accent */
-  --primary-foreground: oklch(0.18 0.025 200);  /* dark text on cyan */
-  --secondary: oklch(0.34 0.045 195);
-  --secondary-foreground: oklch(1 0 0);
-  --muted: oklch(0.30 0.035 198);
-  --muted-foreground: oklch(0.72 0.03 245);     /* ~#94A3B8 */
-  --accent: oklch(0.34 0.045 195);
-  --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(0.65 0.22 25);
-  --destructive-foreground: oklch(1 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.78 0.13 198);
-  --chart-1: oklch(0.78 0.13 198);
-  --chart-2: oklch(0.6 0.118 184);
-  --chart-3: oklch(0.398 0.07 227);
-  --chart-4: oklch(0.828 0.189 84);
-  --chart-5: oklch(0.769 0.188 70);
-  --sidebar: oklch(0.22 0.025 200);
-  --sidebar-foreground: oklch(1 0 0);
-  --sidebar-primary: oklch(0.78 0.13 198);
-  --sidebar-primary-foreground: oklch(0.18 0.025 200);
-  --sidebar-accent: oklch(0.34 0.045 195);
-  --sidebar-accent-foreground: oklch(1 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.78 0.13 198);
-}
-
-@layer base {
-  * {
-    border-color: var(--color-border);
-  }
-
-  html,
-  body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-    font-family: var(--font-sans);
-    -webkit-font-smoothing: antialiased;
-  }
+  /* La entrada al viewport es lo único que anima solo. --dur-data es para contadores. */
+  --animate-rise-in: rise-in 400ms var(--ease-out) both;
+  --animate-live-pulse: live-pulse 1.6s var(--ease-in-out) infinite;
 }

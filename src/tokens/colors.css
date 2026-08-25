@@ -1,0 +1,48 @@
+:root{
+  /* Rampa teal — misma familia de matiz que los valores de marca (H 182-183). */
+  --teal-950:#04292b;
+  --teal-900:#084749;
+  --teal-800:#0a5c5f;
+  --teal-700:#0d7377;
+  --teal-650:#0c8288;
+  --teal-600:#0f868b;
+  --teal-500:#129fa5;
+  --cyan-400:#17ccd3;
+  --teal-300:#5fd9de;
+  --teal-200:#a4e9ec;
+  --teal-100:#d3f4f6;
+  --teal-050:#edfafb;
+
+  /* Neutros. --grey-200 es el gris de marca; el resto son pasos alrededor. */
+  --grey-950:#111517;
+  --grey-900:#1b2124;
+  --grey-850:#22282c;
+  --grey-800:#2b3236;
+  --grey-700:#454e53;
+  --grey-600:#5f696e;
+  --grey-500:#7c868b;
+  --grey-400:#a3abaf;
+  --grey-300:#c9cfd2;
+  --grey-200:#e6e6e6;
+  --grey-150:#eff1f2;
+  --grey-100:#f5f6f7;
+  --grey-050:#fafbfb;
+
+  /* Acento cálido — único color no-teal de la paleta de datos. Es el color del
+     OEE total: la métrica que resume a las otras tres tiene que separarse de ellas. */
+  --amber-700:#a8690a;
+  --amber-500:#e08b2c;
+  --amber-300:#f3c07a;
+  --amber-100:#fdefd4;
+
+  /* Estados. Mantienen los matices del front (verde 155, ámbar 37, rojo 353, azul 209)
+     oscurecidos lo necesario para llegar a AA con texto blanco en un relleno. */
+  --green-700:#0f6b43;
+  --green-600:#14804f;
+  --green-100:#dcf3e8;
+  --red-700:#a81b2c;
+  --red-600:#c92137;
+  --red-100:#fbdfe3;
+  --blue-600:#2a6fb0;
+  --blue-100:#dfeaf6;
+}
