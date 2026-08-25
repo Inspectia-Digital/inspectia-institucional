@@ -23,6 +23,10 @@
    lados (`--radius-sm: var(--radius-sm)`) sería autorreferente y dejaría la propiedad
    inválida. Los que sí van son los que Tailwind no conoce. */
 @theme inline {
+  /* El mega-menú pasa a hoja con acordeones a partir de 900px (§12), que no cae en
+     ningún breakpoint de Tailwind: lg son 1024 y md son 768. */
+  --breakpoint-nav: 900px;
+
   --font-sans: var(--font-brand);
 
   /* Rampa cruda, para los casos donde hace falta el paso exacto —el relleno de un punto

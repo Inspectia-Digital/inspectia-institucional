@@ -1,23 +1,35 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Navbar } from "@/components/site/Navbar";
+import { SiteLayout } from "@/components/site/SiteLayout";
+import { PageHero } from "@/components/site/PageHero";
 import { RoiSimulator } from "@/components/roi/RoiSimulator";
-import { Footer } from "@/components/site/Footer";
 
+const TITLE = "Calculá el retorno de tu operación · InspectIA";
+const DESCRIPTION =
+  "Proyectá el ahorro y el tiempo de repago de cada módulo con los números de tu planta. El resultado se ve completo, sin registrarte.";
+
+/**
+ * Calculadora de ROI (§7.7). Es el activo de conversión del sitio y la herramienta de
+ * venta de los consultores.
+ *
+ * TODO(etapa 5): falta lo que hace a esta página lo que tiene que ser.
+ *  - Sacar el gate: hoy la matriz aparece borrosa detrás de un botón "Calcular". El
+ *    resultado completo tiene que verse sin registrarse. Lo único que pide email es el
+ *    informe en PDF, y el formulario va debajo del resultado, nunca encima.
+ *  - Extraer los cuatro modelos a funciones puras, para que la home pueda usar la
+ *    variante mini con los mismos números.
+ *  - Formato es-AR: hoy los importes salen con punto decimal.
+ *  - Pestaña sincronizada con la URL (/roi?modulo=tymeo) para poder linkear desde cada
+ *    página de módulo.
+ *  Mientras tanto la página conserva el simulador tal cual, con la piel anterior.
+ */
 export const Route = createFileRoute("/roi")({
   head: () => ({
     meta: [
-      { title: "Simulador de ROI — InspectIA" },
-      {
-        name: "description",
-        content:
-          "Central de Simulación Financiera de InspectIA. Calculá el ROI y tiempo de repago de los módulos de visión artificial, OEE, drones y control de stock.",
-      },
-      { property: "og:title", content: "Simulador de ROI — InspectIA" },
-      {
-        property: "og:description",
-        content:
-          "Proyectá el retorno de inversión y el tiempo de repago de InspectIA OS en minutos.",
-      },
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
+      { property: "og:type", content: "website" },
     ],
   }),
   component: RoiPage,
@@ -25,23 +37,19 @@ export const Route = createFileRoute("/roi")({
 
 function RoiPage() {
   return (
-    <div className="min-h-screen bg-[#041A1B] text-white font-[Poppins]">
-      <Navbar />
-      <main className="max-w-6xl mx-auto px-4 pt-12 pb-24">
-        <header className="text-center max-w-3xl mx-auto mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold text-white leading-tight">
-            Simulador de Impacto Financiero y ROI
-          </h1>
-          <p className="text-slate-400 mt-4 max-w-2xl mx-auto">
-            Seleccione el módulo que desea evaluar y proyecte el retorno de
-            inversión (ROI) estimado y el tiempo de repago de InspectIA OS
-            basado en las métricas reales de su operación.
-          </p>
-        </header>
+    <SiteLayout>
+      <PageHero
+        eyebrow="Calculadora"
+        title="Calculá el retorno con los números de tu planta"
+        lead="Elegí el módulo, movés los parámetros de tu operación y el resultado se actualiza solo. Cada modelo muestra sus supuestos y el costo de InspectIA a la vista."
+        cta={false}
+      />
 
-        <RoiSimulator />
-      </main>
-      <Footer />
-    </div>
+      <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8">
+        <div className="mx-auto max-w-[var(--content-max)]">
+          <RoiSimulator />
+        </div>
+      </section>
+    </SiteLayout>
   );
 }

@@ -30,11 +30,12 @@ export type Partner = {
   logo: string;
 };
 
-const partner = (
-  slug: PartnerSlug,
-  name: string,
-  family: PartnerFamily,
-): Partner => ({ slug, name, family, logo: PARTNER_LOGO[slug] });
+const partner = (slug: PartnerSlug, name: string, family: PartnerFamily): Partner => ({
+  slug,
+  name,
+  family,
+  logo: PARTNER_LOGO[slug],
+});
 
 export const PARTNERS: Partner[] = [
   // Clientes. §15.7 deja pendiente la aprobación de nombre y cifras de Springwall,

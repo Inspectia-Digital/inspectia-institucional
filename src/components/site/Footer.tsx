@@ -1,182 +1,194 @@
-import { useState, type FormEvent } from "react";
 import { Link } from "@tanstack/react-router";
-import { Linkedin, Check } from "lucide-react";
+import { Linkedin, Mail, Phone } from "lucide-react";
+import { MODULES } from "@/content/modules";
+import { INDUSTRIES, USE_CASES } from "@/content/solutions";
+import { APP_URL, CONTACT, SHOW_PRICING } from "@/content/site";
 
-const PRODUCTOS: Array<{ label: string; to: string }> = [
-  { label: "Recepción de Mercadería", to: "/recepcion" },
-  { label: "TYMEO OEE", to: "/tymeo" },
-  { label: "App de Stock y Picking", to: "/stock-picking" },
-  { label: "Drones de Inventario", to: "/drones" },
-  { label: "Armado y Despacho", to: "/outbound" },
-];
-
-const VERTICALES: Array<{ label: string; to: string }> = [
-  { label: "Manufactura", to: "/manufactura" },
-  { label: "Logística", to: "/logistica" },
-];
-
-const RECURSOS: Array<{ label: string; to?: string }> = [
-  { label: "Calcular ROI", to: "/roi" },
-  { label: "Casos de Éxito" },
-  { label: "Blog Técnico" },
-  { label: "Documentación API" },
-];
-
-type Status = "idle" | "loading" | "success";
-
+/**
+ * Pie del sitio (§11.12).
+ *
+ * Cinco columnas que colapsan a tres en 1100 y a dos en 720. **Todo item lleva
+ * min-width:0**: sin eso un item de grid no baja de su min-content y empuja el documento.
+ * Es literalmente el bug que tenía este footer —la columna del newsletter, sola, pedía
+ * 896px dentro de 845 y generaba scroll horizontal— y no se ve en desktop.
+ */
 export function Footer() {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<Status>("idle");
-
-  const onSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
-    setStatus("loading");
-    await new Promise((r) => setTimeout(r, 800));
-    setStatus("success");
-    setEmail("");
-    setTimeout(() => setStatus("idle"), 3000);
-  };
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#020d0e] border-t border-white/5 font-[Poppins]">
-      <div className="max-w-6xl mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Col 1 — Marca */}
-          <div>
-            <span className="text-xl font-bold text-white">
-              InspectIA<span className="text-[#17ccd3]">.</span>
-            </span>
-            <p className="text-xs text-slate-400 max-w-xs mt-3 leading-relaxed">
-              InspectIA OS es el sistema operativo de Inteligencia Artificial
-              que unifica el rendimiento de planta con la precisión logística
-              absoluta. Deep Tech asset-light desarrollado en LATAM.
+    <footer className="bg-brand-deep px-5 pb-8 pt-20 md:px-8">
+      <div className="mx-auto max-w-[var(--content-max)]">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-3 xl:grid-cols-5">
+          {/* Marca y contacto */}
+          <div className="col-span-2 min-w-0 md:col-span-3 xl:col-span-1">
+            <p className="text-xl font-bold tracking-tight text-on-brand">
+              InspectIA<span className="text-[var(--accent-on-brand)]">.</span>
             </p>
-            <a
-              href="https://linkedin.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              className="inline-flex items-center justify-center mt-5 p-2 rounded-full border border-white/10 text-slate-500 hover:text-[#17ccd3] hover:border-[#17ccd3]/40 transition-colors"
-            >
-              <Linkedin className="h-4 w-4" />
-            </a>
-          </div>
-
-          {/* Col 2 — Módulos */}
-          <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
-              Módulos
-            </h4>
-            <ul className="space-y-2">
-              {PRODUCTOS.map((p) => (
-                <li key={p.label}>
-                  <Link
-                    to={p.to}
-                    className="text-sm text-slate-400 hover:text-[#17ccd3] transition-colors duration-200"
-                  >
-                    {p.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-white mt-6 mb-3">
-              Verticales
-            </h4>
-            <ul className="space-y-2">
-              {VERTICALES.map((v) => (
-                <li key={v.label}>
-                  <Link
-                    to={v.to}
-                    className="text-sm text-slate-400 hover:text-[#17ccd3] transition-colors duration-200"
-                  >
-                    {v.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Col 3 — Recursos */}
-          <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
-              Recursos
-            </h4>
-            <ul className="space-y-2">
-              {RECURSOS.map((r) => (
-                <li key={r.label}>
-                  {r.to ? (
-                    <Link
-                      to={r.to}
-                      className="text-sm text-slate-400 hover:text-[#17ccd3] transition-colors duration-200"
-                    >
-                      {r.label}
-                    </Link>
-                  ) : (
-                    <span className="text-sm text-slate-600 cursor-default">
-                      {r.label}{" "}
-                      <span className="text-[10px] uppercase tracking-wider">
-                        (pronto)
-                      </span>
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Col 4 — Newsletter */}
-          <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-white mb-4">
-              Newsletter
-            </h4>
-            <p className="text-xs text-slate-400 mb-3 max-w-xs leading-relaxed">
-              Reciba mensualmente análisis técnicos y métricas de impacto de IA
-              aplicada a manufactura y supply chain.
+            <p className="mt-3 max-w-[36ch] text-sm text-on-brand-secondary">
+              El sistema operativo de la operación industrial.
             </p>
-            <form onSubmit={onSubmit} className="flex flex-col gap-2">
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Tu email corporativo..."
-                disabled={status === "loading"}
-                className="bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm text-white placeholder:text-slate-500 focus:border-[#17ccd3] focus:outline-none transition-colors"
-              />
-              <button
-                type="submit"
-                disabled={status !== "idle"}
-                className="inline-flex items-center justify-center gap-2 bg-[#17ccd3] text-[#041A1B] rounded-full px-4 py-2 text-sm font-semibold hover:bg-[#17ccd3]/90 disabled:opacity-60 transition-colors"
+
+            <ul className="mt-6 space-y-3">
+              {CONTACT.phone && (
+                <ContactRow icon={Phone} href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}>
+                  {CONTACT.phone}
+                </ContactRow>
+              )}
+              {CONTACT.email && (
+                <ContactRow icon={Mail} href={`mailto:${CONTACT.email}`}>
+                  {CONTACT.email}
+                </ContactRow>
+              )}
+              {CONTACT.linkedin && (
+                <ContactRow icon={Linkedin} href={CONTACT.linkedin} external>
+                  LinkedIn
+                </ContactRow>
+              )}
+            </ul>
+          </div>
+
+          <FooterColumn title="Plataforma">
+            {MODULES.map((m) => (
+              <li key={m.key} className="min-w-0">
+                <Link to="/plataforma/$modulo" params={{ modulo: m.slug }} className={FOOTER_LINK}>
+                  {m.name}
+                </Link>
+              </li>
+            ))}
+          </FooterColumn>
+
+          <FooterColumn title="Soluciones">
+            {INDUSTRIES.filter((i) => i.published).map((i) => (
+              <li key={i.slug} className="min-w-0">
+                <Link
+                  to="/soluciones/$industria"
+                  params={{ industria: i.slug }}
+                  className={FOOTER_LINK}
+                >
+                  {i.name}
+                </Link>
+              </li>
+            ))}
+            {USE_CASES.map((u) => (
+              <li key={u.slug} className="min-w-0">
+                <Link
+                  to="/soluciones/casos-de-uso/$caso"
+                  params={{ caso: u.slug }}
+                  className={FOOTER_LINK}
+                >
+                  {u.name}
+                </Link>
+              </li>
+            ))}
+          </FooterColumn>
+
+          <FooterColumn title="Empresa">
+            <li className="min-w-0">
+              <Link to="/plataforma" className={FOOTER_LINK}>
+                Cómo funciona
+              </Link>
+            </li>
+            <li className="min-w-0">
+              <Link to="/plataforma/marketplace" className={FOOTER_LINK}>
+                Marketplace
+              </Link>
+            </li>
+            <li className="min-w-0">
+              <Link to="/plataforma/integraciones" className={FOOTER_LINK}>
+                Integraciones
+              </Link>
+            </li>
+            <li className="min-w-0">
+              <Link to="/partners" className={FOOTER_LINK}>
+                Partners
+              </Link>
+            </li>
+            <li className="min-w-0">
+              <Link to="/nosotros" className={FOOTER_LINK}>
+                Nosotros
+              </Link>
+            </li>
+            <li className="min-w-0">
+              <Link to="/roi" className={FOOTER_LINK}>
+                Calcular ROI
+              </Link>
+            </li>
+            {SHOW_PRICING && (
+              <li className="min-w-0">
+                <Link to="/precios" className={FOOTER_LINK}>
+                  Precios
+                </Link>
+              </li>
+            )}
+          </FooterColumn>
+
+          <FooterColumn title="Empezar">
+            <li className="min-w-0">
+              <a
+                href={APP_URL}
+                className="text-sm text-on-brand-secondary transition-colors duration-[160ms] hover:text-on-brand"
               >
-                {status === "loading" && "Enviando..."}
-                {status === "success" && (
-                  <>
-                    <Check className="h-4 w-4" /> Suscripto
-                  </>
-                )}
-                {status === "idle" && "Suscribirse"}
-              </button>
-            </form>
-          </div>
+                Ingresar a la aplicación
+              </a>
+            </li>
+            <li className="min-w-0">
+              <Link to="/legales" className={FOOTER_LINK}>
+                Términos
+              </Link>
+            </li>
+            <li className="min-w-0">
+              <Link to="/privacidad" className={FOOTER_LINK}>
+                Privacidad
+              </Link>
+            </li>
+          </FooterColumn>
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-12 pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-slate-500">
-            © 2026 InspectIA. Todos los derechos reservados.
+        <div className="mt-16 border-t border-[var(--border-on-brand)] pt-6">
+          <p className="text-xs text-on-brand-label">
+            © {year} InspectIA. Todos los derechos reservados.
           </p>
-          <div className="flex items-center gap-5">
-            <span className="text-xs text-slate-600 cursor-default">
-              Términos y Condiciones
-            </span>
-            <span className="text-xs text-slate-600 cursor-default">
-              Política de Privacidad
-            </span>
-          </div>
         </div>
       </div>
     </footer>
+  );
+}
+
+const FOOTER_LINK =
+  "text-sm text-on-brand-secondary transition-colors duration-[160ms] hover:text-on-brand";
+
+function FooterColumn({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="min-w-0">
+      <p className="text-xs font-semibold uppercase tracking-[var(--tracking-widest)] text-on-brand-label">
+        {title}
+      </p>
+      <ul className="mt-4 space-y-3">{children}</ul>
+    </div>
+  );
+}
+
+function ContactRow({
+  icon: Icon,
+  href,
+  external,
+  children,
+}: {
+  icon: typeof Phone;
+  href: string;
+  external?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <li className="min-w-0">
+      <a
+        href={href}
+        {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+        className="inline-flex items-center gap-2 text-sm text-on-brand-secondary transition-colors duration-[160ms] hover:text-on-brand"
+      >
+        <Icon className="size-4 shrink-0" strokeWidth={1.5} aria-hidden />
+        <span className="truncate">{children}</span>
+      </a>
+    </li>
   );
 }

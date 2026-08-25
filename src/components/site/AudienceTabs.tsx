@@ -47,11 +47,7 @@ export function AudienceTabs() {
           </span>
         </h2>
 
-        <Tabs
-          value={value}
-          onValueChange={(v) => setValue(v as AudienceKey)}
-          className="mt-10"
-        >
+        <Tabs value={value} onValueChange={(v) => setValue(v as AudienceKey)} className="mt-10">
           <div className="flex justify-center">
             <TabsList className="h-auto rounded-full border border-white/10 bg-white/5 p-1 backdrop-blur-sm">
               {AUDIENCES.map((a) => (

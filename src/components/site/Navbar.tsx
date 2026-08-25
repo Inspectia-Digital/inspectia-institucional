@@ -1,252 +1,411 @@
+import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import * as NavigationMenu from "@radix-ui/react-navigation-menu";
+import { ChevronDown, Menu } from "lucide-react";
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetTitle,
-} from "@/components/ui/sheet";
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { CtaPair } from "@/components/site/CtaPair";
+import { MODULES } from "@/content/modules";
+import { INDUSTRIES, USE_CASES } from "@/content/solutions";
+import { APP_URL, SHOW_PRICING } from "@/content/site";
 import { cn } from "@/lib/utils";
-import { DEMO_URL } from "@/lib/links";
 
-type NavLink = { label: string; to: string };
+/**
+ * Barra y mega-menú (§11.1).
+ *
+ * La versión anterior era una píldora flotante oscura con backdrop-blur y esquinas
+ * redondeadas; acá es una barra blanca de 72px pegada arriba, con borde inferior.
+ *
+ * Se usan los primitivos de Radix directo y no el wrapper de components/ui: ese wrapper
+ * monta siempre un Viewport con `max-w-max`, y el panel de Plataforma tiene que medir el
+ * ancho del contenido (1200px), no el del disparador.
+ *
+ * **Plataforma no agrupa por industria.** Los ocho módulos van en una lista plana: quien
+ * entra por una vertical tiene que ver que hay una plataforma, que es justamente lo que
+ * la navegación anterior escondía.
+ */
 
-const modulos: Record<string, NavLink[]> = {
-  Manufactura: [
-    { label: "TYMEO OEE", to: "/tymeo" },
-    { label: "Control de Calidad", to: "/manufactura" },
-  ],
-  Logística: [
-    { label: "Drones de Inventario", to: "/drones" },
-    { label: "App Control de Stock", to: "/stock-picking" },
-    { label: "Recepción de Mercadería", to: "/recepcion" },
-    { label: "Control de Pedidos", to: "/outbound" },
-  ],
-  Plataforma: [{ label: "Marketplace", to: "/" }],
-};
-
-const soluciones: NavLink[] = [
-  { label: "Logística", to: "/logistica" },
-  { label: "Manufactura", to: "/manufactura" },
-  { label: "Automotriz", to: "/manufactura" },
-  { label: "Autopartista", to: "/manufactura" },
-  { label: "Alimentos", to: "/manufactura" },
-  { label: "Textil", to: "/manufactura" },
+const PLATFORM_LINKS = [
+  { label: "Cómo funciona la plataforma", to: "/plataforma" },
+  { label: "Integraciones", to: "/plataforma/integraciones" },
+  { label: "Marketplace", to: "/plataforma/marketplace" },
 ];
 
-function MenuLinkItem({ to, children }: { to: string; children: React.ReactNode }) {
-  return (
-    <NavigationMenuLink asChild>
-      <Link
-        to={to}
-        className="block rounded-lg px-3 py-2 text-sm text-foreground/80 hover:bg-white/5 hover:text-foreground transition-colors"
-        activeProps={{ className: "text-foreground bg-white/5" }}
-      >
-        {children}
-      </Link>
-    </NavigationMenuLink>
-  );
-}
-
 export function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="sticky top-4 z-50 px-4">
+    <header
+      className={cn(
+        "sticky top-0 z-50 border-b border-line bg-surface",
+        scrolled && "[backdrop-filter:var(--blur-panel)] bg-surface/90",
+      )}
+    >
       <div
         className={cn(
-          "mx-auto flex max-w-6xl items-center justify-between gap-6",
-          "rounded-full border border-white/10 bg-white/5 backdrop-blur-md",
-          "py-2 pl-6 pr-2 shadow-[0_8px_30px_rgba(0,0,0,0.35)]",
+          // relative: es el bloque contenedor de los paneles, para que midan el ancho del
+          // contenido y no el del ítem que los abre.
+          "relative mx-auto flex h-[var(--navbar-h-sm)] max-w-[var(--content-max)]",
+          "items-center justify-between gap-6 px-5 nav:h-[var(--navbar-h)] nav:px-8",
         )}
       >
-        {/* Logo */}
-        <Link to="/" className="flex items-center gap-0 shrink-0">
-          <span className="text-lg font-bold tracking-tight text-foreground">
-            InspectIA
-          </span>
-          <span className="text-lg font-bold text-primary leading-none">.</span>
-        </Link>
+        <Wordmark />
 
-        {/* Center menu (desktop) */}
-        <NavigationMenu className="hidden lg:flex">
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className="bg-transparent text-foreground/80 hover:text-foreground data-[state=open]:bg-white/5">
-                Módulos
-              </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <div className="grid w-[620px] grid-cols-3 gap-6 p-6 bg-card/95 backdrop-blur-md border border-white/10 rounded-2xl">
-                  {Object.entries(modulos).map(([cat, items]) => (
-                    <div key={cat}>
-                      <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-primary">
-                        {cat}
-                      </p>
-                      <ul className="space-y-1">
-                        {items.map((it) => (
-                          <li key={it.label}>
-                            <MenuLinkItem to={it.to}>{it.label}</MenuLinkItem>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
+        {/* ---------- Escritorio ---------- */}
+        <NavigationMenu.Root
+          // 120ms de retardo de entrada para no abrir el panel al pasar de largo con el
+          // mouse; 240ms de gracia al salir para poder cruzar el hueco hacia el panel.
+          delayDuration={120}
+          skipDelayDuration={240}
+          // static en Root/List/Item: si Radix los posiciona, el panel se ancla al ítem.
+          className="static hidden nav:block"
+        >
+          <NavigationMenu.List className="static flex items-center gap-7">
+            <NavigationMenu.Item className="static">
+              <MenuTrigger>Plataforma</MenuTrigger>
+              <Panel>
+                <div className="grid grid-cols-4 gap-8">
+                  {/* Los ocho módulos reparten 3+3+2 en las tres primeras columnas. */}
+                  <ul className="col-span-3 grid grid-cols-3 gap-x-6 gap-y-1">
+                    {MODULES.map((m) => (
+                      <li key={m.key} className="min-w-0">
+                        <NavigationMenu.Link asChild>
+                          <Link
+                            to="/plataforma/$modulo"
+                            params={{ modulo: m.slug }}
+                            className="flex h-14 items-center gap-3 rounded-[var(--radius-md)] px-3 transition-colors duration-[160ms] hover:bg-brand-subtle"
+                          >
+                            <m.icon
+                              className="size-5 shrink-0 text-brand"
+                              strokeWidth={1.5}
+                              aria-hidden
+                            />
+                            <span className="min-w-0">
+                              <span className="block text-[15px] font-semibold text-ink">
+                                {m.name}
+                              </span>
+                              {/* Truncada a una línea: el menú lista, no explica. */}
+                              <span className="block truncate text-[13px] text-ink-secondary">
+                                {m.promise}
+                              </span>
+                            </span>
+                          </Link>
+                        </NavigationMenu.Link>
+                      </li>
+                    ))}
+                  </ul>
 
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className="bg-transparent text-foreground/80 hover:text-foreground data-[state=open]:bg-white/5">
-                Soluciones
-              </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <div className="w-[260px] p-4 bg-card/95 backdrop-blur-md border border-white/10 rounded-2xl">
-                  <ul className="space-y-1">
-                    {soluciones.map((s) => (
-                      <li key={s.label}>
-                        <MenuLinkItem to={s.to}>{s.label}</MenuLinkItem>
+                  <ul className="min-w-0 rounded-[var(--radius-md)] bg-surface-sunken p-4">
+                    {PLATFORM_LINKS.map((l) => (
+                      <li key={l.to}>
+                        <NavigationMenu.Link asChild>
+                          <Link
+                            to={l.to}
+                            className="block rounded-[var(--radius-sm)] px-3 py-2.5 text-[15px] font-medium text-ink transition-colors duration-[160ms] hover:text-brand"
+                          >
+                            {l.label}
+                          </Link>
+                        </NavigationMenu.Link>
                       </li>
                     ))}
                   </ul>
                 </div>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
+              </Panel>
+            </NavigationMenu.Item>
 
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                asChild
-                className="px-4 py-2 text-sm text-foreground/80 hover:text-foreground transition-colors"
-              >
-                <Link to="/" hash="consultores">
-                  Programa para Consultores
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
+            <NavigationMenu.Item className="static">
+              <MenuTrigger>Soluciones</MenuTrigger>
+              <Panel>
+                <div className="grid grid-cols-2 gap-10">
+                  <MenuColumn title="Por industria">
+                    {INDUSTRIES.filter((i) => i.published).map((i) => (
+                      <MenuRow key={i.slug} to={`/soluciones/${i.slug}`}>
+                        {i.name}
+                      </MenuRow>
+                    ))}
+                  </MenuColumn>
+                  <MenuColumn title="Por caso de uso">
+                    {USE_CASES.map((u) => (
+                      <MenuRow key={u.slug} to={`/soluciones/casos-de-uso/${u.slug}`}>
+                        {u.name}
+                      </MenuRow>
+                    ))}
+                  </MenuColumn>
+                </div>
+                <div className="mt-6 border-t border-line pt-4">
+                  <NavigationMenu.Link asChild>
+                    <Link
+                      to="/soluciones/casos"
+                      className="text-[15px] font-medium text-brand hover:underline hover:underline-offset-4"
+                    >
+                      Ver todos los casos de cliente
+                    </Link>
+                  </NavigationMenu.Link>
+                </div>
+              </Panel>
+            </NavigationMenu.Item>
 
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                asChild
-                className="px-4 py-2 text-sm text-foreground/80 hover:text-foreground transition-colors"
-              >
-                <Link to="/" hash="institucional">
-                  Institucional
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
+            {SHOW_PRICING && (
+              <NavigationMenu.Item className="static">
+                <NavigationMenu.Link asChild>
+                  <TopLink to="/precios">Precios</TopLink>
+                </NavigationMenu.Link>
+              </NavigationMenu.Item>
+            )}
 
-        {/* Right CTAs */}
-        <div className="hidden md:flex items-center gap-2 shrink-0">
-          <Link
-            to="/roi"
-            className="inline-flex items-center rounded-full border border-[#17ccd3] text-[#17ccd3] hover:bg-[#17ccd3]/10 px-4 py-1.5 text-sm font-semibold transition-colors"
-          >
-            Calcular ROI
-          </Link>
-          <Button
-            variant="ghost"
-            className="rounded-full text-foreground/80 hover:text-foreground hover:bg-white/5"
+            <NavigationMenu.Item className="static">
+              <NavigationMenu.Link asChild>
+                <TopLink to="/partners">Partners</TopLink>
+              </NavigationMenu.Link>
+            </NavigationMenu.Item>
+          </NavigationMenu.List>
+        </NavigationMenu.Root>
+
+        {/* ---------- Derecha ---------- */}
+        <div className="hidden items-center gap-6 nav:flex">
+          {/* Enlaces de texto: los únicos botones de la barra son los dos primarios. */}
+          <TopLink to="/roi">Calcular ROI</TopLink>
+          <a
+            href={APP_URL}
+            className="text-[15px] font-medium text-ink-secondary transition-colors duration-[160ms] hover:text-brand"
           >
             Ingresar
-          </Button>
-          <Button
-            asChild
-            className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold"
-          >
-            <a href={DEMO_URL} target="_blank" rel="noopener noreferrer">
-              Agendar Demo
-            </a>
-          </Button>
+          </a>
+          <CtaPair size="bar" />
         </div>
 
-        {/* Mobile */}
-        <Sheet>
-          <SheetTrigger asChild className="md:hidden">
-            <Button variant="ghost" size="icon" className="rounded-full text-foreground">
-              <Menu className="h-5 w-5" />
-            </Button>
+        {/* ---------- Mobile ---------- */}
+        <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+          <SheetTrigger asChild className="nav:hidden">
+            <button
+              type="button"
+              aria-label="Abrir el menú"
+              className="-mr-2 flex size-12 items-center justify-center rounded-[var(--radius-md)] text-ink"
+            >
+              <Menu className="size-6" strokeWidth={1.5} />
+            </button>
           </SheetTrigger>
+
           <SheetContent
             side="right"
-            className="bg-background border-white/10 overflow-y-auto"
+            className="w-full max-w-none overflow-y-auto border-none bg-surface p-0 sm:max-w-none"
           >
-            <SheetTitle className="text-foreground">Menú</SheetTitle>
-            <nav className="mt-6 flex flex-col gap-1">
-              <Link
-                to="/roi"
-                className="rounded-lg px-3 py-2 font-semibold text-[#17ccd3] border border-[#17ccd3]/40 bg-[#17ccd3]/5"
-              >
-                Calcular ROI
-              </Link>
+            <div className="px-5 py-5">
+              <SheetTitle className="sr-only">Menú</SheetTitle>
 
-              <p className="mt-4 px-3 text-xs font-semibold uppercase tracking-wider text-primary">
-                Módulos
-              </p>
-              {Object.values(modulos)
-                .flat()
-                .map((it) => (
-                  <Link
-                    key={`m-${it.label}`}
-                    to={it.to}
-                    className="rounded-lg px-3 py-2 text-foreground/80 hover:bg-white/5 hover:text-foreground"
+              {/* Un acordeón a la vez, con Plataforma abierto por defecto. */}
+              <Accordion type="single" collapsible defaultValue="plataforma">
+                <AccordionItem value="plataforma" className="border-line">
+                  <AccordionTrigger className="py-4 text-base font-semibold text-ink hover:no-underline">
+                    Plataforma
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <ul>
+                      {MODULES.map((m) => (
+                        <li key={m.key}>
+                          <Link
+                            to="/plataforma/$modulo"
+                            params={{ modulo: m.slug }}
+                            onClick={() => setMobileOpen(false)}
+                            className={MOBILE_ROW}
+                          >
+                            <m.icon
+                              className="size-5 shrink-0 text-brand"
+                              strokeWidth={1.5}
+                              aria-hidden
+                            />
+                            {m.name}
+                          </Link>
+                        </li>
+                      ))}
+                      {PLATFORM_LINKS.map((l) => (
+                        <li key={l.to}>
+                          <MobileRow to={l.to} onNavigate={() => setMobileOpen(false)}>
+                            {l.label}
+                          </MobileRow>
+                        </li>
+                      ))}
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="soluciones" className="border-line">
+                  <AccordionTrigger className="py-4 text-base font-semibold text-ink hover:no-underline">
+                    Soluciones
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <ul>
+                      {INDUSTRIES.filter((i) => i.published).map((i) => (
+                        <li key={i.slug}>
+                          <MobileRow
+                            to={`/soluciones/${i.slug}`}
+                            onNavigate={() => setMobileOpen(false)}
+                          >
+                            {i.name}
+                          </MobileRow>
+                        </li>
+                      ))}
+                      {USE_CASES.map((u) => (
+                        <li key={u.slug}>
+                          <MobileRow
+                            to={`/soluciones/casos-de-uso/${u.slug}`}
+                            onNavigate={() => setMobileOpen(false)}
+                          >
+                            {u.name}
+                          </MobileRow>
+                        </li>
+                      ))}
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+
+              <ul className="mt-2">
+                {SHOW_PRICING && (
+                  <li>
+                    <MobileRow to="/precios" onNavigate={() => setMobileOpen(false)} strong>
+                      Precios
+                    </MobileRow>
+                  </li>
+                )}
+                <li>
+                  <MobileRow to="/partners" onNavigate={() => setMobileOpen(false)} strong>
+                    Partners
+                  </MobileRow>
+                </li>
+                <li>
+                  <MobileRow to="/roi" onNavigate={() => setMobileOpen(false)} strong>
+                    Calcular ROI
+                  </MobileRow>
+                </li>
+                <li>
+                  <a
+                    href={APP_URL}
+                    className="flex h-12 items-center text-base font-semibold text-ink"
                   >
-                    {it.label}
-                  </Link>
-                ))}
-
-              <p className="mt-4 px-3 text-xs font-semibold uppercase tracking-wider text-primary">
-                Soluciones
-              </p>
-              {soluciones.map((s) => (
-                <Link
-                  key={`s-${s.label}`}
-                  to={s.to}
-                  className="rounded-lg px-3 py-2 text-foreground/80 hover:bg-white/5 hover:text-foreground"
-                >
-                  {s.label}
-                </Link>
-              ))}
-
-              <Link
-                to="/"
-                hash="consultores"
-                className="mt-4 rounded-lg px-3 py-2 text-foreground/80 hover:bg-white/5 hover:text-foreground"
-              >
-                Programa para Consultores
-              </Link>
-              <Link
-                to="/"
-                hash="institucional"
-                className="rounded-lg px-3 py-2 text-foreground/80 hover:bg-white/5 hover:text-foreground"
-              >
-                Institucional
-              </Link>
-
-              <div className="mt-4 flex flex-col gap-2">
-                <Button variant="ghost" className="rounded-full justify-center">
-                  Ingresar
-                </Button>
-                <Button
-                  asChild
-                  className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
-                >
-                  <a href={DEMO_URL} target="_blank" rel="noopener noreferrer">
-                    Agendar Demo
+                    Ingresar
                   </a>
-                </Button>
-              </div>
-            </nav>
+                </li>
+              </ul>
+
+              {/* Los dos primarios no viven acá adentro: viven en la barra fija al pie,
+                  que monta SiteLayout. Esconderlos detrás del hamburguesa es perder las
+                  dos conversiones del sitio en la mitad del tráfico. */}
+            </div>
           </SheetContent>
         </Sheet>
       </div>
     </header>
+  );
+}
+
+function Wordmark() {
+  return (
+    <Link to="/" className="shrink-0 text-xl font-bold tracking-tight text-ink">
+      {/* TODO(equipo): reemplazar por el lockup a 32px de alto cuando exista el vector.
+          Hoy los logos son PNG recortados y la marca no escala limpia (§15.10). */}
+      InspectIA<span className="text-brand">.</span>
+    </Link>
+  );
+}
+
+function MenuTrigger({ children }: { children: React.ReactNode }) {
+  return (
+    <NavigationMenu.Trigger className="group flex cursor-pointer items-center gap-1.5 text-[15px] font-medium text-ink-secondary outline-none transition-colors duration-[160ms] hover:text-brand data-[state=open]:text-brand">
+      {children}
+      <ChevronDown
+        className="size-3.5 transition-transform duration-[160ms] group-data-[state=open]:rotate-180"
+        aria-hidden
+      />
+    </NavigationMenu.Trigger>
+  );
+}
+
+function Panel({ children }: { children: React.ReactNode }) {
+  return (
+    <NavigationMenu.Content
+      className={cn(
+        "absolute left-0 right-0 top-full z-50",
+        // Radio sólo abajo: el panel cuelga de la barra, no flota suelto.
+        "rounded-b-[var(--radius-lg)] border border-t-0 border-line bg-surface p-8 shadow-[var(--shadow-md)]",
+        "data-[motion^=from-]:animate-in data-[motion^=from-]:fade-in data-[motion^=to-]:animate-out data-[motion^=to-]:fade-out",
+      )}
+    >
+      {children}
+    </NavigationMenu.Content>
+  );
+}
+
+function MenuColumn({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="min-w-0">
+      <p className="eyebrow mb-3">{title}</p>
+      <ul>{children}</ul>
+    </div>
+  );
+}
+
+function MenuRow({ to, children }: { to: string; children: React.ReactNode }) {
+  return (
+    <li className="min-w-0">
+      <NavigationMenu.Link asChild>
+        <Link
+          to={to}
+          className="block rounded-[var(--radius-sm)] px-3 py-2.5 text-[15px] text-ink transition-colors duration-[160ms] hover:bg-brand-subtle hover:text-brand"
+        >
+          {children}
+        </Link>
+      </NavigationMenu.Link>
+    </li>
+  );
+}
+
+function TopLink({ to, children }: { to: string; children: React.ReactNode }) {
+  return (
+    <Link
+      to={to}
+      className="text-[15px] font-medium text-ink-secondary transition-colors duration-[160ms] hover:text-brand"
+      activeProps={{ className: "text-brand" }}
+    >
+      {children}
+    </Link>
+  );
+}
+
+// 48px de alto mínimo: es el objetivo táctil, no una decisión estética.
+const MOBILE_ROW = "flex h-12 items-center gap-3 text-[15px] text-ink";
+
+function MobileRow({
+  to,
+  children,
+  onNavigate,
+  strong,
+}: {
+  to: string;
+  children: React.ReactNode;
+  onNavigate: () => void;
+  strong?: boolean;
+}) {
+  return (
+    <Link
+      to={to}
+      onClick={onNavigate}
+      className={cn(MOBILE_ROW, strong && "text-base font-semibold")}
+    >
+      {children}
+    </Link>
   );
 }

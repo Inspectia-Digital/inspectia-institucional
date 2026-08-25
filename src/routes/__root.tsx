@@ -17,16 +17,16 @@ function NotFoundComponent() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">No encontramos esa página</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
+          La página que buscás no existe o cambió de dirección.
         </p>
         <div className="mt-6">
           <Link
             to="/"
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Go home
+            Volver al inicio
           </Link>
         </div>
       </div>
@@ -45,10 +45,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
+          Esta página no cargó
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
+          Algo falló de nuestro lado. Podés reintentar o volver al inicio.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
@@ -58,13 +58,13 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
             }}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Try again
+            Reintentar
           </button>
           <a
             href="/"
             className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
           >
-            Go home
+            Volver al inicio
           </a>
         </div>
       </div>
@@ -77,26 +77,31 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "InspectIA Core is the foundational web application for a Deep Tech SaaS platform focused on industrial AI and operational intelligence." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "InspectIA Core is the foundational web application for a Deep Tech SaaS platform focused on industrial AI and operational intelligence." },
+      // Valores por defecto: cada ruta escribe su título y su descripción a mano. Lo que
+      // había acá era el andamiaje del generador —title "Lovable App", author "Lovable",
+      // twitter:site "@Lovable" y un og:image apuntando al preview— y salía en el head de
+      // toda página que no lo pisara.
+      { title: "InspectIA · Inteligencia operativa industrial" },
+      {
+        name: "description",
+        content:
+          "Ocho módulos sobre la operación que ya tenés: OEE, calidad, recepción, inventario y pedidos. Funciona con tus máquinas, tus cámaras y tu ERP.",
+      },
+      { property: "og:site_name", content: "InspectIA" },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Lovable App" },
-      { name: "twitter:description", content: "InspectIA Core is the foundational web application for a Deep Tech SaaS platform focused on industrial AI and operational intelligence." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e9767e2e-b726-48fa-ad02-4179a028e809/id-preview-744f53e8--1b8ed6b1-59a7-46c0-a4d5-c9c432829915.lovable.app-1782391537925.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e9767e2e-b726-48fa-ad02-4179a028e809/id-preview-744f53e8--1b8ed6b1-59a7-46c0-a4d5-c9c432829915.lovable.app-1782391537925.png" },
+      { property: "og:locale", content: "es_AR" },
+      { name: "twitter:card", content: "summary_large_image" },
+      // TODO(equipo): falta la imagen de compartido propia (1200x630).
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      // TODO(seo): autoalojar las dos familias. §9 lo pide por Core Web Vitals — el CDN
+      // suma dos conexiones antes del primer texto. Pendiente de esta tanda.
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap",
       },
     ],
   }),
@@ -108,7 +113,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="es-AR">
       <head>
         <HeadContent />
       </head>

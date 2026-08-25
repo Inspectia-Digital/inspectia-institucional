@@ -3,13 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 
 type Item = { label: string; to: string };
 
-export function RelatedLinks({
-  title = "Ver también",
-  items,
-}: {
-  title?: string;
-  items: Item[];
-}) {
+export function RelatedLinks({ title = "Ver también", items }: { title?: string; items: Item[] }) {
   return (
     <section className="py-10 border-t border-white/5">
       <p className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#17ccd3]">

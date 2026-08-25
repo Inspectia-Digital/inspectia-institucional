@@ -16,10 +16,7 @@ type TrustBarProps = {
  * no ancho igual: igualar el ancho hace que un logo apaisado se vea el doble de grande
  * que uno compacto.
  */
-export function TrustBar({
-  family = "cliente",
-  title = "Confían en nosotros",
-}: TrustBarProps) {
+export function TrustBar({ family = "cliente", title = "Confían en nosotros" }: TrustBarProps) {
   const logos = partnersByFamily(family);
   if (logos.length === 0) return null;
 

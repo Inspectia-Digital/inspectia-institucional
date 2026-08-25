@@ -97,10 +97,7 @@ async function optimizePlant() {
   for (const width of PLANT_WIDTHS) {
     const suffix = width === PLANT_WIDTHS[0] ? "" : `-${width}`;
     const to = join(OUT, "plant", `fabrica-logistica${suffix}.webp`);
-    await sharp(from)
-      .resize({ width, withoutEnlargement: true })
-      .webp({ quality: 82 })
-      .toFile(to);
+    await sharp(from).resize({ width, withoutEnlargement: true }).webp({ quality: 82 }).toFile(to);
     console.log(
       `  fabrica-logistica.png ${kb(await sizeOf(from))} → fabrica-logistica${suffix}.webp ${kb(await sizeOf(to))}`,
     );
