@@ -25,6 +25,17 @@ export type RoiField = {
   unit?: string;
   /** Los tres que aparecen en la variante mini. Tres y sólo tres por modelo. */
   primary?: boolean;
+  /** Línea de ayuda debajo del control, para lo que la etiqueta no alcanza a decir. */
+  help?: string;
+  /**
+   * Presente sólo en los campos que se eligen de una lista: convierte el control en un
+   * `select` en lugar de un slider.
+   *
+   * El valor sigue siendo un número, así que `RoiValues` no cambia y los otros tres
+   * modelos no se tocan. En el selector de plan el número es el precio mensual del plan,
+   * que es justo lo que el cálculo necesita.
+   */
+  options?: { value: number; label: string }[];
 };
 
 export type RoiFigure = {
@@ -52,6 +63,12 @@ export type RoiOutcome = {
    *  un modelo que esconde sus supuestos no convence a nadie que sepa leer uno. */
   assumptions: { label: string; value: string }[];
   matrix?: RoiMatrix;
+  /**
+   * Avisos que dependen de los valores cargados y van debajo del resultado: que con una
+   * línea alcanza el plano gratuito, que con cuatro hace falta Pro. Nunca bloquean nada
+   * ni abren un modal: son una línea de texto y el cálculo ya se rehizo.
+   */
+  notes?: string[];
   /** Para el evento de medición y el informe. */
   roiPct: number;
   paybackMonths: number | null;

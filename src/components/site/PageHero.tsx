@@ -56,8 +56,10 @@ export function PageHero({
               className="mt-9 max-w-md"
             />
           )}
+          {/* Adentro de la columna: lo que va acá son enlaces de texto al lado de los dos
+              botones, no un bloque aparte a lo ancho del hero. */}
+          {children}
         </div>
-        {children}
       </div>
     </section>
   );

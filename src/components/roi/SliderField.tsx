@@ -2,22 +2,58 @@ import { useEffect, useId, useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import type { RoiField } from "@/lib/roi";
 
+type ControlProps = {
+  field: RoiField;
+  value: number;
+  onChange: (value: number) => void;
+};
+
 /**
- * Un parámetro de la calculadora: slider más el valor editable a mano al lado (§11.7).
+ * Un parámetro de la calculadora.
+ *
+ * Despacha a uno de dos controles según el campo. Son dos componentes y no una rama
+ * adentro de uno: cada uno tiene sus propios hooks, y una rama que corta antes de un
+ * `useState` los llamaría en distinto orden entre renders.
+ */
+export function SliderField(props: ControlProps) {
+  // Un campo que se elige de una lista no tiene rango que arrastrar: el plan es una
+  // decisión entre dos, no un continuo.
+  return props.field.options ? <SelectControl {...props} /> : <SliderControl {...props} />;
+}
+
+function SelectControl({ field, value, onChange }: ControlProps) {
+  const id = useId();
+
+  return (
+    <div>
+      <label htmlFor={id} className="text-[13px] font-medium text-ink-secondary">
+        {field.label}
+      </label>
+      <select
+        id={id}
+        value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        className="mt-2 h-11 w-full rounded-[var(--radius-md)] border border-line-strong bg-surface px-3 text-[15px] text-ink outline-none focus:border-line-brand"
+      >
+        {field.options?.map((o) => (
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
+        ))}
+      </select>
+      <Help text={field.help} />
+    </div>
+  );
+}
+
+/**
+ * Slider más el valor editable a mano al lado (§11.7).
  *
  * El campo de texto es el que permite cargar un número exacto —nadie acierta 74.000
  * unidades arrastrando— y el slider es el que permite explorar. Los dos escriben el
  * mismo valor.
  */
-export function SliderField({
-  field,
-  value,
-  onChange,
-}: {
-  field: RoiField;
-  value: number;
-  onChange: (value: number) => void;
-}) {
+function SliderControl({ field, value, onChange }: ControlProps) {
   const id = useId();
   const step = field.step ?? 1;
   const decimals = step < 1 ? Math.max(0, -Math.floor(Math.log10(step))) : 0;
@@ -81,6 +117,13 @@ export function SliderField({
         aria-label={field.label}
         className="mt-3 [&_[role=slider]]:border-action [&_[role=slider]]:bg-action [&_[data-orientation=horizontal]>span]:bg-action"
       />
+
+      <Help text={field.help} />
     </div>
   );
+}
+
+function Help({ text }: { text?: string }) {
+  if (!text) return null;
+  return <p className="mt-2 text-[13px] text-ink-muted">{text}</p>;
 }

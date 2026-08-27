@@ -15,14 +15,22 @@ import { cn } from "@/lib/utils";
  * Parámetros a la izquierda, resultado a la derecha y pegado al scrollear, supuestos
  * siempre desplegados con el costo de InspectIA a la vista.
  */
-export function RoiCalculator({ model }: { model: RoiModel }) {
+export function RoiCalculator({
+  model,
+  /** El formulario del informe vive en /roi. En la página de un módulo la calculadora
+   *  muestra el resultado y enlaza allá, en vez de repetir la captura de datos. */
+  showLeadForm = true,
+}: {
+  model: RoiModel;
+  showLeadForm?: boolean;
+}) {
   const { values, set, outcome } = useRoiModel(model);
 
   return (
     <div>
       <div className="grid gap-8 min-[1100px]:grid-cols-[380px_1fr] min-[1100px]:gap-12">
         {/* --- Parámetros --- */}
-        <div className="min-w-0 min-[1100px]:order-1 min-[1100px]:w-[380px]">
+        <div className="min-w-0 min-[1100px]:w-[380px]">
           <p className="eyebrow">Tu operación</p>
           <p className="mt-3 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
             {model.intro}
@@ -40,10 +48,15 @@ export function RoiCalculator({ model }: { model: RoiModel }) {
         </div>
 
         {/* --- Resultado ---
-            En mobile va arriba y pegado al tope: el número tiene que quedar visible
-            mientras se mueve un slider, o nadie ve que se está moviendo. */}
-        <div className="min-w-0 min-[1100px]:order-2">
-          <div className="sticky top-[calc(var(--navbar-h)+1rem)]">
+            `order-first` en mobile: el resultado va arriba de los controles, porque el
+            número es lo que se viene a ver. En desktop vuelve al orden del documento y
+            queda a la derecha, pegado al scrollear.
+
+            El pegado es sólo de 1100 para arriba: en 375px esta tarjeta —titular, dos
+            cifras, avisos y supuestos— ocupa casi toda la pantalla, y fijarla taparía los
+            sliders que se están moviendo. */}
+        <div className="order-first min-w-0 min-[1100px]:order-none">
+          <div className="min-[1100px]:sticky min-[1100px]:top-[calc(var(--navbar-h)+1rem)]">
             <div className="rounded-[var(--radius-lg)] border border-line bg-surface-sunken p-8">
               <p className="eyebrow">Resultado</p>
               <p className="metric mt-4 text-[length:var(--text-data)] font-light leading-none text-ink">
@@ -61,6 +74,19 @@ export function RoiCalculator({ model }: { model: RoiModel }) {
                   </div>
                 ))}
               </div>
+
+              {outcome.notes && outcome.notes.length > 0 && (
+                <ul className="mt-8 space-y-3 border-t border-line pt-6">
+                  {outcome.notes.map((n) => (
+                    <li
+                      key={n}
+                      className="text-[13px] leading-[var(--leading-normal)] text-ink-secondary"
+                    >
+                      {n}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
 
             {/* Los supuestos no se pliegan. Un modelo que los esconde no se puede discutir,
@@ -82,9 +108,11 @@ export function RoiCalculator({ model }: { model: RoiModel }) {
 
       {outcome.matrix && <SensitivityMatrix matrix={outcome.matrix} />}
 
-      <div className="mt-16">
-        <LeadForm module={model.module} outcome={outcome} />
-      </div>
+      {showLeadForm && (
+        <div className="mt-16">
+          <LeadForm module={model.module} outcome={outcome} />
+        </div>
+      )}
     </div>
   );
 }
