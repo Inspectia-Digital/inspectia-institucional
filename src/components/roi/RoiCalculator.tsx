@@ -92,7 +92,12 @@ export function RoiCalculator({
             {/* Los supuestos no se pliegan. Un modelo que los esconde no se puede discutir,
                 y lo que se compra acá es justamente la discusión. */}
             <div className="mt-6 rounded-[var(--radius-lg)] border border-line p-6">
-              <p className="eyebrow">Bases del cálculo</p>
+              <h2 className="eyebrow">Con qué supuestos</h2>
+              <p className="mt-3 text-[13px] leading-[var(--leading-normal)] text-ink-secondary">
+                Estos son los valores con los que se hizo la cuenta, incluido lo que cuesta
+                InspectIA. Si alguno no aplica a tu caso, cambialo arriba y el resultado se
+                recalcula.
+              </p>
               <dl className="mt-4 space-y-3">
                 {outcome.assumptions.map((a) => (
                   <div key={a.label} className="flex items-baseline justify-between gap-6">
@@ -128,6 +133,11 @@ function SensitivityMatrix({ matrix }: { matrix: RoiMatrix }) {
       <h3 className="mt-3 max-w-[44ch] text-[length:var(--text-card)] leading-snug text-ink">
         Retorno del primer año según la mejora de OEE que logres y el volumen de la línea.
       </h3>
+      {/* Sin esta línea la matriz se lee como una tabla confusa. */}
+      <p className="mt-3 max-w-[70ch] text-[13px] leading-[var(--leading-normal)] text-ink-secondary">
+        Cada celda es el retorno del primer año con esa combinación de volumen y de mejora. La celda
+        marcada es el escenario que cargaste.
+      </p>
 
       {/* La tabla desplaza dentro de su contenedor y nunca hace scrollear el documento. */}
       <div className="mt-8 -mx-5 overflow-x-auto px-5 md:mx-0 md:px-0">

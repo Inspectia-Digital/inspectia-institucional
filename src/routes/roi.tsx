@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { RoiCalculator } from "@/components/roi/RoiCalculator";
@@ -7,9 +8,9 @@ import type { ModuleKey } from "@/content/modules";
 import { cn } from "@/lib/utils";
 import { pageHead } from "@/lib/seo";
 
-const TITLE = "Calculá el retorno de tu operación · InspectIA";
+const TITLE = "Calculadora de ROI para proyectos de planta · InspectIA";
 const DESCRIPTION =
-  "Proyectá el ahorro y el tiempo de repago de cada módulo con los números de tu planta. El resultado se ve completo, sin registrarte.";
+  "Calculá el retorno de medir tu producción, tu calidad o tu inventario. Sin registrarte, con los supuestos y el costo a la vista, y el informe en PDF si lo querés.";
 
 /**
  * Calculadora de ROI (§7.7). Es el activo de conversión del sitio y la herramienta con la
@@ -43,9 +44,9 @@ function RoiPage() {
   return (
     <SiteLayout module={model.module}>
       <PageHero
-        eyebrow="Calculadora"
-        title="Calculá el retorno con los números de tu planta"
-        lead="Movés los parámetros de tu operación y el resultado se actualiza solo. Cada modelo muestra sus supuestos y el costo de InspectIA a la vista. No hace falta registrarse."
+        eyebrow="Calculadora de ROI"
+        title="Cuánto te devuelve medir"
+        lead="Elegí el módulo, poné los números de tu operación y mirá el retorno. No hace falta registrarse, los supuestos están a la vista y el costo de InspectIA entra en la cuenta."
         cta={false}
       />
 
@@ -101,10 +102,26 @@ function RoiPage() {
             <RoiCalculator key={model.module} model={model} />
           </div>
 
-          <p className="mt-16 max-w-[60ch] text-[13px] leading-[var(--leading-normal)] text-ink-muted">
-            Faltan los modelos de control de pedidos, sobrestock con drones, cámaras inteligentes y
-            agente. Esos cuatro se cotizan por alcance: escribinos y los calculamos con vos.
+          {/* Los cuatro sin modelo no aparecen como pestañas vacías: una pestaña que se
+              abre en nada es peor que no tenerla. */}
+          <p className="mt-16 max-w-[70ch] text-[13px] leading-[var(--leading-normal)] text-ink-muted">
+            Sobrestock con drones, cámaras inteligentes, control de pedidos y el módulo Agente se
+            cotizan según el alcance. Agendá una demo y los calculamos con tus números.
           </p>
+
+          {/* TODO(fase 5): el modo consultor no está construido. En vez de simular un
+              interruptor que no hace nada, el enlace al programa, que es donde se explica. */}
+          <p className="mt-10 max-w-[70ch] text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
+            ¿Sos consultor y querés armar propuestas con esta herramienta? Hay una versión que suma
+            varios módulos y exporta con tu logo.
+          </p>
+          <Link
+            to="/partners"
+            className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
+          >
+            Conocer el programa de partners
+            <ArrowRight className="size-4 shrink-0" aria-hidden />
+          </Link>
         </div>
       </section>
     </SiteLayout>

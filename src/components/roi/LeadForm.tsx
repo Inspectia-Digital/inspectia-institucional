@@ -83,12 +83,10 @@ export function LeadForm({ module, outcome }: { module: string; outcome: RoiOutc
 
   return (
     <div className="rounded-[var(--radius-lg)] border border-line p-8">
-      <h3 className="text-[length:var(--text-card)] leading-snug text-ink">
-        Llevate el informe completo
-      </h3>
-      <p className="mt-2 max-w-[60ch] text-[13px] leading-[var(--leading-normal)] text-ink-secondary">
-        Un PDF con esta simulación, la proyección a tres años, los supuestos de cada cuenta y la
-        comparación contra hacerlo con un integrador llave en mano.
+      <h3 className="text-[length:var(--text-card)] leading-snug text-ink">Llevate el informe</h3>
+      <p className="mt-2 max-w-[70ch] text-[13px] leading-[var(--leading-normal)] text-ink-secondary">
+        El PDF trae la proyección a tres años, los supuestos con los que se hizo la cuenta, la
+        comparación de escenarios y el siguiente paso. Sirve para presentarlo internamente.
       </p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-6" noValidate>
@@ -122,7 +120,7 @@ export function LeadForm({ module, outcome }: { module: string; outcome: RoiOutc
             "disabled:bg-[var(--action-disabled-bg)] disabled:text-[var(--action-disabled-text)]",
           )}
         >
-          {isSubmitting ? "Enviando…" : "Recibir el informe"}
+          {isSubmitting ? "Enviando…" : "Descargar el informe"}
         </button>
       </form>
     </div>
