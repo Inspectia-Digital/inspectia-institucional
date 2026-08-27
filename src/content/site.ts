@@ -54,6 +54,19 @@ export const CONTACT = {
 };
 
 /**
+ * A dónde va el alta al newsletter.
+ *
+ * **Mientras sea null el formulario no se renderiza.** Un campo de correo que no manda
+ * el dato a ninguna parte es peor que no tenerlo: alguien se suscribe, ve la
+ * confirmación y nunca recibe nada.
+ *
+ * TODO(equipo): falta el destino —lista, CRM o webhook—. Es el mismo pendiente que
+ * tienen el informe del ROI y la postulación de partners: los tres formularios del sitio
+ * están hoy sin destino.
+ */
+export const NEWSLETTER_ENDPOINT: string | null = null;
+
+/**
  * Precios no se publica hasta tener el precio de todos los módulos (§7.6): con uno solo
  * publicado la promesa de transparencia se rompe sola. La sección se construye y queda
  * fuera del aire; mientras tanto la entrada comercial es el plan gratuito.

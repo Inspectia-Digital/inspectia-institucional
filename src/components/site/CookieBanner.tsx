@@ -9,8 +9,12 @@ import { GTM_ID, updateConsent, type ConsentChoice } from "@/lib/gtm";
  * de kilobytes, bloquean el primer render y son justo lo que arruina el Core Web Vitals
  * que §9 pide cuidar. Acá hay dos botones y un `gtag('consent','update')`.
  *
- * Rechazar es tan fácil como aceptar —un clic, mismo peso visual—: un banner donde
- * rechazar cuesta más que aceptar no es un consentimiento válido.
+ * Seguir sin cookies es tan fácil como aceptar —un clic, mismo peso visual—: un banner
+ * donde negarse cuesta más que aceptar no es un consentimiento válido, y un rechazo
+ * escondido en un enlace de 11px es un problema legal, no una optimización.
+ *
+ * El botón secundario dice "Seguir sin cookies" y no "Rechazar": nombra lo que pasa en
+ * vez de nombrar una negación.
  */
 
 const STORAGE_KEY = "inspectia.consent";
@@ -42,8 +46,8 @@ export function CookieBanner() {
       className="fixed inset-x-0 bottom-0 z-50 border-t border-line bg-surface p-5 shadow-[var(--shadow-lg)] md:inset-x-auto md:bottom-6 md:left-6 md:max-w-md md:rounded-[var(--radius-lg)] md:border"
     >
       <p className="text-[15px] leading-[var(--leading-normal)] text-ink">
-        Usamos cookies para entender cómo se navega el sitio. Podés rechazarlas y la web funciona
-        igual.
+        Usamos cookies para entender cómo se usa el sitio y mejorarlo. Podés aceptarlas o seguir sin
+        ellas: el sitio funciona igual.
       </p>
       <div className="mt-4 flex flex-wrap gap-3">
         <button
@@ -58,14 +62,14 @@ export function CookieBanner() {
           onClick={() => choose("denied")}
           className="h-11 flex-1 rounded-[var(--radius-md)] border border-line-strong px-5 text-sm font-semibold text-ink transition-colors duration-[160ms] hover:bg-surface-sunken"
         >
-          Rechazar
+          Seguir sin cookies
         </button>
       </div>
       <Link
         to="/privacidad"
         className="mt-3 inline-block text-[13px] text-ink-secondary underline-offset-4 hover:underline"
       >
-        Cómo tratamos los datos
+        Política de privacidad
       </Link>
     </div>
   );

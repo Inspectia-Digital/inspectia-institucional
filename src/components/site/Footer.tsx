@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Check, Mail, Phone } from "lucide-react";
+import { Check, Linkedin, Mail, Phone } from "lucide-react";
 import { MODULES } from "@/content/modules";
 import { INDUSTRIES, USE_CASES } from "@/content/solutions";
-import { APP_URL, CONTACT, SHOW_PRICING } from "@/content/site";
+import { APP_URL, CONTACT, NEWSLETTER_ENDPOINT, SHOW_PRICING } from "@/content/site";
 import { pushEvent, sourcePage } from "@/lib/analytics";
 
 /**
@@ -31,16 +31,12 @@ export function Footer() {
             <p className="text-xl font-bold tracking-tight text-on-brand">
               InspectIA<span className="text-[var(--accent-on-brand)]">.</span>
             </p>
-            {/* TODO(equipo): párrafo pendiente de revisión, escrito en la voz del sitio.
-                El del footer anterior decía "Deep Tech asset-light" y "precisión logística
-                absoluta", que es justo la jerga que §4 saca. */}
             <p className="mt-4 max-w-[38ch] text-sm leading-[var(--leading-normal)] text-on-brand-secondary">
-              InspectIA OS mide y controla lo que pasa en la planta y en el depósito, sobre las
-              máquinas, las cámaras y los sistemas que ya están instalados. Ocho módulos que
-              comparten los mismos datos y el mismo tablero.
+              Plataforma modular para medir y controlar la operación de plantas y centros de
+              distribución.
             </p>
 
-            {(CONTACT.phone || CONTACT.email) && (
+            {(CONTACT.phone || CONTACT.email || CONTACT.linkedin) && (
               <ul className="mt-6 space-y-3">
                 {CONTACT.phone && (
                   <ContactRow icon={Phone} href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}>
@@ -50,6 +46,15 @@ export function Footer() {
                 {CONTACT.email && (
                   <ContactRow icon={Mail} href={`mailto:${CONTACT.email}`}>
                     {CONTACT.email}
+                  </ContactRow>
+                )}
+                {/* LinkedIn vuelve al pie porque es el único canal social que la empresa
+                    tiene. Se renderiza en cuanto CONTACT.linkedin deje de ser null: un
+                    botón a linkedin.com a secas, que es lo que tenía el footer anterior,
+                    es peor que no tener botón. */}
+                {CONTACT.linkedin && (
+                  <ContactRow icon={Linkedin} href={CONTACT.linkedin} external>
+                    LinkedIn
                   </ContactRow>
                 )}
               </ul>
@@ -149,16 +154,18 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* --- Newsletter --- */}
-          <div className="min-w-0 min-[720px]:col-span-2 min-[1100px]:col-span-1">
-            <Newsletter />
-          </div>
+          {/* --- Novedades ---
+              La columna entera depende de que haya destino: sin él no se publica el
+              formulario, y una columna con título y lead pero sin campo no dice nada. */}
+          {NEWSLETTER_ENDPOINT && (
+            <div className="min-w-0 min-[720px]:col-span-2 min-[1100px]:col-span-1">
+              <Newsletter />
+            </div>
+          )}
         </div>
 
         <div className="mt-16 flex flex-col gap-4 border-t border-[var(--border-on-brand)] pt-6 min-[720px]:flex-row min-[720px]:items-center min-[720px]:justify-between">
-          <p className="text-xs text-on-brand-label">
-            © {year} InspectIA. Todos los derechos reservados.
-          </p>
+          <p className="text-xs text-on-brand-label">© {year} InspectIA</p>
           <p className="flex items-center gap-6">
             <Link to="/legales" className="text-xs text-on-brand-label hover:text-on-brand">
               Términos y condiciones
@@ -195,9 +202,10 @@ function FooterHeading({
 /**
  * Suscripción al newsletter.
  *
- * TODO(equipo): **no tiene destino**. Sin CRM definido, el correo termina en la consola,
- * igual que el informe del ROI y la postulación de partners. Los tres formularios del
- * sitio están en la misma situación y ninguno debería publicarse así.
+ * Sólo se monta cuando NEWSLETTER_ENDPOINT tiene valor. Hoy es null, así que el pie va
+ * sin esta columna: los tres formularios del sitio —informe de ROI, postulación de
+ * partners y este— están sin destino, y de los tres éste es el único que se puede sacar
+ * sin romper una página entera.
  */
 function Newsletter() {
   const [email, setEmail] = useState("");
@@ -214,11 +222,10 @@ function Newsletter() {
 
   return (
     <div>
-      <FooterHeading>Newsletter</FooterHeading>
-      {/* TODO(equipo): copy pendiente de revisión. */}
+      <FooterHeading>Novedades</FooterHeading>
       <p className="mt-4 max-w-[38ch] text-sm leading-[var(--leading-normal)] text-on-brand-secondary">
-        Una vez por mes: qué medimos en plantas reales y qué salió de eso. Sin novedades de
-        producto.
+        Una vez por mes, qué módulo salió y qué aprendimos en las plantas donde estamos. Sin
+        promociones.
       </p>
 
       {sent ? (
@@ -258,16 +265,19 @@ function Newsletter() {
 function ContactRow({
   icon: Icon,
   href,
+  external = false,
   children,
 }: {
   icon: typeof Phone;
   href: string;
+  external?: boolean;
   children: React.ReactNode;
 }) {
   return (
     <li className="min-w-0">
       <a
         href={href}
+        {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
         className="inline-flex items-center gap-2 text-sm text-on-brand-secondary transition-colors duration-[160ms] hover:text-on-brand"
       >
         <Icon className="size-4 shrink-0" strokeWidth={1.5} aria-hidden />

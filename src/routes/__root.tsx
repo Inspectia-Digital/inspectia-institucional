@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
+  Link,
   Outlet,
   createRootRouteWithContext,
   useRouter,
@@ -22,16 +23,29 @@ import { ModuleGrid } from "@/components/site/ModuleGrid";
  * salida. Con la barra puesta, la mayoría de las 404 vienen de un enlace viejo a un
  * módulo, y desde el mega-menú llega al que buscaba sin volver a empezar. Debajo van los
  * ocho módulos, que es a donde apuntaban casi todas las URLs de la web anterior.
+ *
+ * El `noindex` va como meta suelta y no por `pageHead`: una URL que no existe no
+ * corresponde a ninguna ruta, así que no hay `head` de ruta donde declararlo. React 19
+ * lo iza al head igual.
  */
 function NotFoundComponent() {
   return (
     <SiteLayout>
+      <meta name="robots" content="noindex" />
       <PageHero
-        eyebrow="Error 404"
-        title="No encontramos esa página"
-        lead="Puede que el enlace sea viejo: el sitio se reorganizó y las páginas de producto ahora viven bajo /plataforma. Abajo están los ocho módulos."
+        title="Esta página no existe"
+        lead="Puede que haya cambiado de dirección: la web se reorganizó y ahora los módulos viven dentro de la plataforma."
         cta={false}
-      />
+      >
+        <p className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-3">
+          <Link to="/plataforma" className={NOT_FOUND_LINK}>
+            Ver la plataforma
+          </Link>
+          <Link to="/" className={NOT_FOUND_LINK}>
+            Volver al inicio
+          </Link>
+        </p>
+      </PageHero>
       <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8">
         <div className="mx-auto max-w-[var(--content-max)]">
           <ModuleGrid />
@@ -41,6 +55,19 @@ function NotFoundComponent() {
   );
 }
 
+const NOT_FOUND_LINK =
+  "text-[15px] font-semibold text-on-brand underline underline-offset-4 decoration-[var(--accent-on-brand)] hover:decoration-2";
+
+/**
+ * Pantalla de error de aplicación.
+ *
+ * **Sin código de error ni traza.** Un visitante no puede hacer nada con un stack, y
+ * verlo sólo confirma que el sitio está roto. La traza va a la consola y al reporte, que
+ * es donde sirve.
+ *
+ * "Algo se rompió de nuestro lado" y no "ocurrió un error inesperado": no culpa al
+ * visitante y dice de quién es el problema.
+ */
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
@@ -52,12 +79,13 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          Esta página no cargó
+          Algo se rompió de nuestro lado
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Algo falló de nuestro lado. Podés reintentar o volver al inicio.
+          Ya nos estamos enterando. Probá recargar la página; si sigue pasando, escribinos y lo
+          miramos.
         </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
+        <div className="mt-6 flex justify-center">
           <button
             onClick={() => {
               router.invalidate();
@@ -65,14 +93,8 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
             }}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Reintentar
+            Recargar
           </button>
-          <a
-            href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
-            Volver al inicio
-          </a>
         </div>
       </div>
     </div>
