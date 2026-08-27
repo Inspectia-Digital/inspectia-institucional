@@ -43,10 +43,10 @@ export const WHATSAPP_URL: string | null = null;
  * simplemente no se renderiza, en vez de publicar un enlace que no lleva a ninguna parte.
  */
 export const CONTACT = {
-  /** TODO(equipo): teléfono comercial. */
-  phone: null as string | null,
-  /** TODO(equipo): casilla comercial. */
-  email: null as string | null,
+  /** Confirmados por la cláusula 15 de los términos y condiciones, que es el documento
+   *  donde legal los publicó. Antes de eso los dos eran null y el pie iba sin contacto. */
+  phone: "+54 11 3469 3537" as string | null,
+  email: "contacto@inspectia.ai" as string | null,
   /** TODO(equipo): URL de la página de empresa. Mientras sea null no se renderiza el
    *  botón: un enlace a linkedin.com a secas, que es lo que tenía el footer anterior, es
    *  peor que no tener botón. */

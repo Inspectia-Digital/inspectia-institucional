@@ -28,14 +28,14 @@ export function LegalBody({ children }: { children: React.ReactNode }) {
 /**
  * Fecha de última actualización.
  *
- * TODO(legales): la fecha es la de la versión firmada del texto, no la del último deploy.
- * Mientras no haya texto no hay fecha, así que la línea dice qué está pasando en vez de
- * mostrar la de hoy, que sería falsa.
+ * La fecha es la de la versión firmada del texto, no la del último deploy. Mientras no
+ * haya texto no hay fecha, así que la línea dice qué está pasando en vez de mostrar la
+ * de hoy, que sería falsa: hoy sólo la política de privacidad está en ese estado.
  */
 export function LegalUpdated({ date }: { date?: string }) {
   return (
     <p className="text-[13px] text-ink-muted">
-      {date ? `Última actualización: ${date}` : "Este texto está en redacción."}
+      {date ? `Fecha de actualización: ${date}` : "Este texto está en redacción."}
     </p>
   );
 }
