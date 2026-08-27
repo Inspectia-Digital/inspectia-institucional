@@ -78,14 +78,16 @@ function ModulePage() {
         lead={m.lead ?? m.summary}
         module={m.key}
       >
-        {roiModel && (
+        {m.roiLinkLabel && (
           <p className="mt-6 text-[15px]">
             <Link
               to="/roi"
-              search={{ modulo: m.key }}
+              // Sin modelo propio no hay pestaña a la que apuntar: va a la calculadora
+              // sin parámetro, que abre la primera.
+              search={roiModel ? { modulo: m.key } : {}}
               className="text-on-brand-secondary underline-offset-4 transition-colors duration-[160ms] hover:text-on-brand hover:underline"
             >
-              Calcular el retorno de tu línea
+              {m.roiLinkLabel}
             </Link>
           </p>
         )}
@@ -122,7 +124,7 @@ function ModulePage() {
       </section>
 
       {/* 04 */}
-      {m.does && <WhatItDoes items={m.does} />}
+      {m.does && <WhatItDoes title={m.doesTitle} items={m.does} />}
 
       {/* 05 */}
       {roiModel && (
@@ -130,13 +132,13 @@ function ModulePage() {
           <div className="mx-auto max-w-[var(--content-max)]">
             <p className="eyebrow">Cuánto te rinde</p>
             <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
-              Cuánto vale un punto de OEE en tu línea
+              {m.roiTitle}
             </h2>
-            <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
-              Poné el volumen y el costo de tu línea, y elegí el plan. La matriz muestra cómo cambia
-              el retorno según cuánto OEE recuperes, porque cuánto vas a recuperar es justamente lo
-              que no se sabe de antemano. Sin registrarte y con los supuestos a la vista.
-            </p>
+            {m.roiLead && (
+              <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
+                {m.roiLead}
+              </p>
+            )}
 
             <div className="mt-12">
               {/* Sin el formulario del informe: el PDF se pide desde /roi. */}
@@ -163,7 +165,7 @@ function ModulePage() {
       {/* 07 · La grilla de precios entra cuando se publique /precios. */}
 
       {/* 08 */}
-      {m.faq && <ModuleFaq name={m.name} items={m.faq} />}
+      {m.faq && <ModuleFaq title={m.faqTitle ?? `Preguntas sobre ${m.name}`} items={m.faq} />}
 
       {/* 09 */}
       <Related module={m} />
@@ -201,13 +203,19 @@ function Problem({ items }: { items: string[] }) {
 
 /* ---------- 04 · Qué hace ---------- */
 
-function WhatItDoes({ items }: { items: { title: string; body: string }[] }) {
+function WhatItDoes({
+  title,
+  items,
+}: {
+  title?: string;
+  items: { title: string; body: string }[];
+}) {
   return (
     <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8 min-[1100px]:py-[var(--section-pad)]">
       <div className="mx-auto max-w-[var(--content-max)]">
         <p className="eyebrow">Qué hace</p>
         <h2 className="mt-4 max-w-[28ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
-          Cuatro cosas, y las cuatro salen del mismo dato
+          {title}
         </h2>
 
         {/* TODO(equipo): faltan las capturas del producto. El patrón de esta sección es
@@ -289,12 +297,12 @@ function FreePlan() {
 
 /* ---------- 08 · Preguntas frecuentes ---------- */
 
-function ModuleFaq({ name, items }: { name: string; items: { q: string; a: string }[] }) {
+function ModuleFaq({ title, items }: { title: string; items: { q: string; a: string }[] }) {
   return (
     <section className="bg-surface-sunken px-5 py-[var(--section-pad-md)] md:px-8">
       <div className="mx-auto max-w-[50rem]">
         <h2 className="text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
-          Preguntas sobre {name}
+          {title}
         </h2>
 
         <Accordion
@@ -330,22 +338,26 @@ function ModuleFaq({ name, items }: { name: string; items: { q: string; a: strin
  * campo nuevo.
  */
 function Related({ module: m }: { module: PlatformModule }) {
-  const buildsOn = MODULES.filter((o) => m.buildsOn.includes(o.key));
-  const inverse = MODULES.filter((o) => o.buildsOn.includes(m.key));
+  // Tres intentos, en orden: en qué se apoya, quién se apoya en él, y con qué se combina.
+  // El tercero existe porque hay módulos donde los dos primeros dan vacío, y son
+  // justamente los que más necesitan una salida.
+  const byKeys = (keys: readonly string[]) => MODULES.filter((o) => keys.includes(o.key));
 
-  const showing = buildsOn.length > 0 ? buildsOn : inverse;
+  const showing =
+    (m.buildsOn.length > 0 && byKeys(m.buildsOn)) ||
+    (() => {
+      const inverse = MODULES.filter((o) => o.buildsOn.includes(m.key));
+      return inverse.length > 0 ? inverse : byKeys(m.pairsWith ?? []);
+    })();
+
   if (showing.length === 0) return null;
-
-  const forward = buildsOn.length > 0;
 
   return (
     <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8">
       <div className="mx-auto max-w-[var(--content-max)]">
-        <p className="eyebrow">{forward ? "Se apoya en" : `Se apoyan en ${m.name}`}</p>
+        <p className="eyebrow">{m.relatedEyebrow ?? "Se apoya en"}</p>
         <h2 className="mt-4 max-w-[28ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
-          {forward
-            ? "Un módulo resuelve un problema. Juntos, gobiernan la operación."
-            : "Con el dato de producción ya cargado, estos suman solos"}
+          {m.relatedTitle ?? "Un módulo resuelve un problema. Juntos, gobiernan la operación."}
         </h2>
         <ModuleGrid modules={showing} className="mt-12" />
       </div>

@@ -58,15 +58,18 @@ export const stockModel: RoiModel = {
     },
     {
       key: "inversionInicial",
-      label: "Inversión inicial",
-      min: 500,
+      label: "Instalación y hardware (una vez)",
+      help: "Si ya tenés una cotización de instalación, ponela acá.",
+      min: 0,
       max: 100000,
       step: 500,
       unit: "USD",
     },
     {
+      // Sin precio publicado para este módulo: el valor es de referencia y se edita.
       key: "saasMensual",
-      label: "Costo mensual de InspectIA",
+      label: "Costo mensual estimado de InspectIA",
+      help: "Este módulo se cotiza según el depósito. Ponés tu cotización o dejás el valor de referencia.",
       min: 100,
       max: 5000,
       step: 50,

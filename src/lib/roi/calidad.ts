@@ -72,11 +72,23 @@ export const calidadModel: RoiModel = {
     },
     {
       key: "implementacion",
-      label: "Inversión inicial por línea",
-      min: 1000,
+      label: "Instalación y hardware por línea (una vez)",
+      min: 0,
       max: 100000,
       step: 500,
       unit: "USD",
+      help: "Si ya tenés una cotización de instalación, ponela acá.",
+    },
+    {
+      // Este módulo no tiene precio publicado, así que el campo arranca en 0 y no en un
+      // valor de referencia inventado. Con 0 el resultado es el mismo que antes del cambio.
+      key: "saasMensual",
+      label: "Costo mensual estimado de InspectIA",
+      min: 0,
+      max: 5000,
+      step: 50,
+      unit: "USD",
+      help: "Este módulo se cotiza según la línea. Si ya tenés una cotización, ponela acá.",
     },
   ],
 
@@ -90,6 +102,7 @@ export const calidadModel: RoiModel = {
     personas: 4,
     costoPersona: 1500,
     implementacion: 15000,
+    saasMensual: 0,
   },
 
   // El esperado tiene que quedar por encima del actual, o el ahorro sale negativo.
@@ -112,7 +125,8 @@ export const calidadModel: RoiModel = {
     const ahorroScrap = (scrapActual - scrapEsperado) * v.costoScrap;
     // 13 sueldos: doce más el aguinaldo.
     const ahorroLaboral = v.personas * v.costoPersona * 13;
-    const ahorroTotal = ahorroScrap + ahorroLaboral;
+    const costoSaasAnual = v.saasMensual * 12;
+    const ahorroTotal = ahorroScrap + ahorroLaboral - costoSaasAnual;
     const inversion = v.implementacion * v.lineas;
 
     return {
@@ -134,6 +148,8 @@ export const calidadModel: RoiModel = {
         { label: "Producción anual", value: `${fmtNum(unidadesAnuales)} u` },
         { label: "Ahorro por scrap evitado", value: fmtMoney(ahorroScrap) },
         { label: "Ahorro en control manual", value: fmtMoney(ahorroLaboral) },
+        { label: "Costo anual estimado de InspectIA", value: fmtMoney(costoSaasAnual) },
+        { label: "Costo anual estimado de InspectIA", value: fmtMoney(costoSaasAnual) },
         { label: "Inversión inicial de InspectIA", value: fmtMoney(inversion) },
         {
           label: "Mejora de rendimiento",

@@ -47,10 +47,11 @@ export const CONTACT = {
   phone: null as string | null,
   /** TODO(equipo): casilla comercial. */
   email: null as string | null,
+  /** TODO(equipo): URL de la página de empresa. Mientras sea null no se renderiza el
+   *  botón: un enlace a linkedin.com a secas, que es lo que tenía el footer anterior, es
+   *  peor que no tener botón. */
+  linkedin: null as string | null,
 };
-
-// Sin redes sociales: hoy no hay cuenta de empresa. El footer anterior tenía un botón de
-// LinkedIn que apuntaba a linkedin.com a secas, que es peor que no tener botón.
 
 /**
  * Precios no se publica hasta tener el precio de todos los módulos (§7.6): con uno solo
