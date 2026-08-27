@@ -26,6 +26,13 @@ import { cn } from "@/lib/utils";
  * monta siempre un Viewport con `max-w-max`, y el panel de Plataforma tiene que medir el
  * ancho del contenido (1200px), no el del disparador.
  *
+ * Para que ese ancho salga hay que desarmar **dos** bloques contenedores, no uno. Los
+ * `static` de Root, List e Item son el primero. El segundo es un div sin clases que
+ * Radix inyecta entre el `<nav>` y la lista con `style="position:relative"` puesto a
+ * mano: como es inline, ninguna clase de Tailwind lo pisa sin `!`, y mientras siga en
+ * relative el panel mide lo que mide la lista de disparadores —326px— y los ocho módulos
+ * se apilan unos sobre otros. De ahí `[&>div]:static!`.
+ *
  * **Plataforma no agrupa por industria.** Los ocho módulos van en una lista plana: quien
  * entra por una vertical tiene que ver que hay una plataforma, que es justamente lo que
  * la navegación anterior escondía.
@@ -71,8 +78,9 @@ export function Navbar() {
           // mouse; 240ms de gracia al salir para poder cruzar el hueco hacia el panel.
           delayDuration={120}
           skipDelayDuration={240}
-          // static en Root/List/Item: si Radix los posiciona, el panel se ancla al ítem.
-          className="static hidden nav:block"
+          // static en Root/List/Item, y static! en el div que Radix inyecta con
+          // position:relative inline. Si alguno queda posicionado, el panel se ancla a él.
+          className="static hidden nav:block [&>div]:static!"
         >
           <NavigationMenu.List className="static flex items-center gap-7">
             <NavigationMenu.Item className="static">
@@ -87,7 +95,7 @@ export function Navbar() {
                           <Link
                             to="/plataforma/$modulo"
                             params={{ modulo: m.slug }}
-                            className="flex h-14 items-center gap-3 rounded-[var(--radius-md)] px-3 transition-colors duration-[160ms] hover:bg-brand-subtle"
+                            className="flex min-h-14 items-center gap-3 rounded-[var(--radius-md)] px-3 py-2 transition-colors duration-[160ms] hover:bg-brand-subtle"
                           >
                             <m.icon
                               className="size-5 shrink-0 text-brand"
@@ -182,14 +190,21 @@ export function Navbar() {
 
         {/* ---------- Derecha ---------- */}
         <div className="hidden items-center gap-6 nav:flex">
-          {/* Enlaces de texto: los únicos botones de la barra son los dos primarios. */}
-          <TopLink to="/roi">Calcular ROI</TopLink>
-          <a
-            href={APP_URL}
-            className="text-[15px] font-medium text-ink-secondary transition-colors duration-[160ms] hover:text-brand"
-          >
-            Ingresar
-          </a>
+          {/* Enlaces de texto: los únicos botones de la barra son los dos primarios.
+              Y por eso son también lo primero que se cae: entre el corte de 900px y los
+              1100 la barra completa —lockup, tres entradas, dos enlaces y los dos
+              botones— no entra, y lo que hacía era empujar el documento. Los dos botones
+              se quedan siempre (§11.1); los dos enlaces vuelven cuando hay lugar, y
+              mientras tanto siguen en el pie y en el menú de mobile. */}
+          <div className="hidden items-center gap-6 min-[1100px]:flex">
+            <TopLink to="/roi">Calcular ROI</TopLink>
+            <a
+              href={APP_URL}
+              className="text-[15px] font-medium text-ink-secondary transition-colors duration-[160ms] hover:text-brand"
+            >
+              Ingresar
+            </a>
+          </div>
           <CtaPair size="bar" />
         </div>
 
