@@ -14,9 +14,14 @@ import { CtaPair } from "@/components/site/CtaPair";
 
 /** Cada dato lleva su unidad y su período. Un número suelto no dice nada (§10.1). */
 const STATS = [
-  { value: "5–15 días", label: "de kickoff a producción" },
-  { value: "70 tipos de falla", label: "en menos de 1 minuto · autopartista" },
-  { value: "De 48 a 30 h", label: "lead time de recepción · centro de distribución" },
+  // El espacio antes del % es duro: sin él, "100" y "%" pueden partirse en dos líneas.
+  { value: "100\u00A0%", label: "De la producción analizada, no una muestra" },
+  { value: "5 a 15 días", label: "De la reunión de arranque a datos en producción" },
+  // TODO(equipo): el dato aprobado para este lugar es el de abajo, pero le falta el
+  // denominador: "75\u00A0% más barato" que qué. Hasta que el equipo lo escriba, va el repago,
+  // que sí tiene contra qué medirse. Confirmado el denominador, se cambia por:
+  //   { value: "75\u00A0%", label: "Más barato que automatizar la línea" },
+  { value: "Repago en menos de 6 meses", label: "Sobre el costo del módulo" },
 ];
 
 export function Hero() {
@@ -25,10 +30,13 @@ export function Hero() {
       <div className="mx-auto max-w-[var(--content-max-hero)]">
         {/* TODO(equipo): la segunda columna es una foto real de planta, a 36% y con borde
             al 14% (§11.2). Falta la fotografía propia (§15.9). El render isométrico no
-            sirve acá: ya es el protagonista del bloque 03 y repetirlo lo gasta. */}
+            sirve acá: ya es el protagonista del bloque 03 y repetirlo lo gasta.
+            Alt aprobado, a ajustar a lo que muestre la foto real:
+            "Línea de producción en planta, con operario controlando el proceso desde una
+             terminal" */}
         <div className="hero-col max-w-[64%] min-[1100px]:max-w-[46rem]">
           <p className="text-xs font-semibold uppercase tracking-[var(--tracking-widest)] text-[var(--accent-on-brand)]">
-            InspectIA OS
+            InspectIA OS · Plataforma modular para plantas y depósitos
           </p>
 
           <h1
@@ -39,9 +47,9 @@ export function Hero() {
           </h1>
 
           <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-on-brand-secondary">
-            InspectIA OS suma módulos sobre la operación que ya tenés: eficiencia, calidad,
-            recepción, inventario, pedidos. Funciona con tus máquinas, tus cámaras y tu ERP. Empezás
-            por un módulo y sumás los que necesites, cuando los necesites.
+            InspectIA OS mide y controla lo que pasa en tu planta y en tu depósito: eficiencia,
+            calidad, recepción, inventario y pedidos. Funciona con las máquinas, las cámaras y el
+            ERP que ya tenés. Empezás por un módulo y sumás los que necesites, cuando los necesites.
           </p>
 
           <p className="mt-4 max-w-[var(--lead-max)] text-on-brand-secondary">

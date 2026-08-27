@@ -18,7 +18,7 @@ export const PLANT_PLAN = {
   src960: "/img/plant/fabrica-logistica-960.webp",
   width: 1920,
   height: 1079,
-  alt: "Vista isométrica de una fábrica y un centro de distribución monitoreados por InspectIA",
+  alt: "Vista isométrica de una planta y un centro de distribución, con los ocho módulos de InspectIA ubicados en su punto de la operación",
 } as const;
 
 export type PartnerSlug =

@@ -151,7 +151,7 @@ function SensitivityMatrix({ matrix }: { matrix: RoiMatrix }) {
                         isCenter && "bg-brand-subtle font-semibold",
                       )}
                     >
-                      {Math.round(roi)} %
+                      {Math.round(roi)}&nbsp;%
                     </td>
                   );
                 })}

@@ -26,7 +26,14 @@ export function TrustBar({ family = "cliente", title = "Confían en nosotros" }:
       className="bg-surface px-5 py-[var(--section-pad-sm)] md:px-8 md:py-[var(--section-pad-md)]"
     >
       <div className="mx-auto max-w-[var(--content-max)]">
-        <p className="eyebrow text-center">{title}</p>
+        {/* h2 con la piel de eyebrow: el título de la sección es literalmente "Confían en
+            nosotros" y §11.10 le da ese tratamiento visual, pero en la jerarquía del
+            documento es una sección como cualquier otra. */}
+        <h2 className="eyebrow text-center">{title}</h2>
+        <p className="mx-auto mt-4 max-w-[var(--lead-max)] text-center text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
+          Plantas de autopartes, alimentos, molienda y colchones, y centros de distribución, ya
+          operan con InspectIA.
+        </p>
 
         <ul className="mt-10 flex flex-wrap items-center justify-center gap-x-14 gap-y-8">
           {logos.map((p) => (

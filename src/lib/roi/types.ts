@@ -87,13 +87,13 @@ const number = new Intl.NumberFormat("es-AR", { maximumFractionDigits: 0 });
 export const fmtMoney = (n: number) => money.format(n);
 export const fmtNum = (n: number) => number.format(n);
 
-/** Los porcentajes chicos necesitan más decimales para no leerse todos como "0 %". */
+/** Los porcentajes chicos necesitan más decimales para no leerse todos como "0\u00A0%". */
 export const fmtPct = (n: number) => {
   const decimals = Math.abs(n) < 0.1 ? 3 : Math.abs(n) < 1 ? 2 : Math.abs(n) < 10 ? 1 : 0;
   return `${new Intl.NumberFormat("es-AR", {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,
-  }).format(n)} %`;
+  }).format(n)}\u00A0%`;
 };
 
 export const fmtMonths = (n: number | null) =>

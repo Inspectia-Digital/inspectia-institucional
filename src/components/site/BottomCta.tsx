@@ -13,8 +13,8 @@ import { pushEvent, sourcePage } from "@/lib/analytics";
  * ser una página: es una redirección al calendario (§7.10).
  */
 export function BottomCta({
-  title = "Veinte minutos y te mostramos tu propia línea medida.",
-  lead = "Sin presentación y sin cotización: entramos a la plataforma con datos de una planta parecida a la tuya. Si preferís no hablar con nadie todavía, creá la cuenta y probala hoy.",
+  title = "Veinte minutos y te mostramos tu propia línea medida",
+  lead = "Elegís el horario y hablás con alguien que entiende de planta. Sin presentación de PowerPoint. Si preferís arrancar solo, creá la cuenta y probá el plan gratuito hoy.",
   module,
   industry,
 }: {

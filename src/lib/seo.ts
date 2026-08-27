@@ -10,6 +10,13 @@ import { SITE_URL } from "@/content/site";
  * El título se escribe a mano en cada página: la forma es `Beneficio o término · InspectIA`
  * y hasta 60 caracteres, que es lo que Google muestra antes de cortar.
  */
+/**
+ * Imagen de compartido por defecto: el render del plano recortado a 1200×630. Es el activo
+ * más reconocible que hay y lo que se ve al pegar el enlace en LinkedIn o WhatsApp, que en
+ * este rubro es por donde circula. Se genera con `npm run images`.
+ */
+const OG_IMAGE = "/img/og/inspectia-og.jpg";
+
 export function pageHead(opts: {
   title: string;
   description: string;
@@ -19,6 +26,8 @@ export function pageHead(opts: {
   noindex?: boolean;
   /** Datos estructurados propios de la página (FAQPage, Article). */
   jsonLd?: unknown;
+  /** Ruta a una imagen propia de la página. Por omisión, el plano de planta. */
+  image?: string;
 }) {
   // La raíz conserva la barra: el sitemap declara SITE_URL + "/" y una canónica sin ella
   // apunta, en los papeles, a otra URL. Dos formas de la misma página es exactamente lo
@@ -33,6 +42,11 @@ export function pageHead(opts: {
       { property: "og:description", content: opts.description },
       { property: "og:url", content: canonical },
       { property: "og:type", content: "website" },
+      // Absoluta y no relativa: los rastreadores de compartido no resuelven rutas.
+      { property: "og:image", content: `${SITE_URL}${opts.image ?? OG_IMAGE}` },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { name: "twitter:image", content: `${SITE_URL}${opts.image ?? OG_IMAGE}` },
       ...(opts.noindex ? [{ name: "robots", content: "noindex, follow" }] : []),
     ],
     links: [{ rel: "canonical", href: canonical }],

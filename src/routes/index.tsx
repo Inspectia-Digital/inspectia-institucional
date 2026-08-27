@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { Hero } from "@/components/site/Hero";
 import { TrustBar } from "@/components/site/TrustBar";
@@ -16,7 +17,7 @@ import {
 } from "@/components/home/sections";
 import { faqJsonLd, organizationJsonLd, pageHead } from "@/lib/seo";
 
-const TITLE = "Software de OEE, calidad e inventario · InspectIA";
+const TITLE = "Software de OEE, calidad e inventario para plantas · InspectIA";
 const DESCRIPTION =
   "Ocho módulos sobre la operación que ya tenés: OEE, calidad, recepción, inventario y pedidos. De la reunión de arranque a producción, entre 5 y 15 días.";
 
@@ -66,7 +67,10 @@ function Home() {
       <HomeRoi />
       {/* 10 */}
       <PartnersBand />
-      {/* 11 · Precios queda fuera del aire hasta tener el precio de todos los módulos. */}
+      {/* 11 · Precios queda fuera del aire hasta tener el precio de todos los módulos
+          (SHOW_PRICING). El copy aprobado, para cuando se destrabe:
+          "TYMEO arranca gratis y el plan con hardware cuesta USD 35 por planta y mes.
+           Los demás módulos se cotizan según el alcance." */}
       {/* 12 */}
       <Faq />
       {/* 13 · La banda de cierre la monta SiteLayout. */}
@@ -94,6 +98,14 @@ function Platform() {
         </div>
 
         <ModuleGrid className="mt-16" />
+
+        <Link
+          to="/plataforma"
+          className="mt-10 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
+        >
+          Ver cómo funciona la plataforma
+          <ArrowRight className="size-4" aria-hidden />
+        </Link>
       </div>
     </section>
   );

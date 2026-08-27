@@ -108,4 +108,28 @@ console.log("Logos:");
 await optimizeLogos();
 console.log("Plano de planta:");
 await optimizePlant();
+
+/**
+ * Imagen de Open Graph: el render del plano recortado a 1200x630.
+ *
+ * Es lo que se ve al compartir el sitio por LinkedIn y WhatsApp, que en este rubro es por
+ * donde circula. El render original es 16:9 y el formato de compartido es más apaisado,
+ * así que se recorta desde el centro en lugar de deformarlo.
+ */
+async function optimizeOgImage() {
+  const from = join(RAW, "plant", "fabrica-logistica.png");
+  const to = join(OUT, "og", "inspectia-og.jpg");
+  await mkdir(join(OUT, "og"), { recursive: true });
+
+  // JPEG y no WebP: varias plataformas de mensajería todavía no previsualizan WebP.
+  await sharp(from)
+    .resize({ width: 1200, height: 630, fit: "cover", position: "centre" })
+    .jpeg({ quality: 82, mozjpeg: true })
+    .toFile(to);
+
+  console.log(`  fabrica-logistica.png → og/inspectia-og.jpg ${kb(await sizeOf(to))}`);
+}
+
+console.log("Open Graph:");
+await optimizeOgImage();
 console.log("Listo.");

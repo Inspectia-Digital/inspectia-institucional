@@ -29,7 +29,8 @@ export type MarketplaceCategory = {
 export const MARKETPLACE_CATEGORIES: MarketplaceCategory[] = [
   {
     key: "hardware",
-    name: "Hardware y sensórica",
+    // La key no cambia: es el filtro y la URL de la categoría.
+    name: "Hardware, sensores e IoT",
     solves: "Cámaras, sensores, lectoras y la instalación en piso de planta.",
     combinesWith: ["control-de-calidad", "tymeo", "camaras-inteligentes"],
     providers: [

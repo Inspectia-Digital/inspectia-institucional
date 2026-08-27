@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { MODULES, type ModuleKey } from "@/content/modules";
+import { SIGNUP_URL } from "@/content/site";
 import { cn } from "@/lib/utils";
 
 /**
@@ -23,45 +24,47 @@ type Profile = {
   body: string;
   modules: ModuleKey[];
   stat: { value: string; caption: string };
-  link: { label: string; to: string };
+  /** Adónde sale cada perfil. Es un enlace de texto y no un botón: los dos únicos
+   *  botones de la home son los primarios. */
+  exit: { label: string; kind: "roi" | "signup" | "partners" };
 };
 
 const PROFILES: Profile[] = [
   {
     key: "produccion",
     tab: "Producción y calidad",
-    pain: "Sé que pierdo plata en scrap y en paradas, pero no sé cuánta ni dónde",
-    body: "Las paradas quedan clasificadas por causa y por turno, y el defecto se marca en la línea en vez de aparecer en el cierre del mes.",
+    pain: "Sé que pierdo eficiencia pero no puedo decir dónde.",
+    body: "Ves qué línea te frena, cuántas veces y por qué, y cuánta producción se va en retrabajo.",
     modules: ["tymeo", "control-de-calidad"],
     stat: { value: "70 tipos de falla", caption: "en menos de 1 minuto · planta autopartista" },
-    link: { label: "Ver TYMEO", to: "tymeo" },
+    exit: { label: "Calcular mi ROI", kind: "roi" },
   },
   {
     key: "logistica",
     tab: "Logística e inventario",
-    pain: "El sistema dice una cosa y el rack dice otra",
-    body: "Se cuenta lo que entra, lo que está en posición y lo que sale, contra lo que dice el WMS, sin frenar la operación.",
+    pain: "El sistema y el depósito no dicen lo mismo, y me entero tarde.",
+    body: "Controlás lo que entra, contás por posición sin parar la operación y seguís el pedido hasta el camión.",
     modules: ["recepcion", "stock-en-posiciones", "sobrestock-drones", "control-de-pedidos"],
     stat: { value: "De 24 a 15 operarios", caption: "en recepción · centro de distribución" },
-    link: { label: "Ver recepción de mercadería", to: "recepcion" },
+    exit: { label: "Calcular mi ROI", kind: "roi" },
   },
   {
     key: "pyme",
-    tab: "Dueño de PyME",
-    pain: "¿Esto es para una empresa de mi tamaño?",
-    body: "Creás la cuenta y ese mismo día estás midiendo, sin hardware, sin visita y sin cotización. El hardware entra después, si lo querés.",
-    modules: ["tymeo"],
+    tab: "Dueño o gerencia",
+    pain: "Necesito saber si esto es para una empresa de mi tamaño.",
+    body: "Arrancás con el plan gratuito en una línea, medís un mes y decidís con datos propios si vale automatizar.",
+    modules: [],
     stat: { value: "USD 35", caption: "por planta y mes, con plan gratuito sin hardware" },
-    link: { label: "Ver los ocho módulos", to: "" },
+    exit: { label: "Empezar gratis", kind: "signup" },
   },
   {
     key: "consultor",
     tab: "Consultor",
-    pain: "Necesito algo que pueda recomendar y que después alguien ejecute",
-    body: "Vos diagnosticás y acompañás; nosotros instalamos, conectamos y sostenemos el servicio. Y armás la propuesta con la calculadora a tu nombre.",
+    pain: "Recomiendo mejoras, pero no tengo con qué ejecutarlas.",
+    body: "Vos diagnosticás y acompañás; nosotros instalamos, conectamos y sostenemos el servicio. Y te derivamos los clientes que piden consultor.",
     modules: [],
     stat: { value: "5–15 días", caption: "de la reunión de arranque a producción" },
-    link: { label: "Ver el programa para consultores", to: "" },
+    exit: { label: "Conocer el programa de partners", kind: "partners" },
   },
 ];
 
@@ -77,7 +80,7 @@ export function AudienceTabs() {
       <div className="mx-auto max-w-[var(--content-max)]">
         <p className="eyebrow">Según quién sos</p>
         <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
-          El mismo sistema, mirado desde tu silla.
+          ¿Desde dónde lo mirás?
         </h2>
 
         {/* Las pestañas desplazan en horizontal en mobile en vez de apilarse: cuatro
@@ -117,8 +120,9 @@ export function AudienceTabs() {
           className="mt-10 grid animate-rise-in gap-10 rounded-[var(--radius-lg)] border border-line p-8 md:p-10 min-[900px]:grid-cols-[1fr_auto] min-[900px]:gap-16"
         >
           <div className="min-w-0">
+            <h3 className="sr-only">{profile.tab}</h3>
             <p className="text-[length:var(--text-lead)] font-medium leading-snug text-ink">
-              «{profile.pain}»
+              &ldquo;{profile.pain}&rdquo;
             </p>
             <p className="mt-4 max-w-[var(--read-max)] text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
               {profile.body}
@@ -131,19 +135,19 @@ export function AudienceTabs() {
               </p>
             )}
 
-            {profile.key === "consultor" ? (
+            {profile.exit.kind === "partners" ? (
               <Link to="/partners" className={LINK}>
-                {profile.link.label}
+                {profile.exit.label}
                 <ArrowRight className="size-4" aria-hidden />
               </Link>
-            ) : profile.link.to ? (
-              <Link to="/plataforma/$modulo" params={{ modulo: profile.link.to }} className={LINK}>
-                {profile.link.label}
+            ) : profile.exit.kind === "signup" ? (
+              <a href={SIGNUP_URL} className={LINK}>
+                {profile.exit.label}
                 <ArrowRight className="size-4" aria-hidden />
-              </Link>
+              </a>
             ) : (
-              <Link to="/plataforma" className={LINK}>
-                {profile.link.label}
+              <Link to="/roi" className={LINK}>
+                {profile.exit.label}
                 <ArrowRight className="size-4" aria-hidden />
               </Link>
             )}
