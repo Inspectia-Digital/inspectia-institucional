@@ -36,7 +36,12 @@
   --surface-card: #ffffff;
   /* Tercer fondo, sólo si hacen falta tres secciones seguidas sin teal. */
   --surface-sunken: var(--grey-050);
-  --surface-brand-deep: var(--teal-900); /* hero, banda de cierre, footer */
+  --surface-brand-deep: var(--teal-900); /* hero y banda de cierre */
+  /* El pie va un paso más oscuro que la banda de cierre y no el mismo teal. Con los dos
+     en --teal-900 el cierre y el pie se leían como un solo bloque oscuro de 700px, y el
+     efecto era que el pie parecía enorme: no había borde que dijera dónde termina la
+     invitación a agendar y dónde empieza la navegación. */
+  --surface-footer: var(--teal-950);
   --surface-brand-subtle: var(--teal-050);
   --surface-overlay: rgba(4, 41, 43, 0.6);
   /* Una card sobre teal se define con relleno, no con sombra. */

@@ -87,8 +87,13 @@ export function Navbar() {
               <MenuTrigger>Plataforma</MenuTrigger>
               <Panel>
                 <div className="grid grid-cols-4 gap-8">
-                  {/* Los ocho módulos reparten 3+3+2 en las tres primeras columnas. */}
-                  <ul className="col-span-3 grid grid-cols-3 gap-x-6 gap-y-1">
+                  {/* Dos columnas de cuatro y no tres columnas de tres. Con tres, cada
+                      módulo tenía 265px y la promesa entraba en 38 caracteres: las ocho
+                      salían cortadas con puntos suspensivos, así que la línea ocupaba
+                      lugar sin decir nada. A dos columnas hay ~410px y la promesa más
+                      larga —la de control de calidad, 105 caracteres— entra en dos
+                      líneas. */}
+                  <ul className="col-span-3 grid grid-cols-2 gap-x-6 gap-y-1">
                     {MODULES.map((m) => (
                       <li key={m.key} className="min-w-0">
                         <NavigationMenu.Link asChild>
@@ -106,8 +111,7 @@ export function Navbar() {
                               <span className="block text-[15px] font-semibold text-ink">
                                 {m.name}
                               </span>
-                              {/* Truncada a una línea: el menú lista, no explica. */}
-                              <span className="block truncate text-[13px] text-ink-secondary">
+                              <span className="block text-[13px] leading-[var(--leading-normal)] text-ink-secondary">
                                 {m.promise}
                               </span>
                             </span>

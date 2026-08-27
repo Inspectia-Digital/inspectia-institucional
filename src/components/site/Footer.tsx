@@ -5,6 +5,7 @@ import { MODULES } from "@/content/modules";
 import { INDUSTRIES, USE_CASES } from "@/content/solutions";
 import { APP_URL, CONTACT, NEWSLETTER_ENDPOINT, SHOW_PRICING } from "@/content/site";
 import { pushEvent, sourcePage } from "@/lib/analytics";
+import { cn } from "@/lib/utils";
 
 /**
  * Pie del sitio (§11.12).
@@ -13,6 +14,9 @@ import { pushEvent, sourcePage } from "@/lib/analytics";
  * de columnas de enlaces: una columna de marca con un párrafo real, las listas agrupadas
  * de a dos, el newsletter con su formulario, y una barra inferior con el legal a un lado
  * y la licencia al otro. El contenido sí es el nuevo.
+ *
+ * El fondo es --surface-footer y no --surface-brand-deep: la banda de cierre ya usa el
+ * teal profundo, y con los dos iguales el cierre y el pie se leen como un solo bloque.
  *
  * **Todo item lleva min-width:0**: sin eso un item de grid no baja de su min-content y
  * empuja el documento. Es literalmente el bug que tenía este footer —la columna del
@@ -23,9 +27,17 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-brand-deep px-5 pb-8 pt-20 md:px-8">
+    <footer className="bg-footer px-5 pb-8 pt-20 md:px-8">
       <div className="mx-auto max-w-[var(--content-max)]">
-        <div className="grid grid-cols-1 gap-x-8 gap-y-12 min-[720px]:grid-cols-2 min-[1100px]:grid-cols-4">
+        {/* Cuatro columnas, o cinco cuando la de novedades tenga destino y vuelva. Sin
+            ese condicional el pie queda con una columna vacía o con dos listas apiladas
+            en la misma, que es lo que lo hacía medir 850px de alto. */}
+        <div
+          className={cn(
+            "grid grid-cols-1 gap-x-8 gap-y-12 min-[720px]:grid-cols-2",
+            NEWSLETTER_ENDPOINT ? "min-[1100px]:grid-cols-5" : "min-[1100px]:grid-cols-4",
+          )}
+        >
           {/* --- Marca --- */}
           <div className="min-w-0">
             <p className="text-xl font-bold tracking-tight text-on-brand">
@@ -79,7 +91,7 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* --- Soluciones y empresa, apiladas en una columna --- */}
+          {/* --- Soluciones --- */}
           <div className="min-w-0">
             <FooterHeading>Soluciones</FooterHeading>
             <ul className="mt-4 space-y-3">
@@ -106,8 +118,14 @@ export function Footer() {
                 </li>
               ))}
             </ul>
+          </div>
 
-            <FooterHeading className="mt-8">Empresa</FooterHeading>
+          {/* --- Empresa ---
+              Columna propia y no apilada bajo Soluciones: con las dos juntas esta
+              columna cargaba quince enlaces mientras las otras tenían ocho, y el alto de
+              la más larga es el alto del pie. */}
+          <div className="min-w-0">
+            <FooterHeading>Empresa</FooterHeading>
             <ul className="mt-4 space-y-3">
               <li className="min-w-0">
                 <Link to="/plataforma" className={FOOTER_LINK}>

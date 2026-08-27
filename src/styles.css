@@ -61,6 +61,7 @@
   --color-surface: var(--surface-page);
   --color-surface-sunken: var(--surface-sunken);
   --color-brand-deep: var(--surface-brand-deep);
+  --color-footer: var(--surface-footer);
   --color-brand-subtle: var(--surface-brand-subtle);
   --color-on-brand-fill: var(--surface-on-brand);
 
