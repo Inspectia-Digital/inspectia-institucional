@@ -42,6 +42,52 @@ export const WHATSAPP_URL: string | null = null;
  * Contacto del pie. §11.12 pide enlaces reales y no texto plano, así que lo que es null
  * simplemente no se renderiza, en vez de publicar un enlace que no lleva a ninguna parte.
  */
+/**
+ * Oficinas comerciales.
+ *
+ * **No confundir con el domicilio legal.** El de la cláusula 15 de los términos —La Pampa
+ * 2208— es el domicilio fiscal de la sociedad y vive dentro del texto que firmó legal;
+ * ése no se toca ni se reemplaza por éstos. Estas dos son las direcciones a las que
+ * efectivamente va alguien que quiere visitarnos.
+ *
+ * Los campos van partidos y no como una línea sola porque el dato estructurado de
+ * schema.org pide calle, localidad, provincia y código postal por separado, y armarlo
+ * después parseando un string es la clase de cosa que se rompe con la primera dirección
+ * que no siga el formato.
+ */
+export type Office = {
+  street: string;
+  locality: string;
+  region: string;
+  postalCode: string;
+  country: "AR";
+};
+
+export const OFFICES: Office[] = [
+  {
+    street: "25 de Mayo 459, piso 9",
+    locality: "Ciudad Autónoma de Buenos Aires",
+    region: "Ciudad Autónoma de Buenos Aires",
+    postalCode: "C1002ABI",
+    country: "AR",
+  },
+  {
+    street: "Av. Sucre 1627",
+    locality: "San Isidro",
+    region: "Provincia de Buenos Aires",
+    postalCode: "B1642",
+    country: "AR",
+  },
+];
+
+/** Una línea, para mostrar. La provincia se omite cuando repite a la localidad:
+ *  "Ciudad Autónoma de Buenos Aires, Ciudad Autónoma de Buenos Aires" no es una dirección,
+ *  es un error de plantilla. */
+export const officeLine = (o: Office) =>
+  [o.street, o.locality, o.region === o.locality ? null : o.region, o.postalCode]
+    .filter(Boolean)
+    .join(", ");
+
 export const CONTACT = {
   /** Confirmados por la cláusula 15 de los términos y condiciones, que es el documento
    *  donde legal los publicó. Antes de eso los dos eran null y el pie iba sin contacto. */

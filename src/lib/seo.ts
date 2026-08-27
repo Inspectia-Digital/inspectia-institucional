@@ -1,4 +1,4 @@
-import { SITE_URL } from "@/content/site";
+import { CONTACT, OFFICES, SITE_URL } from "@/content/site";
 
 /**
  * El `head` de una página.
@@ -88,6 +88,17 @@ export const faqJsonLd = (items: { q: string; a: string }[]) => ({
  * y un dato estructurado equivocado es peor que uno ausente porque queda asociado a la
  * entidad en el grafo de Google.
  */
+/**
+ * La organización, para el panel de conocimiento y para que un buscador entienda que el
+ * teléfono, el mail y las dos oficinas son de la misma empresa.
+ *
+ * Las direcciones que declara son las **comerciales**, no el domicilio legal: acá se
+ * describe dónde está la empresa, no qué domicilio constituyó ante la AFIP. El fiscal
+ * vive donde tiene que vivir, dentro de los términos y condiciones.
+ *
+ * Lo que es null en CONTACT no se emite: un dato estructurado con un campo vacío es peor
+ * que uno sin el campo.
+ */
 export const organizationJsonLd = () => ({
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -95,6 +106,22 @@ export const organizationJsonLd = () => ({
   url: SITE_URL,
   description:
     "Plataforma de inteligencia operativa industrial: OEE, control de calidad, recepción, inventario y control de pedidos, sobre la infraestructura que la planta ya tiene.",
+  ...(CONTACT.email ? { email: CONTACT.email } : {}),
+  ...(CONTACT.phone ? { telephone: CONTACT.phone } : {}),
+  ...(CONTACT.linkedin ? { sameAs: [CONTACT.linkedin] } : {}),
+  // La primera es la dirección principal; las dos van además como `location` para que
+  // no se lea como si hubiera una sola oficina.
+  address: postalAddress(OFFICES[0]),
+  location: OFFICES.map((o) => ({ "@type": "Place", address: postalAddress(o) })),
+});
+
+const postalAddress = (o: (typeof OFFICES)[number]) => ({
+  "@type": "PostalAddress",
+  streetAddress: o.street,
+  addressLocality: o.locality,
+  addressRegion: o.region,
+  postalCode: o.postalCode,
+  addressCountry: o.country,
 });
 
 /** Migas, para que el resultado de búsqueda muestre la jerarquía y no la URL cruda. */

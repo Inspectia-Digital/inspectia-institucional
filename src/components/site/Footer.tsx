@@ -1,9 +1,16 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Check, Linkedin, Mail, Phone } from "lucide-react";
+import { Check, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 import { MODULES } from "@/content/modules";
 import { INDUSTRIES, USE_CASES } from "@/content/solutions";
-import { APP_URL, CONTACT, NEWSLETTER_ENDPOINT, SHOW_PRICING } from "@/content/site";
+import {
+  APP_URL,
+  CONTACT,
+  NEWSLETTER_ENDPOINT,
+  OFFICES,
+  SHOW_PRICING,
+  officeLine,
+} from "@/content/site";
 import { pushEvent, sourcePage } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
@@ -70,6 +77,31 @@ export function Footer() {
                   </ContactRow>
                 )}
               </ul>
+            )}
+
+            {/* Las oficinas comerciales, no el domicilio legal: ése es el de los términos
+                y condiciones y no se publica como dirección de visita.
+
+                Van como texto y no como enlace a un mapa: sin la ubicación exacta
+                confirmada, un enlace a Maps armado con la dirección puede caer en la
+                cuadra de al lado, y eso es peor que no tener enlace. */}
+            {OFFICES.length > 0 && (
+              <address className="mt-6 not-italic">
+                <ul className="space-y-3">
+                  {OFFICES.map((o) => (
+                    <li key={o.postalCode} className="flex min-w-0 gap-2">
+                      <MapPin
+                        className="mt-0.5 size-4 shrink-0 text-on-brand-label"
+                        strokeWidth={1.5}
+                        aria-hidden
+                      />
+                      <span className="min-w-0 text-sm leading-[var(--leading-normal)] text-on-brand-secondary">
+                        {officeLine(o)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </address>
             )}
           </div>
 
