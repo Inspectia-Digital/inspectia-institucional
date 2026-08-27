@@ -99,3 +99,19 @@
     }
   }
 }
+
+/* iOS Safari hace zoom automático al enfocar un campo cuyo texto mide menos de 16px, y
+   después el visitante tiene que volver con dos dedos. Abajo de 640px los controles
+   suben a 16px; de ahí para arriba cada campo conserva el tamaño que le da su clase.
+
+   Va **fuera de toda capa** a propósito: las utilidades de Tailwind viven en
+   @layer utilities, y en la cascada lo que no está en ninguna capa le gana a lo que sí,
+   sin importar la especificidad. Es lo que hace que esto pise a text-[15px] sin un
+   !important y sin subir la especificidad con selectores encadenados. */
+@media (max-width: 639px) {
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}

@@ -34,7 +34,11 @@ export function Hero() {
             Alt aprobado, a ajustar a lo que muestre la foto real:
             "Línea de producción en planta, con operario controlando el proceso desde una
              terminal" */}
-        <div className="hero-col max-w-[64%] min-[1100px]:max-w-[46rem]">
+        {/* El 64% reserva el 36% para la foto, y eso sólo tiene sentido cuando las dos
+            columnas conviven. Sin el corte, en un teléfono de 375px la columna de texto
+            medía 214px: el h1 quedaba clavado en el mínimo del clamp y el lead caía en
+            columna angosta, reservando el resto para una foto que en mobile no va. */}
+        <div className="hero-col max-w-full min-[900px]:max-w-[64%] min-[1100px]:max-w-[46rem]">
           <p className="text-xs font-semibold uppercase tracking-[var(--tracking-widest)] text-[var(--accent-on-brand)]">
             InspectIA OS · Plataforma modular para plantas y depósitos
           </p>

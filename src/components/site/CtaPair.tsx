@@ -35,10 +35,16 @@ type CtaPairProps = {
   className?: string;
 };
 
+// Alto **mínimo** y no alto fijo. Los dos botones son items de un contenedor que se
+// apila en columna abajo de 640px, y ahí `flex-1` es `flex: 1 1 0%` sobre el eje
+// vertical: el flex-basis de 0 le ganaba a `h-[52px]` y los dos botones principales del
+// sitio colapsaban a 24px de alto en celular, que es el dispositivo por el que entra
+// casi todo el tráfico. Con min-height el flex no lo puede achicar, y `flex-1` sigue
+// dando el mismo ancho a los dos cuando van en fila, que es para lo que está.
 const HEIGHT: Record<Size, string> = {
-  default: "h-[52px]",
-  bar: "h-10",
-  mobile: "h-12",
+  default: "min-h-[52px]",
+  bar: "min-h-10",
+  mobile: "min-h-12",
 };
 
 // Sin transición de opacidad: el hover cambia el color, no el alfa. Un fundido de
