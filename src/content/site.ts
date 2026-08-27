@@ -39,19 +39,18 @@ export const APP_URL = "https://app.inspectia.ai";
 export const WHATSAPP_URL: string | null = null;
 
 /**
- * Contacto del pie. §11.12 pide teléfono, mail y LinkedIn como enlaces reales y no como
- * texto plano. El footer anterior tenía un enlace a linkedin.com a secas, así que los
- * tres entran como pendientes: lo que es null no se renderiza, en vez de publicar un
- * enlace que no lleva a ninguna parte.
+ * Contacto del pie. §11.12 pide enlaces reales y no texto plano, así que lo que es null
+ * simplemente no se renderiza, en vez de publicar un enlace que no lleva a ninguna parte.
  */
 export const CONTACT = {
   /** TODO(equipo): teléfono comercial. */
   phone: null as string | null,
   /** TODO(equipo): casilla comercial. */
   email: null as string | null,
-  /** TODO(equipo): URL de la página de empresa en LinkedIn. */
-  linkedin: null as string | null,
 };
+
+// Sin redes sociales: hoy no hay cuenta de empresa. El footer anterior tenía un botón de
+// LinkedIn que apuntaba a linkedin.com a secas, que es peor que no tener botón.
 
 /**
  * Precios no se publica hasta tener el precio de todos los módulos (§7.6): con uno solo
