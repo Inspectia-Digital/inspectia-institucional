@@ -146,4 +146,81 @@ export const PRICING_FAQ = [
     q: "¿Puedo tener más plantas o más usuarios?",
     a: "Sí. Start cubre una planta con usuarios ilimitados, Pro llega hasta tres plantas y Enterprise no tiene límite de plantas, líneas ni usuarios.",
   },
+  {
+    // TODO(equipo): **pendiente de confirmación.** Es una promesa contractual sobre
+    // retención y exportación de datos. Si el producto no hace exactamente esto, la
+    // respuesta se reescribe o la pregunta se saca. No ajustarla por cuenta propia.
+    q: "¿Qué pasa con mis datos si dejo de pagar?",
+    a: "Los datos que cargaste son tuyos y te los podés llevar exportados. La cuenta pasa a plan gratuito, así que la planta y la línea que estabas midiendo siguen funcionando: no se apaga nada.",
+  },
 ];
+
+/**
+ * Qué define el precio de cada módulo que no es TYMEO.
+ *
+ * TODO(comercial): **los siete `basis` son una propuesta, no un dato confirmado.** Salen
+ * de leer qué necesita cada módulo, no de una lista del equipo comercial. Hay que
+ * validarlos antes de publicar, y falta además la columna de qué incluye la puesta en
+ * marcha en cada caso, que no está definida. Es el pendiente que bloquea toda la página.
+ */
+export const MODULE_PRICING_BASIS: { module: string; basis: string }[] = [
+  { module: "control-de-calidad", basis: "Cantidad de líneas y de puntos de inspección" },
+  { module: "recepcion", basis: "Cantidad de posiciones de descarga" },
+  { module: "stock-en-posiciones", basis: "Cantidad de posiciones del depósito" },
+  { module: "sobrestock-drones", basis: "Superficie y cantidad de pasillos a relevar" },
+  { module: "camaras-inteligentes", basis: "Cantidad de cámaras y de sectores a cubrir" },
+  { module: "control-de-pedidos", basis: "Cantidad de puestos de despacho" },
+  { module: "agente", basis: "Alcance del desarrollo a medida" },
+];
+
+/**
+ * Comparación de costo total contra las dos alternativas habituales.
+ *
+ * **Sin cifras y sin nombres de competidores, a propósito.** Un "un proyecto llave en mano
+ * cuesta USD 80.000" sin fuente es justo el dato que nos deja mal parados si el comprador
+ * tiene una cotización distinta en la mano. La comparación va por estructura de costo:
+ * es igual de convincente y no es refutable.
+ *
+ * TODO(comercial): validar las cinco filas.
+ */
+export const COST_COMPARISON = {
+  columns: ["InspectIA", "Integrador llave en mano", "Licencia perpetua"],
+  rows: [
+    {
+      label: "Cuándo ves el primer dato",
+      values: [
+        "El mismo día con el plan gratuito; entre 5 y 15 días con hardware",
+        "Al final del proyecto",
+        "Después de la implementación",
+      ],
+    },
+    {
+      label: "Qué pasa si no funciona",
+      values: [
+        "Dejás de pagar la suscripción",
+        "La inversión ya está hecha",
+        "La licencia ya está pagada",
+      ],
+    },
+    {
+      label: "Quién paga las actualizaciones",
+      values: ["Incluidas", "Se cotizan aparte", "Se cotizan aparte o se pagan por versión"],
+    },
+    {
+      label: "Qué cuesta agregar una segunda línea o planta",
+      values: [
+        "Un plan más, o el mismo plan según el alcance",
+        "Un proyecto nuevo",
+        "Una licencia más",
+      ],
+    },
+    {
+      label: "Qué cuesta agregar un usuario",
+      values: [
+        "Nada: los usuarios son ilimitados",
+        "Depende del alcance contratado",
+        "Se paga por puesto",
+      ],
+    },
+  ],
+};
