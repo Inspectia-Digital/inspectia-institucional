@@ -37,7 +37,7 @@ export function BottomCta({
           <a
             href={WHATSAPP_URL}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener noreferrer nofollow"
             onClick={() => pushEvent("whatsapp_click", { source_page: sourcePage() })}
             className="mt-6 inline-flex items-center gap-2 text-sm text-on-brand-secondary transition-colors duration-[160ms] hover:text-on-brand"
           >

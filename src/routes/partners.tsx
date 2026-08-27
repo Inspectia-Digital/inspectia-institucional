@@ -276,7 +276,7 @@ function Page() {
             <a
               href={DEMO_URL}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener noreferrer nofollow"
               className="text-[15px] text-on-brand-secondary underline-offset-4 transition-colors duration-[160ms] hover:text-on-brand hover:underline"
             >
               Agendar demo
@@ -317,7 +317,8 @@ function ApplicationForm() {
     setFailed(false);
     try {
       // TODO(equipo): sin CRM definido la postulación termina acá.
-      console.info("Postulación de partner", data);
+      // Sin `data`: son nombre, especialidad, mail y teléfono de una persona real.
+      console.info("Postulación de partner enviada");
       pushEvent("partner_apply", { specialty: data.especialidad, source_page: sourcePage() });
       setSent(true);
     } catch {

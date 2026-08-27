@@ -1,7 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /demo
-Disallow: /legales
-Disallow: /privacidad
 
 Sitemap: https://inspectia.ai/sitemap.xml

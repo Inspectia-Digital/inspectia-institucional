@@ -125,7 +125,7 @@ function Page() {
                   <a
                     href={DEMO_URL}
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="noopener noreferrer nofollow"
                     onClick={() =>
                       pushEvent("marketplace_lead", {
                         service: c.name,
@@ -164,7 +164,7 @@ function Page() {
           <a
             href={DEMO_URL}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener noreferrer nofollow"
             onClick={() =>
               pushEvent("demo_scheduled_click", { source_page: "/plataforma/marketplace" })
             }
@@ -191,7 +191,7 @@ function Page() {
           <a
             href={DEMO_URL}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener noreferrer nofollow"
             onClick={() =>
               pushEvent("marketplace_lead", {
                 service: "alta de proveedor",

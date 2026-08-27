@@ -72,11 +72,30 @@ ${urls
 
 // /demo redirige al calendario de Google y /legales y /privacidad no aportan a la
 // búsqueda, así que se excluyen de la exploración en vez de gastar presupuesto de rastreo.
+/**
+ * robots.txt.
+ *
+ * **Legales y privacidad NO van en Disallow**, aunque no queramos que se indexen. Las
+ * dos cosas se pisan: un Disallow impide el rastreo, y sin rastreo el buscador nunca lee
+ * el `noindex` de la página. Como el pie las enlaza desde todo el sitio, el resultado de
+ * combinarlas es el peor de los dos mundos —la URL igual aparece indexada, sin título ni
+ * descripción, porque el buscador la conoce por el enlace pero tiene prohibido abrirla—.
+ * Con el meta `noindex` alcanza, y para que funcione hay que dejar entrar al robot.
+ *
+ * /demo sí va en Disallow y es el caso opuesto: es una redirección 302 al calendario, no
+ * devuelve HTML, así que no hay dónde poner un meta. Tampoco está enlazada desde ninguna
+ * página, así que no corre el riesgo de quedar indexada por referencia.
+ *
+ * **Los rastreadores de IA entran, y es una decisión tomada** (agosto de 2026): no hay
+ * bloques para GPTBot, ClaudeBot, PerplexityBot, CCBot ni Google-Extended. El comprador
+ * industrial cada vez más le pregunta a un asistente por proveedores antes de buscar en
+ * Google, y un sitio que esos bots no pueden leer no aparece en esa respuesta. El costo
+ * asumido es que el contenido se use para entrenar. Si alguien va a revertirlo, que sea
+ * a propósito y no "por las dudas".
+ */
 const robots = `User-agent: *
 Allow: /
 Disallow: /demo
-Disallow: /legales
-Disallow: /privacidad
 
 Sitemap: ${SITE_URL}/sitemap.xml
 `;

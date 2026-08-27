@@ -46,7 +46,12 @@ export function LeadForm({ module, outcome }: { module: string; outcome: RoiOutc
     try {
       // TODO(equipo): sin CRM definido el lead termina acá. Es bloqueante: hoy alguien
       // deja sus datos y no llega a ninguna parte (§15.8).
-      console.info("Lead de informe de ROI", { ...data, module });
+      // Sin los datos de la persona. Lo que se carga en un formulario —nombre, empresa,
+      // mail y teléfono— no va a la consola del navegador: lo lee cualquier extensión
+      // instalada y lo levanta cualquier herramienta de grabación de sesión. Queda el
+      // rastro de que el envío ocurrió, que es lo único que sirve para depurar sin
+      // destino configurado.
+      console.info("Lead de informe de ROI enviado", { module });
 
       pushEvent("roi_report_download", {
         module,

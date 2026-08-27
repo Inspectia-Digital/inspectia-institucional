@@ -90,6 +90,7 @@ export function CtaPair({
     >
       <a
         href={SIGNUP_URL}
+        rel="nofollow"
         className={cn(SHARED, height, FILLED[surface])}
         onClick={() => pushEvent("signup_start", { source_page: sourcePage(), module, plan })}
       >
@@ -99,7 +100,7 @@ export function CtaPair({
       <a
         href={DEMO_URL}
         target="_blank"
-        rel="noopener noreferrer"
+        rel="noopener noreferrer nofollow"
         className={cn(SHARED, height, SOFT[surface])}
         onClick={() =>
           pushEvent("demo_scheduled_click", {

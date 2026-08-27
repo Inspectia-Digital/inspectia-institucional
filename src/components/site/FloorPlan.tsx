@@ -82,6 +82,10 @@ export function FloorPlan() {
             width={PLANT_PLAN.width}
             height={PLANT_PLAN.height}
             alt={PLANT_PLAN.alt}
+            /* Es el archivo más pesado del sitio y el bloque vive bajo el pliegue: no
+               tiene por qué competir con el hero por el ancho de banda. */
+            loading="lazy"
+            decoding="async"
             className="absolute inset-0 size-full object-cover"
           />
 

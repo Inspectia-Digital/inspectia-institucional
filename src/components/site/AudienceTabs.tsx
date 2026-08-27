@@ -141,7 +141,7 @@ export function AudienceTabs() {
                 <ArrowRight className="size-4" aria-hidden />
               </Link>
             ) : profile.exit.kind === "signup" ? (
-              <a href={SIGNUP_URL} className={LINK}>
+              <a href={SIGNUP_URL} rel="nofollow" className={LINK}>
                 {profile.exit.label}
                 <ArrowRight className="size-4" aria-hidden />
               </a>

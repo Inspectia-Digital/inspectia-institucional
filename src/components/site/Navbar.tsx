@@ -204,6 +204,7 @@ export function Navbar() {
             <TopLink to="/roi">Calcular ROI</TopLink>
             <a
               href={APP_URL}
+              rel="nofollow"
               className="text-[15px] font-medium text-ink-secondary transition-colors duration-[160ms] hover:text-brand"
             >
               Ingresar
@@ -319,6 +320,7 @@ export function Navbar() {
                 <li>
                   <a
                     href={APP_URL}
+                    rel="nofollow"
                     className="flex h-12 items-center text-base font-semibold text-ink"
                   >
                     Ingresar

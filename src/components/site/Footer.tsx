@@ -165,7 +165,7 @@ export function Footer() {
                 </li>
               )}
               <li className="min-w-0">
-                <a href={APP_URL} className={FOOTER_LINK}>
+                <a href={APP_URL} rel="nofollow" className={FOOTER_LINK}>
                   Ingresar a la aplicación
                 </a>
               </li>
@@ -232,7 +232,8 @@ function Newsletter() {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return;
-    console.info("Alta de newsletter", { email: email.trim() });
+    // Sin el correo: la consola del navegador no es un lugar donde dejar datos de nadie.
+    console.info("Alta de newsletter enviada");
     pushEvent("newsletter_signup", { source_page: sourcePage() });
     setSent(true);
     setEmail("");
