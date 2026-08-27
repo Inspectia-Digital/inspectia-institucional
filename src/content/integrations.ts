@@ -24,7 +24,7 @@ export const INTEGRATION_GROUPS: IntegrationGroup[] = [
   {
     key: "erp",
     title: "ERP",
-    note: "Para que lo que produce la planta llegue al sistema de gestión sin recargarlo a mano.",
+    note: "Para que lo que produce la planta llegue al sistema de gestión sin recargarlo a mano, y para que el plan de producción entre solo.",
     // TODO(equipo): confirmar la lista. SAP viene de la tira de la landing anterior; falta
     // saber con qué otros ERP hay integración andando hoy.
     items: [{ name: "SAP" }],

@@ -10,15 +10,25 @@ import { pushEvent } from "@/lib/analytics";
 import { pageHead } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
-const TITLE = "Marketplace de servicios industriales · InspectIA";
+const TITLE = "Marketplace de servicios para proyectos de planta · InspectIA";
 const DESCRIPTION =
-  "Cámaras y sensores, ERP, WMS, bots, financiamiento y analítica. Servicios de terceros que contratás con InspectIA en vez de coordinar cinco proveedores.";
+  "Cámaras y sensores, ERP, WMS, bots, financiamiento y analítica. Servicios de terceros que contratás con InspectIA, sin coordinar cinco proveedores.";
 
 /**
  * Marketplace (§7.4).
  *
- * Los CTA de esta página no son el par de siempre: acá se pide una cotización o se ofrece
- * un servicio (§8). Por eso la banda de cierre estándar queda apagada.
+ * **La distinción que sostiene esta página:** el marketplace son servicios de terceros que
+ * comercializamos, con precio y CTA. Las integraciones son información técnica, viven en
+ * /plataforma/integraciones y no llevan ni precio ni CTA. Nunca comparten grilla, y en
+ * esta página **no se usa "integrado" ni "integración" para describir un servicio**: si el
+ * copy dice "ya integrado", el visitante entiende capacidad técnica y se pierde la
+ * distinción que el resto del sitio construyó.
+ *
+ * Los CTA no son el par de siempre porque le hablan a dos audiencias opuestas, así que la
+ * banda de cierre estándar queda apagada.
+ *
+ * Sin FAQPage y sin schema de producto: los servicios son de terceros y no tenemos precio
+ * publicado de ninguno, así que declarar Product u Offer sería inventar datos estructurados.
  */
 export const Route = createFileRoute("/plataforma/marketplace")({
   head: () => pageHead({ title: TITLE, description: DESCRIPTION, path: "/plataforma/marketplace" }),
@@ -39,7 +49,7 @@ function Page() {
       <PageHero
         eyebrow="Marketplace"
         title="Todo lo que el proyecto necesita, en un solo proveedor"
-        lead="Cámaras y sensores, ERP, WMS, bots, financiamiento y analítica. Son servicios de terceros que comercializamos nosotros: los contratás con InspectIA y no tenés que coordinar cinco proveedores."
+        lead="Un proyecto de planta casi nunca es sólo software: hacen falta cámaras, sensores, un ERP que hable con la línea, un WMS que reciba los datos, a veces financiamiento. En el marketplace están los proveedores que ya trabajan sobre InspectIA, así que los contratás con nosotros y no tenés que coordinar cinco presupuestos."
         cta={false}
       />
 
@@ -69,11 +79,8 @@ function Page() {
                   key={c.key}
                   className="flex min-w-0 flex-col rounded-[var(--radius-lg)] border border-line p-6"
                 >
-                  <span className="inline-flex h-6 w-fit items-center rounded-[var(--radius-pill)] bg-brand-subtle px-3 text-xs font-medium text-action-soft-text">
-                    {c.name}
-                  </span>
-
-                  <p className="mt-4 text-[15px] leading-[var(--leading-normal)] text-ink">
+                  <h3 className="text-[length:var(--text-card)] leading-snug text-ink">{c.name}</h3>
+                  <p className="mt-3 text-[15px] leading-[var(--leading-normal)] text-ink">
                     {c.solves}
                   </p>
 
@@ -99,8 +106,12 @@ function Page() {
                       )}
                     </ul>
                   ) : (
-                    <p className="mt-5 text-[13px] text-ink-muted">
-                      Estamos sumando proveedores en esta categoría.
+                    // La categoría vacía se muestra igual: define el alcance del
+                    // marketplace, que es el argumento. Y la línea convierte el hueco en
+                    // una captación en vez de un "próximamente".
+                    <p className="mt-5 text-[13px] leading-[var(--leading-normal)] text-ink-muted">
+                      Estamos cerrando los proveedores de esta categoría. Si necesitás uno,
+                      escribinos y te lo buscamos.
                     </p>
                   )}
 
@@ -132,21 +143,51 @@ function Page() {
             })}
           </ul>
 
-          {/* TODO(equipo): la ficha por servicio —qué incluye, cómo se contrata y a quién
-              se le factura— entra cuando esté definido el esquema comercial (§15.6). */}
+          {/* TODO(equipo): la ficha por servicio —qué incluye, con qué módulo se combina,
+              cómo se contrata y a quién se le factura— entra cuando esté definido el
+              esquema comercial de cada uno: reventa con margen, comisión o derivación. Sin
+              eso no se puede escribir "cómo se contrata", que es la mitad de la ficha. */}
         </div>
       </section>
 
-      {/* Captación de oferta, separada de la grilla. Es el otro lado del marketplace. */}
-      <section className="bg-surface-sunken px-5 py-16 md:px-8">
-        <div className="mx-auto flex max-w-[var(--content-max)] flex-col gap-6 min-[900px]:flex-row min-[900px]:items-center min-[900px]:justify-between">
-          <div className="min-w-0 max-w-[52ch]">
-            <p className="eyebrow">Para proveedores</p>
-            <p className="mt-3 text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink">
-              Si vendés hardware, software o servicios a plantas y depósitos, tus clientes ya están
-              del otro lado de esta plataforma.
-            </p>
-          </div>
+      {/* CTA del cliente. Un solo botón y no el par: quien está en esta página no viene a
+          crear una cuenta gratis, viene a resolver un proyecto. */}
+      <section className="bg-surface px-5 pb-[var(--section-pad-md)] md:px-8">
+        <div className="mx-auto max-w-[var(--content-max)] rounded-[var(--radius-lg)] border border-line p-8 md:p-10">
+          <h2 className="max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+            ¿No sabés cuál necesitás?
+          </h2>
+          <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
+            Contanos qué tiene que resolver el proyecto y te decimos qué hace falta, con qué
+            proveedor y en qué orden. El relevamiento no tiene cargo.
+          </p>
+          <a
+            href={DEMO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() =>
+              pushEvent("demo_scheduled_click", { source_page: "/plataforma/marketplace" })
+            }
+            className="mt-8 inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] bg-action px-8 text-[15px] font-semibold text-white transition-colors duration-[160ms] hover:bg-action-hover active:translate-y-px"
+          >
+            Agendar demo
+          </a>
+        </div>
+      </section>
+
+      {/* Captación de oferta. Le habla a otra audiencia, así que va en banda aparte y
+          separada de la grilla: no puede parecer parte de la oferta al cliente. */}
+      <section className="bg-surface-sunken px-5 py-[var(--section-pad-md)] md:px-8">
+        <div className="mx-auto max-w-[var(--content-max)]">
+          <p className="eyebrow">Para proveedores</p>
+          <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+            Quiero ofrecer mi servicio
+          </h2>
+          <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
+            Si vendés hardware industrial, implementás ERP o WMS, o financiás capital de trabajo
+            para PyMEs industriales, en el marketplace estás frente a plantas que ya están haciendo
+            el proyecto. Contanos qué ofrecés.
+          </p>
           <a
             href={DEMO_URL}
             target="_blank"
@@ -158,20 +199,25 @@ function Page() {
                 direction: "oferta",
               })
             }
-            className="inline-flex h-[52px] shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-action px-8 text-[15px] font-semibold text-white transition-colors duration-[160ms] hover:bg-action-hover active:translate-y-px"
+            className="mt-8 inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] border border-line-brand bg-action-soft px-8 text-[15px] font-semibold text-action-soft-text transition-colors duration-[160ms] hover:bg-teal-100 active:translate-y-px"
           >
-            Quiero ofrecer mi servicio
+            Escribinos
           </a>
         </div>
       </section>
 
+      {/* Al final y separado: es la aclaración que evita la confusión, no una salida
+          principal. */}
       <section className="bg-surface px-5 py-16 md:px-8">
         <div className="mx-auto max-w-[var(--content-max)]">
+          <p className="max-w-[60ch] text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
+            ¿Buscás con qué sistemas se conecta la plataforma? Eso está en integraciones.
+          </p>
           <Link
             to="/plataforma/integraciones"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
+            className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
           >
-            Ver con qué sistemas se integra la plataforma
+            Ver las integraciones
             <ArrowRight className="size-4" aria-hidden />
           </Link>
         </div>

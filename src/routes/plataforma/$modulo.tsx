@@ -15,7 +15,7 @@ import { MODULES, MODULE_BY_KEY, type PlatformModule, type ModuleKey } from "@/c
 import { TYMEO_PLANS } from "@/content/pricing";
 import { SHOW_PRICING } from "@/content/site";
 import { useModuleViewEvent } from "@/lib/useViewEvents";
-import { breadcrumbJsonLd, faqJsonLd, pageHead } from "@/lib/seo";
+import { breadcrumbJsonLd, faqJsonLd, pageHead, siteTitle } from "@/lib/seo";
 import { roiModelFor } from "@/lib/roi";
 
 /**
@@ -47,7 +47,7 @@ export const Route = createFileRoute("/plataforma/$modulo")({
     return pageHead({
       // El nombre del módulo no es un término de búsqueda: nadie busca "TYMEO". Donde hay
       // un término propio se usa ese, y el nombre queda de respaldo.
-      title: m.seoTitle ? `${m.seoTitle} · InspectIA` : `${m.name} · InspectIA`,
+      title: siteTitle(m.seoTitle ?? m.name),
       description: m.seoDescription ?? m.promise,
       path: `/plataforma/${m.slug}`,
       // Un solo bloque con las dos entidades, en vez de dos scripts compitiendo por

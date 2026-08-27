@@ -5,7 +5,9 @@ import { PageHero } from "@/components/site/PageHero";
 import { INTEGRATION_GROUPS } from "@/content/integrations";
 import { pageHead } from "@/lib/seo";
 
-const TITLE = "Con qué se conecta la plataforma · InspectIA";
+// El title anterior no nombraba ni un sistema: quien busca "integración con SAP" no
+// encontraba dónde engancharse. Este pone las cuatro categorías, que son los términos.
+const TITLE = "Integraciones con ERP, WMS, PLC y cámaras · InspectIA";
 const DESCRIPTION =
   "Qué ERP, WMS, PLC y sensórica soporta InspectIA. Se apoya en lo que la planta ya tiene: no hace falta cambiar el ERP ni las cámaras.";
 
@@ -70,14 +72,35 @@ function Page() {
                   </ul>
                 ) : (
                   <p className="mt-6 text-[15px] text-ink-muted">
-                    Contanos con qué trabajás y lo revisamos con ingeniería.
+                    En general se usan las que ya están instaladas. Contanos qué tenés y lo
+                    revisamos con ingeniería.
                   </p>
                 )}
               </li>
             ))}
           </ul>
+        </div>
+      </section>
 
-          <p className="mt-16 max-w-[60ch] text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
+      {/* La pregunta que trae el visitante técnico y que la página no contestaba.
+          Un párrafo y nada más: sin lista, sin tarjetas y sin CTA. */}
+      <section className="bg-surface-sunken px-5 py-[var(--section-pad-md)] md:px-8">
+        <div className="mx-auto max-w-[var(--content-max)]">
+          <h2 className="max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+            Y si no hay integración, igual arranca
+          </h2>
+          <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
+            Conectar el ERP o el WMS hace que el dato no se cargue dos veces, pero no es un
+            requisito para empezar. Todos los módulos funcionan sin integrar nada: se carga a mano o
+            se toma de una cámara o un sensor, y la conexión se suma cuando convenga. Eso es lo que
+            permite tener datos en semanas y no esperar el proyecto de sistemas.
+          </p>
+        </div>
+      </section>
+
+      <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8">
+        <div className="mx-auto max-w-[var(--content-max)]">
+          <p className="max-w-[60ch] text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
             ¿No ves el tuyo? La mayoría de las integraciones nuevas salen de un caso concreto.
             Escribinos con qué sistema trabajás.
           </p>

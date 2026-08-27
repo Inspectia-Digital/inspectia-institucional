@@ -61,6 +61,16 @@ export const CONTACT = {
 export const SHOW_PRICING = false;
 
 /**
+ * La sección de seguridad y datos de /plataforma.
+ *
+ * El texto afirma sólo lo que el producto ya hace —aislamiento por empresa, permisos por
+ * planta y auditoría de accesos— y no dice nada sobre dónde viven los datos ni cómo se
+ * cifran. Aun así queda apagada hasta que infraestructura la revise: en una venta grande,
+ * cada frase de esa sección va derecho a legales.
+ */
+export const SHOW_SECURITY_SECTION = false;
+
+/**
  * Recursos entra completo, con las pillar pages escritas, o no entra (§7.11). Un hub con
  * tres artículos y cuatro categorías vacías resta credibilidad.
  */

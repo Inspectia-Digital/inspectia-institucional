@@ -62,7 +62,8 @@ export const MARKETPLACE_CATEGORIES: MarketplaceCategory[] = [
   {
     key: "financiamiento",
     name: "Financiamiento",
-    solves: "Descuento de cheques y capital de trabajo para financiar el proyecto.",
+    solves:
+      "Descuento de cheques y capital de trabajo para financiar el proyecto, así la inversión no compite con el capital de trabajo del mes.",
     combinesWith: [],
     providers: [],
   },

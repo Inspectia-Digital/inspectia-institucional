@@ -58,6 +58,18 @@ export function pageHead(opts: {
   };
 }
 
+/**
+ * `término · InspectIA`, con el tope de 60 caracteres que Google muestra antes de cortar.
+ *
+ * Cuando el término propio ya llega al límite, **el sufijo de marca se cae antes que el
+ * término**: lo que hace que alguien encuentre la página es el término, y un título
+ * cortado a la mitad por "· Inspec…" es peor que uno sin marca.
+ */
+export const siteTitle = (term: string) => {
+  const withBrand = `${term} · InspectIA`;
+  return withBrand.length <= 60 ? withBrand : term;
+};
+
 /** Preguntas y respuestas, con el marcado que Google usa para el acordeón del resultado. */
 export const faqJsonLd = (items: { q: string; a: string }[]) => ({
   "@context": "https://schema.org",
