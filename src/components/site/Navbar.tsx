@@ -12,6 +12,7 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/s
 import { CtaPair } from "@/components/site/CtaPair";
 import { MODULES } from "@/content/modules";
 import { INDUSTRIES, USE_CASES } from "@/content/solutions";
+import { approvedCases } from "@/content/cases";
 import { APP_URL, SHOW_PRICING } from "@/content/site";
 import { cn } from "@/lib/utils";
 
@@ -145,16 +146,21 @@ export function Navbar() {
                     ))}
                   </MenuColumn>
                 </div>
-                <div className="mt-6 border-t border-line pt-4">
-                  <NavigationMenu.Link asChild>
-                    <Link
-                      to="/soluciones/casos"
-                      className="text-[15px] font-medium text-brand hover:underline hover:underline-offset-4"
-                    >
-                      Ver todos los casos de cliente
-                    </Link>
-                  </NavigationMenu.Link>
-                </div>
+                {/* El enlace aparece cuando hay al menos un caso aprobado para publicar.
+                    /soluciones/casos devuelve 404 mientras la lista esté vacía, y una
+                    entrada del menú que lleva a un 404 es peor que no tenerla. */}
+                {approvedCases().length > 0 && (
+                  <div className="mt-6 border-t border-line pt-4">
+                    <NavigationMenu.Link asChild>
+                      <Link
+                        to="/soluciones/casos"
+                        className="text-[15px] font-medium text-brand hover:underline hover:underline-offset-4"
+                      >
+                        Ver todos los casos de cliente
+                      </Link>
+                    </NavigationMenu.Link>
+                  </div>
+                )}
               </Panel>
             </NavigationMenu.Item>
 

@@ -17,6 +17,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const { MODULES } = await import("../src/content/modules.ts");
 const { INDUSTRIES, USE_CASES } = await import("../src/content/solutions.ts");
 const { SHOW_PRICING, SHOW_RESOURCES, SITE_URL } = await import("../src/content/site.ts");
+const { approvedCases } = await import("../src/content/cases.ts");
 
 /** prioridad: qué tan cerca de la compra está la página, no cuánto nos gusta. */
 const urls = [
@@ -42,7 +43,11 @@ const urls = [
     priority: "0.8",
     changefreq: "monthly",
   })),
-  { loc: "/soluciones/casos", priority: "0.6", changefreq: "monthly" },
+  // La página devuelve 404 mientras no haya un caso aprobado para publicar, así que
+  // tampoco se declara: una URL en el sitemap que responde 404 es un error de rastreo.
+  ...(approvedCases().length > 0
+    ? [{ loc: "/soluciones/casos", priority: "0.6", changefreq: "monthly" }]
+    : []),
   { loc: "/roi", priority: "0.9", changefreq: "monthly" },
   { loc: "/partners", priority: "0.7", changefreq: "monthly" },
   { loc: "/nosotros", priority: "0.5", changefreq: "yearly" },
