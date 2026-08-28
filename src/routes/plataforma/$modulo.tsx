@@ -12,8 +12,8 @@ import { ModuleGrid } from "@/components/site/ModuleGrid";
 import { CtaPair } from "@/components/site/CtaPair";
 import { RoiCalculator } from "@/components/roi/RoiCalculator";
 import { MODULES, MODULE_BY_KEY, type PlatformModule, type ModuleKey } from "@/content/modules";
-import { TYMEO_PLANS } from "@/content/pricing";
-import { SHOW_PRICING } from "@/content/site";
+import { PlansGrid } from "@/components/site/PlansGrid";
+import { ADDON_PRICE_USD, TYMEO_PLANS } from "@/content/pricing";
 import { useModuleViewEvent } from "@/lib/useViewEvents";
 import { breadcrumbJsonLd, faqJsonLd, pageHead, siteTitle } from "@/lib/seo";
 import { roiModelFor } from "@/lib/roi";
@@ -78,6 +78,15 @@ function ModulePage() {
         lead={m.lead ?? m.summary}
         module={m.key}
       >
+        {/* La señal de precio, arriba y no a mitad de página. Es el módulo que se compra
+            solo, y quien evalúa un producto que se vende así busca el precio antes que
+            cualquier otra cosa: si no lo encuentra, se va a buscarlo afuera.
+
+            Van los tres datos que definen la decisión de entrar —que hay plan gratuito,
+            cuánto sale el primero que se paga, y que no se cobra por puesto— y un ancla
+            a la grilla. Sin botón: los dos primarios ya están arriba y no hay un tercero. */}
+        {m.key === "tymeo" && <PriceSignal />}
+
         {m.roiLinkLabel && (
           <p className="mt-6 text-[15px]">
             <Link
@@ -162,7 +171,8 @@ function ModulePage() {
               limitada. */}
       {m.key === "tymeo" && <FreePlan />}
 
-      {/* 07 · La grilla de precios entra cuando se publique /precios. */}
+      {/* 07 */}
+      {m.key === "tymeo" && <Plans />}
 
       {/* 08 */}
       {m.faq && <ModuleFaq title={m.faqTitle ?? `Preguntas sobre ${m.name}`} items={m.faq} />}
@@ -278,18 +288,104 @@ function FreePlan() {
           ))}
         </ul>
 
-        {/* La única sección de la página con CTA propio, y lleva sólo el alta. */}
         <CtaPair className="mt-9 max-w-md" plan="free" />
+      </div>
+    </section>
+  );
+}
 
-        {SHOW_PRICING && (
-          <Link
-            to="/precios"
-            className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
-          >
-            Ver todos los planes
-            <ArrowRight className="size-4" aria-hidden />
-          </Link>
+/* ---------- 01b · Señal de precio en el hero ---------- */
+
+function PriceSignal() {
+  const start = TYMEO_PLANS.find((pl) => pl.id === "start");
+
+  return (
+    <div className="mt-8 border-t border-[var(--border-on-brand)] pt-6">
+      <dl className="flex flex-wrap gap-x-10 gap-y-4">
+        <Signal value="USD 0" caption="Plan gratuito, sin tarjeta" />
+        {typeof start?.base === "number" && (
+          <Signal value={`USD ${start.base}`} caption="Por planta y por mes, automatizado" />
         )}
+        <Signal value="Ilimitados" caption="Usuarios, en todos los planes pagos" />
+      </dl>
+      <p className="mt-5 text-[15px]">
+        <a
+          href="#planes"
+          className="text-on-brand-secondary underline-offset-4 transition-colors duration-[160ms] hover:text-on-brand hover:underline"
+        >
+          Ver los cuatro planes
+        </a>
+      </p>
+    </div>
+  );
+}
+
+function Signal({ value, caption }: { value: string; caption: string }) {
+  return (
+    <div className="min-w-0">
+      <dd className="metric text-[length:var(--text-lead)] font-light leading-none text-on-brand">
+        {value}
+      </dd>
+      <dt className="mt-2 text-[13px] text-on-brand-secondary">{caption}</dt>
+    </div>
+  );
+}
+
+/* ---------- 07 · Planes ----------
+
+   La grilla estaba construida y sólo vivía en /precios, que está fuera del aire, así que
+   el módulo con precio publicado no lo mostraba en ninguna parte.
+
+   Estuvo atada al mismo interruptor por un razonamiento equivocado mío: lo que no se
+   puede publicar todavía es una página **titulada** "Precios" con una tarifa y siete
+   "consultar", porque rompe su propia promesa. Mostrar los planes de TYMEO en la página
+   de TYMEO no promete nada sobre los otros siete módulos.
+
+   Y para un producto que se vende solo, el precio es parte de la descripción: alguien que
+   llegó hasta acá y no encuentra cuánto sale, se va a buscarlo a otro lado.
+
+   Los tres caminos de conversión conviven sin un tercer botón: cada card lleva el suyo
+   —la gratuita al alta, las pagas a la demo— y el contacto va como enlace de texto, que
+   es el orden de prioridad que corresponde. */
+
+function Plans() {
+  return (
+    <section id="planes" className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8">
+      <div className="mx-auto max-w-[var(--content-max)]">
+        <p className="eyebrow">Precios</p>
+        <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+          Empezá gratis y pagá por planta, no por persona
+        </h2>
+        <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
+          Los precios están publicados porque no queremos que pidas una cotización para saber si
+          esto entra en tu presupuesto. TYMEO arranca en cero y sin tarjeta; los planes con registro
+          automatizado se pagan por planta y por mes, con usuarios ilimitados.
+        </p>
+
+        <div className="mt-12">
+          <PlansGrid />
+        </div>
+
+        <p className="mt-8 max-w-[60ch] text-[13px] leading-[var(--leading-normal)] text-ink-muted">
+          Cada add-on suma USD {ADDON_PRICE_USD} por mes. En Pro vienen incluidos.
+        </p>
+        <p className="mt-3 max-w-[60ch] text-[13px] leading-[var(--leading-normal)] text-ink-muted">
+          El precio es del software. Instalar sensores, PLC o terminales en la planta es un paso
+          aparte: lo podés resolver con tu equipo siguiendo nuestra guía, o contratarlo con nosotros
+          y se cotiza según lo que la planta necesite.
+        </p>
+
+        {/* TODO(equipo): copy mío, no viene de un documento aprobado. */}
+        <p className="mt-8 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
+          ¿Más de tres plantas, o una integración que no está en la lista?{" "}
+          <Link
+            to="/contacto"
+            className="font-semibold text-brand hover:underline hover:underline-offset-4"
+          >
+            Escribinos y lo vemos
+          </Link>
+          .
+        </p>
       </div>
     </section>
   );
