@@ -185,6 +185,11 @@ export function Footer() {
                 </Link>
               </li>
               <li className="min-w-0">
+                <Link to="/contacto" className={FOOTER_LINK}>
+                  Contacto
+                </Link>
+              </li>
+              <li className="min-w-0">
                 <Link to="/roi" className={FOOTER_LINK}>
                   Calcular ROI
                 </Link>

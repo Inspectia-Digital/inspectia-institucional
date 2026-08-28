@@ -50,6 +50,7 @@ const urls = [
     : []),
   { loc: "/roi", priority: "0.9", changefreq: "monthly" },
   { loc: "/partners", priority: "0.7", changefreq: "monthly" },
+  { loc: "/contacto", priority: "0.6", changefreq: "yearly" },
   { loc: "/nosotros", priority: "0.5", changefreq: "yearly" },
   // Las que están detrás de un flag no entran hasta que se publiquen.
   ...(SHOW_PRICING ? [{ loc: "/precios", priority: "0.9", changefreq: "monthly" }] : []),

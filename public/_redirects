@@ -1,0 +1,67 @@
+# Redirecciones del WordPress que servía inspectia.ai hasta la migración.
+#
+# Cloudflare evalúa este archivo **antes** de que la petición llegue a la aplicación, y ahí
+# está el motivo de que estén acá y no sólo como rutas.
+#
+# Las URLs que Google tiene indexadas terminan en barra, y el enrutador de la aplicación
+# normaliza la barra final con un 307 antes de poder redirigir: la cadena quedaba
+# 307 → 301 → destino. Funciona, pero son dos saltos y el primero es temporal, justo en
+# las nueve URLs que más tienen para perder. Declaradas acá, se resuelven en un solo 301
+# permanente y la aplicación ni se entera.
+#
+# Las rutas equivalentes en src/routes se conservan igual, como red: si algún día el sitio
+# se sirve desde otro lado y este archivo no se lee, las redirecciones siguen existiendo.
+
+/oee-control            /plataforma/tymeo               301
+/oee-control/           /plataforma/tymeo               301
+/calculadora-roi        /roi                            301
+/calculadora-roi/       /roi                            301
+/autopartista           /soluciones/autopartista        301
+/autopartista/          /soluciones/autopartista        301
+/alimentos-y-bebidas    /soluciones/alimentos           301
+/alimentos-y-bebidas/   /soluciones/alimentos           301
+/contact                /contacto                       301
+/contact/               /contacto                       301
+/contact-page           /contacto                       301
+/contact-page/          /contacto                       301
+
+# Páginas de demostración del tema, sin contenido propio, indexadas por descuido.
+/blog-page              /                               301
+/blog-page/             /                               301
+/blog-post-title        /                               301
+/blog-post-title/       /                               301
+
+# Agradecimiento de formulario. Estaba indexable, que ya era un error en sí mismo.
+/gracias                /                               301
+/gracias/               /                               301
+
+# Nosotros conserva la ruta; sólo cambia la barra final, y sin esta línea el único salto
+# que quedaba en la migración sería un 307.
+/nosotros/              /nosotros                       301
+
+# ---------------------------------------------------------------------------------------
+# Restos de WordPress. No son rutas de la aplicación, así que no hay otro lugar donde
+# declararlos.
+#
+# Los tres mapas del sitio estuvieron declarados en Search Console durante meses: sin esto
+# pasan a 404 el día del corte y Google reporta errores de rastreo durante semanas.
+
+/sitemap_index.xml          /sitemap.xml   301
+/page-sitemap.xml           /sitemap.xml   301
+/post-sitemap.xml           /sitemap.xml   301
+/wpr_mega_menu-sitemap.xml  /sitemap.xml   301
+
+# El feed y la API. No los enlaza nadie, pero un lector de feeds que quedó suscripto pega
+# ahí todos los días.
+/feed/*      /   301
+/wp-json/*   /   301
+
+# ---------------------------------------------------------------------------------------
+# TODO(equipo): faltan cuatro, y las cuatro son decisión de negocio, no de código.
+#
+#   /simulador/      El simulador de OEE no tiene equivalente en el sitio nuevo.
+#   /cosmetica/      Las tres industrias están cargadas y apagadas. Si se publican, la
+#   /textil-y-moda/  redirección es directa a /soluciones/<slug>; si no, van a /soluciones
+#   /maquinaria/     y se pierde el posicionamiento propio de cada una.
+#
+# Mientras no estén, esas cuatro URLs devuelven 404 después del corte.
