@@ -48,6 +48,7 @@ const urls = [
   ...(approvedCases().length > 0
     ? [{ loc: "/soluciones/casos", priority: "0.6", changefreq: "monthly" }]
     : []),
+  { loc: "/simulador", priority: "0.8", changefreq: "monthly" },
   { loc: "/roi", priority: "0.9", changefreq: "monthly" },
   { loc: "/partners", priority: "0.7", changefreq: "monthly" },
   { loc: "/contacto", priority: "0.6", changefreq: "yearly" },

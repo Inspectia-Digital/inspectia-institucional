@@ -101,14 +101,32 @@ export const INDUSTRIES: Industry[] = [
     published: true,
   },
 
-  // Las cuatro que siguen entran cuando tengan un problema y un dato propios. Sin eso no
-  // van al menú, ni al hub, ni al sitemap.
+  // Las tres que siguen se publican con el contenido portado del WordPress anterior, donde
+  // ya estaban online e indexadas. Se traen porque la migración las dejaba sin destino: son
+  // tres páginas con posicionamiento propio, y redirigirlas al hub genérico las tira.
+  //
+  // TODO(equipo): **el texto es una adaptación, no una redacción nueva.** Los problemas
+  // salen de las viñetas del sitio anterior, pasadas de sintagma a oración y al voseo del
+  // resto del sitio; los titulares son los H2 de esas páginas. Falta la pasada de contenido
+  // propio, y sobre todo un dato por rubro: las tres van con `proof: null`.
   {
     slug: "textil",
     name: "Textil y moda",
-    pain: "",
+    h1: "Que una falla no arruine el lote entero",
+    pain: "Una falla chica arruina el lote completo, y se descubre cuando el cliente lo devuelve.",
+    seoTitle: "Control de calidad para la industria textil",
+    seoDescription:
+      "En textil una falla chica arruina el lote entero y vuelve como devolución. Visión artificial sobre corte, confección y terminación, a la velocidad de la línea.",
+    problems: [
+      "Hay variaciones de color y de textura entre piezas del mismo lote.",
+      "Las fallas de costura, terminación y dobladillo se detectan cuando la prenda ya está armada.",
+      "El error de etiquetado o de presentación final llega al cliente.",
+      "A medida que sube el volumen, revisar cada prenda o cada rollo deja de ser posible.",
+    ],
+    context:
+      "El control se hace sobre los puntos críticos del proceso —corte, confección, estampado, acabado y packaging— y no sólo sobre la prenda terminada, que es donde el retrabajo ya cuesta el doble.",
     modules: ["control-de-calidad", "tymeo"],
-    published: false,
+    published: true,
   },
   {
     slug: "farmaceutica",
@@ -120,16 +138,44 @@ export const INDUSTRIES: Industry[] = [
   {
     slug: "cosmetica",
     name: "Cosmética",
-    pain: "",
+    h1: "Tu imagen es tu producto",
+    pain: "El envase, la etiqueta y la presentación son el producto: una falla visual llega al consumidor como una falla de la marca.",
+    seoTitle: "Control de calidad de envases y etiquetas",
+    seoDescription:
+      "En cosmética el envase es el producto. Visión artificial sobre envase, etiqueta y presentación final, en líneas de alta rotación y con muchos formatos.",
+    problems: [
+      "Una falla en el envase, la etiqueta o la presentación llega al consumidor y se lee como una falla de la marca.",
+      "La inspección visual depende de qué tan cansado esté el operario al final del turno.",
+      "Con muchos formatos y líneas de alta rotación, controlar todo a ojo no escala.",
+      "El retrabajo por un defecto estético para la línea y no estaba en el programa.",
+      "El retailer exige un nivel de control que hoy no se puede demostrar con registros.",
+    ],
+    context:
+      "En líneas auditadas por grandes retailers o distribuidores, lo que se pide no es sólo que el control exista: es poder mostrar el registro de qué se controló y cuándo.",
     modules: ["control-de-calidad", "tymeo"],
-    published: false,
+    published: true,
   },
   {
     slug: "maquinarias",
     name: "Maquinarias e insumos industriales",
-    pain: "",
-    modules: ["tymeo", "control-de-pedidos"],
-    published: false,
+    h1: "Cada pieza cuenta",
+    pain: "El poro, la grieta o la rebaba que no se ve a simple vista vuelve como pieza rechazada.",
+    seoTitle: "Inspección de piezas metálicas con visión artificial",
+    seoDescription:
+      "Poros, grietas, rebabas y golpes en piezas metálicas, ensamblajes y componentes de precisión, detectados en la línea y con registro visual para auditoría.",
+    problems: [
+      "Hay defectos que no se ven a simple vista: poros, grietas, rebabas, golpes.",
+      "El cliente rechaza piezas por errores de terminación superficial.",
+      "El resultado de la inspección cambia según qué operario la haga.",
+      "No se puede escalar la producción sin resignar control.",
+      "No quedan registros visuales para responder una auditoría.",
+    ],
+    context:
+      "En piezas de precisión el defecto no siempre es estético: hay fallas que afectan la funcionalidad o la seguridad del conjunto, y ésas conviene detectarlas en la línea y no en el cliente.",
+    // El contenido portado es todo de control visual, así que el módulo de calidad va
+    // primero aunque la clasificación anterior no lo incluía.
+    modules: ["control-de-calidad", "tymeo", "control-de-pedidos"],
+    published: true,
   },
 ];
 

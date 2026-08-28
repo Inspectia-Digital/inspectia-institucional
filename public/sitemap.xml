@@ -81,6 +81,21 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://inspectia.ai/soluciones/textil</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/soluciones/cosmetica</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/soluciones/maquinarias</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://inspectia.ai/soluciones/casos-de-uso/scrap</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -102,6 +117,11 @@
   </url>
   <url>
     <loc>https://inspectia.ai/soluciones/casos-de-uso/accidentes</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/simulador</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

@@ -23,6 +23,7 @@ import { Route as PreciosRouteImport } from './routes/precios'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as RecepcionRouteImport } from './routes/recepcion'
 import { Route as RoiRouteImport } from './routes/roi'
+import { Route as SimuladorRouteImport } from './routes/simulador'
 import { Route as StockPickingRouteImport } from './routes/stock-picking'
 import { Route as TymeoRouteImport } from './routes/tymeo'
 import { Route as PlataformaIndexRouteImport } from './routes/plataforma/index'
@@ -104,6 +105,11 @@ const RoiRoute = RoiRouteImport.update({
   path: '/roi',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SimuladorRoute = SimuladorRouteImport.update({
+  id: '/simulador',
+  path: '/simulador',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StockPickingRoute = StockPickingRouteImport.update({
   id: '/stock-picking',
   path: '/stock-picking',
@@ -171,6 +177,7 @@ export interface FileRoutesByFullPath {
   '/privacidad': typeof PrivacidadRoute
   '/recepcion': typeof RecepcionRoute
   '/roi': typeof RoiRoute
+  '/simulador': typeof SimuladorRoute
   '/stock-picking': typeof StockPickingRoute
   '/tymeo': typeof TymeoRoute
   '/plataforma/$modulo': typeof PlataformaModuloRoute
@@ -197,6 +204,7 @@ export interface FileRoutesByTo {
   '/privacidad': typeof PrivacidadRoute
   '/recepcion': typeof RecepcionRoute
   '/roi': typeof RoiRoute
+  '/simulador': typeof SimuladorRoute
   '/stock-picking': typeof StockPickingRoute
   '/tymeo': typeof TymeoRoute
   '/plataforma/$modulo': typeof PlataformaModuloRoute
@@ -224,6 +232,7 @@ export interface FileRoutesById {
   '/privacidad': typeof PrivacidadRoute
   '/recepcion': typeof RecepcionRoute
   '/roi': typeof RoiRoute
+  '/simulador': typeof SimuladorRoute
   '/stock-picking': typeof StockPickingRoute
   '/tymeo': typeof TymeoRoute
   '/plataforma/$modulo': typeof PlataformaModuloRoute
@@ -252,6 +261,7 @@ export interface FileRouteTypes {
     | '/privacidad'
     | '/recepcion'
     | '/roi'
+    | '/simulador'
     | '/stock-picking'
     | '/tymeo'
     | '/plataforma/$modulo'
@@ -278,6 +288,7 @@ export interface FileRouteTypes {
     | '/privacidad'
     | '/recepcion'
     | '/roi'
+    | '/simulador'
     | '/stock-picking'
     | '/tymeo'
     | '/plataforma/$modulo'
@@ -304,6 +315,7 @@ export interface FileRouteTypes {
     | '/privacidad'
     | '/recepcion'
     | '/roi'
+    | '/simulador'
     | '/stock-picking'
     | '/tymeo'
     | '/plataforma/$modulo'
@@ -331,6 +343,7 @@ export interface RootRouteChildren {
   PrivacidadRoute: typeof PrivacidadRoute
   RecepcionRoute: typeof RecepcionRoute
   RoiRoute: typeof RoiRoute
+  SimuladorRoute: typeof SimuladorRoute
   StockPickingRoute: typeof StockPickingRoute
   TymeoRoute: typeof TymeoRoute
   PlataformaModuloRoute: typeof PlataformaModuloRoute
@@ -443,6 +456,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/simulador': {
+      id: '/simulador'
+      path: '/simulador'
+      fullPath: '/simulador'
+      preLoaderRoute: typeof SimuladorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/stock-picking': {
       id: '/stock-picking'
       path: '/stock-picking'
@@ -531,6 +551,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacidadRoute: PrivacidadRoute,
   RecepcionRoute: RecepcionRoute,
   RoiRoute: RoiRoute,
+  SimuladorRoute: SimuladorRoute,
   StockPickingRoute: StockPickingRoute,
   TymeoRoute: TymeoRoute,
   PlataformaModuloRoute: PlataformaModuloRoute,

@@ -47,12 +47,15 @@ const LEGACY_REDIRECTS: Record<string, string> = {
   "/post-sitemap.xml": "/sitemap.xml",
   "/wpr_mega_menu-sitemap.xml": "/sitemap.xml",
 
-  // TODO(equipo): faltan cuatro, y las cuatro son decisión de negocio, no de código.
-  //   /simulador       El simulador de OEE no tiene equivalente en el sitio nuevo.
-  //   /cosmetica       Las tres industrias están cargadas y apagadas. Si se publican, la
-  //   /textil-y-moda   redirección es directa a /soluciones/<slug>; si no, van a
-  //   /maquinaria      /soluciones y se pierde el posicionamiento propio de cada una.
-  // Mientras no estén, esas cuatro devuelven 404 después del corte.
+  // Las tres industrias que el sitio anterior tenía publicadas. Los slugs no coinciden con
+  // los del sitio nuevo, así que sin estas entradas las tres se perdían aunque las páginas
+  // existan.
+  "/cosmetica": "/soluciones/cosmetica",
+  "/textil-y-moda": "/soluciones/textil",
+  "/maquinaria": "/soluciones/maquinarias",
+
+  // /simulador no figura acá a propósito: la URL se conserva tal cual, con su propia
+  // página. Era la que más tráfico de búsqueda traía y el término se pierde si redirige.
 };
 
 /** Rutas de WordPress con hijos. El feed lo sigue pegando cualquier lector suscripto. */
