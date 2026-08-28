@@ -10,22 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AlimentosYBebidasRouteImport } from './routes/alimentos-y-bebidas'
-import { Route as AutopartistaRouteImport } from './routes/autopartista'
-import { Route as BlogPageRouteImport } from './routes/blog-page'
-import { Route as BlogPostTitleRouteImport } from './routes/blog-post-title'
-import { Route as CalculadoraRoiRouteImport } from './routes/calculadora-roi'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as ContactPageRouteImport } from './routes/contact-page'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as DemoRouteImport } from './routes/demo'
 import { Route as DronesRouteImport } from './routes/drones'
-import { Route as GraciasRouteImport } from './routes/gracias'
 import { Route as LegalesRouteImport } from './routes/legales'
 import { Route as LogisticaRouteImport } from './routes/logistica'
 import { Route as ManufacturaRouteImport } from './routes/manufactura'
 import { Route as NosotrosRouteImport } from './routes/nosotros'
-import { Route as OeeControlRouteImport } from './routes/oee-control'
 import { Route as OutboundRouteImport } from './routes/outbound'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as PreciosRouteImport } from './routes/precios'
@@ -48,41 +39,6 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AlimentosYBebidasRoute = AlimentosYBebidasRouteImport.update({
-  id: '/alimentos-y-bebidas',
-  path: '/alimentos-y-bebidas',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AutopartistaRoute = AutopartistaRouteImport.update({
-  id: '/autopartista',
-  path: '/autopartista',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BlogPageRoute = BlogPageRouteImport.update({
-  id: '/blog-page',
-  path: '/blog-page',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BlogPostTitleRoute = BlogPostTitleRouteImport.update({
-  id: '/blog-post-title',
-  path: '/blog-post-title',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CalculadoraRoiRoute = CalculadoraRoiRouteImport.update({
-  id: '/calculadora-roi',
-  path: '/calculadora-roi',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactPageRoute = ContactPageRouteImport.update({
-  id: '/contact-page',
-  path: '/contact-page',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ContactoRoute = ContactoRouteImport.update({
   id: '/contacto',
   path: '/contacto',
@@ -96,11 +52,6 @@ const DemoRoute = DemoRouteImport.update({
 const DronesRoute = DronesRouteImport.update({
   id: '/drones',
   path: '/drones',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GraciasRoute = GraciasRouteImport.update({
-  id: '/gracias',
-  path: '/gracias',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LegalesRoute = LegalesRouteImport.update({
@@ -121,11 +72,6 @@ const ManufacturaRoute = ManufacturaRouteImport.update({
 const NosotrosRoute = NosotrosRouteImport.update({
   id: '/nosotros',
   path: '/nosotros',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OeeControlRoute = OeeControlRouteImport.update({
-  id: '/oee-control',
-  path: '/oee-control',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OutboundRoute = OutboundRouteImport.update({
@@ -212,22 +158,13 @@ const SolucionesCasosDeUsoCasoRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/alimentos-y-bebidas': typeof AlimentosYBebidasRoute
-  '/autopartista': typeof AutopartistaRoute
-  '/blog-page': typeof BlogPageRoute
-  '/blog-post-title': typeof BlogPostTitleRoute
-  '/calculadora-roi': typeof CalculadoraRoiRoute
-  '/contact': typeof ContactRoute
-  '/contact-page': typeof ContactPageRoute
   '/contacto': typeof ContactoRoute
   '/demo': typeof DemoRoute
   '/drones': typeof DronesRoute
-  '/gracias': typeof GraciasRoute
   '/legales': typeof LegalesRoute
   '/logistica': typeof LogisticaRoute
   '/manufactura': typeof ManufacturaRoute
   '/nosotros': typeof NosotrosRoute
-  '/oee-control': typeof OeeControlRoute
   '/outbound': typeof OutboundRoute
   '/partners': typeof PartnersRoute
   '/precios': typeof PreciosRoute
@@ -247,22 +184,13 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/alimentos-y-bebidas': typeof AlimentosYBebidasRoute
-  '/autopartista': typeof AutopartistaRoute
-  '/blog-page': typeof BlogPageRoute
-  '/blog-post-title': typeof BlogPostTitleRoute
-  '/calculadora-roi': typeof CalculadoraRoiRoute
-  '/contact': typeof ContactRoute
-  '/contact-page': typeof ContactPageRoute
   '/contacto': typeof ContactoRoute
   '/demo': typeof DemoRoute
   '/drones': typeof DronesRoute
-  '/gracias': typeof GraciasRoute
   '/legales': typeof LegalesRoute
   '/logistica': typeof LogisticaRoute
   '/manufactura': typeof ManufacturaRoute
   '/nosotros': typeof NosotrosRoute
-  '/oee-control': typeof OeeControlRoute
   '/outbound': typeof OutboundRoute
   '/partners': typeof PartnersRoute
   '/precios': typeof PreciosRoute
@@ -283,22 +211,13 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/alimentos-y-bebidas': typeof AlimentosYBebidasRoute
-  '/autopartista': typeof AutopartistaRoute
-  '/blog-page': typeof BlogPageRoute
-  '/blog-post-title': typeof BlogPostTitleRoute
-  '/calculadora-roi': typeof CalculadoraRoiRoute
-  '/contact': typeof ContactRoute
-  '/contact-page': typeof ContactPageRoute
   '/contacto': typeof ContactoRoute
   '/demo': typeof DemoRoute
   '/drones': typeof DronesRoute
-  '/gracias': typeof GraciasRoute
   '/legales': typeof LegalesRoute
   '/logistica': typeof LogisticaRoute
   '/manufactura': typeof ManufacturaRoute
   '/nosotros': typeof NosotrosRoute
-  '/oee-control': typeof OeeControlRoute
   '/outbound': typeof OutboundRoute
   '/partners': typeof PartnersRoute
   '/precios': typeof PreciosRoute
@@ -320,22 +239,13 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/alimentos-y-bebidas'
-    | '/autopartista'
-    | '/blog-page'
-    | '/blog-post-title'
-    | '/calculadora-roi'
-    | '/contact'
-    | '/contact-page'
     | '/contacto'
     | '/demo'
     | '/drones'
-    | '/gracias'
     | '/legales'
     | '/logistica'
     | '/manufactura'
     | '/nosotros'
-    | '/oee-control'
     | '/outbound'
     | '/partners'
     | '/precios'
@@ -355,22 +265,13 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/alimentos-y-bebidas'
-    | '/autopartista'
-    | '/blog-page'
-    | '/blog-post-title'
-    | '/calculadora-roi'
-    | '/contact'
-    | '/contact-page'
     | '/contacto'
     | '/demo'
     | '/drones'
-    | '/gracias'
     | '/legales'
     | '/logistica'
     | '/manufactura'
     | '/nosotros'
-    | '/oee-control'
     | '/outbound'
     | '/partners'
     | '/precios'
@@ -390,22 +291,13 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/alimentos-y-bebidas'
-    | '/autopartista'
-    | '/blog-page'
-    | '/blog-post-title'
-    | '/calculadora-roi'
-    | '/contact'
-    | '/contact-page'
     | '/contacto'
     | '/demo'
     | '/drones'
-    | '/gracias'
     | '/legales'
     | '/logistica'
     | '/manufactura'
     | '/nosotros'
-    | '/oee-control'
     | '/outbound'
     | '/partners'
     | '/precios'
@@ -426,22 +318,13 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AlimentosYBebidasRoute: typeof AlimentosYBebidasRoute
-  AutopartistaRoute: typeof AutopartistaRoute
-  BlogPageRoute: typeof BlogPageRoute
-  BlogPostTitleRoute: typeof BlogPostTitleRoute
-  CalculadoraRoiRoute: typeof CalculadoraRoiRoute
-  ContactRoute: typeof ContactRoute
-  ContactPageRoute: typeof ContactPageRoute
   ContactoRoute: typeof ContactoRoute
   DemoRoute: typeof DemoRoute
   DronesRoute: typeof DronesRoute
-  GraciasRoute: typeof GraciasRoute
   LegalesRoute: typeof LegalesRoute
   LogisticaRoute: typeof LogisticaRoute
   ManufacturaRoute: typeof ManufacturaRoute
   NosotrosRoute: typeof NosotrosRoute
-  OeeControlRoute: typeof OeeControlRoute
   OutboundRoute: typeof OutboundRoute
   PartnersRoute: typeof PartnersRoute
   PreciosRoute: typeof PreciosRoute
@@ -469,55 +352,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/alimentos-y-bebidas': {
-      id: '/alimentos-y-bebidas'
-      path: '/alimentos-y-bebidas'
-      fullPath: '/alimentos-y-bebidas'
-      preLoaderRoute: typeof AlimentosYBebidasRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/autopartista': {
-      id: '/autopartista'
-      path: '/autopartista'
-      fullPath: '/autopartista'
-      preLoaderRoute: typeof AutopartistaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/blog-page': {
-      id: '/blog-page'
-      path: '/blog-page'
-      fullPath: '/blog-page'
-      preLoaderRoute: typeof BlogPageRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/blog-post-title': {
-      id: '/blog-post-title'
-      path: '/blog-post-title'
-      fullPath: '/blog-post-title'
-      preLoaderRoute: typeof BlogPostTitleRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/calculadora-roi': {
-      id: '/calculadora-roi'
-      path: '/calculadora-roi'
-      fullPath: '/calculadora-roi'
-      preLoaderRoute: typeof CalculadoraRoiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact-page': {
-      id: '/contact-page'
-      path: '/contact-page'
-      fullPath: '/contact-page'
-      preLoaderRoute: typeof ContactPageRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/contacto': {
       id: '/contacto'
       path: '/contacto'
@@ -537,13 +371,6 @@ declare module '@tanstack/react-router' {
       path: '/drones'
       fullPath: '/drones'
       preLoaderRoute: typeof DronesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/gracias': {
-      id: '/gracias'
-      path: '/gracias'
-      fullPath: '/gracias'
-      preLoaderRoute: typeof GraciasRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/legales': {
@@ -572,13 +399,6 @@ declare module '@tanstack/react-router' {
       path: '/nosotros'
       fullPath: '/nosotros'
       preLoaderRoute: typeof NosotrosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/oee-control': {
-      id: '/oee-control'
-      path: '/oee-control'
-      fullPath: '/oee-control'
-      preLoaderRoute: typeof OeeControlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/outbound': {
@@ -698,22 +518,13 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AlimentosYBebidasRoute: AlimentosYBebidasRoute,
-  AutopartistaRoute: AutopartistaRoute,
-  BlogPageRoute: BlogPageRoute,
-  BlogPostTitleRoute: BlogPostTitleRoute,
-  CalculadoraRoiRoute: CalculadoraRoiRoute,
-  ContactRoute: ContactRoute,
-  ContactPageRoute: ContactPageRoute,
   ContactoRoute: ContactoRoute,
   DemoRoute: DemoRoute,
   DronesRoute: DronesRoute,
-  GraciasRoute: GraciasRoute,
   LegalesRoute: LegalesRoute,
   LogisticaRoute: LogisticaRoute,
   ManufacturaRoute: ManufacturaRoute,
   NosotrosRoute: NosotrosRoute,
-  OeeControlRoute: OeeControlRoute,
   OutboundRoute: OutboundRoute,
   PartnersRoute: PartnersRoute,
   PreciosRoute: PreciosRoute,
