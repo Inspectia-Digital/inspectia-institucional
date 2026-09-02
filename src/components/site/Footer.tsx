@@ -284,8 +284,12 @@ function Newsletter() {
       {sent ? (
         // Confirmación en el mismo lugar, sin navegar.
         <p className="mt-5 inline-flex items-center gap-2 text-sm text-on-brand">
-          <span className="grid size-5 shrink-0 place-items-center rounded-full bg-[var(--accent-on-brand)]">
-            <Icon name="included" size="meta" className="text-brand-deep" />
+          {/* Círculo de 24 con la tilde de 16, igual que las otras dos confirmaciones del
+              sitio. Antes era un círculo de 20 con una tilde de 12 a trazo 3: a trazo 1,5
+              esa combinación se afina y la tilde casi desaparece. La respuesta del sistema
+              a una tilde floja es agrandarla, no engrosarla. */}
+          <span className="grid size-6 shrink-0 place-items-center rounded-full bg-[var(--accent-on-brand)]">
+            <Icon name="included" className="text-brand-deep" />
           </span>
           Listo, quedaste anotado.
         </p>

@@ -76,22 +76,29 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   }, [error]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+    // Vocabulario del sitio y no el de shadcn. Las clases `bg-background`,
+    // `text-foreground` y `bg-primary` resuelven bien porque el puente de theme.css las
+    // ata a los mismos tokens, pero ese puente existe para los componentes vendorizados
+    // de components/ui, no para el código propio: mientras esta pantalla hable en un
+    // vocabulario y el resto del sitio en otro, sacar el puente algún día la rompe.
+    <div className="flex min-h-screen items-center justify-center bg-surface px-5">
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
+        <h1 className="text-[length:var(--text-card)] font-semibold leading-snug text-ink">
           Algo se rompió de nuestro lado
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <p className="mt-3 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
           Ya nos estamos enterando. Probá recargar la página; si sigue pasando, escribinos y lo
           miramos.
         </p>
-        <div className="mt-6 flex justify-center">
+        <div className="mt-8 flex justify-center">
           <button
+            type="button"
             onClick={() => {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            // 52px de alto y radio de 8: el botón primario del sistema.
+            className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] bg-action px-6 text-[15px] font-semibold text-white transition-colors duration-[160ms] hover:bg-action-hover active:translate-y-px"
           >
             Recargar
           </button>
