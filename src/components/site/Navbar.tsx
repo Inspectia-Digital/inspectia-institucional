@@ -15,6 +15,7 @@ import { INDUSTRIES, USE_CASES } from "@/content/solutions";
 import { approvedCases } from "@/content/cases";
 import { APP_URL, SHOW_PRICING } from "@/content/site";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/icons/Icon";
 
 /**
  * Barra y mega-menú (§11.1).
@@ -102,11 +103,7 @@ export function Navbar() {
                             params={{ modulo: m.slug }}
                             className="flex min-h-14 items-center gap-3 rounded-[var(--radius-md)] px-3 py-2 transition-colors duration-[160ms] hover:bg-brand-subtle"
                           >
-                            <m.icon
-                              className="size-5 shrink-0 text-brand"
-                              strokeWidth={1.5}
-                              aria-hidden
-                            />
+                            <Icon name={m.icon} size="empty" className="text-brand" />
                             <span className="min-w-0">
                               <span className="block text-[15px] font-semibold text-ink">
                                 {m.name}
@@ -248,11 +245,7 @@ export function Navbar() {
                             onClick={() => setMobileOpen(false)}
                             className={MOBILE_ROW}
                           >
-                            <m.icon
-                              className="size-5 shrink-0 text-brand"
-                              strokeWidth={1.5}
-                              aria-hidden
-                            />
+                            <Icon name={m.icon} size="empty" className="text-brand" />
                             {m.name}
                           </Link>
                         </li>

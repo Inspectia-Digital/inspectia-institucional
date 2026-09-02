@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { MODULES, type PlatformModule } from "@/content/modules";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/icons/Icon";
 
 /**
  * Grilla de cards de módulo (§11.4).
@@ -43,7 +44,7 @@ export function ModuleGrid({
           >
             <div className="flex items-center justify-between">
               <span className="metric text-sm font-semibold text-brand">{m.number}</span>
-              <m.icon className="size-5 text-brand" strokeWidth={1.5} aria-hidden />
+              <Icon name={m.icon} size="empty" className="text-brand" />
             </div>
 
             <h3 className="mt-5 text-[length:var(--text-card)] leading-snug text-ink">{m.name}</h3>

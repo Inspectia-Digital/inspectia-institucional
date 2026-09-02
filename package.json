@@ -13,7 +13,8 @@
     "format": "prettier --write .",
     "images": "node scripts/optimize-images.mjs",
     "sitemap": "node scripts/generate-sitemap.mjs",
-    "prebuild": "npm run sitemap"
+    "prebuild": "npm run sitemap",
+    "icons": "node src/components/icons/build-icons.mjs"
   },
   "dependencies": {
     "@fontsource-variable/jetbrains-mono": "^5.3.0",

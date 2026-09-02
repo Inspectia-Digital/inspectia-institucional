@@ -1,14 +1,4 @@
-import {
-  Bot,
-  Cctv,
-  Drone,
-  Gauge,
-  PackageCheck,
-  ScanEye,
-  Smartphone,
-  Truck,
-  type LucideIcon,
-} from "lucide-react";
+import type { IconConcept } from "@/components/icons/inspectia-icons";
 
 /**
  * Los ocho módulos de InspectIA OS, en un solo lugar.
@@ -63,7 +53,10 @@ export type PlatformModule = {
   /** El dato que lo sostiene. null en los cuatro que el equipo todavía no definió:
    *  antes que publicar un número inventado, la sección no muestra número. */
   proof: ModuleProof | null;
-  icon: LucideIcon;
+  /** Concepto del léxico de iconos, no el componente. Guardar el glifo acá ataba un
+   *  archivo de contenido a una librería de UI, y hacía que cambiar el icono de un
+   *  módulo fuera tocar contenido. Ahora el glifo se resuelve en `components/icons`. */
+  icon: IconConcept;
   /** Segmento de URL. La ruta es /plataforma/$modulo, así que el Link va tipado
    *  con params y no con un string armado a mano. */
   slug: string;
@@ -135,7 +128,7 @@ export const MODULES: PlatformModule[] = [
       value: "5 a 15 días",
       caption: "de la reunión de arranque a los datos corriendo en producción",
     },
-    icon: Gauge,
+    icon: "oee",
     slug: "tymeo",
     hotspot: { left: "44.9%", top: "23.8%", side: "bottom", align: "center" },
     buildsOn: [],
@@ -219,7 +212,7 @@ export const MODULES: PlatformModule[] = [
       value: "70 tipos de falla",
       caption: "en menos de 1 minuto, en una planta autopartista",
     },
-    icon: ScanEye,
+    icon: "visionInspection",
     slug: "control-de-calidad",
     hotspot: { left: "49.3%", top: "36.9%", side: "bottom", align: "center" },
     buildsOn: ["tymeo"],
@@ -303,7 +296,7 @@ export const MODULES: PlatformModule[] = [
       value: "De 24 a 15 operarios",
       caption: "y lead time de 48 a 30 horas, en un centro de distribución",
     },
-    icon: Truck,
+    icon: "inbound",
     slug: "recepcion",
     hotspot: { left: "33.5%", top: "44.7%", side: "bottom", align: "center" },
     buildsOn: [],
@@ -389,7 +382,7 @@ export const MODULES: PlatformModule[] = [
     // TODO(equipo): falta el dato publicable (§15.1). Bloquea el bloque de números
     // de la página de módulo y su calculadora.
     proof: null,
-    icon: Smartphone,
+    icon: "mobileCount",
     slug: "stock-en-posiciones",
     hotspot: { left: "69.5%", top: "32.7%", side: "bottom", align: "right" },
     buildsOn: [],
@@ -468,7 +461,7 @@ export const MODULES: PlatformModule[] = [
       "Un dron recorre las posiciones altas y las cámaras de frío, y avisa dónde no coincide. Nadie tiene que subir a un rack a mirar.",
     needs: "Un dron y lugar para que despegue. No necesita GPS.",
     proof: { value: "USD 200", caption: "por mes y cliente final" },
-    icon: Drone,
+    icon: "drone",
     slug: "sobrestock-drones",
     hotspot: { left: "57.6%", top: "13.8%", side: "bottom", align: "center" },
     buildsOn: ["stock-en-posiciones"],
@@ -553,7 +546,7 @@ export const MODULES: PlatformModule[] = [
       "Avisa de un acceso a una zona restringida, de alguien sin el equipo de protección puesto o de una maniobra riesgosa, mientras está pasando.",
     needs: "Las cámaras de seguridad que ya están instaladas.",
     proof: { value: "Menos de 2 segundos", caption: "entre el hecho y la alarma" },
-    icon: Cctv,
+    icon: "camera",
     slug: "camaras-inteligentes",
     hotspot: { left: "64.7%", top: "45%", side: "bottom", align: "center" },
     buildsOn: [],
@@ -641,7 +634,7 @@ export const MODULES: PlatformModule[] = [
     needs: "Una cámara sobre la mesa de despacho.",
     // TODO(equipo): falta el dato publicable (§15.1).
     proof: null,
-    icon: PackageCheck,
+    icon: "outbound",
     slug: "control-de-pedidos",
     hotspot: { left: "76.1%", top: "44.5%", side: "top", align: "right" },
     buildsOn: ["stock-en-posiciones"],
@@ -720,7 +713,7 @@ export const MODULES: PlatformModule[] = [
     needs: "Nada nuevo: se apoya en los módulos que ya tengas andando.",
     // TODO(equipo): falta el dato publicable (§15.1).
     proof: null,
-    icon: Bot,
+    icon: "agent",
     slug: "agente",
     // TODO(equipo): falta ubicar el octavo punto sobre el render isométrico. Mientras
     // sea null el módulo aparece en la grilla de cards pero no en el plano.

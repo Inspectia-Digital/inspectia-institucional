@@ -1,0 +1,997 @@
+{
+  "name": "InspectIA icon set",
+  "source": "lucide",
+  "version": "0.575.0",
+  "strokeWidth": 1.5,
+  "sizes": {
+    "meta": 14,
+    "ui": 16,
+    "empty": 20,
+    "brand": 24
+  },
+  "groups": [
+    {
+      "id": "production",
+      "title": "Planta y producción",
+      "note": "Jerarquía empresa → planta → línea → estación, y lo que pasa en la máquina.",
+      "items": [
+        {
+          "lucide": "building-2",
+          "label": "Empresa"
+        },
+        {
+          "lucide": "factory",
+          "label": "Planta"
+        },
+        {
+          "lucide": "git-commit-horizontal",
+          "label": "Línea de producción"
+        },
+        {
+          "lucide": "cog",
+          "label": "Máquina"
+        },
+        {
+          "lucide": "circle-dot",
+          "label": "Estación / puesto"
+        },
+        {
+          "lucide": "hard-hat",
+          "label": "Operario"
+        },
+        {
+          "lucide": "clock",
+          "label": "Turno"
+        },
+        {
+          "lucide": "clipboard-list",
+          "label": "Orden de producción"
+        },
+        {
+          "lucide": "boxes",
+          "label": "SKU / producto"
+        },
+        {
+          "lucide": "wrench",
+          "label": "Mantenimiento"
+        },
+        {
+          "lucide": "power",
+          "label": "Arranque y parada"
+        },
+        {
+          "lucide": "zap",
+          "label": "Energía"
+        },
+        {
+          "lucide": "thermometer",
+          "label": "Temperatura"
+        },
+        {
+          "lucide": "droplet",
+          "label": "Fluido / lubricación"
+        },
+        {
+          "lucide": "flame",
+          "label": "Proceso térmico"
+        },
+        {
+          "lucide": "ruler",
+          "label": "Tolerancia"
+        },
+        {
+          "lucide": "scale",
+          "label": "Peso"
+        },
+        {
+          "lucide": "construction",
+          "label": "Puesta en marcha"
+        },
+        {
+          "lucide": "layers",
+          "label": "Lote"
+        },
+        {
+          "lucide": "settings-2",
+          "label": "Parámetros de máquina"
+        }
+      ]
+    },
+    {
+      "id": "metrics",
+      "title": "Métricas, tiempos y calidad",
+      "note": "Todo lo que TYMEO mide. El orden de los gráficos es fijo: disponibilidad, rendimiento, calidad, OEE.",
+      "items": [
+        {
+          "lucide": "gauge",
+          "label": "OEE"
+        },
+        {
+          "lucide": "activity",
+          "label": "Tiempo real"
+        },
+        {
+          "lucide": "chart-column",
+          "label": "Comparativa"
+        },
+        {
+          "lucide": "chart-line",
+          "label": "Tendencia"
+        },
+        {
+          "lucide": "chart-pie",
+          "label": "Composición"
+        },
+        {
+          "lucide": "trending-up",
+          "label": "Mejora"
+        },
+        {
+          "lucide": "trending-down",
+          "label": "Caída"
+        },
+        {
+          "lucide": "target",
+          "label": "Plan / meta"
+        },
+        {
+          "lucide": "percent",
+          "label": "Porcentaje"
+        },
+        {
+          "lucide": "timer",
+          "label": "Tiempo de ciclo"
+        },
+        {
+          "lucide": "hourglass",
+          "label": "Tiempo perdido"
+        },
+        {
+          "lucide": "history",
+          "label": "Histórico"
+        },
+        {
+          "lucide": "circle-pause",
+          "label": "Parada"
+        },
+        {
+          "lucide": "calendar-clock",
+          "label": "Parada programada"
+        },
+        {
+          "lucide": "triangle-alert",
+          "label": "Parada no planificada"
+        },
+        {
+          "lucide": "badge-check",
+          "label": "Calidad conforme"
+        },
+        {
+          "lucide": "circle-x",
+          "label": "Defecto / scrap"
+        },
+        {
+          "lucide": "recycle",
+          "label": "Retrabajo"
+        },
+        {
+          "lucide": "sigma",
+          "label": "Acumulado"
+        },
+        {
+          "lucide": "calculator",
+          "label": "Fórmula de cálculo"
+        }
+      ]
+    },
+    {
+      "id": "logistics",
+      "title": "Logística, depósito y supply chain",
+      "note": "Recepción, posiciones, stock y despacho.",
+      "items": [
+        {
+          "lucide": "warehouse",
+          "label": "Depósito"
+        },
+        {
+          "lucide": "forklift",
+          "label": "Autoelevador"
+        },
+        {
+          "lucide": "truck",
+          "label": "Transporte"
+        },
+        {
+          "lucide": "container",
+          "label": "Contenedor"
+        },
+        {
+          "lucide": "ship",
+          "label": "Marítimo"
+        },
+        {
+          "lucide": "plane",
+          "label": "Aéreo"
+        },
+        {
+          "lucide": "train-front",
+          "label": "Ferroviario"
+        },
+        {
+          "lucide": "package",
+          "label": "Bulto"
+        },
+        {
+          "lucide": "package-check",
+          "label": "Recepción conforme"
+        },
+        {
+          "lucide": "package-x",
+          "label": "Rechazo"
+        },
+        {
+          "lucide": "package-open",
+          "label": "Desconsolidado"
+        },
+        {
+          "lucide": "package-search",
+          "label": "Búsqueda de bulto"
+        },
+        {
+          "lucide": "grid-2x2",
+          "label": "Posiciones de rack"
+        },
+        {
+          "lucide": "map-pin",
+          "label": "Ubicación"
+        },
+        {
+          "lucide": "route",
+          "label": "Recorrido"
+        },
+        {
+          "lucide": "arrow-down-to-line",
+          "label": "Ingreso"
+        },
+        {
+          "lucide": "arrow-up-from-line",
+          "label": "Egreso"
+        },
+        {
+          "lucide": "rotate-ccw",
+          "label": "Devolución"
+        },
+        {
+          "lucide": "clipboard-check",
+          "label": "Remito controlado"
+        },
+        {
+          "lucide": "barcode",
+          "label": "Código de barras"
+        },
+        {
+          "lucide": "qr-code",
+          "label": "Código QR"
+        },
+        {
+          "lucide": "scan-line",
+          "label": "Escaneo"
+        },
+        {
+          "lucide": "calendar-days",
+          "label": "Programación de entregas"
+        },
+        {
+          "lucide": "circle-alert",
+          "label": "Sobrestock"
+        }
+      ]
+    },
+    {
+      "id": "tech",
+      "title": "Tecnología, IoT y conectividad",
+      "note": "La capa que conecta la máquina con la plataforma. Vocabulario técnico, no de interfaz.",
+      "items": [
+        {
+          "lucide": "cpu",
+          "label": "PLC / controlador"
+        },
+        {
+          "lucide": "circuit-board",
+          "label": "Placa edge"
+        },
+        {
+          "lucide": "server",
+          "label": "Servidor"
+        },
+        {
+          "lucide": "database",
+          "label": "Base de datos"
+        },
+        {
+          "lucide": "cloud",
+          "label": "Nube"
+        },
+        {
+          "lucide": "hard-drive",
+          "label": "Almacenamiento"
+        },
+        {
+          "lucide": "plug-zap",
+          "label": "Conexión a máquina"
+        },
+        {
+          "lucide": "cable",
+          "label": "Cableado"
+        },
+        {
+          "lucide": "network",
+          "label": "Red"
+        },
+        {
+          "lucide": "radio-tower",
+          "label": "Señal"
+        },
+        {
+          "lucide": "wifi",
+          "label": "Conectado"
+        },
+        {
+          "lucide": "wifi-off",
+          "label": "Sin conexión"
+        },
+        {
+          "lucide": "antenna",
+          "label": "Antena"
+        },
+        {
+          "lucide": "satellite-dish",
+          "label": "Telemetría"
+        },
+        {
+          "lucide": "usb",
+          "label": "Puerto"
+        },
+        {
+          "lucide": "monitor",
+          "label": "Terminal de planta"
+        },
+        {
+          "lucide": "tablet",
+          "label": "Tablet"
+        },
+        {
+          "lucide": "smartphone",
+          "label": "App móvil"
+        },
+        {
+          "lucide": "laptop",
+          "label": "Escritorio"
+        },
+        {
+          "lucide": "printer",
+          "label": "Etiquetadora"
+        },
+        {
+          "lucide": "webhook",
+          "label": "Integración"
+        },
+        {
+          "lucide": "key",
+          "label": "Credenciales"
+        },
+        {
+          "lucide": "shield-check",
+          "label": "Seguridad"
+        },
+        {
+          "lucide": "refresh-cw",
+          "label": "Sincronización"
+        }
+      ]
+    },
+    {
+      "id": "intelligence",
+      "title": "Datos, IA y visión",
+      "note": "Visión artificial, agentes y todo lo que produce o consume dataset.",
+      "items": [
+        {
+          "lucide": "camera",
+          "label": "Cámara"
+        },
+        {
+          "lucide": "video",
+          "label": "Video en vivo"
+        },
+        {
+          "lucide": "scan-eye",
+          "label": "Visión artificial"
+        },
+        {
+          "lucide": "eye",
+          "label": "Inspección"
+        },
+        {
+          "lucide": "focus",
+          "label": "Detección"
+        },
+        {
+          "lucide": "aperture",
+          "label": "Obturador (marca)"
+        },
+        {
+          "lucide": "bot",
+          "label": "Agente"
+        },
+        {
+          "lucide": "sparkles",
+          "label": "IA"
+        },
+        {
+          "lucide": "radar",
+          "label": "Barrido / dron"
+        },
+        {
+          "lucide": "waypoints",
+          "label": "Flujo de datos"
+        },
+        {
+          "lucide": "workflow",
+          "label": "Automatización"
+        },
+        {
+          "lucide": "file-spreadsheet",
+          "label": "Dataset"
+        },
+        {
+          "lucide": "table",
+          "label": "Tabla de datos"
+        },
+        {
+          "lucide": "binary",
+          "label": "Dato crudo"
+        },
+        {
+          "lucide": "scan-barcode",
+          "label": "Lectura automática"
+        },
+        {
+          "lucide": "brain-cog",
+          "label": "Modelo entrenado"
+        }
+      ]
+    },
+    {
+      "id": "actions",
+      "title": "Acciones",
+      "note": "Verbos. Van siempre con etiqueta, salvo dentro de un IconButton con tooltip.",
+      "items": [
+        {
+          "lucide": "plus",
+          "label": "Nuevo"
+        },
+        {
+          "lucide": "pencil",
+          "label": "Editar"
+        },
+        {
+          "lucide": "trash-2",
+          "label": "Eliminar"
+        },
+        {
+          "lucide": "copy",
+          "label": "Duplicar"
+        },
+        {
+          "lucide": "save",
+          "label": "Guardar"
+        },
+        {
+          "lucide": "download",
+          "label": "Exportar"
+        },
+        {
+          "lucide": "upload",
+          "label": "Importar"
+        },
+        {
+          "lucide": "share-2",
+          "label": "Compartir"
+        },
+        {
+          "lucide": "printer",
+          "label": "Imprimir"
+        },
+        {
+          "lucide": "search",
+          "label": "Buscar"
+        },
+        {
+          "lucide": "filter",
+          "label": "Filtrar"
+        },
+        {
+          "lucide": "sliders-horizontal",
+          "label": "Ajustar vista"
+        },
+        {
+          "lucide": "settings",
+          "label": "Configurar"
+        },
+        {
+          "lucide": "ellipsis-vertical",
+          "label": "Más acciones"
+        },
+        {
+          "lucide": "external-link",
+          "label": "Abrir aparte"
+        },
+        {
+          "lucide": "link",
+          "label": "Vincular"
+        },
+        {
+          "lucide": "check",
+          "label": "Confirmar"
+        },
+        {
+          "lucide": "x",
+          "label": "Cerrar"
+        },
+        {
+          "lucide": "log-in",
+          "label": "Iniciar sesión"
+        },
+        {
+          "lucide": "log-out",
+          "label": "Cerrar sesión"
+        }
+      ]
+    },
+    {
+      "id": "navigation",
+      "title": "Navegación y estructura",
+      "note": "Rail, topbar, pestañas y objetos de la aplicación.",
+      "items": [
+        {
+          "lucide": "layout-dashboard",
+          "label": "Tablero"
+        },
+        {
+          "lucide": "layout-grid",
+          "label": "Módulos"
+        },
+        {
+          "lucide": "house",
+          "label": "Inicio"
+        },
+        {
+          "lucide": "panel-left",
+          "label": "Colapsar rail"
+        },
+        {
+          "lucide": "menu",
+          "label": "Menú"
+        },
+        {
+          "lucide": "chevron-right",
+          "label": "Desplegar"
+        },
+        {
+          "lucide": "chevron-down",
+          "label": "Abrir selector"
+        },
+        {
+          "lucide": "arrow-left",
+          "label": "Volver"
+        },
+        {
+          "lucide": "arrow-right",
+          "label": "Avanzar"
+        },
+        {
+          "lucide": "list",
+          "label": "Lista"
+        },
+        {
+          "lucide": "list-checks",
+          "label": "Checklist"
+        },
+        {
+          "lucide": "columns-3",
+          "label": "Columnas"
+        },
+        {
+          "lucide": "folder",
+          "label": "Carpeta"
+        },
+        {
+          "lucide": "file-text",
+          "label": "Documento"
+        },
+        {
+          "lucide": "book-open",
+          "label": "Documentación"
+        },
+        {
+          "lucide": "sun",
+          "label": "Tema claro"
+        },
+        {
+          "lucide": "moon",
+          "label": "Tema oscuro"
+        },
+        {
+          "lucide": "languages",
+          "label": "Idioma"
+        },
+        {
+          "lucide": "bell",
+          "label": "Notificaciones"
+        },
+        {
+          "lucide": "circle-user",
+          "label": "Cuenta"
+        }
+      ]
+    },
+    {
+      "id": "status",
+      "title": "Estados y feedback",
+      "note": "El estado se dibuja con punto o pill; estos glifos acompañan al color en banners, vacíos y estados de plan.",
+      "items": [
+        {
+          "lucide": "circle-check",
+          "label": "Correcto"
+        },
+        {
+          "lucide": "info",
+          "label": "Informativo"
+        },
+        {
+          "lucide": "triangle-alert",
+          "label": "Atención"
+        },
+        {
+          "lucide": "circle-x",
+          "label": "Error"
+        },
+        {
+          "lucide": "circle-play",
+          "label": "En producción"
+        },
+        {
+          "lucide": "circle-pause",
+          "label": "Detenido"
+        },
+        {
+          "lucide": "circle-slash",
+          "label": "Sin datos"
+        },
+        {
+          "lucide": "circle-help",
+          "label": "Ayuda"
+        },
+        {
+          "lucide": "loader",
+          "label": "Cargando"
+        },
+        {
+          "lucide": "lock",
+          "label": "Sin permisos"
+        },
+        {
+          "lucide": "ban",
+          "label": "No contratado"
+        },
+        {
+          "lucide": "clock-arrow-up",
+          "label": "Próximamente"
+        },
+        {
+          "lucide": "bell-ring",
+          "label": "Alerta activa"
+        },
+        {
+          "lucide": "shield-alert",
+          "label": "Riesgo"
+        }
+      ]
+    },
+    {
+      "id": "people",
+      "title": "Personas, roles y comercial",
+      "note": "Los seis roles del producto y el material comercial.",
+      "items": [
+        {
+          "lucide": "user",
+          "label": "Usuario"
+        },
+        {
+          "lucide": "users",
+          "label": "Equipo"
+        },
+        {
+          "lucide": "user-cog",
+          "label": "Superadmin"
+        },
+        {
+          "lucide": "briefcase",
+          "label": "Gerencia"
+        },
+        {
+          "lucide": "clipboard-list",
+          "label": "Supervisor"
+        },
+        {
+          "lucide": "hard-hat",
+          "label": "Operario"
+        },
+        {
+          "lucide": "user-check",
+          "label": "Encargado"
+        },
+        {
+          "lucide": "user-plus",
+          "label": "Invitar"
+        },
+        {
+          "lucide": "contact",
+          "label": "Contacto"
+        },
+        {
+          "lucide": "handshake",
+          "label": "Cliente"
+        },
+        {
+          "lucide": "banknote",
+          "label": "Costo / ahorro"
+        },
+        {
+          "lucide": "receipt",
+          "label": "Facturación"
+        },
+        {
+          "lucide": "trophy",
+          "label": "Resultado"
+        },
+        {
+          "lucide": "presentation",
+          "label": "Presentación"
+        },
+        {
+          "lucide": "life-buoy",
+          "label": "Soporte"
+        },
+        {
+          "lucide": "headset",
+          "label": "Atención"
+        }
+      ]
+    },
+    {
+      "id": "web",
+      "title": "Web institucional",
+      "note": "Glifos que sólo usa el sitio: los canales de contacto y las marcas de plan.",
+      "items": [
+        {
+          "lucide": "drone",
+          "label": "Dron"
+        },
+        {
+          "lucide": "cctv",
+          "label": "Cámara de seguridad"
+        },
+        {
+          "lucide": "phone",
+          "label": "Teléfono"
+        },
+        {
+          "lucide": "mail",
+          "label": "Correo"
+        },
+        {
+          "lucide": "linkedin",
+          "label": "LinkedIn"
+        },
+        {
+          "lucide": "message-circle",
+          "label": "WhatsApp"
+        },
+        {
+          "lucide": "minus",
+          "label": "No incluido en el plan"
+        }
+      ]
+    }
+  ],
+  "lexicon": [
+    {
+      "concept": "oee",
+      "lucide": "gauge",
+      "label": "OEE"
+    },
+    {
+      "concept": "realtime",
+      "lucide": "activity",
+      "label": "Tiempo real"
+    },
+    {
+      "concept": "running",
+      "lucide": "circle-play",
+      "label": "En producción"
+    },
+    {
+      "concept": "stopped",
+      "lucide": "circle-pause",
+      "label": "Detenido"
+    },
+    {
+      "concept": "stopUnplanned",
+      "lucide": "triangle-alert",
+      "label": "Parada no planificada"
+    },
+    {
+      "concept": "stopPlanned",
+      "lucide": "calendar-clock",
+      "label": "Parada programada"
+    },
+    {
+      "concept": "noData",
+      "lucide": "circle-slash",
+      "label": "Sin datos"
+    },
+    {
+      "concept": "defect",
+      "lucide": "circle-x",
+      "label": "Defecto / scrap"
+    },
+    {
+      "concept": "company",
+      "lucide": "building-2",
+      "label": "Empresa"
+    },
+    {
+      "concept": "plant",
+      "lucide": "factory",
+      "label": "Planta"
+    },
+    {
+      "concept": "line",
+      "lucide": "git-commit-horizontal",
+      "label": "Línea de producción"
+    },
+    {
+      "concept": "machine",
+      "lucide": "cog",
+      "label": "Máquina"
+    },
+    {
+      "concept": "sku",
+      "lucide": "boxes",
+      "label": "SKU"
+    },
+    {
+      "concept": "warehouse",
+      "lucide": "warehouse",
+      "label": "Depósito"
+    },
+    {
+      "concept": "shift",
+      "lucide": "clock",
+      "label": "Turno"
+    },
+    {
+      "concept": "workOrder",
+      "lucide": "clipboard-list",
+      "label": "Orden de producción"
+    },
+    {
+      "concept": "operator",
+      "lucide": "hard-hat",
+      "label": "Operario"
+    },
+    {
+      "concept": "terminal",
+      "lucide": "monitor",
+      "label": "Terminal de planta"
+    },
+    {
+      "concept": "noPermission",
+      "lucide": "lock",
+      "label": "Sin permisos"
+    },
+    {
+      "concept": "modules",
+      "lucide": "layout-grid",
+      "label": "Módulos"
+    },
+    {
+      "concept": "visionInspection",
+      "lucide": "scan-eye",
+      "label": "Inspección por visión"
+    },
+    {
+      "concept": "inbound",
+      "lucide": "truck",
+      "label": "Recepción de mercadería"
+    },
+    {
+      "concept": "mobileCount",
+      "lucide": "smartphone",
+      "label": "Conteo desde el celular"
+    },
+    {
+      "concept": "drone",
+      "lucide": "drone",
+      "label": "Dron"
+    },
+    {
+      "concept": "camera",
+      "lucide": "cctv",
+      "label": "Cámara de seguridad"
+    },
+    {
+      "concept": "outbound",
+      "lucide": "package-check",
+      "label": "Control de pedidos"
+    },
+    {
+      "concept": "agent",
+      "lucide": "bot",
+      "label": "Agente de IA"
+    },
+    {
+      "concept": "phone",
+      "lucide": "phone",
+      "label": "Teléfono"
+    },
+    {
+      "concept": "email",
+      "lucide": "mail",
+      "label": "Correo"
+    },
+    {
+      "concept": "linkedin",
+      "lucide": "linkedin",
+      "label": "LinkedIn"
+    },
+    {
+      "concept": "whatsapp",
+      "lucide": "message-circle",
+      "label": "WhatsApp"
+    },
+    {
+      "concept": "included",
+      "lucide": "check",
+      "label": "Incluido en el plan"
+    },
+    {
+      "concept": "notIncluded",
+      "lucide": "minus",
+      "label": "No incluido en el plan"
+    }
+  ],
+  "gaps": [
+    {
+      "concept": "conveyor",
+      "reason": "No existe cinta transportadora.",
+      "fallback": "git-commit-horizontal"
+    },
+    {
+      "concept": "brandMark",
+      "reason": "El isotipo hexagonal no está vectorizado.",
+      "fallback": "clip-path CSS"
+    }
+  ],
+  "web": {
+    "note": "Conceptos que la web institucional necesita y el set original no tiene, porque está escrito para el tablero de la aplicación: los ocho módulos como producto, y los canales de contacto, que en la app no existen."
+  },
+  "gapsClosed": [
+    {
+      "concept": "drone",
+      "was": "Lucide 0.469 no tenía glifo de dron; el paquete usaba `radar` provisorio.",
+      "now": "El repo usa Lucide 0.575, donde `drone` existe. El provisorio ya no hace falta."
+    }
+  ]
+}

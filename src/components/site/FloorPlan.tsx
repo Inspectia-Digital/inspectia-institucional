@@ -5,6 +5,7 @@ import { PLANT_PLAN } from "@/content/assets";
 import { PLOTTED_MODULES, type ModuleKey } from "@/content/modules";
 import { pushEventOncePerSession } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/icons/Icon";
 
 /**
  * Plano de planta interactivo (§11.3). Es el activo más distintivo del sitio.
@@ -139,7 +140,7 @@ export function FloorPlan() {
                       style={{ animationDuration: "800ms" }}
                     />
                   )}
-                  <m.icon className="size-5 text-brand" strokeWidth={1.5} aria-hidden />
+                  <Icon name={m.icon} size="empty" className="text-brand" />
                 </button>
 
                 {isOpen && (
