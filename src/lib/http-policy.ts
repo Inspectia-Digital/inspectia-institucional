@@ -58,6 +58,26 @@ const LEGACY_REDIRECTS: Record<string, string> = {
   // página. Era la que más tráfico de búsqueda traía y el término se pierde si redirige.
 };
 
+/**
+ * Normalización de la barra final, como 301 y no como el 307 del enrutador.
+ *
+ * El enrutador ya normaliza, pero con un 307, que es temporal: el buscador no consolida
+ * la autoridad de la forma con barra en la sin barra, y la duplicación queda viva. Con la
+ * migración eso pesa más que antes, porque las quince URLs heredadas terminan en barra.
+ *
+ * No toca la raíz ni nada que tenga extensión: `/sitemap.xml` no lleva barra y un archivo
+ * estático tampoco.
+ */
+export function resolveTrailingSlash(url: URL): Response | null {
+  const p = url.pathname;
+  if (p === "/" || !p.endsWith("/")) return null;
+
+  return new Response(null, {
+    status: 301,
+    headers: { location: `${p.replace(/\/+$/, "")}${url.search}` },
+  });
+}
+
 /** Rutas de WordPress con hijos. El feed lo sigue pegando cualquier lector suscripto. */
 const LEGACY_PREFIXES = ["/feed", "/wp-json"];
 

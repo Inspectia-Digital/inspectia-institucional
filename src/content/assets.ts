@@ -21,6 +21,30 @@ export const PLANT_PLAN = {
   alt: "Vista isométrica de una planta y un centro de distribución, con los ocho módulos de InspectIA ubicados en su punto de la operación",
 } as const;
 
+/**
+ * Lockup de marca: isotipo hexagonal más logotipo.
+ *
+ * Dos versiones porque la marca vive sobre dos fondos: el teal del original sobre blanco,
+ * y el blanco sobre el teal profundo del pie. La segunda se genera desde el alfa del
+ * mismo archivo, así que es la misma marca y no un dibujo aparte.
+ *
+ * TODO(equipo): **falta el vector.** Los archivos entregados son PNG y el handoff de
+ * iconos declara el isotipo como no vectorizado. A 96px de alto para usarse a 32 se ve
+ * bien en pantallas 3x, pero un SVG pesaría menos y escalaría sin techo.
+ */
+export const LOCKUP = {
+  /** Teal sobre fondos claros. */
+  src: "/img/brand/lockup.webp",
+  /** Blanco sobre el teal profundo. */
+  white: "/img/brand/lockup-blanco.webp",
+  width: 352,
+  height: 96,
+  alt: "InspectIA",
+} as const;
+
+/** Isotipo solo, para el favicon y donde no entra el lockup completo. */
+export const ISOTIPO = "/img/brand/isotipo.webp";
+
 export type PartnerSlug =
   | "antea-group"
   | "arnx"

@@ -104,26 +104,104 @@ async function optimizePlant() {
   }
 }
 
+/**
+ * Lockup de marca.
+ *
+ * Hasta ahora la barra y el pie escribían "InspectIA" con tipografía, porque no había
+ * archivo. El design system lo trae —isotipo hexagonal más logotipo— pero **sólo en PNG**:
+ * el propio handoff de iconos declara el isotipo como no vectorizado. Un PNG a 3x del
+ * tamaño de uso se ve bien en cualquier pantalla, así que sirve mientras tanto; el SVG
+ * sigue pendiente y es lo que hace falta para escalar sin techo.
+ *
+ * La versión en blanco se genera **desde el alfa del propio archivo**, no se dibuja: el
+ * lockup es de un solo color, así que teñir su silueta da exactamente la misma marca
+ * invertida, que es el tratamiento que muestran las guías de la marca.
+ */
+const LOCKUP_HEIGHT = 96; // se usa a 32px; 96 cubre pantallas 3x
+
+async function optimizeBrand() {
+  const from = join(RAW, "brand", "lockup.png");
+  await mkdir(join(OUT, "brand"), { recursive: true });
+
+  const base = () =>
+    sharp(from).trim().resize({ height: LOCKUP_HEIGHT, fit: "inside", withoutEnlargement: false });
+
+  const to = join(OUT, "brand", "lockup.webp");
+  await base().webp({ lossless: true, effort: 6 }).toFile(to);
+  console.log(`  lockup.png → brand/lockup.webp ${kb(await sizeOf(to))}`);
+
+  // Blanco sobre teal: se conserva el alfa y se reemplaza el color por blanco puro.
+  const neg = join(OUT, "brand", "lockup-blanco.webp");
+  const { data, info } = await base().ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  for (let i = 0; i < data.length; i += info.channels) {
+    data[i] = 255;
+    data[i + 1] = 255;
+    data[i + 2] = 255;
+  }
+  await sharp(data, { raw: { width: info.width, height: info.height, channels: info.channels } })
+    .webp({ lossless: true, effort: 6 })
+    .toFile(neg);
+  console.log(`  lockup.png → brand/lockup-blanco.webp ${kb(await sizeOf(neg))}`);
+
+  // Isotipo solo, para el favicon y para donde no entra el lockup completo.
+  const iso = join(OUT, "brand", "isotipo.webp");
+  await sharp(join(RAW, "brand", "isotipo-small.png"))
+    .trim()
+    .resize({ height: 192, fit: "inside" })
+    .webp({ lossless: true, effort: 6 })
+    .toFile(iso);
+  console.log(`  isotipo-small.png → brand/isotipo.webp ${kb(await sizeOf(iso))}`);
+}
+
+console.log("Marca:");
+await optimizeBrand();
 console.log("Logos:");
 await optimizeLogos();
 console.log("Plano de planta:");
 await optimizePlant();
 
 /**
- * Imagen de Open Graph: el render del plano recortado a 1200x630.
+ * Imagen de Open Graph.
  *
  * Es lo que se ve al compartir el sitio por LinkedIn y WhatsApp, que en este rubro es por
- * donde circula. El render original es 16:9 y el formato de compartido es más apaisado,
- * así que se recorta desde el centro en lugar de deformarlo.
+ * donde circula, y se ve del tamaño de una tarjeta. Antes era el recorte pelado del
+ * render: bonito y mudo, sin una marca que dijera de quién es.
+ *
+ * Ahora lleva el lockup en blanco sobre una banda de teal profundo al pie. La banda no es
+ * decoración: sobre el render claro un lockup blanco no tendría contraste, y el teal es
+ * justamente la superficie de marca del sitio.
+ *
+ * El render es 16:9 y el formato de compartido es más apaisado, así que se recorta desde
+ * el centro en lugar de deformarlo.
  */
 async function optimizeOgImage() {
   const from = join(RAW, "plant", "fabrica-logistica.png");
   const to = join(OUT, "og", "inspectia-og.jpg");
   await mkdir(join(OUT, "og"), { recursive: true });
 
-  // JPEG y no WebP: varias plataformas de mensajería todavía no previsualizan WebP.
-  await sharp(from)
+  const BAND = 132;
+  const fondo = await sharp(from)
     .resize({ width: 1200, height: 630, fit: "cover", position: "centre" })
+    .toBuffer();
+
+  // El teal profundo del sistema, #084749.
+  const banda = await sharp({
+    create: { width: 1200, height: BAND, channels: 4, background: "#084749" },
+  })
+    .png()
+    .toBuffer();
+
+  const marca = await sharp(join(OUT, "brand", "lockup-blanco.webp"))
+    .resize({ height: 56, fit: "inside" })
+    .png()
+    .toBuffer();
+
+  // JPEG y no WebP: varias plataformas de mensajería todavía no previsualizan WebP.
+  await sharp(fondo)
+    .composite([
+      { input: banda, top: 630 - BAND, left: 0 },
+      { input: marca, top: 630 - BAND + 38, left: 64 },
+    ])
     .jpeg({ quality: 82, mozjpeg: true })
     .toFile(to);
 

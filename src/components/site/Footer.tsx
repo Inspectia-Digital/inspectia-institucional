@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { LOCKUP } from "@/content/assets";
 import { MODULES } from "@/content/modules";
 import { INDUSTRIES, USE_CASES } from "@/content/solutions";
 import {
@@ -48,9 +49,15 @@ export function Footer() {
         >
           {/* --- Marca --- */}
           <div className="min-w-0">
-            <p className="text-xl font-bold tracking-tight text-on-brand">
-              InspectIA<span className="text-[var(--accent-on-brand)]">.</span>
-            </p>
+            {/* Sobre el teal profundo va la versión en blanco. La marca en su color
+                original sobre este fondo no tendría contraste. */}
+            <img
+              src={LOCKUP.white}
+              alt={LOCKUP.alt}
+              width={LOCKUP.width}
+              height={LOCKUP.height}
+              className="h-8 w-auto"
+            />
             <p className="mt-4 max-w-[38ch] text-sm leading-[var(--leading-normal)] text-on-brand-secondary">
               Plataforma modular para medir y controlar la operación de plantas y centros de
               distribución.

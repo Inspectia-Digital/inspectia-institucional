@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/accordion";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { CtaPair } from "@/components/site/CtaPair";
+import { LOCKUP } from "@/content/assets";
 import { MODULES } from "@/content/modules";
 import { INDUSTRIES, USE_CASES } from "@/content/solutions";
 import { approvedCases } from "@/content/cases";
@@ -333,10 +334,16 @@ export function Navbar() {
 
 function Wordmark() {
   return (
-    <Link to="/" className="shrink-0 text-xl font-bold tracking-tight text-ink">
-      {/* TODO(equipo): reemplazar por el lockup a 32px de alto cuando exista el vector.
-          Hoy los logos son PNG recortados y la marca no escala limpia (§15.10). */}
-      InspectIA<span className="text-brand">.</span>
+    <Link to="/" className="shrink-0" aria-label="InspectIA, inicio">
+      {/* 32px de alto, como pide la guía de marca. El archivo es de 96 para que se vea
+          limpio en pantallas 3x; sigue faltando el vector. */}
+      <img
+        src={LOCKUP.src}
+        alt={LOCKUP.alt}
+        width={LOCKUP.width}
+        height={LOCKUP.height}
+        className="h-8 w-auto"
+      />
     </Link>
   );
 }

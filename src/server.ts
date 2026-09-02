@@ -2,7 +2,11 @@ import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
-import { resolveLegacyRedirect, withSecurityHeaders } from "./lib/http-policy";
+import {
+  resolveLegacyRedirect,
+  resolveTrailingSlash,
+  withSecurityHeaders,
+} from "./lib/http-policy";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -46,6 +50,11 @@ export default {
     // de encadenar el 307 de normalización de barra final con el 301 de la ruta.
     const legacy = resolveLegacyRedirect(url);
     if (legacy) return legacy;
+
+    // Después de las heredadas: una URL vieja con barra ya se resolvió arriba en un solo
+    // salto, y lo que llega acá es cualquier otra con barra de más.
+    const slash = resolveTrailingSlash(url);
+    if (slash) return slash;
 
     try {
       const handler = await getServerEntry();
