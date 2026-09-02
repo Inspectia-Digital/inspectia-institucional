@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { MODULES } from "@/content/modules";
 import { USE_CASES, publishedIndustries } from "@/content/solutions";
 import { pageHead } from "@/lib/seo";
+import { Icon } from "@/components/icons/Icon";
 
 const TITLE = "Soluciones por industria y por problema · InspectIA";
 const DESCRIPTION =
@@ -58,9 +58,9 @@ function SolutionsPage() {
                   </p>
                   <span className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-semibold text-brand">
                     Ver soluciones para {i.name.toLowerCase()}
-                    <ArrowRight
-                      className="size-4 shrink-0 transition-transform duration-[160ms] group-hover:translate-x-0.5"
-                      aria-hidden
+                    <Icon
+                      name="arrow-right"
+                      className="transition-transform duration-[160ms] group-hover:translate-x-0.5"
                     />
                   </span>
                 </Link>
@@ -104,9 +104,9 @@ function SolutionsPage() {
                   </p>
                   <span className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-semibold text-brand">
                     {u.name}
-                    <ArrowRight
-                      className="size-4 shrink-0 transition-transform duration-[160ms] group-hover:translate-x-0.5"
-                      aria-hidden
+                    <Icon
+                      name="arrow-right"
+                      className="transition-transform duration-[160ms] group-hover:translate-x-0.5"
                     />
                   </span>
                 </Link>

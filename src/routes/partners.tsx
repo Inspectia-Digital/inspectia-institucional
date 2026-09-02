@@ -3,7 +3,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Check } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -16,6 +15,7 @@ import { DEMO_URL } from "@/content/site";
 import { pushEvent, sourcePage } from "@/lib/analytics";
 import { breadcrumbJsonLd, faqJsonLd, pageHead } from "@/lib/seo";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/icons/Icon";
 
 const TITLE = "Programa para consultores industriales · InspectIA";
 const DESCRIPTION =
@@ -187,11 +187,7 @@ function Page() {
             <ul className="mt-8 space-y-3">
               {GAINS.map((g) => (
                 <li key={g} className="flex gap-3 text-[15px] leading-snug text-ink">
-                  <Check
-                    className="mt-0.5 size-4 shrink-0 text-[var(--status-ok)]"
-                    strokeWidth={2}
-                    aria-hidden
-                  />
+                  <Icon name="included" className="mt-0.5 text-[var(--status-ok)]" />
                   <span className="min-w-0">{g}</span>
                 </li>
               ))}
@@ -332,7 +328,7 @@ function ApplicationForm() {
       <div className="mt-10 rounded-[var(--radius-lg)] border border-line bg-surface p-8">
         <div className="flex items-start gap-3">
           <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-[var(--status-ok)]">
-            <Check className="size-4 text-white" strokeWidth={2.5} aria-hidden />
+            <Icon name="included" className="text-white" />
           </span>
           <p className="max-w-[52ch] text-[15px] leading-[var(--leading-normal)] text-ink">
             Recibido. Te escribimos para coordinar una charla y ver si tiene sentido para las dos

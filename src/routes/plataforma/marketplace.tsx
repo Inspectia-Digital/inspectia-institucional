@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { MARKETPLACE_CATEGORIES } from "@/content/marketplace";
@@ -9,6 +8,7 @@ import { DEMO_URL } from "@/content/site";
 import { pushEvent } from "@/lib/analytics";
 import { pageHead } from "@/lib/seo";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/icons/Icon";
 
 const TITLE = "Marketplace de servicios para proyectos de planta · InspectIA";
 const DESCRIPTION =
@@ -136,7 +136,7 @@ function Page() {
                     className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
                   >
                     Pedir una cotización
-                    <ArrowRight className="size-4" aria-hidden />
+                    <Icon name="arrow-right" />
                   </a>
                 </li>
               );
@@ -218,7 +218,7 @@ function Page() {
             className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
           >
             Ver las integraciones
-            <ArrowRight className="size-4" aria-hidden />
+            <Icon name="arrow-right" />
           </Link>
         </div>
       </section>

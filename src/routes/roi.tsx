@@ -1,5 +1,4 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { RoiCalculator } from "@/components/roi/RoiCalculator";
@@ -7,6 +6,7 @@ import { ROI_MODELS, isRoiModule } from "@/lib/roi";
 import type { ModuleKey } from "@/content/modules";
 import { cn } from "@/lib/utils";
 import { pageHead } from "@/lib/seo";
+import { Icon } from "@/components/icons/Icon";
 
 const TITLE = "Calculadora de ROI para proyectos de planta · InspectIA";
 const DESCRIPTION =
@@ -120,7 +120,7 @@ function RoiPage() {
             className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
           >
             Conocer el programa de partners
-            <ArrowRight className="size-4 shrink-0" aria-hidden />
+            <Icon name="arrow-right" />
           </Link>
         </div>
       </section>

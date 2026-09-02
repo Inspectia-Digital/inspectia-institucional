@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Check } from "lucide-react";
 import type { RoiOutcome } from "@/lib/roi";
 import { pushEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/icons/Icon";
 
 /**
  * Lo único del ROI que pide datos (§7.7).
@@ -72,7 +72,7 @@ export function LeadForm({ module, outcome }: { module: string; outcome: RoiOutc
       <div className="rounded-[var(--radius-lg)] border border-line bg-surface-sunken p-8">
         <div className="flex items-start gap-3">
           <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-[var(--status-ok)]">
-            <Check className="size-4 text-white" strokeWidth={2.5} aria-hidden />
+            <Icon name="included" className="text-white" />
           </span>
           <div>
             <p className="text-lg font-semibold text-ink">Listo, te lo mandamos por correo.</p>

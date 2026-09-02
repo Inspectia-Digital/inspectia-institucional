@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
 import { MODULES, type ModuleKey } from "@/content/modules";
 import { SIGNUP_URL } from "@/content/site";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/icons/Icon";
 
 /**
  * Selector de perfil (§7.1, bloque 06).
@@ -138,17 +138,17 @@ export function AudienceTabs() {
             {profile.exit.kind === "partners" ? (
               <Link to="/partners" className={LINK}>
                 {profile.exit.label}
-                <ArrowRight className="size-4" aria-hidden />
+                <Icon name="arrow-right" />
               </Link>
             ) : profile.exit.kind === "signup" ? (
               <a href={SIGNUP_URL} rel="nofollow" className={LINK}>
                 {profile.exit.label}
-                <ArrowRight className="size-4" aria-hidden />
+                <Icon name="arrow-right" />
               </a>
             ) : (
               <Link to="/roi" className={LINK}>
                 {profile.exit.label}
-                <ArrowRight className="size-4" aria-hidden />
+                <Icon name="arrow-right" />
               </Link>
             )}
           </div>

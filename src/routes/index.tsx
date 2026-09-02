@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { Hero } from "@/components/site/Hero";
 import { TrustBar } from "@/components/site/TrustBar";
@@ -16,6 +15,7 @@ import {
   StartFree,
 } from "@/components/home/sections";
 import { faqJsonLd, organizationJsonLd, pageHead } from "@/lib/seo";
+import { Icon } from "@/components/icons/Icon";
 
 const TITLE = "Software de OEE, calidad e inventario para plantas · InspectIA";
 const DESCRIPTION =
@@ -104,7 +104,7 @@ function Platform() {
           className="mt-10 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
         >
           Ver cómo funciona la plataforma
-          <ArrowRight className="size-4" aria-hidden />
+          <Icon name="arrow-right" />
         </Link>
       </div>
     </section>

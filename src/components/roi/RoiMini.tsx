@@ -1,8 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
 import { SliderField } from "@/components/roi/SliderField";
 import { useRoiModel } from "@/components/roi/useRoiModel";
 import type { RoiModel } from "@/lib/roi";
+import { Icon } from "@/components/icons/Icon";
 
 /**
  * Variante mini del ROI (§11.7), para la home y las páginas de industria y caso de uso.
@@ -56,7 +56,7 @@ export function RoiMini({ model }: { model: RoiModel }) {
             className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
           >
             Ver el cálculo completo
-            <ArrowRight className="size-4" aria-hidden />
+            <Icon name="arrow-right" />
           </Link>
         </div>
       </div>

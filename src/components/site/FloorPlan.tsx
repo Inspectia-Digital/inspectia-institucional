@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
 import { PLANT_PLAN } from "@/content/assets";
 import { PLOTTED_MODULES, type ModuleKey } from "@/content/modules";
 import { pushEventOncePerSession } from "@/lib/analytics";
@@ -201,7 +200,7 @@ function ModuleCard({
         className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
       >
         Ver el módulo
-        <ArrowRight className="size-4" aria-hidden />
+        <Icon name="arrow-right" />
       </Link>
     </div>
   );

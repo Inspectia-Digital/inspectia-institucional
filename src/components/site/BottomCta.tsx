@@ -1,7 +1,7 @@
-import { MessageCircle } from "lucide-react";
 import { CtaPair } from "@/components/site/CtaPair";
 import { WHATSAPP_URL } from "@/content/site";
 import { pushEvent, sourcePage } from "@/lib/analytics";
+import { Icon } from "@/components/icons/Icon";
 
 /**
  * Banda de cierre (§11.10). Se repite al pie de todas las páginas con el mismo copy: es
@@ -41,7 +41,7 @@ export function BottomCta({
             onClick={() => pushEvent("whatsapp_click", { source_page: sourcePage() })}
             className="mt-6 inline-flex items-center gap-2 text-sm text-on-brand-secondary transition-colors duration-[160ms] hover:text-on-brand"
           >
-            <MessageCircle className="size-4" strokeWidth={1.5} aria-hidden />
+            <Icon name="whatsapp" />
             Escribinos por WhatsApp
           </a>
         )}

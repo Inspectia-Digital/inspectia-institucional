@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -10,6 +9,7 @@ import { CtaPair } from "@/components/site/CtaPair";
 import { ImplementationTimeline } from "@/components/site/ImplementationTimeline";
 import { RoiMini } from "@/components/roi/RoiMini";
 import { tymeoModel } from "@/lib/roi/tymeo";
+import { Icon } from "@/components/icons/Icon";
 
 /** Bloques propios de la home. Los que se usan en más de una página viven en site/. */
 
@@ -66,7 +66,7 @@ export function CostOfNotMeasuring() {
                 className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
               >
                 {c.link}
-                <ArrowRight className="size-4" aria-hidden />
+                <Icon name="arrow-right" />
               </Link>
             </li>
           ))}
@@ -196,7 +196,7 @@ export function MarketplaceTeaser() {
           className="mt-10 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
         >
           Explorar el marketplace
-          <ArrowRight className="size-4" aria-hidden />
+          <Icon name="arrow-right" />
         </Link>
       </div>
     </section>
@@ -226,7 +226,7 @@ export function PartnersBand() {
           className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
         >
           Conocer el programa de partners
-          <ArrowRight className="size-4" aria-hidden />
+          <Icon name="arrow-right" />
         </Link>
       </div>
     </section>

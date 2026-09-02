@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Check, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 import { MODULES } from "@/content/modules";
 import { INDUSTRIES, USE_CASES } from "@/content/solutions";
 import {
@@ -13,6 +12,8 @@ import {
 } from "@/content/site";
 import { pushEvent, sourcePage } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/icons/Icon";
+import type { IconConcept } from "@/components/icons/inspectia-icons";
 
 /**
  * Pie del sitio (§11.12).
@@ -58,12 +59,12 @@ export function Footer() {
             {(CONTACT.phone || CONTACT.email || CONTACT.linkedin) && (
               <ul className="mt-6 space-y-3">
                 {CONTACT.phone && (
-                  <ContactRow icon={Phone} href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}>
+                  <ContactRow name="phone" href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}>
                     {CONTACT.phone}
                   </ContactRow>
                 )}
                 {CONTACT.email && (
-                  <ContactRow icon={Mail} href={`mailto:${CONTACT.email}`}>
+                  <ContactRow name="email" href={`mailto:${CONTACT.email}`}>
                     {CONTACT.email}
                   </ContactRow>
                 )}
@@ -72,7 +73,7 @@ export function Footer() {
                     botón a linkedin.com a secas, que es lo que tenía el footer anterior,
                     es peor que no tener botón. */}
                 {CONTACT.linkedin && (
-                  <ContactRow icon={Linkedin} href={CONTACT.linkedin} external>
+                  <ContactRow name="linkedin" href={CONTACT.linkedin} external>
                     LinkedIn
                   </ContactRow>
                 )}
@@ -90,11 +91,7 @@ export function Footer() {
                 <ul className="space-y-3">
                   {OFFICES.map((o) => (
                     <li key={o.postalCode} className="flex min-w-0 gap-2">
-                      <MapPin
-                        className="mt-0.5 size-4 shrink-0 text-on-brand-label"
-                        strokeWidth={1.5}
-                        aria-hidden
-                      />
+                      <Icon name="map-pin" className="mt-0.5 text-on-brand-label" />
                       <span className="min-w-0 text-sm leading-[var(--leading-normal)] text-on-brand-secondary">
                         {officeLine(o)}
                       </span>
@@ -288,7 +285,7 @@ function Newsletter() {
         // Confirmación en el mismo lugar, sin navegar.
         <p className="mt-5 inline-flex items-center gap-2 text-sm text-on-brand">
           <span className="grid size-5 shrink-0 place-items-center rounded-full bg-[var(--accent-on-brand)]">
-            <Check className="size-3 text-brand-deep" strokeWidth={3} aria-hidden />
+            <Icon name="included" size="meta" className="text-brand-deep" />
           </span>
           Listo, quedaste anotado.
         </p>
@@ -319,12 +316,13 @@ function Newsletter() {
 }
 
 function ContactRow({
-  icon: Icon,
+  name,
   href,
   external = false,
   children,
 }: {
-  icon: typeof Phone;
+  /** Concepto del léxico de iconos, no el componente del glifo. */
+  name: IconConcept;
   href: string;
   external?: boolean;
   children: React.ReactNode;
@@ -336,7 +334,7 @@ function ContactRow({
         {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
         className="inline-flex items-center gap-2 text-sm text-on-brand-secondary transition-colors duration-[160ms] hover:text-on-brand"
       >
-        <Icon className="size-4 shrink-0" strokeWidth={1.5} aria-hidden />
+        <Icon name={name} />
         <span className="truncate">{children}</span>
       </a>
     </li>

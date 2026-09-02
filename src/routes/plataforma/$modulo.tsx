@@ -1,5 +1,4 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -17,6 +16,7 @@ import { ADDON_PRICE_USD, TYMEO_PLANS } from "@/content/pricing";
 import { useModuleViewEvent } from "@/lib/useViewEvents";
 import { breadcrumbJsonLd, faqJsonLd, pageHead, siteTitle } from "@/lib/seo";
 import { roiModelFor } from "@/lib/roi";
+import { Icon } from "@/components/icons/Icon";
 
 /**
  * Plantilla única de las ocho páginas de módulo (§7.3).
@@ -160,7 +160,7 @@ function ModulePage() {
               className="mt-10 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
             >
               Ver el modelo completo y descargar el informe
-              <ArrowRight className="size-4" aria-hidden />
+              <Icon name="arrow-right" />
             </Link>
           </div>
         </section>

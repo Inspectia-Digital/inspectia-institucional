@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { INTEGRATION_GROUPS } from "@/content/integrations";
 import { pageHead } from "@/lib/seo";
+import { Icon } from "@/components/icons/Icon";
 
 // El title anterior no nombraba ni un sistema: quien busca "integración con SAP" no
 // encontraba dónde engancharse. Este pone las cuatro categorías, que son los términos.
@@ -112,7 +112,7 @@ function Page() {
             className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
           >
             Ver los servicios del marketplace
-            <ArrowRight className="size-4" aria-hidden />
+            <Icon name="arrow-right" />
           </Link>
         </div>
       </section>

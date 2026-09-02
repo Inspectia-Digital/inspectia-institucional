@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { ModuleGrid } from "@/components/site/ModuleGrid";
 import { SHOW_SECURITY_SECTION } from "@/content/site";
 import { pageHead } from "@/lib/seo";
+import { Icon } from "@/components/icons/Icon";
 
 const TITLE = "Plataforma modular para plantas y depósitos · InspectIA";
 const DESCRIPTION =
@@ -278,9 +278,9 @@ function TeaserCard({
       <p className="mt-3 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">{body}</p>
       <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand">
         {cta}
-        <ArrowRight
-          className="size-4 transition-transform duration-[160ms] group-hover:translate-x-0.5"
-          aria-hidden
+        <Icon
+          name="arrow-right"
+          className="transition-transform duration-[160ms] group-hover:translate-x-0.5"
         />
       </span>
     </Link>

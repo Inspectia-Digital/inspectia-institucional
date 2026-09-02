@@ -1,5 +1,4 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { ModuleGrid } from "@/components/site/ModuleGrid";
@@ -7,6 +6,7 @@ import { MODULES } from "@/content/modules";
 import { INDUSTRIES, USE_CASES } from "@/content/solutions";
 import { useSolutionViewEvent } from "@/lib/useViewEvents";
 import { breadcrumbJsonLd, pageHead, siteTitle } from "@/lib/seo";
+import { Icon } from "@/components/icons/Icon";
 
 /**
  * Página de industria (§7.5).
@@ -129,7 +129,7 @@ function IndustryPage() {
                     className="inline-flex items-center gap-1.5 text-[15px] font-semibold text-brand hover:underline hover:underline-offset-4"
                   >
                     {u.name}
-                    <ArrowRight className="size-4 shrink-0" aria-hidden />
+                    <Icon name="arrow-right" />
                   </Link>
                 </li>
               ))}

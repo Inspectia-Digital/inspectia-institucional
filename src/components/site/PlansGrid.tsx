@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { Check, Minus } from "lucide-react";
 import { ADDON_PRICE_USD, TYMEO_PLANS, type Plan } from "@/content/pricing";
 import { DEMO_URL, SIGNUP_URL } from "@/content/site";
 import { pushEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/icons/Icon";
 
 /**
  * Grilla de planes y add-ons (§11.9).
@@ -101,7 +101,7 @@ function PlanCard({ plan }: { plan: Plan }) {
 
       {plan.addons.length === 0 && plan.id !== "enterprise" && (
         <p className="mt-6 flex items-center gap-2 border-t border-line pt-5 text-[13px] text-ink-muted">
-          <Minus className="size-4 shrink-0" aria-hidden />
+          <Icon name="notIncluded" />
           Sin add-ons: ya vienen todos incluidos.
         </p>
       )}
@@ -124,7 +124,7 @@ function PlanCard({ plan }: { plan: Plan }) {
             : "mt-6 border border-line-brand bg-action-soft text-action-soft-text hover:bg-teal-100",
         )}
       >
-        {plan.id === "free" && <Check className="size-4" aria-hidden />}
+        {plan.id === "free" && <Icon name="included" />}
         {plan.cta}
       </a>
     </li>

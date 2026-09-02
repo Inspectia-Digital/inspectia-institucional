@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
-import { ChevronDown, Menu } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -218,7 +217,7 @@ export function Navbar() {
               aria-label="Abrir el menú"
               className="-mr-2 flex size-12 items-center justify-center rounded-[var(--radius-md)] text-ink"
             >
-              <Menu className="size-6" strokeWidth={1.5} />
+              <Icon name="menu" size="brand" />
             </button>
           </SheetTrigger>
 
@@ -346,9 +345,10 @@ function MenuTrigger({ children }: { children: React.ReactNode }) {
   return (
     <NavigationMenu.Trigger className="group flex cursor-pointer items-center gap-1.5 text-[15px] font-medium text-ink-secondary outline-none transition-colors duration-[160ms] hover:text-brand data-[state=open]:text-brand">
       {children}
-      <ChevronDown
-        className="size-3.5 transition-transform duration-[160ms] group-data-[state=open]:rotate-180"
-        aria-hidden
+      <Icon
+        name="chevron-down"
+        size="meta"
+        className="transition-transform duration-[160ms] group-data-[state=open]:rotate-180"
       />
     </NavigationMenu.Trigger>
   );

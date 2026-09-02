@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Linkedin, Mail, MapPin, Phone } from "lucide-react";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { CONTACT, OFFICES, officeLine } from "@/content/site";
 import { breadcrumbJsonLd, pageHead } from "@/lib/seo";
+import { Icon } from "@/components/icons/Icon";
+import type { IconConcept } from "@/components/icons/inspectia-icons";
 
 const TITLE = "Contacto · InspectIA";
 const DESCRIPTION =
@@ -62,7 +63,7 @@ function Page() {
             <ul className="mt-10 grid gap-8 min-[720px]:grid-cols-3">
               {CONTACT.phone && (
                 <ContactCard
-                  icon={Phone}
+                  name="phone"
                   label="Teléfono"
                   value={CONTACT.phone}
                   href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}
@@ -70,7 +71,7 @@ function Page() {
               )}
               {CONTACT.email && (
                 <ContactCard
-                  icon={Mail}
+                  name="email"
                   label="Correo"
                   value={CONTACT.email}
                   href={`mailto:${CONTACT.email}`}
@@ -79,7 +80,7 @@ function Page() {
               {/* Se renderiza en cuanto CONTACT.linkedin deje de ser null. */}
               {CONTACT.linkedin && (
                 <ContactCard
-                  icon={Linkedin}
+                  name="linkedin"
                   label="LinkedIn"
                   value="Nuestra página"
                   href={CONTACT.linkedin}
@@ -105,11 +106,7 @@ function Page() {
             <address className="mt-10 grid gap-8 not-italic min-[720px]:grid-cols-2">
               {OFFICES.map((o) => (
                 <div key={o.postalCode} className="flex min-w-0 gap-3">
-                  <MapPin
-                    className="mt-1 size-5 shrink-0 text-brand"
-                    strokeWidth={1.5}
-                    aria-hidden
-                  />
+                  <Icon name="map-pin" size="empty" className="mt-1 text-brand" />
                   <p className="min-w-0 text-[15px] leading-[var(--leading-normal)] text-ink">
                     {officeLine(o)}
                   </p>
@@ -124,13 +121,14 @@ function Page() {
 }
 
 function ContactCard({
-  icon: Icon,
+  name,
   label,
   value,
   href,
   external = false,
 }: {
-  icon: typeof Phone;
+  /** Concepto del léxico de iconos, no el componente del glifo. */
+  name: IconConcept;
   label: string;
   value: string;
   href: string;
@@ -144,7 +142,7 @@ function ContactCard({
         {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
         className="mt-3 inline-flex min-h-11 items-center gap-2.5 text-[17px] text-brand hover:underline hover:underline-offset-4"
       >
-        <Icon className="size-5 shrink-0" strokeWidth={1.5} aria-hidden />
+        <Icon name={name} size="empty" />
         <span className="min-w-0 break-words">{value}</span>
       </a>
     </li>

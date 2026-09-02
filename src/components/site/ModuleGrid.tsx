@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
 import { MODULES, type PlatformModule } from "@/content/modules";
 import { cn } from "@/lib/utils";
 import { Icon } from "@/components/icons/Icon";
@@ -56,9 +55,9 @@ export function ModuleGrid({
             {/* mt-auto lo ancla abajo, para que las cards de una fila terminen parejas. */}
             <span className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-semibold text-brand">
               Ver el módulo
-              <ArrowRight
-                className="size-4 transition-transform duration-[160ms] group-hover:translate-x-0.5"
-                aria-hidden
+              <Icon
+                name="arrow-right"
+                className="transition-transform duration-[160ms] group-hover:translate-x-0.5"
               />
             </span>
           </Link>

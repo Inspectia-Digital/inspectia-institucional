@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { OeeSimulator } from "@/components/site/OeeSimulator";
 import { breadcrumbJsonLd, faqJsonLd, pageHead } from "@/lib/seo";
+import { Icon } from "@/components/icons/Icon";
 
 const TITLE = "Simulador de OEE: calculá tu eficiencia · InspectIA";
 const DESCRIPTION =
@@ -128,7 +128,7 @@ function Page() {
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
             >
               Ver cómo mide TYMEO
-              <ArrowRight className="size-4 shrink-0" aria-hidden />
+              <Icon name="arrow-right" />
             </Link>
             <Link
               to="/roi"
@@ -136,7 +136,7 @@ function Page() {
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
             >
               Calcular cuánto devuelve medir
-              <ArrowRight className="size-4 shrink-0" aria-hidden />
+              <Icon name="arrow-right" />
             </Link>
           </p>
         </div>
