@@ -93,7 +93,11 @@ function Platform() {
           casilla que se habilita.
         </p>
 
-        <div className="mt-12">
+        {/* El plano no entra en un teléfono. Mide 640px de ancho mínimo porque abajo de
+            eso el render isométrico deja de leerse, así que en 375 quedaba un dibujo
+            recortado que hay que arrastrar y donde no se distingue nada. La grilla de
+            abajo cuenta lo mismo —los ocho módulos— y en mobile lo cuenta mejor. */}
+        <div className="mt-12 hidden min-[720px]:block">
           <FloorPlan />
         </div>
 

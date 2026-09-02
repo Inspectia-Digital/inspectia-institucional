@@ -125,8 +125,13 @@ export function FloorPlan() {
                     setPinned(pinned === m.key ? null : m.key);
                   }}
                   className={cn(
-                    "relative grid size-10 place-items-center rounded-full border",
-                    "border-[var(--border-brand)] bg-[rgba(13,115,119,0.12)] backdrop-blur-[2px]",
+                    "relative grid size-10 place-items-center rounded-full",
+                    // Relleno sólido y no un lavado del 12%: sobre un render claro y
+                    // detallado, un icono teal sobre teal translúcido se perdía en el
+                    // dibujo. Es uno de los tres rellenos que define el sistema para el
+                    // contenedor de un icono —teal 700 con icono blanco—, y el aro blanco
+                    // lo despega de una imagen que abajo tiene de todo.
+                    "bg-brand text-white ring-2 ring-white",
                     "transition-opacity duration-200",
                     dimmed ? "opacity-55" : "opacity-100",
                   )}
@@ -135,11 +140,11 @@ export function FloorPlan() {
                   {isOpen && (
                     <span
                       aria-hidden
-                      className="absolute inset-0 animate-ping rounded-full border border-[var(--border-brand)]"
+                      className="absolute inset-0 animate-ping rounded-full ring-2 ring-white"
                       style={{ animationDuration: "800ms" }}
                     />
                   )}
-                  <Icon name={m.icon} size="empty" className="text-brand" />
+                  <Icon name={m.icon} size="empty" />
                 </button>
 
                 {isOpen && (
