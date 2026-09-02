@@ -93,10 +93,9 @@ export const CONTACT = {
    *  donde legal los publicó. Antes de eso los dos eran null y el pie iba sin contacto. */
   phone: "+54 11 3469 3537" as string | null,
   email: "contacto@inspectia.ai" as string | null,
-  /** TODO(equipo): URL de la página de empresa. Mientras sea null no se renderiza el
-   *  botón: un enlace a linkedin.com a secas, que es lo que tenía el footer anterior, es
-   *  peor que no tener botón. */
-  linkedin: null as string | null,
+  /** La página de empresa, tomada del pie del WordPress que sirve inspectia.ai hoy: es la
+   *  que la propia empresa venía publicando, no una que haya que adivinar. */
+  linkedin: "https://www.linkedin.com/company/inspectia-ai/" as string | null,
 };
 
 /**
