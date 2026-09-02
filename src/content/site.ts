@@ -35,8 +35,18 @@ export const SIGNUP_URL = "https://app.inspectia.ai/registro";
 /** Ingresar a la aplicación. Enlace de texto, nunca botón. */
 export const APP_URL = "https://app.inspectia.ai";
 
-/** TODO(equipo): falta el número. Va debajo del par de botones en la banda de cierre. */
-export const WHATSAPP_URL: string | null = null;
+/**
+ * WhatsApp. Va como enlace de texto debajo del par de botones en la banda de cierre.
+ *
+ * El número lleva un **9 que el teléfono de `CONTACT` no tiene**, y no es una errata: es
+ * la misma línea, y WhatsApp exige ese 9 después del 54 para los móviles argentinos. Sin
+ * él el enlace abre una conversación con un número que no existe. Que no lo "corrija"
+ * nadie por hacerlo coincidir con el teléfono de arriba.
+ *
+ * `wa.me` es el formato corto oficial, y sin mensaje previo: un texto puesto por nosotros
+ * en el campo de quien escribe es presuntuoso y lo primero que la persona borra.
+ */
+export const WHATSAPP_URL: string | null = "https://wa.me/5491134693537";
 
 /**
  * Contacto del pie. §11.12 pide enlaces reales y no texto plano, así que lo que es null
