@@ -25,6 +25,17 @@ export type Industry = {
   proof?: { value: string; caption: string } | null;
   /** Normativa o particularidad, cuando aplica. Un párrafo. */
   context?: string;
+  /**
+   * Preguntas propias del rubro, con la respuesta. Alimenta el acordeón y el `FAQPage`.
+   *
+   * Opcional como todo lo demás: donde no hay preguntas reales, la sección no se
+   * renderiza. Una FAQ inventada para llenar la página es peor que ninguna, porque el
+   * marcado la publica en el resultado de búsqueda tal cual está escrita.
+   */
+  faq?: { q: string; a: string }[];
+  /** H2 del acordeón. Sin esto, "Preguntas sobre {name}", que no funciona con todos los
+   *  nombres: "Preguntas sobre farmacéutica" no es una frase. */
+  faqTitle?: string;
   /** Los módulos que aplican, ordenados por impacto. */
   modules: ModuleKey[];
   seoTitle?: string;
@@ -128,12 +139,76 @@ export const INDUSTRIES: Industry[] = [
     modules: ["control-de-calidad", "tymeo"],
     published: true,
   },
+  /**
+   * Farmacéutica.
+   *
+   * Escrita sobre una reunión con un laboratorio multinacional del país, así que los cinco
+   * problemas son los que dijo el cliente y no los que uno supondría del rubro: la
+   * comprimidora que se anota en papel, el logbook, el acondicionamiento que nadie mide,
+   * el fraccionamiento con etiquetas de balanza y el excipiente compartido entre productos.
+   *
+   * **Techo deliberado en lo que la página afirma.** El rubro tiene dos temas donde una
+   * frase de más es un problema comercial y legal:
+   *
+   * 1. **Validación del sistema.** Un sistema computarizado que toca registros de
+   *    producción en pharma cae bajo normativa —trazabilidad de registros, control de
+   *    accesos, control de cambios—. Acá no se afirma nada de eso: se dice qué queda
+   *    registrado y se remite el alcance al relevamiento. No agregar cumplimiento, validación
+   *    ni referencias a normas concretas sin que legal las firme.
+   * 2. **Genealogía de lote.** Seguir el lote de materia prima hasta el producto terminado
+   *    es lo que el cliente más pidió y es justamente lo que está en desarrollo, no
+   *    publicado. Lo que la página promete es lo que la demo mostró: el parte de producción
+   *    atado a la orden y al turno, con estaciones, máquinas, operarios y paradas. Nada
+   *    dice que la trazabilidad de materia prima esté resuelta, y no puede decirlo hasta
+   *    que lo esté.
+   *
+   * Los módulos cambiaron respecto del marcador anterior —que era una suposición sobre una
+   * página sin contenido— y salen de lo que el cliente puso arriba de la mesa.
+   */
   {
     slug: "farmaceutica",
     name: "Farmacéutica",
-    pain: "",
-    modules: ["control-de-calidad", "tymeo", "camaras-inteligentes"],
-    published: false,
+    h1: "Que el parte de cada lote no haya que armarlo a mano",
+    pain: "Todo tiene que quedar registrado, y casi todo se registra a mano.",
+    seoTitle: "Software de producción para laboratorios farmacéuticos",
+    // 148 caracteres. Es además la bajada del hero, así que tiene que leerse como texto y
+    // no como una descripción escrita para el buscador.
+    seoDescription:
+      "En un laboratorio todo queda registrado, y casi todo se registra a mano. Medí la línea en tiempo real y tené el parte de cada lote atado a su orden.",
+    problems: [
+      "La producción se anota en papel al pie de la comprimidora, y el informe se arma al día siguiente en una planilla.",
+      "Las paradas se escriben a mano en el logbook, con la hora que el operario recuerda al final del turno.",
+      "Acondicionamiento —blisteado y estuchado— no se mide, así que la mitad del proceso queda afuera del número de productividad.",
+      "El fraccionamiento se resuelve con las etiquetas de la balanza, y ese paso no queda en ningún registro digital.",
+      "Un mismo excipiente entra en varios productos, así que la compra de insumos no se puede calcular producto por producto.",
+    ],
+    // TODO(equipo): no hay dato del rubro. Hay una oportunidad abierta y ningún cliente
+    // implementado, así que no hay número propio; y un porcentaje "del sector" sacado de un
+    // informe no es una prueba, es relleno.
+    proof: null,
+    context:
+      "La trazabilidad del proceso es un requisito y no una mejora, y hoy se sostiene en registros escritos a mano. Lo que queda registrado con InspectIA es lo que pasó en la línea: cada turno atado a su orden de producción, con las estaciones, las máquinas, los operarios asignados y cada parada con su motivo. Es el mismo parte que hoy se arma entre el logbook y una planilla, generado solo. Qué exige la normativa que aplica a tu planta, y qué parte de eso cubre la plataforma, se define en el relevamiento.",
+    faqTitle: "Las preguntas que hace un laboratorio",
+    faq: [
+      {
+        q: "Hoy trabajamos con papel y Excel. ¿Sirve igual?",
+        a: "Es el punto de partida más común. Todos los módulos tienen modalidad manual: se crea la cuenta y se carga desde un formulario, sin integrar nada y sin proyecto de implementación. Con eso ya se genera historial y se pueden comparar turnos y líneas. La captura automática —sensores, lectoras, conexión a los PLC— se suma después, sobre lo mismo que ya se estaba usando.",
+      },
+      {
+        q: "Tenemos plantas en más de un país. ¿Sirve para todas?",
+        a: "Sí. Es una aplicación web, así que no hay una instalación por planta ni por país. La estructura se carga como es —plantas, líneas, estaciones y máquinas, cada una con su personal y sus turnos— y los tableros se miran por planta o consolidados.",
+      },
+      {
+        q: "¿Se integra con los equipos del laboratorio de control de calidad?",
+        a: "Depende de que el equipo exponga sus resultados de alguna forma: un archivo, una base de datos o una API. Cuando los expone, se integran y quedan asociados a la orden de producción, que es donde tienen que estar para servir de algo. Qué equipos se pueden conectar se releva antes de cotizar, no después.",
+      },
+      {
+        q: "¿Reemplaza al ERP o al sistema que ya tenemos?",
+        a: "No. La idea es completar los huecos y no reemplazar lo que funciona. Si hay un ERP o un WMS, InspectIA se integra y toma de ahí lo que ya está cargado; donde no hay nada, lo cubre. En un laboratorio eso suele significar que la gestión sigue donde está y lo que se suma es lo que hoy no existe: el registro de lo que pasa en la planta.",
+      },
+    ],
+    modules: ["tymeo", "control-de-calidad", "recepcion", "stock-en-posiciones"],
+    published: true,
   },
   {
     slug: "cosmetica",
