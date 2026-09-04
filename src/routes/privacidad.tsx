@@ -2,12 +2,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { LegalBody, LegalUpdated } from "@/components/site/LegalBody";
+import { PRIVACY_CLAUSES, PRIVACY_INTRO, PRIVACY_UPDATED } from "@/content/privacy";
 import { pageHead } from "@/lib/seo";
 
 /**
  * Política de privacidad.
  *
- * 🔴 **TODO(legales): el texto lo redacta y lo firma legales, no desarrollo.**
+ * 🟡 **Versión provisoria: la escribió desarrollo y falta que legales la revise.** El
+ * texto vive en `content/privacy.ts` y ahí está anotado qué afirma y qué evita afirmar.
  *
  * Lo que sí corresponde documentar acá, porque es lo que un texto genérico no va a
  * tener y sale de mirar el código, es qué recoge el sitio hoy. Pasarle esta lista a
@@ -23,9 +25,9 @@ import { pageHead } from "@/lib/seo";
  *   2. Postulación al programa de partners (`routes/partners.tsx`).
  *   3. Alta al newsletter (`components/site/Footer.tsx`).
  *
- *   TODO(equipo): ninguno de los tres tiene destino configurado todavía. Cuando lo
- *   tengan, el destino —qué CRM, en qué país, cuánto tiempo guarda— entra en este
- *   listado, porque es exactamente lo que la política tiene que declarar.
+ *   Los dos primeros van por `mailto:` a contacto@inspectia.ai (`lib/mailto.ts`); el
+ *   tercero no se renderiza. Cuando haya CRM, el destino —cuál, en qué país, cuánto
+ *   tiempo guarda— entra en la política, que es lo que hoy la cláusula 02 declara.
  *
  * Lo que **no** se declara acá hasta que infraestructura lo firme: proveedor de nube,
  * país de los servidores, cifrado, certificaciones, plazos de retención y backups.
@@ -44,10 +46,25 @@ export const Route = createFileRoute("/privacidad")({
 function Page() {
   return (
     <SiteLayout bottomCta={false}>
-      <PageHero title="Política de privacidad" cta={false} />
+      <PageHero eyebrow="Legales" title="Política de privacidad" cta={false} />
+
       <LegalBody>
-        <LegalUpdated />
-        {/* TODO(legales): acá va la política. */}
+        <LegalUpdated date={PRIVACY_UPDATED} />
+
+        {PRIVACY_INTRO.map((p) => (
+          <p key={p}>{p}</p>
+        ))}
+
+        {PRIVACY_CLAUSES.map((c) => (
+          <section key={c.n}>
+            <h2>
+              {c.n}. {c.title}
+            </h2>
+            {c.paragraphs.map((p) => (
+              <p key={p}>{p}</p>
+            ))}
+          </section>
+        ))}
       </LegalBody>
     </SiteLayout>
   );

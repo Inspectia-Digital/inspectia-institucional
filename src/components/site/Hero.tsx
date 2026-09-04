@@ -16,10 +16,9 @@ import { CtaPair } from "@/components/site/CtaPair";
 const STATS = [
   // El espacio antes del % es duro: sin él, "100" y "%" pueden partirse en dos líneas.
   { value: "100\u00A0%", label: "De la producción analizada, no una muestra" },
-  // TODO(equipo): "1 a 10 días" contradice el "5 a 15 días" que sigue publicado en otros
-  // ocho lugares del sitio —entre ellos la meta description de esta misma página y el
-  // timeline de seis etapas de la sección 05—. Se aplica acá porque es el texto
-  // entregado, pero hasta que se unifique, la home se contradice a sí misma.
+  // El plazo vive en nueve lugares del sitio —acá, la meta description de la home, el
+  // timeline de seis etapas, el selector de perfil, TYMEO y su FAQ, la tabla de planes—
+  // y los nueve dicen lo mismo. Si cambia, cambian los nueve: `grep "1 a 10"`.
   { value: "1 a 10 días", label: "De implementación a producción" },
   // TODO(equipo): el dato aprobado para este lugar es el de abajo, pero le falta el
   // denominador: "75\u00A0% más barato" que qué. Hasta que el equipo lo escriba, va el repago,

@@ -63,7 +63,7 @@ const PROFILES: Profile[] = [
     pain: "Recomiendo mejoras, pero no tengo con qué ejecutarlas.",
     body: "Vos diagnosticás y acompañás; nosotros instalamos, conectamos y sostenemos el servicio. Y te derivamos los clientes que piden consultor.",
     modules: [],
-    stat: { value: "5–15 días", caption: "de la reunión de arranque a producción" },
+    stat: { value: "1–10 días", caption: "de la reunión de arranque a producción" },
     exit: { label: "Conocer el programa de partners", kind: "partners" },
   },
 ];

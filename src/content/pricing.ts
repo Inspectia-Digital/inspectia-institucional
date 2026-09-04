@@ -189,7 +189,7 @@ export const COST_COMPARISON = {
     {
       label: "Cuándo ves el primer dato",
       values: [
-        "El mismo día con el plan gratuito; entre 5 y 15 días con hardware",
+        "El mismo día con el plan gratuito; entre 1 y 10 días con hardware",
         "Al final del proyecto",
         "Después de la implementación",
       ],

@@ -117,7 +117,7 @@ export function StartFree() {
 
         <div className="mt-16 rounded-[var(--radius-lg)] border border-line bg-surface p-8 md:p-10">
           <h3 className="text-[length:var(--text-card)] leading-snug text-ink">
-            Cuando llega el hardware: 5 a 15 días
+            Cuando llega el hardware: 1 a 10 días
           </h3>
           <p className="mt-3 max-w-[var(--lead-max)] text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
             De la reunión de arranque a los datos corriendo en producción. Estas son las seis
@@ -254,7 +254,7 @@ export const HOME_FAQ = [
   },
   {
     q: "¿Cuánto tarda en estar andando?",
-    a: "Los planes gratuitos arrancan el mismo día: creás la cuenta y cargás los datos a mano. Cuando entra hardware para que el dato se capture solo, la puesta en marcha lleva entre 5 y 15 días desde la reunión de arranque.",
+    a: "Los planes gratuitos arrancan el mismo día: creás la cuenta y cargás los datos a mano. Cuando entra hardware para que el dato se capture solo, la puesta en marcha lleva entre 1 y 10 días desde la reunión de arranque.",
   },
   {
     q: "¿Puedo empezar con un solo módulo?",

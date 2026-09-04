@@ -19,7 +19,7 @@ import { Icon } from "@/components/icons/Icon";
 
 const TITLE = "Software de OEE, calidad e inventario para plantas · InspectIA";
 const DESCRIPTION =
-  "Ocho módulos sobre la operación que ya tenés: OEE, calidad, recepción, inventario y pedidos. De la reunión de arranque a producción, entre 5 y 15 días.";
+  "Ocho módulos sobre la operación que ya tenés: OEE, calidad, recepción, inventario y pedidos. De la reunión de arranque a producción, entre 1 y 10 días.";
 
 /**
  * Home (§7.1). Una idea por sección, y cada sección con su página de destino: la home

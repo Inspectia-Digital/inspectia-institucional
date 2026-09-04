@@ -125,7 +125,7 @@ export const MODULES: PlatformModule[] = [
     // El proof anterior era un precio, no una prueba, y en esta página convive con la
     // calculadora. El precio vive en la sección de planes, que es su lugar.
     proof: {
-      value: "5 a 15 días",
+      value: "1 a 10 días",
       caption: "de la reunión de arranque a los datos corriendo en producción",
     },
     icon: "oee",
@@ -195,7 +195,7 @@ export const MODULES: PlatformModule[] = [
       },
       {
         q: "¿Cuánto tarda en estar andando?",
-        a: "El plan gratuito, el mismo día. Con hardware para que la captura sea automática, entre 5 y 15 días desde la reunión de arranque: relevamiento, configuración de la planta, conectividad, dos días de piloto y la puesta en producción.",
+        a: "El plan gratuito, el mismo día. Con hardware para que la captura sea automática, entre 1 y 10 días desde la reunión de arranque: relevamiento, configuración de la planta, conectividad, dos días de piloto y la puesta en producción.",
       },
     ],
   },

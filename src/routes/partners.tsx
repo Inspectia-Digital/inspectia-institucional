@@ -13,6 +13,7 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { DEMO_URL } from "@/content/site";
 import { pushEvent, sourcePage } from "@/lib/analytics";
+import { CONTACT_EMAIL, mailField, openMailDraft } from "@/lib/mailto";
 import { breadcrumbJsonLd, faqJsonLd, pageHead } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { Icon } from "@/components/icons/Icon";
@@ -312,9 +313,15 @@ function ApplicationForm() {
   const onSubmit = async (data: FormData) => {
     setFailed(false);
     try {
-      // TODO(equipo): sin CRM definido la postulación termina acá.
-      // Sin `data`: son nombre, especialidad, mail y teléfono de una persona real.
-      console.info("Postulación de partner enviada");
+      // Por el correo del visitante hasta que haya CRM. El porqué, en lib/mailto.
+      const abrio = openMailDraft("Postulación al programa de partners", [
+        mailField("Nombre o razón social", data.nombre),
+        mailField("Especialidad", data.especialidad),
+        mailField("Mail", data.email),
+        mailField("Teléfono", data.telefono),
+      ]);
+      if (!abrio) throw new Error("sin ventana");
+
       pushEvent("partner_apply", { specialty: data.especialidad, source_page: sourcePage() });
       setSent(true);
     } catch {
@@ -322,7 +329,8 @@ function ApplicationForm() {
     }
   };
 
-  // La confirmación reemplaza el formulario en la misma card, sin navegar.
+  /* La confirmación reemplaza el formulario en la misma card, sin navegar.
+     No dice "recibido": el correo se abrió y todavía falta enviarlo. */
   if (sent) {
     return (
       <div className="mt-10 rounded-[var(--radius-lg)] border border-line bg-surface p-8">
@@ -331,8 +339,15 @@ function ApplicationForm() {
             <Icon name="included" className="text-white" />
           </span>
           <p className="max-w-[52ch] text-[15px] leading-[var(--leading-normal)] text-ink">
-            Recibido. Te escribimos para coordinar una charla y ver si tiene sentido para las dos
-            partes.
+            Se abrió tu correo con la postulación escrita. Dale enviar y te escribimos para
+            coordinar una charla. Si no se abrió, mandanos los mismos datos a{" "}
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="font-semibold text-brand underline underline-offset-4"
+            >
+              {CONTACT_EMAIL}
+            </a>
+            .
           </p>
         </div>
       </div>
@@ -358,7 +373,8 @@ function ApplicationForm() {
 
       {failed && (
         <p className="mt-4 text-[13px] text-[var(--status-stop)]">
-          No pudimos enviarlo. Probá de nuevo; no perdiste lo que escribiste.
+          No pudimos abrir tu correo. Mandanos los datos a {CONTACT_EMAIL}; no perdiste lo que
+          escribiste.
         </p>
       )}
 
@@ -371,7 +387,7 @@ function ApplicationForm() {
           "disabled:bg-[var(--action-disabled-bg)] disabled:text-[var(--action-disabled-text)]",
         )}
       >
-        {isSubmitting ? "Enviando…" : "Postularme al programa"}
+        {isSubmitting ? "Abriendo tu correo…" : "Postularme al programa"}
       </button>
 
       {/* TODO(equipo): el documento propone "Te contestamos en 48 horas hábiles", pero eso

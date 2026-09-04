@@ -1,7 +1,15 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Timeline de implementación (§11.8). Seis etapas, 5 a 15 días en total.
+ * Timeline de implementación (§11.8). Seis etapas, 1 a 10 días en total.
+ *
+ * ⚠️ TODO(equipo): **el piso de 1 día no cierra con las etapas.** Las cuatro de duración
+ * fija —kickoff, configuración, piloto y puesta en producción— suman cinco días antes de
+ * contar conectividad, que es variable. O sea que el mínimo que describe este riel es 5 y
+ * no 1, y cualquiera que sume las etapas lo ve. Hay dos salidas: que este bloque diga
+ * "5 a 10 días" —es el camino con hardware, y el 1 del sitio corresponde al plan gratuito,
+ * que arranca el mismo día y no pasa por acá—, o que se ajusten las duraciones. Es una
+ * decisión sobre cómo se implementa de verdad, así que la toma el equipo.
  *
  * Es nuevo: `tymeo/Implementation.tsx` no era esto —era un bloque de dos tarjetas sobre
  * quién instala el hardware— y sigue existiendo para lo suyo.
@@ -93,7 +101,7 @@ export function ImplementationTimeline({
 }) {
   return (
     <div>
-      <p className="metric text-[32px] font-light leading-none text-ink">5–15 días</p>
+      <p className="metric text-[32px] font-light leading-none text-ink">1–10 días</p>
       <p className="mt-2 text-xs uppercase tracking-[var(--tracking-caps)] text-ink-secondary">
         Tiempo total estimado
       </p>
