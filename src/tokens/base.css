@@ -52,6 +52,83 @@
   .hero-col {
     container-type: inline-size;
   }
+
+  /* Fila de logos en desplazamiento continuo.
+
+     El bucle es exacto porque la pista contiene dos copias idénticas de la lista y se
+     desplaza -50 %: al terminar vuelve a cero sobre el mismo fotograma y no hay salto.
+     Para que ese -50 % sea de verdad la mitad, la separación entre logos **no** puede ser
+     `gap` de la pista: con 34 elementos hay 33 huecos y no 34, así que la mitad del ancho
+     total cae corrida y la costura se nota. La separación va como padding de cada item.
+
+     El desplazamiento se detiene con el puntero encima y con el foco dentro: un logo es
+     un dato que alguien puede querer leer, y perseguirlo con la vista es la razón por la
+     que §11.10 había prohibido el carrusel. */
+  .logo-marquee {
+    overflow: hidden;
+    /* Los logos no se cortan contra el borde: entran y salen con un fundido. */
+    -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  }
+
+  .logo-marquee__track {
+    display: flex;
+    width: max-content;
+    animation: logo-marquee var(--marquee-duration, 60s) linear infinite;
+  }
+
+  .logo-marquee:hover .logo-marquee__track,
+  .logo-marquee:focus-within .logo-marquee__track {
+    animation-play-state: paused;
+  }
+
+  .logo-marquee__set {
+    display: flex;
+    align-items: center;
+  }
+}
+
+@keyframes logo-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Con movimiento reducido no hay carrusel: la fila se convierte en una grilla centrada
+   que envuelve, y la copia duplicada desaparece.
+
+   Hace falta apagarlo a mano y no alcanza con el bloque general de más abajo: ése deja la
+   animación en 0,01 ms con una sola repetición, lo que aterriza la pista directamente en
+   translateX(-50 %) y esconde la mitad de los logos. El selector de clase le gana en
+   especificidad al `*` de aquel bloque, que es lo que hace que este `!important` mande. */
+@media (prefers-reduced-motion: reduce) {
+  .logo-marquee {
+    overflow: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .logo-marquee__track {
+    animation: none !important;
+    /* La fila en movimiento va a sangre y por eso no lleva ancho máximo; la que envuelve
+       sí lo necesita, o en un monitor ancho queda una línea de dieciséis logos de borde
+       a borde. */
+    width: auto;
+    max-width: var(--content-max);
+    margin-inline: auto;
+  }
+
+  .logo-marquee__set {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .logo-marquee__set[aria-hidden="true"] {
+    display: none;
+  }
 }
 
 /* Entrada al viewport: fundido más 12px hacia arriba, una sola vez.

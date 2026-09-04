@@ -120,7 +120,7 @@ export const MODULES: PlatformModule[] = [
     promise:
       "OEE en tiempo real, paradas clasificadas y plan contra real, por turno, línea, puesto y operario.",
     summary:
-      "Muestra qué está produciendo cada línea ahora y por qué se frenó. Las paradas quedan clasificadas, no anotadas en un cuaderno.",
+      "Muestra cómo está produciendo cada línea ahora y por qué se frenó. Las paradas quedan clasificadas, no anotadas en un cuaderno.",
     needs: "Nada al principio: se carga a mano. Los sensores y lectoras se suman después.",
     // El proof anterior era un precio, no una prueba, y en esta página convive con la
     // calculadora. El precio vive en la sección de planes, que es su lugar.
@@ -290,7 +290,7 @@ export const MODULES: PlatformModule[] = [
     name: "Recepción de mercadería",
     promise: "La descarga y el control de lo que entra, medidos y sin planilla.",
     summary:
-      "Cuenta y controla lo que baja del camión. Lo que entra queda registrado con hora y foto, y el depósito se entera solo.",
+      "Cuenta y controla la mercadería entregada por los proveedores. Se integra con el pedido y devuelve el ingreso al WMS.",
     needs: "Una cámara en el muelle de descarga.",
     proof: {
       value: "De 24 a 15 operarios",

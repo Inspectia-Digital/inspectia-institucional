@@ -2,7 +2,7 @@
 // Los originales viven fuera de public/ a propósito: ahí adentro el servidor estático
 // los publicaría, y el plano pesa 2 MB.
 // Los logos llegaron del storage de Lovable a resolución de imprenta —bps venía en
-// 3509x2481 para mostrarse a 40px de alto— así que acá se bajan a tamaño de pantalla.
+// 3509x2481 para mostrarse a 48px de alto— así que acá se bajan a tamaño de pantalla.
 // Correr con: npm run images
 import { copyFile, mkdir, readdir, stat, unlink } from "node:fs/promises";
 import { dirname, join } from "node:path";
@@ -34,8 +34,52 @@ const LOGOS = {
   "tecnologia-bi.png": "tecnologia-bi",
 };
 
-// Los logos se muestran a 40px de alto como máximo; 160 cubre pantallas 4x.
-const LOGO_MAX_HEIGHT = 160;
+// Los logos se muestran a 48px de alto como máximo; 192 cubre pantallas 4x.
+const LOGO_MAX_HEIGHT = 192;
+
+/**
+ * Recorte del margen de cada logo.
+ *
+ * Los archivos llegaron con márgenes que no tienen nada que ver entre sí: cygnus.jpg es
+ * un cuadrado de 200x200 donde la marca ocupa 45px de alto —el 23 %— y balluff llega
+ * recortado al pixel. Igualar la altura del **archivo**, que es lo que hace la fila de
+ * logos, entonces no iguala nada: la marca de Cygnus se dibujaba a 11px mientras la de
+ * Balluff se dibujaba a 48. Recortando el margen, la altura del archivo pasa a ser la
+ * altura de la marca y la fila queda pareja de verdad.
+ *
+ * **Sólo se recorta cuando el borde es blanco o transparente.** Springwall y Quantit
+ * vienen como una placa de color con el logotipo adentro, y ahí el margen es parte del
+ * diseño de la marca: recortarlo deja el texto pegado al filo de la placa. Esos dos se
+ * dejan como están y quedan pendientes de un archivo con fondo transparente, que es la
+ * solución de verdad.
+ */
+async function borderIsBlank(from) {
+  const { data, info } = await sharp(from)
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  const { width: w, height: h, channels } = info;
+  const at = (x, y) => {
+    const i = (y * w + x) * channels;
+    return [data[i], data[i + 1], data[i + 2], data[i + 3]];
+  };
+  // Cuatro esquinas y el punto medio de cada lado. Con las esquinas solas, un logotipo
+  // que toca el borde por el medio se leería igual como "margen blanco".
+  const edge = [
+    [0, 0],
+    [w - 1, 0],
+    [0, h - 1],
+    [w - 1, h - 1],
+    [w >> 1, 0],
+    [w >> 1, h - 1],
+    [0, h >> 1],
+    [w - 1, h >> 1],
+  ].map(([x, y]) => at(x, y));
+
+  const transparent = edge.every((p) => p[3] < 16);
+  const white = edge.every((p) => p[3] > 240 && p[0] > 244 && p[1] > 244 && p[2] > 244);
+  return transparent || white;
+}
 
 // El plano se muestra hasta 1200px de ancho. 1920 da margen para 1.6x; la variante
 // de 960 es la que sirve el srcset en mobile.
@@ -61,9 +105,19 @@ async function optimizeLogos() {
     const from = join(dir, file);
     const to = join(OUT, "partners", `${slug}.webp`);
 
+    const trim = await borderIsBlank(from);
+
     // withoutEnlargement: varios ya vienen chicos y agrandarlos sólo los ensucia.
-    const resized = () =>
-      sharp(from).resize({ height: LOGO_MAX_HEIGHT, fit: "inside", withoutEnlargement: true });
+    const resized = () => {
+      const img = sharp(from);
+      // El umbral de 12 tolera el borde sucio de los JPEG, donde el "blanco" del margen
+      // ronda 250 y no 255.
+      return (trim ? img.trim({ threshold: 12 }) : img).resize({
+        height: LOGO_MAX_HEIGHT,
+        fit: "inside",
+        withoutEnlargement: true,
+      });
+    };
 
     // Un logo plano —arte vectorizado o PNG de paleta indexada— comprime mejor sin
     // pérdida: tecnologia-bi.png salía un 15% más pesado en WebP lossy que el original.
@@ -84,8 +138,10 @@ async function optimizeLogos() {
     for (const c of candidates) await unlink(c.path);
 
     const mode = winner.path.endsWith(".lossless") ? "sin pérdida" : "con pérdida";
+    const meta = await sharp(to).metadata();
     console.log(
-      `  ${file} ${kb(await sizeOf(from))} → ${slug}.webp ${kb(await sizeOf(to))} (${mode})`,
+      `  ${file} ${kb(await sizeOf(from))} → ${slug}.webp ${kb(await sizeOf(to))} ` +
+        `${meta.width}x${meta.height} (${mode}${trim ? ", recortado" : ", sin recortar"})`,
     );
   }
 }

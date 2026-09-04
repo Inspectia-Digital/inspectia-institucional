@@ -6,7 +6,9 @@ import { PARTNER_LOGO, type PartnerSlug } from "./assets";
  * y una integración técnica no compartan grilla: el servicio se contrata con nosotros y
  * lleva precio y CTA, la integración no lleva ninguno de los dos.
  *
- * En la home va sólo la fila de `cliente`.
+ * La home dejó de respetar esa separación: muestra las cinco familias juntas y en
+ * movimiento, por pedido explícito. La clasificación se mantiene igual porque el resto
+ * del sitio sí la usa, y porque el día que la fila vuelva a separarse el dato ya está.
  */
 export type PartnerFamily =
   /** Usa InspectIA en su operación. */
@@ -63,7 +65,8 @@ export const PARTNERS: Partner[] = [
 
   // TODO(equipo): confirmar familia. BPS y Sitecno vienen de la fila única de la web
   // anterior, donde clientes, partners y respaldos estaban mezclados, y el documento no
-  // los ubica en ninguna categoría. Mientras tanto no se renderizan.
+  // los ubica en ninguna categoría. Con la fila de la home mostrando `todas` vuelven a
+  // verse, que es exactamente donde estaban antes; sigue faltando saber qué son.
   partner("bps", "BPS", "sin-clasificar"),
   partner("sitecno", "Sitecno", "sin-clasificar"),
 ];

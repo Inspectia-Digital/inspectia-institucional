@@ -46,8 +46,10 @@ function Home() {
     <SiteLayout>
       {/* 01 */}
       <Hero />
-      {/* 02 · En la home va sólo la fila de clientes (§11.10). */}
-      <TrustBar />
+      {/* 02 · Las cinco familias juntas y en desplazamiento, por pedido explícito. Es la
+          fila única que tenía la web anterior, y contradice a §11.10 en los dos puntos
+          que ese apartado fija: ver la cabecera de TrustBar. */}
+      <TrustBar family="todas" marquee />
       {/* 03 · La sección más importante de la home. */}
       <Platform />
       {/* 04 */}
@@ -85,12 +87,11 @@ function Platform() {
       <div className="mx-auto max-w-[var(--content-max)]">
         <p className="eyebrow">La plataforma</p>
         <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
-          Un módulo resuelve un problema. Juntos, gobiernan la operación.
+          Una sola plataforma para gobernar toda tu operación.
         </h2>
         <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
-          Contratás sólo los módulos que usás. Comparten los mismos datos maestros, los mismos
-          usuarios y el mismo tablero, así que el segundo módulo no es un proyecto nuevo: es una
-          casilla que se habilita.
+          Contratás sólo los módulos que usás. Los datos se cargan una sola vez, mismos usuarios,
+          mismo tablero. Podés contratar cuando quieras desde el Marketplace.
         </p>
 
         {/* El plano no entra en un teléfono. Mide 640px de ancho mínimo porque abajo de

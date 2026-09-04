@@ -16,12 +16,19 @@ import { CtaPair } from "@/components/site/CtaPair";
 const STATS = [
   // El espacio antes del % es duro: sin él, "100" y "%" pueden partirse en dos líneas.
   { value: "100\u00A0%", label: "De la producción analizada, no una muestra" },
-  { value: "5 a 15 días", label: "De la reunión de arranque a datos en producción" },
+  // TODO(equipo): "1 a 10 días" contradice el "5 a 15 días" que sigue publicado en otros
+  // ocho lugares del sitio —entre ellos la meta description de esta misma página y el
+  // timeline de seis etapas de la sección 05—. Se aplica acá porque es el texto
+  // entregado, pero hasta que se unifique, la home se contradice a sí misma.
+  { value: "1 a 10 días", label: "De implementación a producción" },
   // TODO(equipo): el dato aprobado para este lugar es el de abajo, pero le falta el
   // denominador: "75\u00A0% más barato" que qué. Hasta que el equipo lo escriba, va el repago,
   // que sí tiene contra qué medirse. Confirmado el denominador, se cambia por:
   //   { value: "75\u00A0%", label: "Más barato que automatizar la línea" },
-  { value: "Repago en menos de 6 meses", label: "Sobre el costo del módulo" },
+  // Entregado como "Repagos en menores a un 1 mes"; se publica con la concordancia
+  // corregida y nada más. El dato anterior era repago en menos de seis meses sobre el
+  // costo del módulo: éste afirma seis veces más rápido y sobre el costo total.
+  { value: "Repago en menos de 1 mes", label: "Sobre el costo total" },
 ];
 
 export function Hero() {
@@ -40,25 +47,26 @@ export function Hero() {
             columna angosta, reservando el resto para una foto que en mobile no va. */}
         <div className="hero-col max-w-full min-[900px]:max-w-[64%] min-[1100px]:max-w-[46rem]">
           <p className="text-xs font-semibold uppercase tracking-[var(--tracking-widest)] text-[var(--accent-on-brand)]">
-            InspectIA OS · Plataforma modular para plantas y depósitos
+            InspectIA · Una plataforma con soluciones aplicadas a la industria y la logística
           </p>
 
           <h1
             className="mt-4 text-[length:var(--text-hero)] leading-[var(--leading-hero)] tracking-[var(--tracking-hero)] text-on-brand"
             style={{ textWrap: "balance" }}
           >
-            Toda tu operación medida, en una sola plataforma
+            Toda tu operación en una sola plataforma
           </h1>
 
           <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-on-brand-secondary">
-            InspectIA OS mide y controla lo que pasa en tu planta y en tu depósito: eficiencia,
-            calidad, recepción, inventario y pedidos. Funciona con las máquinas, las cámaras y el
-            ERP que ya tenés. Empezás por un módulo y sumás los que necesites, cuando los necesites.
+            InspectIA mide y controla lo que pasa en tu planta y en tu depósito: eficiencia,
+            calidad, recepción, inventario y pedidos. Funciona con las máquinas y sistemas que ya
+            tenés. Empezás por un módulo y sumás los que necesites, cuando los necesites.
           </p>
 
+          {/* Entregado como "te contamos como podemos ayudarte": el "cómo" va con tilde,
+              que es lo único que se tocó. */}
           <p className="mt-4 max-w-[var(--lead-max)] text-on-brand-secondary">
-            Probalo gratis hoy en tu propia línea, o agendá veinte minutos y te lo mostramos con
-            datos de una planta parecida a la tuya.
+            Empezá gratis hoy o agendá una llamada y te contamos cómo podemos ayudarte.
           </p>
 
           <CtaPair surface="brand" className="mt-9 max-w-md" />
