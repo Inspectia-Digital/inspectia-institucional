@@ -1,0 +1,31 @@
+# Lo que no tiene que entrar al contexto de build.
+#
+# node_modules es el importante: sin excluirlo, Docker sube cientos de megas y encima
+# pisa lo que `npm ci` instala adentro, que puede ser de otro sistema operativo. Los
+# binarios nativos compilados en Windows no corren en la imagen de Linux.
+
+node_modules
+.output
+.nitro
+.wrangler
+.tanstack
+dist
+dist-ssr
+
+.git
+.github
+
+# Los originales de las imágenes: pesan 3 MB y sólo los usa `npm run images`, que se
+# corre a mano. Lo que sirve el sitio ya está optimizado en public/img.
+assets-src
+
+# Nunca: las VITE_* del build entran por --build-arg, no por un archivo copiado.
+.env
+.env.*
+!.env.example
+
+*.log
+.DS_Store
+.vscode
+.idea
+.claude

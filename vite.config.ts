@@ -6,10 +6,25 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+/**
+ * Destino del build, elegido por entorno.
+ *
+ * El repo se construye desde dos lados y cada uno necesita una salida distinta: Lovable
+ * despliega a Cloudflare Workers, que es el destino por omisión del preset de Lovable, y
+ * el contenedor de Cloud Run necesita un servidor Node de verdad —un `index.mjs` que
+ * escuche en un puerto—, que es el preset `node-server`.
+ *
+ * Va por variable de entorno y no cableado a `node-server` justamente por eso: dejarlo
+ * fijo rompería el despliegue de Lovable sin avisar. Sin la variable, todo queda como
+ * estaba; el Dockerfile la setea.
+ */
+const preset = process.env.NITRO_PRESET;
+
 export default defineConfig({
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  ...(preset ? { nitro: { preset } } : {}),
 });
