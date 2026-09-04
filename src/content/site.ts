@@ -27,10 +27,27 @@ export const SITE_URL: string =
  */
 export const DEMO_URL = "https://calendar.app.google/d7qzAWBDus9R3JsB9";
 
-/** Alta de cuenta con plan gratuito. Pesa igual que la demo: son los dos caminos de
- *  compra, no un botón principal y un secundario (§8).
- *  TODO(equipo): confirmar la URL definitiva del registro. */
-export const SIGNUP_URL = "https://app.inspectia.ai/registro";
+/**
+ * Alta de cuenta con plan gratuito. Pesa igual que la demo: son los dos caminos de
+ * compra, no un botón principal y un secundario (§8).
+ *
+ * **Apuntaba a `/registro` y esa ruta no existe.** El botón primario de todo el sitio
+ * caía en la pantalla de 404 de la propia aplicación —"No encontramos esta página"—, que
+ * es el peor lugar posible para mandar a alguien que acaba de decidir probar el producto.
+ * Era un TODO sin confirmar desde el principio; ahora está comprobado que estaba mal.
+ *
+ * Va a la raíz porque **hoy no hay una URL de alta directa**. La aplicación recibe con una
+ * portada que ofrece "Iniciar sesión o registrarse", y ese botón abre el login universal
+ * de Auth0, que es donde efectivamente se crea la cuenta. Un clic más de lo ideal, pero
+ * funciona, que es más de lo que se puede decir de lo anterior.
+ *
+ * TODO(app): la solución de verdad es una ruta `/registro` en la aplicación que vaya
+ * derecho al alta —Auth0 lo soporta con `screen_hint=signup`—. No se puede armar esa URL
+ * desde acá: el enlace de Auth0 lleva `state`, `nonce` y PKCE que genera el SDK de la
+ * aplicación en el momento, así que escribirlo a mano en el sitio se rompe solo. Cuando
+ * esa ruta exista, esta constante vuelve a apuntar ahí.
+ */
+export const SIGNUP_URL = "https://app.inspectia.ai/";
 
 /** Ingresar a la aplicación. Enlace de texto, nunca botón. */
 export const APP_URL = "https://app.inspectia.ai";
