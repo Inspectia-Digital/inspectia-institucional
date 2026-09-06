@@ -207,6 +207,27 @@ async function optimizeBrand() {
     .webp({ lossless: true, effort: 6 })
     .toFile(iso);
   console.log(`  isotipo-small.png → brand/isotipo.webp ${kb(await sizeOf(iso))}`);
+
+  /* PNG del lockup, para lo que no entiende WebP.
+   *
+   * Todo el sitio sirve WebP y está bien, pero hay dos consumidores afuera que no lo
+   * soportan de forma confiable y necesitan una URL pública y estable:
+   *
+   * - **Los clientes de correo.** Outlook y varios clientes de escritorio no muestran
+   *   WebP, así que un logo en las plantillas de Auth0 —verificación de correo,
+   *   bienvenida, recuperación de contraseña— llega roto para una parte de la gente.
+   * - **Paneles de terceros** que piden una URL de logotipo y la validan por extensión.
+   *
+   * Fondo transparente y 240px de alto: entra bien en la cabecera de un correo a 2x y en
+   * el encabezado del login universal.
+   */
+  const png = join(OUT, "brand", "lockup.png");
+  await sharp(from)
+    .trim()
+    .resize({ height: 240, fit: "inside", withoutEnlargement: false })
+    .png({ compressionLevel: 9, palette: true })
+    .toFile(png);
+  console.log(`  lockup.png → brand/lockup.png ${kb(await sizeOf(png))}`);
 }
 
 console.log("Marca:");
