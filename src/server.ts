@@ -7,6 +7,7 @@ import {
   resolveTrailingSlash,
   withSecurityHeaders,
 } from "./lib/http-policy";
+import { LEAD_ENDPOINT, handleLeadPost } from "./lib/lead-intake";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -55,6 +56,13 @@ export default {
     // salto, y lo que llega acá es cualquier otra con barra de más.
     const slash = resolveTrailingSlash(url);
     if (slash) return slash;
+
+    // Los formularios del sitio. Va acá y no en una ruta del enrutador porque necesita la
+    // clave de Brevo, que sólo existe del lado del servidor: en una ruta de la aplicación
+    // terminaría dentro del JavaScript servido.
+    if (url.pathname === LEAD_ENDPOINT) {
+      return withSecurityHeaders(await handleLeadPost(request, env), url);
+    }
 
     try {
       const handler = await getServerEntry();

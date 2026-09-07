@@ -4,7 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import type { RoiOutcome } from "@/lib/roi";
 import { pushEvent } from "@/lib/analytics";
-import { CONTACT_EMAIL, mailField, openMailDraft } from "@/lib/mailto";
+import { CONTACT_EMAIL } from "@/lib/mailto";
+import { submitLead, type LeadResult } from "@/lib/submit-lead";
 import { cn } from "@/lib/utils";
 import { Icon } from "@/components/icons/Icon";
 
@@ -33,7 +34,7 @@ type FormData = z.infer<typeof schema>;
 type Status = "idle" | "error";
 
 export function LeadForm({ module, outcome }: { module: string; outcome: RoiOutcome }) {
-  const [sent, setSent] = useState(false);
+  const [via, setVia] = useState<LeadResult | null>(null);
   const [status, setStatus] = useState<Status>("idle");
 
   const {
@@ -45,23 +46,24 @@ export function LeadForm({ module, outcome }: { module: string; outcome: RoiOutc
   const onSubmit = async (data: FormData) => {
     setStatus("idle");
     try {
-      // Se va por el correo del visitante hasta que haya CRM. El porqué, en lib/mailto.
       // Los supuestos van en el cuerpo a propósito: sin ellos hay que volver a preguntar
       // con qué números hizo la cuenta, que es la primera pregunta de la respuesta.
-      const abrio = openMailDraft(`Informe de ROI · ${module}`, [
-        mailField("Nombre", data.nombre),
-        mailField("Empresa", data.empresa),
-        mailField("Correo", data.email),
-        mailField("Teléfono", data.telefono),
-        "",
-        `Módulo: ${module}`,
-        `${outcome.headline.caption}: ${outcome.headline.value}`,
-        ...outcome.support.map((f) => `${f.caption}: ${f.value}`),
-        "",
-        "Parámetros cargados:",
-        ...outcome.assumptions.map((a) => `- ${a.label}: ${a.value}`),
-      ]);
-      if (!abrio) throw new Error("sin ventana");
+      const salida = await submitLead({
+        form: "roi",
+        nombre: data.nombre,
+        contexto: data.empresa,
+        email: data.email,
+        telefono: data.telefono,
+        detalle: [
+          `Módulo: ${module}`,
+          `${outcome.headline.caption}: ${outcome.headline.value}`,
+          ...outcome.support.map((f) => `${f.caption}: ${f.value}`),
+          "",
+          "Parámetros cargados:",
+          ...outcome.assumptions.map((a) => `- ${a.label}: ${a.value}`),
+        ],
+      });
+      setVia(salida);
 
       pushEvent("roi_report_download", {
         module,
@@ -69,19 +71,19 @@ export function LeadForm({ module, outcome }: { module: string; outcome: RoiOutc
         payback_months: outcome.paybackMonths,
         is_consultant: false,
       });
-      setSent(true);
     } catch {
       // El mensaje aparece sin perder lo escrito: el formulario no se resetea.
       setStatus("error");
     }
   };
 
-  /* Confirmación del envío por correo.
-     No dice "listo": el correo quedó abierto y todavía falta que lo mande. Decir que ya
-     salió sería exactamente el problema que esto vino a resolver. Y la dirección va
-     escrita porque hay máquinas sin cliente de correo configurado, donde el mailto no
-     abre nada y sin la dirección a la vista la persona queda sin salida. */
-  if (sent) {
+  /* Dos confirmaciones, y la diferencia importa.
+     Cuando el pedido salió por el servidor ya llegó, y ahí "listo" es cierto. Cuando salió
+     por el `mailto:` de respaldo el correo quedó abierto y todavía falta que la persona lo
+     mande, así que decir "listo" sería la mentira que este trabajo vino a sacar del sitio.
+     En el segundo caso la dirección va escrita, porque hay máquinas sin cliente de correo
+     configurado donde el mailto no abre nada y sin la dirección la persona queda sin salida. */
+  if (via) {
     return (
       <div className="rounded-[var(--radius-lg)] border border-line bg-surface-sunken p-8">
         <div className="flex items-start gap-3">
@@ -90,18 +92,30 @@ export function LeadForm({ module, outcome }: { module: string; outcome: RoiOutc
           </span>
           <div>
             <p className="text-lg font-semibold text-ink">
-              Se abrió tu correo con el pedido escrito.
+              {via === "enviado"
+                ? "Listo, recibimos tu pedido."
+                : "Se abrió tu correo con el pedido escrito."}
             </p>
             <p className="mt-2 max-w-[52ch] text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
-              Dale enviar y te mandamos el informe con los parámetros que cargaste, la proyección a
-              tres años y los supuestos de cada cuenta. Si no se abrió, escribinos a{" "}
-              <a
-                href={`mailto:${CONTACT_EMAIL}`}
-                className="font-semibold text-brand underline underline-offset-4"
-              >
-                {CONTACT_EMAIL}
-              </a>
-              .
+              {via === "enviado" ? (
+                <>
+                  Te mandamos el informe con los parámetros que cargaste, la proyección a tres años
+                  y los supuestos de cada cuenta.
+                </>
+              ) : (
+                <>
+                  Dale enviar y te mandamos el informe con los parámetros que cargaste, la
+                  proyección a tres años y los supuestos de cada cuenta. Si no se abrió, escribinos
+                  a{" "}
+                  <a
+                    href={`mailto:${CONTACT_EMAIL}`}
+                    className="font-semibold text-brand underline underline-offset-4"
+                  >
+                    {CONTACT_EMAIL}
+                  </a>
+                  .
+                </>
+              )}
             </p>
           </div>
         </div>
@@ -135,7 +149,7 @@ export function LeadForm({ module, outcome }: { module: string; outcome: RoiOutc
 
         {status === "error" && (
           <p className="mt-4 text-[13px] text-[var(--status-stop)]">
-            No pudimos abrir tu correo. Escribinos a {CONTACT_EMAIL}; no perdiste lo que escribiste.
+            No pudimos enviarlo. Escribinos a {CONTACT_EMAIL}; no perdiste lo que escribiste.
           </p>
         )}
 
@@ -148,7 +162,7 @@ export function LeadForm({ module, outcome }: { module: string; outcome: RoiOutc
             "disabled:bg-[var(--action-disabled-bg)] disabled:text-[var(--action-disabled-text)]",
           )}
         >
-          {isSubmitting ? "Abriendo tu correo…" : "Pedir el informe"}
+          {isSubmitting ? "Enviando…" : "Pedir el informe"}
         </button>
       </form>
     </div>

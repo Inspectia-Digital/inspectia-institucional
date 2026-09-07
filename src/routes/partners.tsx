@@ -13,7 +13,8 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { DEMO_URL } from "@/content/site";
 import { pushEvent, sourcePage } from "@/lib/analytics";
-import { CONTACT_EMAIL, mailField, openMailDraft } from "@/lib/mailto";
+import { CONTACT_EMAIL } from "@/lib/mailto";
+import { submitLead, type LeadResult } from "@/lib/submit-lead";
 import { breadcrumbJsonLd, faqJsonLd, pageHead } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { Icon } from "@/components/icons/Icon";
@@ -301,7 +302,7 @@ type FormData = z.infer<typeof schema>;
 
 /** Cuatro campos y nada más (§11.12). Ningún formulario del sitio supera los cuatro. */
 function ApplicationForm() {
-  const [sent, setSent] = useState(false);
+  const [via, setVia] = useState<LeadResult | null>(null);
   const [failed, setFailed] = useState(false);
 
   const {
@@ -313,25 +314,25 @@ function ApplicationForm() {
   const onSubmit = async (data: FormData) => {
     setFailed(false);
     try {
-      // Por el correo del visitante hasta que haya CRM. El porqué, en lib/mailto.
-      const abrio = openMailDraft("Postulación al programa de partners", [
-        mailField("Nombre o razón social", data.nombre),
-        mailField("Especialidad", data.especialidad),
-        mailField("Mail", data.email),
-        mailField("Teléfono", data.telefono),
-      ]);
-      if (!abrio) throw new Error("sin ventana");
+      const salida = await submitLead({
+        form: "partners",
+        nombre: data.nombre,
+        contexto: data.especialidad,
+        email: data.email,
+        telefono: data.telefono,
+      });
+      setVia(salida);
 
       pushEvent("partner_apply", { specialty: data.especialidad, source_page: sourcePage() });
-      setSent(true);
     } catch {
       setFailed(true);
     }
   };
 
   /* La confirmación reemplaza el formulario en la misma card, sin navegar.
-     No dice "recibido": el correo se abrió y todavía falta enviarlo. */
-  if (sent) {
+     Dos textos: por el servidor la postulación ya llegó; por el `mailto:` de respaldo
+     todavía falta que la persona apriete enviar, y decir "recibido" ahí sería mentir. */
+  if (via) {
     return (
       <div className="mt-10 rounded-[var(--radius-lg)] border border-line bg-surface p-8">
         <div className="flex items-start gap-3">
@@ -339,15 +340,21 @@ function ApplicationForm() {
             <Icon name="included" className="text-white" />
           </span>
           <p className="max-w-[52ch] text-[15px] leading-[var(--leading-normal)] text-ink">
-            Se abrió tu correo con la postulación escrita. Dale enviar y te escribimos para
-            coordinar una charla. Si no se abrió, mandanos los mismos datos a{" "}
-            <a
-              href={`mailto:${CONTACT_EMAIL}`}
-              className="font-semibold text-brand underline underline-offset-4"
-            >
-              {CONTACT_EMAIL}
-            </a>
-            .
+            {via === "enviado" ? (
+              <>Recibida. Te escribimos para coordinar una charla y ver si tiene sentido.</>
+            ) : (
+              <>
+                Se abrió tu correo con la postulación escrita. Dale enviar y te escribimos para
+                coordinar una charla. Si no se abrió, mandanos los mismos datos a{" "}
+                <a
+                  href={`mailto:${CONTACT_EMAIL}`}
+                  className="font-semibold text-brand underline underline-offset-4"
+                >
+                  {CONTACT_EMAIL}
+                </a>
+                .
+              </>
+            )}
           </p>
         </div>
       </div>
@@ -387,7 +394,7 @@ function ApplicationForm() {
           "disabled:bg-[var(--action-disabled-bg)] disabled:text-[var(--action-disabled-text)]",
         )}
       >
-        {isSubmitting ? "Abriendo tu correo…" : "Postularme al programa"}
+        {isSubmitting ? "Enviando…" : "Postularme al programa"}
       </button>
 
       {/* TODO(equipo): el documento propone "Te contestamos en 48 horas hábiles", pero eso
