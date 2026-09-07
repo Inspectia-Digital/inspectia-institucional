@@ -129,7 +129,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       // TODO(equipo): falta la imagen de compartido propia (1200x630).
     ],
-    links: [{ rel: "stylesheet", href: appCss }],
+    links: [
+      { rel: "stylesheet", href: appCss },
+      // El ICO va primero y con `sizes: any` porque el navegador lo pide por su cuenta
+      // aunque el HTML declare otra cosa; sin el archivo, cada visita deja un 404.
+      // Los tres se generan con `npm run images` desde el mismo isotipo.
+      { rel: "icon", href: "/favicon.ico", sizes: "any" },
+      { rel: "icon", type: "image/png", href: "/favicon-32.png", sizes: "32x32" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+    ],
     // Vacío mientras no haya VITE_GTM_ID. El primero de los dos scripts es el
     // consentimiento por defecto y tiene que ir antes del contenedor.
     scripts: gtmHeadScripts(),

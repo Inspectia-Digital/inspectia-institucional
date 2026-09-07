@@ -4,7 +4,7 @@
 // Los logos llegaron del storage de Lovable a resolución de imprenta —bps venía en
 // 3509x2481 para mostrarse a 48px de alto— así que acá se bajan a tamaño de pantalla.
 // Correr con: npm run images
-import { copyFile, mkdir, readdir, stat, unlink } from "node:fs/promises";
+import { copyFile, mkdir, readdir, stat, unlink, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
@@ -230,6 +230,106 @@ async function optimizeBrand() {
   console.log(`  lockup.png → brand/lockup.png ${kb(await sizeOf(png))}`);
 }
 
+/**
+ * Favicon.
+ *
+ * El sitio se publicó sin ninguno: `/favicon.ico` devolvía 404 y la pestaña salía en
+ * blanco. Es lo primero que se ve de una marca en un navegador con veinte pestañas
+ * abiertas.
+ *
+ * **Va el isotipo en blanco sobre una baldosa teal, y no el isotipo tal cual.** El
+ * original es teal sobre transparencia con un 81 % de píxeles vacíos: a 16px eso queda
+ * casi invisible sobre una pestaña oscura, y lo poco que se ve es un trazo fino. Una
+ * baldosa sólida da masa y contraste sobre cualquier fondo, claro u oscuro, que es lo
+ * único que importa a ese tamaño.
+ *
+ * El ICO se arma a mano porque sharp no lo escribe. El formato es un contenedor simple
+ * —cabecera, un índice y los PNG adentro— y los navegadores actuales leen PNG dentro de
+ * ICO sin problema. Se genera igual porque el navegador pide `/favicon.ico` por su cuenta
+ * aunque el HTML declare otra cosa, y un 404 por visita es ruido que no hace falta.
+ */
+const FAVICON_TILE = "#0d7377";
+const ICO_SIZES = [16, 32, 48];
+
+/** Una baldosa cuadrada con el isotipo blanco centrado, al tamaño pedido. */
+async function faviconTile(size) {
+  const marca = await sharp(join(RAW, "brand", "isotipo-small.png"))
+    .trim()
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+
+  // Se tiñe la silueta de blanco conservando el alfa, igual que el lockup del pie.
+  for (let i = 0; i < marca.data.length; i += marca.info.channels) {
+    marca.data[i] = 255;
+    marca.data[i + 1] = 255;
+    marca.data[i + 2] = 255;
+  }
+
+  // 72 % del lienzo: menos se pierde, más queda apretado contra el borde.
+  const interior = Math.round(size * 0.72);
+  const blanca = await sharp(marca.data, {
+    raw: { width: marca.info.width, height: marca.info.height, channels: marca.info.channels },
+  })
+    .resize({ width: interior, height: interior, fit: "inside" })
+    .png()
+    .toBuffer();
+
+  return sharp({
+    create: { width: size, height: size, channels: 4, background: FAVICON_TILE },
+  })
+    .composite([{ input: blanca, gravity: "centre" }])
+    .png({ compressionLevel: 9 })
+    .toBuffer();
+}
+
+/** Empaqueta varios PNG en un .ico. Cabecera de 6 bytes + 16 por imagen + los datos. */
+function packIco(pngs) {
+  const cabecera = Buffer.alloc(6);
+  cabecera.writeUInt16LE(0, 0); // reservado
+  cabecera.writeUInt16LE(1, 2); // 1 = icono
+  cabecera.writeUInt16LE(pngs.length, 4);
+
+  let offset = 6 + pngs.length * 16;
+  const indice = [];
+  for (const { size, data } of pngs) {
+    const e = Buffer.alloc(16);
+    e.writeUInt8(size >= 256 ? 0 : size, 0); // 0 significa 256
+    e.writeUInt8(size >= 256 ? 0 : size, 1);
+    e.writeUInt8(0, 2); // paleta
+    e.writeUInt8(0, 3); // reservado
+    e.writeUInt16LE(1, 4); // planos
+    e.writeUInt16LE(32, 6); // bits por píxel
+    e.writeUInt32LE(data.length, 8);
+    e.writeUInt32LE(offset, 12);
+    indice.push(e);
+    offset += data.length;
+  }
+
+  return Buffer.concat([cabecera, ...indice, ...pngs.map((p) => p.data)]);
+}
+
+async function optimizeFavicon() {
+  const pngs = [];
+  for (const size of ICO_SIZES) pngs.push({ size, data: await faviconTile(size) });
+
+  const ico = join(ROOT, "public", "favicon.ico");
+  await writeFile(ico, packIco(pngs));
+  console.log(`  isotipo-small.png → favicon.ico ${ICO_SIZES.join("/")} ${kb(await sizeOf(ico))}`);
+
+  const png32 = join(ROOT, "public", "favicon-32.png");
+  await writeFile(png32, await faviconTile(32));
+  console.log(`  isotipo-small.png → favicon-32.png ${kb(await sizeOf(png32))}`);
+
+  // 180px es el que pide iOS para la pantalla de inicio. Va opaco a propósito: iOS no
+  // respeta la transparencia y la rellena de negro.
+  const touch = join(ROOT, "public", "apple-touch-icon.png");
+  await writeFile(touch, await faviconTile(180));
+  console.log(`  isotipo-small.png → apple-touch-icon.png ${kb(await sizeOf(touch))}`);
+}
+
+console.log("Favicon:");
+await optimizeFavicon();
 console.log("Marca:");
 await optimizeBrand();
 console.log("Logos:");
