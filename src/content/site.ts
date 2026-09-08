@@ -36,21 +36,31 @@ export const DEMO_URL = "https://calendar.app.google/d7qzAWBDus9R3JsB9";
  * es el peor lugar posible para mandar a alguien que acaba de decidir probar el producto.
  * Era un TODO sin confirmar desde el principio; ahora está comprobado que estaba mal.
  *
- * Va a la raíz porque **hoy no hay una URL de alta directa**. La aplicación recibe con una
- * portada que ofrece "Iniciar sesión o registrarse", y ese botón abre el login universal
- * de Auth0, que es donde efectivamente se crea la cuenta. Un clic más de lo ideal, pero
- * funciona, que es más de lo que se puede decir de lo anterior.
+ * `/registro` es una ruta de la aplicación, no de Auth0: abre el login universal ya en la
+ * pantalla de alta, con `screen_hint=signup`. Tiene que ser así y no un enlace directo a
+ * Auth0 porque ese enlace lleva `state`, `nonce` y PKCE que el SDK genera en el momento;
+ * escrito a mano desde acá se rompería solo.
  *
- * TODO(app): la solución de verdad es una ruta `/registro` en la aplicación que vaya
- * derecho al alta —Auth0 lo soporta con `screen_hint=signup`—. No se puede armar esa URL
- * desde acá: el enlace de Auth0 lleva `state`, `nonce` y PKCE que genera el SDK de la
- * aplicación en el momento, así que escribirlo a mano en el sitio se rompe solo. Cuando
- * esa ruta exista, esta constante vuelve a apuntar ahí.
+ * Estuvo apuntando a la raíz de la aplicación un tiempo, y antes de eso a un `/registro`
+ * que todavía no existía y devolvía el 404 de la propia aplicación —el botón primario de
+ * todo el sitio muriendo en un error—. **El orden importa:** esta constante sólo puede
+ * apuntar acá con la ruta ya desplegada. Verificado el 8 de septiembre de 2026: cae en
+ * `/u/signup` de Auth0.
+ *
+ * Su par es `APP_URL`, que va al login por `/ingresar`.
  */
-export const SIGNUP_URL = "https://app.inspectia.ai/";
+export const SIGNUP_URL = "https://app.inspectia.ai/registro";
 
-/** Ingresar a la aplicación. Enlace de texto, nunca botón. */
-export const APP_URL = "https://app.inspectia.ai";
+/**
+ * Ingresar a la aplicación. Enlace de texto, nunca botón: lo consumen los tres «Ingresar»
+ * del sitio —barra de escritorio, hoja de mobile y pie—.
+ *
+ * Va a `/ingresar` y no a la raíz por la misma razón que `SIGNUP_URL` va a `/registro`:
+ * son dos personas distintas y el sitio ya sabe cuál es cuál. Quien aprieta «Ingresar»
+ * trabaja en una planta que ya usa InspectIA y viene a entrar; mandarlo a la portada, que
+ * abre con «¿Todavía no usan InspectIA?», es un paso de más y el mensaje equivocado.
+ */
+export const APP_URL = "https://app.inspectia.ai/ingresar";
 
 /**
  * WhatsApp. Va como enlace de texto debajo del par de botones en la banda de cierre.
