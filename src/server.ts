@@ -3,6 +3,7 @@ import "./lib/error-capture";
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
 import {
+  resolveCanonicalHost,
   resolveLegacyRedirect,
   resolveTrailingSlash,
   withSecurityHeaders,
@@ -46,6 +47,13 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     const url = new URL(request.url);
+
+    // Primero de todo: el sitio responde por `inspectia.ai` y por `www.inspectia.ai`, y
+    // sólo el ápice es el canónico. Va antes que las heredadas para que
+    // `www.inspectia.ai/oee-control/` salga en un solo salto al destino final, y no
+    // encadene el cambio de dominio con el de la ruta.
+    const host = resolveCanonicalHost(url);
+    if (host) return host;
 
     // Antes del enrutador: así una URL del WordPress anterior sale en un solo 301, en vez
     // de encadenar el 307 de normalización de barra final con el 301 de la ruta.

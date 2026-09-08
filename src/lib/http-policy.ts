@@ -1,3 +1,5 @@
+import { SITE_URL } from "@/content/site";
+
 /**
  * Redirecciones heredadas y cabeceras de respuesta, aplicadas en el servidor.
  *
@@ -58,6 +60,72 @@ const LEGACY_REDIRECTS: Record<string, string> = {
   // página. Era la que más tráfico de búsqueda traía y el término se pierde si redirige.
 };
 
+/** Rutas de WordPress con hijos. El feed lo sigue pegando cualquier lector suscripto. */
+const LEGACY_PREFIXES = ["/feed", "/wp-json"];
+
+/* ---------- Resolución de la ruta, sin construir respuestas ----------
+   Están separadas de las tres funciones que sí devuelven una `Response` porque las
+   necesitan dos consumidores: la redirección de ruta y la de dominio. Sin esto,
+   `www.inspectia.ai/oee-control/` saldría en dos saltos —primero al ápice conservando la
+   ruta vieja, después de la ruta vieja al destino— y una cadena de 301 diluye lo que la
+   redirección vino a conservar. */
+
+/** El destino heredado de una ruta, o null si no es una URL del WordPress anterior. */
+function legacyTargetFor(pathname: string): string | null {
+  // Sin barra final, salvo la raíz. Es lo que hace que una sola entrada cubra las dos
+  // formas de cada URL, y las que Google conoce son justamente las que terminan en barra.
+  const path = pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname;
+
+  return (
+    LEGACY_REDIRECTS[path] ??
+    (LEGACY_PREFIXES.some((p) => path === p || path.startsWith(`${p}/`)) ? "/" : null)
+  );
+}
+
+/** La ruta sin la barra final, o null si no había ninguna que sacar. */
+function trimmedPathFor(pathname: string): string | null {
+  if (pathname === "/" || !pathname.endsWith("/")) return null;
+  return pathname.replace(/\/+$/, "");
+}
+
+/** La ruta definitiva de una URL: la heredada si la hay, si no la normalizada, si no la
+ *  misma. Es lo que permite que el salto de dominio ya llegue al destino final. */
+function finalPathFor(url: URL): string {
+  return legacyTargetFor(url.pathname) ?? trimmedPathFor(url.pathname) ?? url.pathname;
+}
+
+/**
+ * `www` al ápice, en 301.
+ *
+ * El sitio responde por los dos nombres: las dos formas están mapeadas en Cloud Run y
+ * hasta hace poco `www` ni siquiera tenía certificado. Ahora lo tiene, y servir el mismo
+ * contenido por dos dominios es contenido duplicado —lo que Google indexe en uno no suma
+ * al otro—. La canónica ya declara el ápice y eso alcanza para que no se confunda, pero
+ * una canónica es una sugerencia y un 301 es una instrucción: consolida la autoridad y
+ * deja una sola forma viva.
+ *
+ * Va **antes que todo lo demás**, incluso antes de las heredadas: si alguien llega a
+ * `www.inspectia.ai/oee-control/` tiene que salir en un solo salto al destino final del
+ * ápice, y no encadenar el salto de dominio con el de la ruta. Por eso se conserva el
+ * pathname completo y la query.
+ *
+ * El ápice sale de `SITE_URL` y no escrito a mano: si algún día cambia el dominio, cambia
+ * en un solo lugar y esto lo sigue.
+ */
+export function resolveCanonicalHost(url: URL): Response | null {
+  if (!url.hostname.startsWith("www.")) return null;
+
+  const apex = new URL(SITE_URL);
+  // Sólo redirige el `www` del propio dominio. Si el sitio se sirviera alguna vez desde
+  // otro nombre —un preview, una prueba—, esto no tiene por qué opinar.
+  if (url.hostname !== `www.${apex.hostname}`) return null;
+
+  return new Response(null, {
+    status: 301,
+    headers: { location: `${apex.origin}${finalPathFor(url)}${url.search}` },
+  });
+}
+
 /**
  * Normalización de la barra final, como 301 y no como el 307 del enrutador.
  *
@@ -69,17 +137,14 @@ const LEGACY_REDIRECTS: Record<string, string> = {
  * estático tampoco.
  */
 export function resolveTrailingSlash(url: URL): Response | null {
-  const p = url.pathname;
-  if (p === "/" || !p.endsWith("/")) return null;
+  const trimmed = trimmedPathFor(url.pathname);
+  if (trimmed === null) return null;
 
   return new Response(null, {
     status: 301,
-    headers: { location: `${p.replace(/\/+$/, "")}${url.search}` },
+    headers: { location: `${trimmed}${url.search}` },
   });
 }
-
-/** Rutas de WordPress con hijos. El feed lo sigue pegando cualquier lector suscripto. */
-const LEGACY_PREFIXES = ["/feed", "/wp-json"];
 
 /**
  * Devuelve la respuesta de redirección si la ruta es una URL heredada, o null.
@@ -88,14 +153,7 @@ const LEGACY_PREFIXES = ["/feed", "/wp-json"];
  * parámetros tienen que sobrevivir al salto o la visita se atribuye mal.
  */
 export function resolveLegacyRedirect(url: URL): Response | null {
-  // Sin barra final, salvo la raíz. Es lo que hace que una sola entrada cubra las dos
-  // formas de cada URL.
-  const path = url.pathname.length > 1 ? url.pathname.replace(/\/+$/, "") : url.pathname;
-
-  const target =
-    LEGACY_REDIRECTS[path] ??
-    (LEGACY_PREFIXES.some((p) => path === p || path.startsWith(`${p}/`)) ? "/" : undefined);
-
+  const target = legacyTargetFor(url.pathname);
   if (!target) return null;
 
   return new Response(null, {
