@@ -1,7 +1,15 @@
 # www-redirect
 
-Servicio de Cloud Run cuyo único trabajo es mandar todo lo que llegue por
-`www.inspectia.ai` al ápice, `https://inspectia.ai`.
+Servicio de Cloud Run cuyo único trabajo es mandar al ápice —`https://inspectia.ai`— todo
+lo que llegue por un nombre de host retirado. Hoy atiende dos:
+
+| host | por qué |
+| --- | --- |
+| `www.inspectia.ai` | el nombre alternativo del sitio; ver abajo |
+| `oee.inspectia.ai` | subdominio de una app vieja, retirado |
+
+El servicio no sabe de hosts: redirige lo que le llegue, conservando ruta y consulta. Sumar
+otro es un CNAME a `ghs.googlehosted.com.` más un mapeo de dominio, sin tocar el código.
 
 ## Por qué no lo hace el sitio
 
@@ -25,6 +33,24 @@ nombre de host.
 `resolveCanonicalHost` **se deja igual** en el sitio: es la red por si alguna vez el mapeo
 vuelve a apuntar acá, y no cuesta nada.
 
+## El caso de oee.inspectia.ai
+
+Un subdominio de una aplicación vieja que quedó **indexado**: Google mostraba
+"FactoryOS - OEE Management System" junto a los resultados del sitio, en inglés y de otro
+producto. Se borró el CNAME creyendo que con eso salía del índice, y **no sale**: Google
+trata un error de DNS como transitorio y conserva la URL esperando que el host vuelva, sin
+plazo. Peor todavía, sin DNS ya no hay forma de servirle un `noindex` ni un 410, que es lo
+único que desindexa de verdad.
+
+Por eso el CNAME volvió, apuntando acá. Google entra, recibe un 301 al ápice y la baja del
+índice. En paralelo se pidió la eliminación temporal en Search Console, que la oculta
+mientras tanto.
+
+**La ruta se conserva a propósito, aunque termine en 404.** Mandar todas las URLs viejas de
+una aplicación a la home parece más amable, pero Google lee eso como *soft 404* y lo trata
+peor que un 404 honesto. Además, de ese subdominio había una sola URL indexada —la raíz—,
+que con la ruta conservada va a la raíz del sitio.
+
 ## Dónde vive
 
 | | |
@@ -33,7 +59,7 @@ vuelve a apuntar acá, y no cuesta nada.
 | Región | `us-central1` |
 | Servicio | `www-redirect` |
 | Imagen | `us-central1-docker.pkg.dev/institucional-485213/cloud-run-source-deploy/www-redirect` (hoy `:v2`) |
-| DNS | `www` CNAME → `ghs.googlehosted.com.` (el mismo de antes; no hubo que tocarlo) |
+| DNS | `www` y `oee`, los dos CNAME → `ghs.googlehosted.com.` |
 
 ## Cómo se redespliega
 
