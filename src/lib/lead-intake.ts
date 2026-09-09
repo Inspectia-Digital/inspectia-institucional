@@ -5,7 +5,7 @@ import { CONTACT } from "@/content/site";
  * Recepción de los formularios del sitio, del lado del servidor.
  *
  * **Por qué existe, y por qué no se resuelve desde el navegador.** Los dos formularios
- * —informe de ROI y postulación de partners— se enviaban por `mailto:`, que funciona pero
+ * —el de ROI, y en su momento el de partners— se enviaban por `mailto:`, que funciona pero
  * depende de que la persona apriete enviar en su propio programa de correo. Brevo lo
  * resuelve de verdad: el dato sale sí o sí y queda registro de si el correo se entregó.
  *
@@ -36,13 +36,20 @@ function readEnv(env: unknown, key: string): string | undefined {
   return typeof process !== "undefined" ? process.env?.[key] : undefined;
 }
 
-/** Los dos formularios del sitio. El tipo decide el asunto y cómo se arma el cuerpo. */
+/**
+ * Los formularios del sitio. El tipo decide el asunto y cómo se arma el cuerpo.
+ *
+ * Hoy queda uno solo: el de partners se fue cuando el programa pasó a ser de alta libre y
+ * un formulario que promete "te escribimos nosotros" dejó de tener sentido. El campo
+ * `form` se conserva igual —el endpoint sigue siendo por formulario y el día que entre
+ * otro no cambia la forma del pedido—.
+ */
 const schema = z.object({
-  form: z.enum(["roi", "partners"]),
+  form: z.enum(["roi"]),
   nombre: z.string().trim().min(2).max(120),
   email: z.string().trim().email().max(255),
   telefono: z.string().trim().min(6).max(25),
-  /** Empresa en el de ROI, especialidad en el de partners. */
+  /** La empresa de quien pide el informe. */
   contexto: z.string().trim().min(2).max(120),
   /** Módulo y parámetros de la calculadora. Sólo el de ROI los manda. */
   detalle: z.array(z.string().max(200)).max(40).optional(),
@@ -57,15 +64,9 @@ const schema = z.object({
   sitio: z.string().max(200).optional(),
 });
 
-const ASUNTO = {
-  roi: "Pedido de informe de ROI",
-  partners: "Postulación al programa de partners",
-} as const;
+const ASUNTO = { roi: "Pedido de informe de ROI" } as const;
 
-const ETIQUETA_CONTEXTO = {
-  roi: "Empresa",
-  partners: "Especialidad",
-} as const;
+const ETIQUETA_CONTEXTO = { roi: "Empresa" } as const;
 
 export async function handleLeadPost(request: Request, env: unknown): Promise<Response> {
   if (request.method !== "POST") {

@@ -18,14 +18,14 @@ import { mailField, openMailDraft } from "@/lib/mailto";
  * vino a sacar del sitio.
  */
 
-export type LeadForm = "roi" | "partners";
+export type LeadForm = "roi";
 
 export type LeadPayload = {
   form: LeadForm;
   nombre: string;
   email: string;
   telefono: string;
-  /** Empresa en el de ROI, especialidad en el de partners. */
+  /** La empresa de quien pide el informe. */
   contexto: string;
   /** Módulo y parámetros de la calculadora. Sólo el de ROI. */
   detalle?: string[];
@@ -43,15 +43,6 @@ const RESPALDO = {
       mailField("Correo", l.email),
       mailField("Teléfono", l.telefono),
       ...(l.detalle?.length ? ["", ...l.detalle] : []),
-    ],
-  }),
-  partners: (l: LeadPayload) => ({
-    asunto: "Postulación al programa de partners",
-    lineas: [
-      mailField("Nombre o razón social", l.nombre),
-      mailField("Especialidad", l.contexto),
-      mailField("Mail", l.email),
-      mailField("Teléfono", l.telefono),
     ],
   }),
 } satisfies Record<LeadForm, (l: LeadPayload) => { asunto: string; lineas: string[] }>;

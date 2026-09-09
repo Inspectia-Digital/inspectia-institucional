@@ -52,6 +52,19 @@ export const DEMO_URL = "https://calendar.app.google/d7qzAWBDus9R3JsB9";
 export const SIGNUP_URL = "https://app.inspectia.ai/registro";
 
 /**
+ * Alta de un consultor en el programa de partners.
+ *
+ * Es la misma pantalla de alta que `SIGNUP_URL`, con una señal: el `perfil=partner` que
+ * la aplicación guarda antes de saltar a Auth0 y usa para **presseleccionar** la opción en
+ * la pantalla de bienvenida. Sugiere, no decide: quien declara qué es sigue siendo la
+ * persona, en esa pantalla.
+ *
+ * Existía la ruta del lado de la aplicación y el sitio no la enlazaba desde ningún lado,
+ * así que el camino estaba construido y sin puerta.
+ */
+export const PARTNER_SIGNUP_URL = "https://app.inspectia.ai/registro?perfil=partner";
+
+/**
  * Ingresar a la aplicación. Enlace de texto, nunca botón: lo consumen los tres «Ingresar»
  * del sitio —barra de escritorio, hoja de mobile y pie—.
  *

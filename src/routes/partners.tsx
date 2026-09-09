@@ -1,8 +1,4 @@
-import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import {
   Accordion,
   AccordionContent,
@@ -11,12 +7,8 @@ import {
 } from "@/components/ui/accordion";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
-import { DEMO_URL } from "@/content/site";
-import { pushEvent, sourcePage } from "@/lib/analytics";
-import { CONTACT_EMAIL } from "@/lib/mailto";
-import { submitLead, type LeadResult } from "@/lib/submit-lead";
+import { DEMO_URL, PARTNER_SIGNUP_URL } from "@/content/site";
 import { breadcrumbJsonLd, faqJsonLd, pageHead } from "@/lib/seo";
-import { cn } from "@/lib/utils";
 import { Icon } from "@/components/icons/Icon";
 
 const TITLE = "Programa para consultores industriales · InspectIA";
@@ -27,10 +19,17 @@ const DESCRIPTION =
  * Programa para consultores (§7.8). Una página: sin portal, sin login y sin directorio.
  *
  * Un consultor con cartera industrial multiplica alcance sin costo de venta, y llega con
- * confianza ya construida. Una postulación vale más que un lead.
+ * confianza ya construida.
+ *
+ * **El programa es de alta libre**, decidido el 8 de septiembre de 2026: el que quiere
+ * entra y se da de alta. Hasta entonces la página pedía una postulación de cuatro campos
+ * y el equipo contestaba, y ese formulario se sacó entero —prometer "te escribimos
+ * nosotros" al lado de un botón que crea la cuenta es contradecirse en la misma pantalla—.
+ * Si el modelo vuelve a cambiar, esto cambia primero.
  *
  * **Un solo botón primario en toda la página**, no el par: quien llega acá no viene a
- * crear una cuenta ni a agendar una demo comercial, viene a evaluar una alianza.
+ * elegir entre dos caminos, viene a entender el programa y entrar. Agendar demo queda
+ * como enlace de texto, para el que prefiere charlar antes.
  */
 export const Route = createFileRoute("/partners")({
   head: () =>
@@ -117,6 +116,10 @@ const FAQ = [
     q: "¿Tiene costo entrar al programa?",
     a: "No. La capacitación y el acceso a la calculadora en modo consultor no se cobran.",
   },
+  {
+    q: "¿Hay que postularse y esperar aprobación?",
+    a: "No. Creás la cuenta, elegís «consultor» en la primera pantalla y ya estás adentro, con la capacitación y la calculadora en modo consultor disponibles. No hay formulario, no hay evaluación y no hay espera.",
+  },
 ];
 
 const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1100px]:py-[var(--section-pad)]";
@@ -134,10 +137,11 @@ function Page() {
       >
         <p className="mt-9">
           <a
-            href="#postularme"
+            href={PARTNER_SIGNUP_URL}
+            rel="nofollow"
             className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] bg-white px-8 text-[15px] font-semibold text-brand-deep transition-colors duration-[160ms] hover:bg-teal-050 active:translate-y-px"
           >
-            Postularme al programa
+            Crear mi cuenta de partner
           </a>
         </p>
       </PageHero>
@@ -197,10 +201,10 @@ function Page() {
           </div>
 
           <div className="min-w-0">
-            <h2 className={H2}>Qué esperamos de vos</h2>
+            <h2 className={H2}>Con qué funciona mejor</h2>
             <p className="mt-6 max-w-[var(--read-max)] text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
-              El programa es abierto pero no es automático: preferimos pocos consultores que
-              entiendan el producto antes que muchos que lo nombren.
+              Entrar no tiene requisitos: creás la cuenta y ya está. Pero el programa rinde en un
+              caso concreto, y decirlo de entrada evita que alguien pierda el tiempo.
             </p>
             <ul className="mt-6 space-y-3">
               {EXPECTED.map((e) => (
@@ -220,14 +224,27 @@ function Page() {
           figuran como candidatos y no como partners confirmados, y publicar el nombre de
           una consultora sin su acuerdo es un problema legal antes que comercial. */}
 
-      <section className={`bg-surface-sunken ${SECTION}`} id="postularme">
+      {/* Antes acá vivía un formulario de postulación de cuatro campos: se dejaban los
+          datos y el equipo contestaba. El programa dejó de funcionar así —quien quiere
+          entra y se da de alta— y un formulario que promete "te escribimos nosotros"
+          contradice de frente el botón de arriba. Se fue entero; el alta es el camino. */}
+      <section className={`bg-surface-sunken ${SECTION}`} id="empezar">
         <div className="mx-auto max-w-[50rem]">
-          <h2 className={H2}>Postularme al programa</h2>
+          <h2 className={H2}>Cómo se entra</h2>
           <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
-            Cuatro datos y te escribimos nosotros. Si tenés cartera industrial, la conversación es
-            corta.
+            Creás la cuenta y elegís «consultor» en la primera pantalla. No hay postulación, no hay
+            aprobación y no hay costo: desde ahí ya tenés la capacitación y la calculadora en modo
+            consultor.
           </p>
-          <ApplicationForm />
+          <p className="mt-9">
+            <a
+              href={PARTNER_SIGNUP_URL}
+              rel="nofollow"
+              className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] bg-action px-8 text-[15px] font-semibold text-white transition-colors duration-[160ms] hover:bg-action-hover active:translate-y-px"
+            >
+              Crear mi cuenta de partner
+            </a>
+          </p>
         </div>
       </section>
 
@@ -258,18 +275,19 @@ function Page() {
       <section className="bg-brand-deep px-5 py-24 md:px-8">
         <div className="mx-auto flex max-w-[var(--content-max)] flex-col items-center text-center">
           <h2 className="max-w-[18ch] text-[28px] leading-tight text-on-brand md:text-[var(--text-section)]">
-            Charlemos y vemos si encaja
+            Empezá hoy y miralo por dentro
           </h2>
           <p className="mt-5 max-w-[var(--lead-max)] text-on-brand-secondary">
-            Media hora para entender qué clientes tenés y qué módulos les servirían. Si no tiene
-            sentido, te lo decimos ahí.
+            La cuenta se crea en un minuto y no tiene costo. Si preferís entender el producto antes,
+            agendá media hora y lo vemos con los clientes que tengas en mente.
           </p>
           <p className="mt-9 flex flex-wrap items-center justify-center gap-6">
             <a
-              href="#postularme"
+              href={PARTNER_SIGNUP_URL}
+              rel="nofollow"
               className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] bg-white px-8 text-[15px] font-semibold text-brand-deep transition-colors duration-[160ms] hover:bg-teal-050 active:translate-y-px"
             >
-              Postularme al programa
+              Crear mi cuenta de partner
             </a>
             <a
               href={DEMO_URL}
@@ -283,148 +301,5 @@ function Page() {
         </div>
       </section>
     </SiteLayout>
-  );
-}
-
-/* ---------- Formulario de postulación ---------- */
-
-const schema = z.object({
-  nombre: z.string().trim().min(3, "Poné al menos 3 caracteres").max(120),
-  especialidad: z.string().trim().min(2, "Contanos en qué te especializás").max(120),
-  email: z.string().trim().email("Revisá el correo").max(255),
-  telefono: z
-    .string()
-    .trim()
-    .regex(/^[0-9+\s()-]{6,25}$/, "Revisá el teléfono"),
-});
-
-type FormData = z.infer<typeof schema>;
-
-/** Cuatro campos y nada más (§11.12). Ningún formulario del sitio supera los cuatro. */
-function ApplicationForm() {
-  const [via, setVia] = useState<LeadResult | null>(null);
-  const [failed, setFailed] = useState(false);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
-
-  const onSubmit = async (data: FormData) => {
-    setFailed(false);
-    try {
-      const salida = await submitLead({
-        form: "partners",
-        nombre: data.nombre,
-        contexto: data.especialidad,
-        email: data.email,
-        telefono: data.telefono,
-      });
-      setVia(salida);
-
-      pushEvent("partner_apply", { specialty: data.especialidad, source_page: sourcePage() });
-    } catch {
-      setFailed(true);
-    }
-  };
-
-  /* La confirmación reemplaza el formulario en la misma card, sin navegar.
-     Dos textos: por el servidor la postulación ya llegó; por el `mailto:` de respaldo
-     todavía falta que la persona apriete enviar, y decir "recibido" ahí sería mentir. */
-  if (via) {
-    return (
-      <div className="mt-10 rounded-[var(--radius-lg)] border border-line bg-surface p-8">
-        <div className="flex items-start gap-3">
-          <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-[var(--status-ok)]">
-            <Icon name="included" className="text-white" />
-          </span>
-          <p className="max-w-[52ch] text-[15px] leading-[var(--leading-normal)] text-ink">
-            {via === "enviado" ? (
-              <>Recibida. Te escribimos para coordinar una charla y ver si tiene sentido.</>
-            ) : (
-              <>
-                Se abrió tu correo con la postulación escrita. Dale enviar y te escribimos para
-                coordinar una charla. Si no se abrió, mandanos los mismos datos a{" "}
-                <a
-                  href={`mailto:${CONTACT_EMAIL}`}
-                  className="font-semibold text-brand underline underline-offset-4"
-                >
-                  {CONTACT_EMAIL}
-                </a>
-                .
-              </>
-            )}
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mt-10" noValidate>
-      <div className="grid gap-4 min-[720px]:grid-cols-2">
-        <Field label="Nombre y apellido o razón social" error={errors.nombre?.message}>
-          <input {...register("nombre")} autoComplete="name" className={INPUT} />
-        </Field>
-        <Field label="Especialidad" error={errors.especialidad?.message}>
-          <input {...register("especialidad")} className={INPUT} />
-        </Field>
-        <Field label="Mail" error={errors.email?.message}>
-          <input {...register("email")} type="email" autoComplete="email" className={INPUT} />
-        </Field>
-        <Field label="Teléfono" error={errors.telefono?.message}>
-          <input {...register("telefono")} type="tel" autoComplete="tel" className={INPUT} />
-        </Field>
-      </div>
-
-      {failed && (
-        <p className="mt-4 text-[13px] text-[var(--status-stop)]">
-          No pudimos abrir tu correo. Mandanos los datos a {CONTACT_EMAIL}; no perdiste lo que
-          escribiste.
-        </p>
-      )}
-
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className={cn(
-          "mt-6 h-[52px] w-full rounded-[var(--radius-md)] bg-action px-8 text-[15px] font-semibold text-white",
-          "transition-colors duration-[160ms] hover:bg-action-hover active:translate-y-px",
-          "disabled:bg-[var(--action-disabled-bg)] disabled:text-[var(--action-disabled-text)]",
-        )}
-      >
-        {isSubmitting ? "Enviando…" : "Postularme al programa"}
-      </button>
-
-      {/* TODO(equipo): el documento propone "Te contestamos en 48 horas hábiles", pero eso
-          es un compromiso de tiempo que nadie confirmó. Hasta entonces, la versión que no
-          promete un plazo. */}
-      <p className="mt-4 text-[13px] text-ink-secondary">
-        Te escribimos para coordinar una charla.
-      </p>
-    </form>
-  );
-}
-
-// Sin placeholder como etiqueta: al escribir desaparece y el campo queda sin nombre.
-const INPUT =
-  "h-[52px] w-full rounded-[var(--radius-md)] border border-line-strong bg-surface px-3.5 text-[15px] text-ink outline-none focus:border-line-brand";
-
-function Field({
-  label,
-  error,
-  children,
-}: {
-  label: string;
-  error?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <label className="block min-w-0">
-      <span className="mb-1.5 block text-[13px] font-medium text-ink-secondary">{label}</span>
-      {children}
-      {error && <span className="mt-1.5 block text-[13px] text-[var(--status-stop)]">{error}</span>}
-    </label>
   );
 }
