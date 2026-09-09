@@ -9,6 +9,9 @@ type TrustBarProps = {
   lead?: string;
   /** Fila en desplazamiento continuo en lugar de una fila estática. */
   marquee?: boolean;
+  /** Sobre qué fondo se apoya. Existe para que la banda entre en la alternancia de la
+   *  página que la usa: dos secciones seguidas del mismo tono se leen como una sola. */
+  tone?: "surface" | "sunken";
 };
 
 /**
@@ -30,6 +33,7 @@ export function TrustBar({
   title = "Confían en nosotros",
   lead,
   marquee = false,
+  tone = "surface",
 }: TrustBarProps) {
   const logos = family === "todas" ? PARTNERS : partnersByFamily(family);
   if (logos.length === 0) return null;
@@ -37,7 +41,7 @@ export function TrustBar({
   return (
     <section
       aria-label={title}
-      className="bg-surface px-5 py-[var(--section-pad-sm)] md:px-8 md:py-[var(--section-pad-md)]"
+      className={`${tone === "sunken" ? "bg-surface-sunken" : "bg-surface"} px-5 py-[var(--section-pad-sm)] md:px-8 md:py-[var(--section-pad-md)]`}
     >
       {/* El marco del carrusel se sale del ancho de contenido a propósito: los logos
           entran y salen contra el margen de la sección y no contra una línea invisible a

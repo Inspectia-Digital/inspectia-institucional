@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/accordion";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
+import { TrustBar } from "@/components/site/TrustBar";
 import { DEMO_URL, PARTNER_SIGNUP_URL } from "@/content/site";
 import { pushEvent, sourcePage } from "@/lib/analytics";
 import { breadcrumbJsonLd, faqJsonLd, pageHead } from "@/lib/seo";
@@ -153,6 +154,12 @@ function Page() {
           </a>
         </p>
       </PageHero>
+
+      {/* Los pares, apenas pasado el encabezado.
+          A un consultor que evalúa entrar no lo convence primero el argumento sino ver
+          quién ya está adentro, y son tres consultoras que se reconocen en el rubro. Va
+          sobre el fondo hundido para no fundirse con la sección que sigue, que es clara. */}
+      <TrustBar family="partner" tone="sunken" title="Consultoras que ya están en el programa" />
 
       <section className={`bg-surface ${SECTION}`}>
         <div className={CONTAINER}>
