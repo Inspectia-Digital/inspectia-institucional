@@ -31,11 +31,33 @@ const preset = process.env.NITRO_PRESET;
  *
  * **El cast es a la firma de Lovable, no a Nitro.** `@lovable.dev/vite-tanstack-config`
  * declara su campo `nitro` con tres claves —preset, output, cloudflare— y no reexporta el
- * tipo entero de Nitro. La opción llega igual: comprobado en el build, que emite los 46
- * .br/.gz. Si el paquete algún día amplía el tipo, esto se borra y compila solo. */
+ * tipo entero de Nitro. Las opciones llegan igual: comprobado sobre el build. Si el
+ * paquete algún día amplía el tipo, el cast se borra y compila solo. */
 const nitroConfig = {
   preset,
   compressPublicAssets: { gzip: true, brotli: true },
+
+  /* El `noindex` de los dos archivos generados **tiene que vivir acá y no en
+   * `withSecurityHeaders`**, que es donde estuvo declarado y nunca se ejecutó.
+   *
+   * El middleware de estáticos de Nitro resuelve todo lo que existe en `public/` antes de
+   * llegar al entry del servidor, así que `src/server.ts` no ve jamás una petición de
+   * `/sitemap.xml` ni de `/robots.txt`: los genera el prebuild y quedan como archivos.
+   * El síntoma es silencioso —el código está escrito, se lee bien y no corre— y costó una
+   * afirmación falsa: se dio por puesta una cabecera que en producción no salía.
+   * Comprobado el 9 de septiembre de 2026, `/privacidad` traía las cuatro cabeceras y los
+   * dos archivos ninguna.
+   *
+   * `routeRules` sí corre antes que el middleware de estáticos, que es lo que hace falta.
+   * Comprobado sobre el build: los dos archivos salen con la cabecera, `/favicon.ico`
+   * sigue sin ella y `/privacidad` conserva su `noindex, follow` propio.
+   *
+   * Va sólo con preset, o sea en el contenedor de Cloud Run, que es producción. El build
+   * de Lovable a Cloudflare no las lleva: es una vista previa y no está indexada. */
+  routeRules: {
+    "/sitemap.xml": { headers: { "x-robots-tag": "noindex" } },
+    "/robots.txt": { headers: { "x-robots-tag": "noindex" } },
+  },
 } as { preset?: string };
 
 export default defineConfig({

@@ -195,7 +195,13 @@ const SECURITY_HEADERS: Record<string, string> = {
  * como PDF o como texto plano, el meta no existe y la cabecera sí.
  */
 const NOINDEX_PATHS = new Set(["/legales", "/privacidad"]);
-const NOINDEX_FILES = new Set(["/sitemap.xml", "/robots.txt"]);
+
+/* `/sitemap.xml` y `/robots.txt` estuvieron acá y **nunca se ejecutó una sola vez**: los
+ * genera el prebuild como archivos en `public/`, y el middleware de estáticos de Nitro los
+ * resuelve antes de que la petición llegue a `src/server.ts`. El código se leía bien, no
+ * fallaba, y la cabecera no salía. Ahora viven en `routeRules`, en vite.config.ts.
+ *
+ * La regla general que deja esto: nada que se sirva desde `public/` pasa por acá. */
 
 /** Aplica las cabeceras sobre la respuesta, sin pisar lo que la respuesta ya declare. */
 export function withSecurityHeaders(response: Response, url: URL): Response {
@@ -207,7 +213,6 @@ export function withSecurityHeaders(response: Response, url: URL): Response {
 
   const path = url.pathname.length > 1 ? url.pathname.replace(/\/+$/, "") : url.pathname;
   if (NOINDEX_PATHS.has(path)) headers.set("x-robots-tag", "noindex, follow");
-  else if (NOINDEX_FILES.has(path)) headers.set("x-robots-tag", "noindex");
 
   return new Response(response.body, {
     status: response.status,
