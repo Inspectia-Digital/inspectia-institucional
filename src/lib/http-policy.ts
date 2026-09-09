@@ -111,6 +111,17 @@ function finalPathFor(url: URL): string {
  *
  * El ápice sale de `SITE_URL` y no escrito a mano: si algún día cambia el dominio, cambia
  * en un solo lugar y esto lo sigue.
+ *
+ * **Ojo: hoy esto casi no corre, y no es lo que resuelve el problema.** Desde el 9 de
+ * septiembre de 2026 el mapeo de dominio de `www.inspectia.ai` apunta a un servicio
+ * aparte —`infra/www-redirect/`— que redirige todo antes de que la petición llegue a esta
+ * aplicación. Hizo falta porque esta función alcanza sólo a las páginas: Nitro sirve
+ * `public/` y `/assets/` en un middleware que corre antes del entry del servidor, así que
+ * `www.inspectia.ai/favicon.ico` respondía 200 y esta función nunca se enteraba.
+ *
+ * Se deja igual porque es la red por si el mapeo vuelve a apuntar acá, y no cuesta nada.
+ * Pero si estás leyendo esto para entender por qué `www` redirige, el motivo está en
+ * `infra/www-redirect/README.md`.
  */
 export function resolveCanonicalHost(url: URL): Response | null {
   if (!url.hostname.startsWith("www.")) return null;
