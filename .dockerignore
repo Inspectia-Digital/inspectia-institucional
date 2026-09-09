@@ -29,3 +29,7 @@ assets-src
 .vscode
 .idea
 .claude
+
+# El redirector de www es un servicio aparte con su propio Dockerfile; no tiene por qué
+# entrar en la imagen del sitio.
+infra/
