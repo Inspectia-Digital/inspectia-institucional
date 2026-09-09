@@ -135,7 +135,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       // aunque el HTML declare otra cosa; sin el archivo, cada visita deja un 404.
       // Los tres se generan con `npm run images` desde el mismo isotipo.
       { rel: "icon", href: "/favicon.ico", sizes: "any" },
-      { rel: "icon", type: "image/png", href: "/favicon-32.png", sizes: "32x32" },
+      // 96x96 y no 32: Google sólo toma como favicon de resultados un cuadrado de 48px o
+      // un múltiplo, y el 32 era el único tamaño declarado explícitamente. Ver la nota
+      // larga en scripts/optimize-images.mjs.
+      { rel: "icon", type: "image/png", href: "/favicon-96.png", sizes: "96x96" },
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
     ],
     /* Acá NO van los scripts de GTM, y es a propósito.

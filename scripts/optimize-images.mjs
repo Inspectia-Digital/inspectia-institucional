@@ -13,6 +13,12 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const RAW = join(ROOT, "assets-src");
 const OUT = join(ROOT, "public", "img");
 
+/* Un argumento corre una sola etapa: `npm run images -- favicon`. Sin esto, cambiar el
+ * favicon obliga a reescribir los treinta y pico de archivos que genera el resto, y el
+ * diff deja de decir qué cambió de verdad. Sin argumento corre todo, como siempre. */
+const etapas = process.argv.slice(2);
+const corre = (nombre) => etapas.length === 0 || etapas.includes(nombre);
+
 // Nombres normalizados a kebab-case: los originales venían como Antea_Group.png,
 // balluff_png.png, sitecno_sa_logo.jpeg.
 const LOGOS = {
@@ -317,9 +323,20 @@ async function optimizeFavicon() {
   await writeFile(ico, packIco(pngs));
   console.log(`  isotipo-small.png → favicon.ico ${ICO_SIZES.join("/")} ${kb(await sizeOf(ico))}`);
 
-  const png32 = join(ROOT, "public", "favicon-32.png");
-  await writeFile(png32, await faviconTile(32));
-  console.log(`  isotipo-small.png → favicon-32.png ${kb(await sizeOf(png32))}`);
+  /* 96 y no 32, que es lo que había.
+   *
+   * Google sólo acepta como favicon de resultados un cuadrado de 48px **o un múltiplo**,
+   * y el 32 era el único tamaño que el HTML declaraba de forma explícita: el ICO va con
+   * `sizes="any"`, que no dice nada aunque adentro lleve un 48. Comprobado el 9 de
+   * septiembre de 2026 con el sitio ya indexado y rastreado a diario —el servicio de
+   * favicons de Google devolvía 404 para el dominio—, así que el candidato con tamaño
+   * declarado era uno que Google descarta por definición.
+   *
+   * 96 es múltiplo de 48 y de paso cubre pantallas de alta densidad. Los navegadores no
+   * pierden nada: el ICO sigue trayendo 16, 32 y 48 exactos. */
+  const png96 = join(ROOT, "public", "favicon-96.png");
+  await writeFile(png96, await faviconTile(96));
+  console.log(`  isotipo-small.png → favicon-96.png ${kb(await sizeOf(png96))}`);
 
   // 180px es el que pide iOS para la pantalla de inicio. Va opaco a propósito: iOS no
   // respeta la transparencia y la rellena de negro.
@@ -328,14 +345,22 @@ async function optimizeFavicon() {
   console.log(`  isotipo-small.png → apple-touch-icon.png ${kb(await sizeOf(touch))}`);
 }
 
-console.log("Favicon:");
-await optimizeFavicon();
-console.log("Marca:");
-await optimizeBrand();
-console.log("Logos:");
-await optimizeLogos();
-console.log("Plano de planta:");
-await optimizePlant();
+if (corre("favicon")) {
+  console.log("Favicon:");
+  await optimizeFavicon();
+}
+if (corre("marca")) {
+  console.log("Marca:");
+  await optimizeBrand();
+}
+if (corre("logos")) {
+  console.log("Logos:");
+  await optimizeLogos();
+}
+if (corre("plano")) {
+  console.log("Plano de planta:");
+  await optimizePlant();
+}
 
 /**
  * Imagen de Open Graph.
@@ -385,6 +410,8 @@ async function optimizeOgImage() {
   console.log(`  fabrica-logistica.png → og/inspectia-og.jpg ${kb(await sizeOf(to))}`);
 }
 
-console.log("Open Graph:");
-await optimizeOgImage();
+if (corre("og")) {
+  console.log("Open Graph:");
+  await optimizeOgImage();
+}
 console.log("Listo.");
