@@ -6,6 +6,7 @@ import {
   resolveCanonicalHost,
   resolveLegacyRedirect,
   resolveTrailingSlash,
+  withCompression,
   withSecurityHeaders,
 } from "./lib/http-policy";
 import { LEAD_ENDPOINT, handleLeadPost } from "./lib/lead-intake";
@@ -69,21 +70,29 @@ export default {
     // clave de Brevo, que sólo existe del lado del servidor: en una ruta de la aplicación
     // terminaría dentro del JavaScript servido.
     if (url.pathname === LEAD_ENDPOINT) {
-      return withSecurityHeaders(await handleLeadPost(request, env), url);
+      return withCompression(withSecurityHeaders(await handleLeadPost(request, env), url), request);
     }
 
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
-      return withSecurityHeaders(await normalizeCatastrophicSsrResponse(response), url);
+      // La compresión va por fuera de todo: el manejador de estáticos de Nitro corre
+      // dentro del entry, así que el CSS y el JavaScript pasan por esta misma línea.
+      return withCompression(
+        withSecurityHeaders(await normalizeCatastrophicSsrResponse(response), url),
+        request,
+      );
     } catch (error) {
       console.error(error);
-      return withSecurityHeaders(
-        new Response(renderErrorPage(), {
-          status: 500,
-          headers: { "content-type": "text/html; charset=utf-8" },
-        }),
-        url,
+      return withCompression(
+        withSecurityHeaders(
+          new Response(renderErrorPage(), {
+            status: 500,
+            headers: { "content-type": "text/html; charset=utf-8" },
+          }),
+          url,
+        ),
+        request,
       );
     }
   },

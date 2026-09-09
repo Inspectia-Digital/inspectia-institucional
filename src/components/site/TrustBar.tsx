@@ -109,6 +109,16 @@ function LogoImg({ partner, eager = false }: { partner: Partner; eager?: boolean
          con la animación ya corriendo: el bucle deja de cerrar y los logos saltan. Son
          dieciséis archivos webp de menos de 100 kB en total. */
       loading={eager ? "eager" : "lazy"}
+      /* React 19 emite un <link rel="preload"> en el head por cada imagen `eager`, y sin
+         esto salían las dieciséis en prioridad alta, peleándole el ancho de banda a la
+         hoja de estilos, que sí bloquea el pintado: 18 preloads contados en el HTML de
+         producción el 9 de septiembre de 2026.
+
+         Con `fetchPriority="low"` React **no emite el preload**: comprobado sobre el
+         build, el head pasa de 18 a 2. La imagen se sigue pidiendo de entrada por la
+         etiqueta <img>, que es lo único que el carrusel necesita para no saltar; lo que
+         desaparece es la reserva de ancho de banda por delante del CSS. */
+      fetchPriority={eager ? "low" : undefined}
       decoding="async"
       /* Alto fijo y tope de ancho, las dos cosas.
          El alto solo no alcanza: `npm run images` recorta el margen de cada archivo, así

@@ -215,3 +215,64 @@ export function withSecurityHeaders(response: Response, url: URL): Response {
     headers,
   });
 }
+
+/* ---------------------------------------------------------------------------------------
+ * Compresión
+ * ------------------------------------------------------------------------------------ */
+
+/**
+ * Qué se comprime. Todo lo que sea texto y nada más: un webp o un woff2 ya vienen
+ * comprimidos y pasarlos por gzip sólo gasta CPU para dejarlos del mismo tamaño o peor.
+ */
+const COMPRESSIBLE = /^(?:text\/|application\/(?:json|javascript|xml|rss\+xml)|image\/svg\+xml)/;
+
+/**
+ * Comprime la respuesta con gzip.
+ *
+ * **Por qué existe.** El preset `node-server` de Nitro no comprime nada, y Cloud Run sin
+ * balanceador delante tampoco: medido en producción el 9 de septiembre de 2026, la home
+ * viajaba con 93 kB de HTML y 101 kB de CSS **en crudo**, con `content-encoding` ausente
+ * en las dos. Casi 200 kB de texto que con gzip son unos 25. En un móvil de gama media
+ * con red móvil eso es directamente el primer pintado: PageSpeed medía FCP, LCP y Speed
+ * Index los tres en el mismo valor, que es la forma que tiene "no se pinta nada hasta que
+ * termina de bajar el texto".
+ *
+ * Se envuelve la respuesta entera —no sólo el HTML— porque el manejador de archivos
+ * estáticos de Nitro corre *dentro* del entry, así que el CSS y el JavaScript pasan por
+ * acá también.
+ *
+ * **`CompressionStream` y no `node:zlib` a propósito:** el mismo `server.ts` se compila
+ * para Cloudflare Workers, donde `node:zlib` no existe. `CompressionStream` es estándar
+ * web y está en los dos. Cuesta el brotli —la especificación sólo define gzip y deflate—,
+ * y brotli sobre gzip son unos 3 kB más en esta página: no vale romper el otro destino.
+ * Los estáticos sí salen en brotli, precomprimidos en el build por `compressPublicAssets`,
+ * y esos llegan acá con `content-encoding` ya puesto y se dejan pasar intactos.
+ */
+export function withCompression(response: Response, request: Request): Response {
+  // Ya comprimida —un estático precomprimido del build—, sin cuerpo, o un código que por
+  // definición no lo lleva.
+  if (response.headers.has("content-encoding")) return response;
+  if (!response.body) return response;
+  if (response.status === 204 || response.status === 304) return response;
+
+  if (!/\bgzip\b/i.test(request.headers.get("accept-encoding") ?? "")) return response;
+  if (!COMPRESSIBLE.test(response.headers.get("content-type") ?? "")) return response;
+
+  const headers = new Headers(response.headers);
+  headers.set("content-encoding", "gzip");
+  // El largo declarado es el del cuerpo sin comprimir: dejarlo puesto hace que el cliente
+  // corte la lectura antes de tiempo y reciba la página a medias.
+  headers.delete("content-length");
+
+  // `Vary` sin duplicar: la misma URL responde distinto según lo que el cliente acepte, y
+  // un intermediario que no lo sepa le sirve gzip a quien no lo pidió.
+  const vary = headers.get("vary");
+  if (!vary) headers.set("vary", "accept-encoding");
+  else if (!/\baccept-encoding\b/i.test(vary)) headers.set("vary", `${vary}, accept-encoding`);
+
+  return new Response(response.body.pipeThrough(new CompressionStream("gzip")), {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
