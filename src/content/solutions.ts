@@ -378,7 +378,7 @@ export const USE_CASES: UseCase[] = [
     name: "Prevenir accidentes",
     pain: "Me entero del incidente por el parte del día siguiente",
     h1: "Cómo enterarte del riesgo antes del accidente",
-    seoTitle: "Cómo prevenir accidentes en planta con las cámaras que ya tenés",
+    seoTitle: "Prevenir accidentes en planta con tus cámaras",
     seoDescription:
       "Las cámaras de seguridad de la planta pueden avisar de un acceso a zona restringida o de la falta de protección en menos de 2 segundos, mientras está pasando.",
     lead: "Casi toda planta tiene cámaras y casi ninguna las usa para prevenir: se miran después, para entender qué pasó. El cambio es que avisen mientras está pasando.",

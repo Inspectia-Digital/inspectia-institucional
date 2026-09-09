@@ -10,7 +10,7 @@ import { pageHead } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { Icon } from "@/components/icons/Icon";
 
-const TITLE = "Marketplace de servicios para proyectos de planta · InspectIA";
+const TITLE = "Marketplace de servicios para plantas · InspectIA";
 const DESCRIPTION =
   "Cámaras y sensores, ERP, WMS, bots, financiamiento y analítica. Servicios de terceros que contratás con InspectIA, sin coordinar cinco proveedores.";
 

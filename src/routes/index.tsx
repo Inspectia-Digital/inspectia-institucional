@@ -17,7 +17,7 @@ import {
 import { faqJsonLd, organizationJsonLd, pageHead } from "@/lib/seo";
 import { Icon } from "@/components/icons/Icon";
 
-const TITLE = "Software de OEE, calidad e inventario para plantas · InspectIA";
+const TITLE = "Software de OEE, calidad e inventario industrial · InspectIA";
 const DESCRIPTION =
   "Ocho módulos sobre la operación que ya tenés: OEE, calidad, recepción, inventario y pedidos. De la reunión de arranque a producción, entre 1 y 10 días.";
 
