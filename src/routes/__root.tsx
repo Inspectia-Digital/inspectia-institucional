@@ -138,9 +138,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", type: "image/png", href: "/favicon-32.png", sizes: "32x32" },
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
     ],
-    // Vacío mientras no haya VITE_GTM_ID. El primero de los dos scripts es el
-    // consentimiento por defecto y tiene que ir antes del contenedor.
-    scripts: gtmHeadScripts(),
+    /* Acá NO van los scripts de GTM, y es a propósito.
+     *
+     * Estuvieron en `scripts:` de este `head` y se comprobó en producción el 9 de
+     * septiembre de 2026 que **el enrutador los vuelve a ejecutar en cada navegación
+     * interna**: dos navegaciones bastaban para que `gtm.js` y el `consent default` se
+     * empujaran tres veces al dataLayer y para que quedaran tres etiquetas del contenedor
+     * en el DOM. Lo grave no es el desperdicio sino el consentimiento: después de que
+     * alguien acepta, cada cambio de página volvía a empujar el estado por omisión
+     * —denegado— sobre una elección ya concedida.
+     *
+     * Ahora se inyectan en el `RootShell`, que se renderiza una sola vez y no participa
+     * del ciclo de vida del `head` por ruta. */
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -152,6 +161,14 @@ function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="es-AR">
       <head>
+        {/* Los dos scripts de medición, antes que nada y fuera del `head` por ruta.
+            El orden es el que importa: primero el consentimiento por omisión, que además
+            restaura la elección guardada, y recién después el contenedor. Al revés, las
+            etiquetas disparan con el valor por omisión de Google —concedido— antes de que
+            nadie haya elegido nada. */}
+        {gtmHeadScripts().map((s, i) => (
+          <script key={i} dangerouslySetInnerHTML={{ __html: s.children }} />
+        ))}
         <HeadContent />
       </head>
       <body>
