@@ -39,19 +39,19 @@ function readEnv(env: unknown, key: string): string | undefined {
 /**
  * Los formularios del sitio. El tipo decide el asunto y cómo se arma el cuerpo.
  *
- * Hoy queda uno solo: el de partners se fue cuando el programa pasó a ser de alta libre y
- * un formulario que promete "te escribimos nosotros" dejó de tener sentido. El campo
- * `form` se conserva igual —el endpoint sigue siendo por formulario y el día que entre
- * otro no cambia la forma del pedido—.
+ * El de partners se fue cuando el programa pasó a ser de alta libre y un formulario que
+ * promete "te escribimos nosotros" dejó de tener sentido. Quedan el de ROI y el de
+ * cotización del marketplace.
  */
 const schema = z.object({
-  form: z.enum(["roi"]),
+  form: z.enum(["roi", "cotizacion"]),
   nombre: z.string().trim().min(2).max(120),
   email: z.string().trim().email().max(255),
   telefono: z.string().trim().min(6).max(25),
-  /** La empresa de quien pide el informe. */
+  /** La empresa de quien pide. En los dos formularios es lo mismo. */
   contexto: z.string().trim().min(2).max(120),
-  /** Módulo y parámetros de la calculadora. Sólo el de ROI los manda. */
+  /** Lo propio de cada formulario: los parámetros de la calculadora, o la categoría del
+   *  marketplace y lo que la persona escribió que necesita. */
   detalle: z.array(z.string().max(200)).max(40).optional(),
   /**
    * Trampa para robots: un campo que la persona no ve y no completa nunca.
@@ -64,9 +64,15 @@ const schema = z.object({
   sitio: z.string().max(200).optional(),
 });
 
-const ASUNTO = { roi: "Pedido de informe de ROI" } as const;
+/* El asunto sale del formulario y el `contexto` lo completa: "Pedido de cotización ·
+ * Acme SA". La categoría del marketplace no va acá sino en la primera línea del cuerpo:
+ * en la bandeja lo que ordena es de qué empresa vino, y la categoría se lee al abrir. */
+const ASUNTO = {
+  roi: "Pedido de informe de ROI",
+  cotizacion: "Pedido de cotización",
+} as const;
 
-const ETIQUETA_CONTEXTO = { roi: "Empresa" } as const;
+const ETIQUETA_CONTEXTO = { roi: "Empresa", cotizacion: "Empresa" } as const;
 
 export async function handleLeadPost(request: Request, env: unknown): Promise<Response> {
   if (request.method !== "POST") {

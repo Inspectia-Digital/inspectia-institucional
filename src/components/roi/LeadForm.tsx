@@ -8,6 +8,7 @@ import { CONTACT_EMAIL } from "@/lib/mailto";
 import { submitLead, type LeadResult } from "@/lib/submit-lead";
 import { cn } from "@/lib/utils";
 import { Icon } from "@/components/icons/Icon";
+import { Field, INPUT } from "@/components/site/FormField";
 
 /**
  * Lo único del ROI que pide datos (§7.7).
@@ -166,27 +167,5 @@ export function LeadForm({ module, outcome }: { module: string; outcome: RoiOutc
         </button>
       </form>
     </div>
-  );
-}
-
-// Sin placeholder como etiqueta: al escribir desaparece y el campo queda sin nombre.
-const INPUT =
-  "h-[52px] w-full rounded-[var(--radius-md)] border border-line-strong bg-surface px-3.5 text-[15px] text-ink outline-none focus:border-line-brand";
-
-function Field({
-  label,
-  error,
-  children,
-}: {
-  label: string;
-  error?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <label className="block min-w-0">
-      <span className="mb-1.5 block text-[13px] font-medium text-ink-secondary">{label}</span>
-      {children}
-      {error && <span className="mt-1.5 block text-[13px] text-[var(--status-stop)]">{error}</span>}
-    </label>
   );
 }

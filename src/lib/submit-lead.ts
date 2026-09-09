@@ -18,16 +18,17 @@ import { mailField, openMailDraft } from "@/lib/mailto";
  * vino a sacar del sitio.
  */
 
-export type LeadForm = "roi";
+export type LeadForm = "roi" | "cotizacion";
 
 export type LeadPayload = {
   form: LeadForm;
   nombre: string;
   email: string;
   telefono: string;
-  /** La empresa de quien pide el informe. */
+  /** La empresa de quien pide. En los dos formularios es lo mismo. */
   contexto: string;
-  /** Módulo y parámetros de la calculadora. Sólo el de ROI. */
+  /** Lo propio de cada formulario: los parámetros de la calculadora, o la categoría del
+   *  marketplace y lo que la persona escribió que necesita. */
   detalle?: string[];
 };
 
@@ -37,15 +38,22 @@ export type LeadResult = "enviado" | "correo-abierto";
 const RESPALDO = {
   roi: (l: LeadPayload) => ({
     asunto: `Informe de ROI · ${l.contexto}`,
-    lineas: [
-      mailField("Nombre", l.nombre),
-      mailField("Empresa", l.contexto),
-      mailField("Correo", l.email),
-      mailField("Teléfono", l.telefono),
-      ...(l.detalle?.length ? ["", ...l.detalle] : []),
-    ],
+    lineas: datos(l),
+  }),
+  cotizacion: (l: LeadPayload) => ({
+    asunto: `Cotización · ${l.contexto}`,
+    lineas: datos(l),
   }),
 } satisfies Record<LeadForm, (l: LeadPayload) => { asunto: string; lineas: string[] }>;
+
+/** El cuerpo es el mismo en los dos: lo que cambia es el asunto y qué trae `detalle`. */
+const datos = (l: LeadPayload) => [
+  mailField("Nombre", l.nombre),
+  mailField("Empresa", l.contexto),
+  mailField("Correo", l.email),
+  mailField("Teléfono", l.telefono),
+  ...(l.detalle?.length ? ["", ...l.detalle] : []),
+];
 
 export async function submitLead(lead: LeadPayload): Promise<LeadResult> {
   try {
