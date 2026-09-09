@@ -5,7 +5,7 @@ import { PageHero } from "@/components/site/PageHero";
 import { MARKETPLACE_CATEGORIES } from "@/content/marketplace";
 import { MODULES } from "@/content/modules";
 import { DEMO_URL } from "@/content/site";
-import { QuoteDialog } from "@/components/marketplace/QuoteDialog";
+import { MarketplaceDialog } from "@/components/marketplace/MarketplaceDialog";
 import { pushEvent } from "@/lib/analytics";
 import { pageHead } from "@/lib/seo";
 import { cn } from "@/lib/utils";
@@ -123,7 +123,19 @@ function Page() {
                     </p>
                   )}
 
-                  <QuoteDialog category={c.name} categoryKey={c.key} />
+                  <MarketplaceDialog
+                    direccion="demanda"
+                    categoria={{ nombre: c.name, key: c.key }}
+                    descripcion={c.name}
+                  >
+                    <button
+                      type="button"
+                      className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
+                    >
+                      Pedir una cotización
+                      <Icon name="arrow-right" />
+                    </button>
+                  </MarketplaceDialog>
                 </li>
               );
             })}
@@ -174,21 +186,20 @@ function Page() {
             para PyMEs industriales, en el marketplace estás frente a plantas que ya están haciendo
             el proyecto. Contanos qué ofrecés.
           </p>
-          <a
-            href={DEMO_URL}
-            target="_blank"
-            rel="noopener noreferrer nofollow"
-            onClick={() =>
-              pushEvent("marketplace_lead", {
-                service: "alta de proveedor",
-                category: "oferta",
-                direction: "oferta",
-              })
-            }
-            className="mt-8 inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] border border-line-brand bg-action-soft px-8 text-[15px] font-semibold text-action-soft-text transition-colors duration-[160ms] hover:bg-teal-100 active:translate-y-px"
+          {/* Decía "Escribinos" y abría el calendario de Google, que es exactamente lo
+              contrario de lo que promete. Quien quiere ofrecer un servicio quiere contar
+              qué hace, no reservar media hora antes de saber si hay interés. */}
+          <MarketplaceDialog
+            direccion="oferta"
+            descripcion="Contanos qué ofrecés y a qué plantas llegás."
           >
-            Escribinos
-          </a>
+            <button
+              type="button"
+              className="mt-8 inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] border border-line-brand bg-action-soft px-8 text-[15px] font-semibold text-action-soft-text transition-colors duration-[160ms] hover:bg-teal-100 active:translate-y-px"
+            >
+              Escribinos
+            </button>
+          </MarketplaceDialog>
         </div>
       </section>
 

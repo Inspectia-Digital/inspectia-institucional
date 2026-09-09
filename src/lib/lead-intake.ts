@@ -40,11 +40,11 @@ function readEnv(env: unknown, key: string): string | undefined {
  * Los formularios del sitio. El tipo decide el asunto y cómo se arma el cuerpo.
  *
  * El de partners se fue cuando el programa pasó a ser de alta libre y un formulario que
- * promete "te escribimos nosotros" dejó de tener sentido. Quedan el de ROI y el de
- * cotización del marketplace.
+ * promete "te escribimos nosotros" dejó de tener sentido. Quedan el de ROI y los dos lados
+ * del marketplace: quien pide un presupuesto y quien ofrece un servicio.
  */
 const schema = z.object({
-  form: z.enum(["roi", "cotizacion"]),
+  form: z.enum(["roi", "cotizacion", "proveedor"]),
   nombre: z.string().trim().min(2).max(120),
   email: z.string().trim().email().max(255),
   telefono: z.string().trim().min(6).max(25),
@@ -70,9 +70,14 @@ const schema = z.object({
 const ASUNTO = {
   roi: "Pedido de informe de ROI",
   cotizacion: "Pedido de cotización",
+  proveedor: "Alta de proveedor en el marketplace",
 } as const;
 
-const ETIQUETA_CONTEXTO = { roi: "Empresa", cotizacion: "Empresa" } as const;
+const ETIQUETA_CONTEXTO = {
+  roi: "Empresa",
+  cotizacion: "Empresa",
+  proveedor: "Empresa",
+} as const;
 
 export async function handleLeadPost(request: Request, env: unknown): Promise<Response> {
   if (request.method !== "POST") {
