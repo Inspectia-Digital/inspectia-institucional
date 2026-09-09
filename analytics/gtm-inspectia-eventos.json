@@ -394,7 +394,7 @@
               {
                 "type": "TEMPLATE",
                 "key": "arg1",
-                "value": "^(demo_scheduled_click|signup_start|roi_report_download|partner_apply|roi_calculate|module_view|floorplan_module_open|solution_view|pricing_plan_click|marketplace_lead|whatsapp_click|newsletter_signup)$"
+                "value": "^(demo_scheduled_click|signup_start|roi_report_download|partner_signup_start|roi_calculate|module_view|floorplan_module_open|solution_view|pricing_plan_click|marketplace_lead|whatsapp_click|newsletter_signup)$"
               }
             ]
           }

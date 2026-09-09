@@ -19,7 +19,27 @@ export const GTM_ID = import.meta.env.VITE_GTM_ID as string | undefined;
  * Va **antes** del script del contenedor, y ese orden no es un detalle de estilo: si el
  * contenedor carga primero, las etiquetas disparan con el consentimiento por defecto de
  * Google —que es "concedido"— y para cuando el banner aparece ya se mandó el primer hit.
+ *
+ * **Y la elección guardada se restaura en este mismo script, no más tarde.** Esto lo
+ * corrige una auditoría del 9 de septiembre de 2026 y era una pérdida de datos real: la
+ * preferencia se leía en un `useEffect` del banner, o sea después de descargar React,
+ * hidratar y montar. Para alguien que ya había aceptado, la secuencia era denegar en el
+ * head, arrancar GTM, y recién entonces conceder — así que **el primer hit de cada visita
+ * repetida se procesaba como denegado aunque la persona hubiera aceptado**. Se subcontaba
+ * justo a quien vuelve.
+ *
+ * Leerlo acá es síncrono y ocurre antes de que el contenedor exista, así que GTM arranca
+ * con el estado correcto. El `try` es porque en navegación privada estricta el acceso a
+ * `localStorage` no devuelve vacío: lanza.
  */
+/**
+ * Dónde se guarda la elección. **Lo consume el script del head y también el banner**, y
+ * por eso vive acá y no dentro del componente: son dos lugares que tienen que leer la
+ * misma clave, y si una cambia sin la otra el consentimiento deja de restaurarse sin que
+ * falle nada visible.
+ */
+export const CONSENT_STORAGE_KEY = "inspectia.consent";
+
 const CONSENT_DEFAULTS = `
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
@@ -32,6 +52,16 @@ gtag('consent','default',{
   security_storage:'granted',
   wait_for_update: 500
 });
+try {
+  if (localStorage.getItem('${CONSENT_STORAGE_KEY}') === 'granted') {
+    gtag('consent','update',{
+      ad_storage:'granted',
+      ad_user_data:'granted',
+      ad_personalization:'granted',
+      analytics_storage:'granted'
+    });
+  }
+} catch (e) {}
 `.trim();
 
 const containerScript = (id: string) =>

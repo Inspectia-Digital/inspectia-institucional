@@ -13,8 +13,9 @@
     "format": "prettier --write .",
     "images": "node scripts/optimize-images.mjs",
     "sitemap": "node scripts/generate-sitemap.mjs",
-    "prebuild": "npm run sitemap",
-    "icons": "node src/components/icons/build-icons.mjs"
+    "prebuild": "npm run check:events && npm run sitemap",
+    "icons": "node src/components/icons/build-icons.mjs",
+    "check:events": "node scripts/check-events.mjs"
   },
   "dependencies": {
     "@fontsource-variable/jetbrains-mono": "^5.3.0",

@@ -24,7 +24,18 @@ type ConversionEvents = {
     payback_months: number | null;
     is_consultant: boolean;
   };
-  partner_apply: { specialty: string; source_page: string };
+  /**
+   * Clic en «Crear mi cuenta de partner», que abre el alta con el perfil sugerido.
+   *
+   * Reemplaza a `partner_apply`, que nombraba una postulación con especialidad. Ese
+   * formulario se fue cuando el programa pasó a alta libre, y el evento quedó declarado
+   * sin nadie que lo emitiera: la conversión de partners iba a quedarse en cero para
+   * siempre y los informes iban a decir que el canal no convierte.
+   *
+   * **Es una microconversión y el nombre lo dice.** Acá el sitio sabe que alguien apretó,
+   * no que la cuenta se creó: eso pasa en la aplicación y lo mide el backend.
+   */
+  partner_signup_start: { source_page: string };
 };
 
 type EngagementEvents = {
@@ -38,7 +49,11 @@ type EngagementEvents = {
   pricing_plan_click: { plan: string; addons_selected: string[]; price_shown: number };
   marketplace_lead: { service: string; category: string; direction: string };
   whatsapp_click: { source_page: string };
-  content_read: { cluster: string; slug: string };
+  /* content_read se retiró el 9/9/2026. Estaba declarado, no lo emitía nadie, y encima
+     no figuraba en la expresión del disparador de GTM -- o sea que aunque alguien lo
+     hubiera emitido, GA4 no lo habría recibido y no habría fallado nada visible. El hub
+     de recursos que lo produciría está detrás de SHOW_RESOURCES, apagado. Cuando ese hub
+     se publique, el evento vuelve acá Y a la expresión de GTM, en el mismo movimiento. */
   newsletter_signup: { source_page: string };
 };
 

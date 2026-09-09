@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { GTM_ID, updateConsent, type ConsentChoice } from "@/lib/gtm";
+import { CONSENT_STORAGE_KEY, GTM_ID, updateConsent, type ConsentChoice } from "@/lib/gtm";
 
 /**
  * Banner de cookies con Consent Mode v2, desde el día uno (§8).
@@ -17,7 +17,10 @@ import { GTM_ID, updateConsent, type ConsentChoice } from "@/lib/gtm";
  * vez de nombrar una negación.
  */
 
-const STORAGE_KEY = "inspectia.consent";
+/* La clave vive en lib/gtm porque el script del head también la lee, para restaurar el
+   consentimiento antes de que arranque el contenedor. Duplicarla acá era una bomba de
+   tiempo: cambiar una y no la otra rompe la restauración sin que falle nada visible. */
+const STORAGE_KEY = CONSENT_STORAGE_KEY;
 
 export function CookieBanner() {
   const [visible, setVisible] = useState(false);
@@ -25,9 +28,18 @@ export function CookieBanner() {
   useEffect(() => {
     // Sin contenedor configurado no hay nada que consentir, así que no se muestra nada.
     if (!GTM_ID) return;
-    const stored = localStorage.getItem(STORAGE_KEY) as ConsentChoice | null;
-    if (stored) updateConsent(stored);
-    else setVisible(true);
+    /* El script del head ya restauró la concesión antes de cargar GTM, así que acá no
+       hay que volver a aplicarla: alcanza con decidir si el banner se muestra. Se
+       reaplica igual cuando lo guardado es "denied", que es barato y deja el estado
+       explícito aunque el head no haya podido leer el almacenamiento. */
+    let stored: ConsentChoice | null = null;
+    try {
+      stored = localStorage.getItem(STORAGE_KEY) as ConsentChoice | null;
+    } catch {
+      // Navegación privada estricta: no se puede leer. Se pregunta de nuevo.
+    }
+    if (stored === "denied") updateConsent("denied");
+    if (!stored) setVisible(true);
   }, []);
 
   if (!visible) return null;

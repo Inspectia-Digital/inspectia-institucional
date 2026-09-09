@@ -8,6 +8,7 @@ import {
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { DEMO_URL, PARTNER_SIGNUP_URL } from "@/content/site";
+import { pushEvent, sourcePage } from "@/lib/analytics";
 import { breadcrumbJsonLd, faqJsonLd, pageHead } from "@/lib/seo";
 import { Icon } from "@/components/icons/Icon";
 
@@ -122,6 +123,12 @@ const FAQ = [
   },
 ];
 
+/* Los tres botones que abren el alta de partner comparten el mismo evento. Antes la
+   página emitía `partner_apply` desde el formulario de postulación; con el formulario
+   fuera, el camino de partners quedó sin medición y la conversión del canal iba a
+   quedarse en cero sin que nadie lo notara. */
+const medirAlta = () => pushEvent("partner_signup_start", { source_page: sourcePage() });
+
 const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1100px]:py-[var(--section-pad)]";
 const CONTAINER = "mx-auto max-w-[var(--content-max)]";
 const H2 = "text-[28px] leading-tight text-ink md:text-[var(--text-section)]";
@@ -139,6 +146,7 @@ function Page() {
           <a
             href={PARTNER_SIGNUP_URL}
             rel="nofollow"
+            onClick={medirAlta}
             className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] bg-white px-8 text-[15px] font-semibold text-brand-deep transition-colors duration-[160ms] hover:bg-teal-050 active:translate-y-px"
           >
             Crear mi cuenta de partner
@@ -240,6 +248,7 @@ function Page() {
             <a
               href={PARTNER_SIGNUP_URL}
               rel="nofollow"
+              onClick={medirAlta}
               className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] bg-action px-8 text-[15px] font-semibold text-white transition-colors duration-[160ms] hover:bg-action-hover active:translate-y-px"
             >
               Crear mi cuenta de partner
@@ -285,6 +294,7 @@ function Page() {
             <a
               href={PARTNER_SIGNUP_URL}
               rel="nofollow"
+              onClick={medirAlta}
               className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] bg-white px-8 text-[15px] font-semibold text-brand-deep transition-colors duration-[160ms] hover:bg-teal-050 active:translate-y-px"
             >
               Crear mi cuenta de partner
