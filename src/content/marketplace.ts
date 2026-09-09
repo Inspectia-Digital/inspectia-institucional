@@ -35,7 +35,6 @@ export const MARKETPLACE_CATEGORIES: MarketplaceCategory[] = [
     combinesWith: ["control-de-calidad", "tymeo", "camaras-inteligentes"],
     providers: [
       { name: "Balluff", logo: PARTNER_LOGO.balluff },
-      { name: "Tecnología BI", logo: PARTNER_LOGO["tecnologia-bi"] },
       // Teksis entra por la parte de "instalación en piso de planta" de esta categoría:
       // integra cámaras IP y la red que las sostiene, que es el trabajo que el cliente no
       // quiere contratar por separado.
@@ -78,8 +77,6 @@ export const MARKETPLACE_CATEGORIES: MarketplaceCategory[] = [
     combinesWith: ["tymeo", "control-de-calidad", "stock-en-posiciones"],
     providers: [
       { name: "Quantit Data", logo: PARTNER_LOGO.quantit },
-      // También en "hardware": provee el equipamiento y además los tableros sobre el dato
-      // que ese equipamiento genera. Estar en dos categorías es correcto, no un duplicado.
       { name: "Tecnología BI", logo: PARTNER_LOGO["tecnologia-bi"] },
     ],
   },
