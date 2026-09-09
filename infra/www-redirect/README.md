@@ -32,7 +32,7 @@ vuelve a apuntar acá, y no cuesta nada.
 | Proyecto | `institucional-485213` |
 | Región | `us-central1` |
 | Servicio | `www-redirect` |
-| Imagen | `us-central1-docker.pkg.dev/institucional-485213/cloud-run-source-deploy/www-redirect` |
+| Imagen | `us-central1-docker.pkg.dev/institucional-485213/cloud-run-source-deploy/www-redirect` (hoy `:v2`) |
 | DNS | `www` CNAME → `ghs.googlehosted.com.` (el mismo de antes; no hubo que tocarlo) |
 
 ## Cómo se redespliega
@@ -50,6 +50,13 @@ gcloud run deploy www-redirect --image $IMG --project institucional-485213 --reg
 **`gcloud run deploy --source` no funciona en este proyecto:** la cuenta de servicio por
 omisión de Compute no tiene permiso de lectura sobre el bucket de fuentes. Por eso se
 construye local y se sube la imagen.
+
+**Ojo con `keepAliveTimeout`:** están puestos a mano en `server.mjs` y no son adorno. Con
+los valores por omisión de Node —5 segundos— **una de cada veinte peticiones a `www` moría
+con la conexión cortada**, medido en producción: el frontend de Google reusa una conexión
+del pozo justo cuando Node la está cerrando por inactividad. Con los plazos por encima de
+los del frontend, 40 de 40 limpias. Si alguien los saca, el fallo vuelve y no deja rastro
+en ningún registro.
 
 **El acceso público va por `--no-invoker-iam-check`, no por `allUsers`:** una política de
 organización bloquea `allUsers` en las asignaciones de IAM. Es la misma configuración que

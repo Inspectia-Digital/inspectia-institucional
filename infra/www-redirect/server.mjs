@@ -82,6 +82,24 @@ const server = createServer((req, res) => {
   res.end();
 });
 
+/* Las conexiones ociosas se cierran mucho después que las cierra el frontend, no antes.
+ *
+ * **Esto arregla un fallo medido, no es precaución.** Con los valores por omisión de Node
+ * —`keepAliveTimeout` de 5 segundos— una de cada veinte peticiones a `www` moría con la
+ * conexión cortada: establecía, y a los 0,2 s se caía. El sitio en el ápice, en la misma
+ * prueba, no fallaba ninguna.
+ *
+ * La causa es una carrera clásica detrás de un proxy: el frontend de Google mantiene un
+ * pozo de conexiones hacia el contenedor y reusa una justo en el instante en que Node la
+ * está cerrando por inactividad. El que pierde la carrera es el visitante, que recibe una
+ * conexión reseteada y ningún error que explique nada.
+ *
+ * Se arregla poniendo el plazo del lado del contenedor **por encima** del que usa el
+ * frontend, para que el que cierre sea siempre el frontend, que sabe no reusar lo que
+ * acaba de cerrar. `headersTimeout` va todavía más arriba porque Node exige que lo sea. */
+server.keepAliveTimeout = 620_000;
+server.headersTimeout = 630_000;
+
 // 0.0.0.0 explícito: atado a localhost el contenedor arranca bien y no contesta una sola
 // petición, que es de los errores más difíciles de ver porque no falla, no responde.
 server.listen(PORT, "0.0.0.0", () => {
