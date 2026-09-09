@@ -51,6 +51,7 @@ export const PARTNERS: Partner[] = [
   partner("balluff", "Balluff", "marketplace"), // hardware y sensórica
   partner("tecnologia-bi", "Tecnología BI", "marketplace"), // hardware y sensórica
   partner("teksis", "Teksis", "marketplace"), // hardware e instalación
+  partner("bps", "BPS", "marketplace"), // ERP
   partner("cygnus", "Cygnus", "marketplace"), // WMS
   partner("quantit", "Quantit Data", "marketplace"), // datos y analítica
 
@@ -64,11 +65,12 @@ export const PARTNERS: Partner[] = [
   partner("emprelatam", "Emprelatam", "respaldo"),
   partner("arnx", "ARNx", "respaldo"),
 
-  // TODO(equipo): confirmar familia. BPS y Sitecno vienen de la fila única de la web
-  // anterior, donde clientes, partners y respaldos estaban mezclados, y el documento no
-  // los ubica en ninguna categoría. Con la fila de la home mostrando `todas` vuelven a
-  // verse, que es exactamente donde estaban antes; sigue faltando saber qué son.
-  partner("bps", "BPS", "sin-clasificar"),
+  // TODO(equipo): confirmar familia. Sitecno viene de la fila única de la web anterior,
+  // donde clientes, partners y respaldos estaban mezclados, y el documento no lo ubica en
+  // ninguna categoría. Con la fila de la home mostrando `todas` vuelve a verse, que es
+  // exactamente donde estaba antes; sigue faltando saber qué es.
+  //
+  // BPS salió de acá el 9 de septiembre de 2026: es proveedor de ERP del marketplace.
   partner("sitecno", "Sitecno", "sin-clasificar"),
 ];
 

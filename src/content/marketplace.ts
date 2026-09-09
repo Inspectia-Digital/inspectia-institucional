@@ -47,7 +47,7 @@ export const MARKETPLACE_CATEGORIES: MarketplaceCategory[] = [
     name: "ERP",
     solves: "Implementación del ERP y del enlace con la planta, para no recargar el dato a mano.",
     combinesWith: ["tymeo", "recepcion"],
-    providers: [],
+    providers: [{ name: "BPS", logo: PARTNER_LOGO.bps }],
   },
   {
     key: "wms",
@@ -76,6 +76,11 @@ export const MARKETPLACE_CATEGORIES: MarketplaceCategory[] = [
     name: "Datos y analítica",
     solves: "Tableros de gestión y BI sobre los datos que la plataforma genera.",
     combinesWith: ["tymeo", "control-de-calidad", "stock-en-posiciones"],
-    providers: [{ name: "Quantit Data", logo: PARTNER_LOGO.quantit }],
+    providers: [
+      { name: "Quantit Data", logo: PARTNER_LOGO.quantit },
+      // También en "hardware": provee el equipamiento y además los tableros sobre el dato
+      // que ese equipamiento genera. Estar en dos categorías es correcto, no un duplicado.
+      { name: "Tecnología BI", logo: PARTNER_LOGO["tecnologia-bi"] },
+    ],
   },
 ];
