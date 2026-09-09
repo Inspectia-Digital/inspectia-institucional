@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
+import { TrustBar } from "@/components/site/TrustBar";
 import { CONTACT } from "@/content/site";
-import { partnersByFamily } from "@/content/partners";
 import { breadcrumbJsonLd, pageHead } from "@/lib/seo";
 
 const TITLE = "Quiénes somos · InspectIA";
@@ -72,8 +72,6 @@ const LEAD =
   "mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary";
 
 function Page() {
-  const respaldos = partnersByFamily("respaldo");
-
   return (
     <SiteLayout>
       <PageHero
@@ -82,6 +80,20 @@ function Page() {
         lead="La mayoría de los que hacen software industrial no pisan una fábrica, y la mayoría de los que instalan en fábricas no hacen software. Nosotros hacemos las dos cosas, y eso es lo que permite que un proyecto tarde semanas en lugar de años."
         cta={false}
       />
+
+      {/* Un respaldo se muestra, no se explica: el título y los logos, sin texto de
+          acompañamiento.
+
+          **Va arriba y centrado, no al final.** Estaba como quinta sección, alineado a la
+          izquierda y al 60 % de opacidad: quien entra a "Nosotros" para decidir si somos
+          una empresa seria tenía que leer cuatro secciones antes de encontrar la única
+          prueba que no es palabra nuestra. Centrado y arriba, es lo primero que se ve
+          después del encabezado.
+
+          Sigue en su propia banda, lejos de cualquier logo de cliente: mezclados se
+          debilitan los dos. Se apoya en el fondo hundido para entrar en la alternancia,
+          porque la sección que sigue es clara. */}
+      <TrustBar family="respaldo" tone="sunken" title="Respaldos y programas" />
 
       {/* Un párrafo y nada más: sin cronología de fundación. */}
       <section className={`bg-surface ${SECTION}`}>
@@ -132,30 +144,6 @@ function Page() {
           </p>
         </div>
       </section>
-
-      {/* Un respaldo se muestra, no se explica: el H2 y los logos, sin texto de
-          acompañamiento. Y en su propia sección, lejos de los logos de cliente: mezclados
-          se debilitan los dos. */}
-      {respaldos.length > 0 && (
-        <section className={`bg-surface-sunken ${SECTION}`}>
-          <div className={CONTAINER}>
-            <h2 className={H2}>Respaldos y programas</h2>
-            <ul className="mt-10 flex flex-wrap items-center gap-x-14 gap-y-8">
-              {respaldos.map((p) => (
-                <li key={p.slug} className="min-w-0">
-                  <img
-                    src={p.logo}
-                    alt={p.name}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-8 w-auto opacity-60 grayscale md:h-10"
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      )}
 
       {/* Prensa y premios no existe: una sección con dos notas de medios locales resta.
           Entra cuando haya material confirmado, como lista de medio, año y enlace. */}
