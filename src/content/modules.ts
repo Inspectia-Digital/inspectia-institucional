@@ -460,7 +460,21 @@ export const MODULES: PlatformModule[] = [
     summary:
       "Un dron recorre las posiciones altas y las cámaras de frío, y avisa dónde no coincide. Nadie tiene que subir a un rack a mirar.",
     needs: "Un dron y lugar para que despegue. No necesita GPS.",
-    proof: { value: "USD 200", caption: "por mes y cliente final" },
+    /* Sin número, a propósito y con urgencia.
+     *
+     * Acá había "USD 200 · por mes y cliente final" y **el precio estaba mal**. Se sacó el
+     * 9 de septiembre de 2026 apenas se detectó, en producción.
+     *
+     * Dos cosas que dejó el episodio. La primera: un precio equivocado publicado no es un
+     * dato desactualizado, es una oferta que alguien puede reclamar, así que se borra
+     * antes de averiguar cuál era el correcto. La segunda: éste era el **único** `proof`
+     * del sitio que publicaba un precio; los otros cinco son datos operativos —días de
+     * implementación, tipos de falla, segundos de alarma—. El comentario de TYMEO ya
+     * decía que un precio no es una prueba y que su lugar es la sección de planes. Este
+     * quedó afuera de esa limpieza.
+     *
+     * Cuando el equipo confirme el precio, va a planes, no acá. */
+    proof: null,
     icon: "drone",
     slug: "sobrestock-drones",
     hotspot: { left: "57.6%", top: "13.8%", side: "bottom", align: "center" },
@@ -473,7 +487,10 @@ export const MODULES: PlatformModule[] = [
     // "inventario con drones", no "Indrone": nadie busca la marca.
     seoTitle: "Inventario con drones, sin subir a nadie",
     seoDescription:
-      "Un dron recorre las posiciones altas y las cámaras de frío y avisa dónde no coincide. Los hallazgos entran a tu WMS por API. Desde USD 200 por mes.",
+      // Terminaba en "Desde USD 200 por mes." y ese precio estaba mal. Una meta
+      // description se publica en los resultados de Google, así que el número equivocado
+      // no sólo estaba en la página: estaba en la búsqueda.
+      "Un dron recorre las posiciones altas y las cámaras de frío y avisa dónde no coincide. Los hallazgos entran a tu WMS por API, sin cortar la operación.",
     doesTitle: "El punto ciego del depósito deja de ser ciego",
     faqTitle: "Preguntas sobre inventario con drones",
     // Sin modelo propio: el enlace del hero va a la calculadora sin módulo.
