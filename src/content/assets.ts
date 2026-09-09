@@ -61,7 +61,8 @@ export type PartnerSlug =
   | "quantit"
   | "sitecno"
   | "springwall"
-  | "tecnologia-bi";
+  | "tecnologia-bi"
+  | "teksis";
 
 /** Logo de cada organización. El nombre visible y a qué familia pertenece viven en
  *  `partners.ts`: §11.10 pide que clientes, proveedores, integraciones y respaldos
@@ -83,4 +84,5 @@ export const PARTNER_LOGO: Record<PartnerSlug, string> = {
   sitecno: "/img/partners/sitecno.webp",
   springwall: "/img/partners/springwall.webp",
   "tecnologia-bi": "/img/partners/tecnologia-bi.webp",
+  teksis: "/img/partners/teksis.webp",
 };

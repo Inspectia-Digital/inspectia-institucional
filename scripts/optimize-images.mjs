@@ -38,6 +38,7 @@ const LOGOS = {
   "sitecno_sa_logo.jpeg": "sitecno",
   "springwall.png": "springwall",
   "tecnologia-bi.png": "tecnologia-bi",
+  "teksis_logo.png": "teksis",
 };
 
 // Los logos se muestran a 48px de alto como máximo; 192 cubre pantallas 4x.

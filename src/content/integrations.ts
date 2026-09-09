@@ -39,18 +39,19 @@ export const INTEGRATION_GROUPS: IntegrationGroup[] = [
     key: "plc",
     title: "PLC y sensórica",
     note: "De donde sale el dato de la máquina, y por donde vuelve la orden de descartar una pieza.",
-    items: [
-      { name: "Siemens" },
-      { name: "Allen-Bradley" },
-      { name: "Balluff", logo: PARTNER_LOGO.balluff },
-    ],
+    items: [{ name: "Siemens" }, { name: "Allen-Bradley" }],
   },
   {
     key: "camaras",
     title: "Cámaras",
     note: "Las que ya están instaladas en la planta. No hace falta cambiarlas para empezar a usarlas.",
-    // TODO(equipo): qué marcas y protocolos están soportados. Poner ONVIF, RTSP o marcas
-    // concretas es una afirmación técnica y la define ingeniería, no la web.
-    items: [],
+    // TODO(equipo): faltan los protocolos. Poner ONVIF o RTSP es una afirmación técnica y
+    // la define ingeniería, no la web; las marcas de acá abajo sí están confirmadas.
+    items: [
+      // Balluff estaba en PLC y sensórica. Va acá: lo que aporta al producto es su línea
+      // de visión, no la sensórica discreta.
+      { name: "Balluff", logo: PARTNER_LOGO.balluff },
+      { name: "Teksis", logo: PARTNER_LOGO.teksis },
+    ],
   },
 ];
