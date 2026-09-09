@@ -50,6 +50,7 @@ export const PARTNERS: Partner[] = [
   // Servicios del marketplace, según la tabla de categorías de §7.4.
   partner("balluff", "Balluff", "marketplace"), // hardware y sensórica
   partner("tecnologia-bi", "Tecnología BI", "marketplace"), // hardware y sensórica
+  partner("teksis", "Teksis", "marketplace"), // hardware e instalación
   partner("cygnus", "Cygnus", "marketplace"), // WMS
   partner("quantit", "Quantit Data", "marketplace"), // datos y analítica
 

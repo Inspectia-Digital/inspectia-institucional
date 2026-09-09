@@ -36,6 +36,10 @@ export const MARKETPLACE_CATEGORIES: MarketplaceCategory[] = [
     providers: [
       { name: "Balluff", logo: PARTNER_LOGO.balluff },
       { name: "Tecnología BI", logo: PARTNER_LOGO["tecnologia-bi"] },
+      // Teksis entra por la parte de "instalación en piso de planta" de esta categoría:
+      // integra cámaras IP y la red que las sostiene, que es el trabajo que el cliente no
+      // quiere contratar por separado.
+      { name: "Teksis", logo: PARTNER_LOGO.teksis },
     ],
   },
   {
