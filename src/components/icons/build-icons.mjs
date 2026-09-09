@@ -29,7 +29,16 @@ if (missing.length > 0) {
   process.exit(1);
 }
 
-const used = [...new Set(spec.lexicon.map((e) => pascal(e.lucide)))].sort();
+/* Se importan por nombre TODOS los glifos aprobados, no sólo los del léxico.
+ *
+ * Antes entraban sólo los del léxico y `Icon.tsx` resolvía el resto contra el mapa
+ * `icons` de lucide-react. Ese mapa es el barril completo de la librería: arrastraba
+ * 1689 módulos y dejaba el chunk compartido del sitio en 659 kB, cargado en cada página.
+ * Medido con PageSpeed el 9 de septiembre de 2026: 342 kB de JavaScript sin usar, 2,9 s
+ * de ejecución y 38 de rendimiento en móvil.
+ *
+ * Con el mapa estático el bundler puede podar: entran los aprobados y nada más. */
+const used = [...new Set(glyphs.map(pascal))].sort();
 
 const out = `/**
  * InspectIA — léxico de iconos.
@@ -56,6 +65,16 @@ ${glyphs.map((g) => `  "${g}",`).join("\n")}
 ] as const;
 
 export type AllowedIcon = (typeof ALLOWED_ICONS)[number];
+
+/**
+ * Nombre aprobado de Lucide → componente, resuelto en tiempo de compilación.
+ *
+ * Existe para que \`Icon\` no importe el mapa \`icons\` de lucide-react, que es la librería
+ * entera. Generado: no se edita a mano.
+ */
+export const GLYPH = {
+${glyphs.map((g) => `  "${g}": ${pascal(g)},`).join("\n")}
+} satisfies Record<AllowedIcon, LucideIcon>;
 
 /** Cuatro tamaños y ninguno más. No se acepta un número arbitrario, a propósito. */
 export const ICON_SIZE = {

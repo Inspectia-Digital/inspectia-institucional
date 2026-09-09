@@ -1,7 +1,8 @@
 import * as React from "react";
-import { icons, type LucideProps } from "lucide-react";
+import { type LucideProps } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
+  GLYPH,
   ICON,
   ICON_SIZE,
   ICON_STROKE,
@@ -23,10 +24,14 @@ type Props = Omit<LucideProps, "size" | "strokeWidth" | "name"> & {
  * No acepta un tamaño arbitrario ni un color propio: eso es intencional.
  */
 export function Icon({ name, size = "ui", className, ...rest }: Props) {
+  /* Primero el léxico —concepto de negocio— y si no, el glifo aprobado por su nombre.
+   *
+   * Los dos mapas son estáticos y generados. La segunda búsqueda usaba `icons` de
+   * lucide-react, que es el barril completo: por cuatro glifos que caen fuera del léxico
+   * —flecha, chevron, pin y menú— entraban 1689 módulos al bundle compartido de todas
+   * las páginas. Si esto vuelve a `icons`, vuelve el medio mega. */
   const fromLexicon = (ICON as Record<string, React.ComponentType<LucideProps>>)[name];
-  const Glyph =
-    fromLexicon ??
-    icons[name.replace(/(^|-)([a-z0-9])/g, (_, __, c) => c.toUpperCase()) as keyof typeof icons];
+  const Glyph = fromLexicon ?? (GLYPH as Record<string, React.ComponentType<LucideProps>>)[name];
 
   if (!Glyph) {
     if (import.meta.env.DEV) console.warn(`[Icon] "${name}" no está en el set aprobado.`);
