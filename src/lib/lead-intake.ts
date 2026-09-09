@@ -126,8 +126,26 @@ export async function handleLeadPost(request: Request, env: unknown): Promise<Re
     });
 
     if (!res.ok) {
-      // El cuerpo de Brevo puede traer datos del lead; se registra sólo el código.
-      console.error(`Brevo rechazó el envío del formulario: ${res.status}`);
+      /* Se registra el estado y el `code` que devuelve Brevo, y nada más.
+       *
+       * El cuerpo completo puede traer datos del lead y no tiene por qué quedar en los
+       * registros. Pero el `code` no: es una cadena de catálogo —`unauthorized`,
+       * `invalid_parameter`, `not_enough_credits`— y es la diferencia entre saber qué
+       * pasó y adivinar. Sin él, un 502 no distingue una clave equivocada de un remitente
+       * sin verificar, y las dos se ven igual desde afuera: el formulario cae al mailto.
+       *
+       * Las dos causas más comunes, para el que lea esto con un 502 en la mano:
+       * la clave cargada es la **SMTP** y esta API pide la de **API** (`xkeysib-…`), o
+       * la restricción por IP está activa para las claves de API y Cloud Run sale por
+       * una dirección que no está en la lista. */
+      let codigo = "sin código";
+      try {
+        const cuerpo = (await res.json()) as { code?: string };
+        if (cuerpo?.code) codigo = cuerpo.code;
+      } catch {
+        // Brevo no siempre contesta JSON en los errores de infraestructura.
+      }
+      console.error(`Brevo rechazó el envío del formulario: ${res.status} · ${codigo}`);
       return json({ error: "send_failed", fallback: "mailto" }, 502);
     }
   } catch (error) {
