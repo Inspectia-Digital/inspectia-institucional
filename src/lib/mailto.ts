@@ -26,6 +26,20 @@ const NL = "\r\n";
 export const CONTACT_EMAIL = CONTACT.email ?? "contacto@inspectia.ai";
 
 /**
+ * El `mailto:` armado, para ponerlo en el `href` de un enlace.
+ *
+ * Existe aparte de `openMailDraft` porque hay dos casos distintos: un formulario que se
+ * envía —y ahí el correo se abre por código, después de validar— y un enlace que la
+ * persona ve antes de tocar. En el enlace el `href` tiene que estar escrito en el HTML: es
+ * lo que permite copiar la dirección con el botón derecho, o abrirla donde uno quiera, y
+ * es lo que hace que se vea a dónde lleva antes de hacer clic.
+ */
+export function mailDraftHref(subject: string, lines: string[] = []): string {
+  const cuerpo = lines.length > 0 ? `&body=${encodeURIComponent(lines.join(NL))}` : "";
+  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}${cuerpo}`;
+}
+
+/**
  * Abre el cliente de correo con el asunto y el cuerpo ya escritos.
  *
  * Devuelve false si no hay ventana —renderizado en el servidor—, para que quien llame no
@@ -34,14 +48,9 @@ export const CONTACT_EMAIL = CONTACT.email ?? "contacto@inspectia.ai";
 export function openMailDraft(subject: string, lines: string[]): boolean {
   if (typeof window === "undefined") return false;
 
-  const url =
-    `mailto:${CONTACT_EMAIL}` +
-    `?subject=${encodeURIComponent(subject)}` +
-    `&body=${encodeURIComponent(lines.join(NL))}`;
-
   // `location.href` y no `window.open`: un `mailto:` abierto en pestaña nueva deja una
   // ventana en blanco colgada cuando el sistema sí tiene cliente de correo.
-  window.location.href = url;
+  window.location.href = mailDraftHref(subject, lines);
   return true;
 }
 

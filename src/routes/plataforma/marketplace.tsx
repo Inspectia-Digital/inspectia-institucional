@@ -5,6 +5,7 @@ import { PageHero } from "@/components/site/PageHero";
 import { MARKETPLACE_CATEGORIES } from "@/content/marketplace";
 import { MODULES } from "@/content/modules";
 import { DEMO_URL } from "@/content/site";
+import { mailDraftHref, mailField } from "@/lib/mailto";
 import { pushEvent } from "@/lib/analytics";
 import { pageHead } from "@/lib/seo";
 import { cn } from "@/lib/utils";
@@ -122,10 +123,25 @@ function Page() {
                     </p>
                   )}
 
+                  {/* Correo y no la agenda.
+                   *
+                   * Pedir un presupuesto y agendar una demo son dos intenciones distintas:
+                   * quien quiere una cotización de sensores ya sabe qué necesita y busca un
+                   * precio, y encontrarse con un calendario le pide media hora que no quería
+                   * dar. El asunto y la categoría van escritos, así que del otro lado se sabe
+                   * de qué se está hablando sin tener que preguntarlo.
+                   *
+                   * Sin `target="_blank"`: un `mailto:` en pestaña nueva deja una ventana en
+                   * blanco colgada cuando el sistema sí tiene cliente de correo. */}
                   <a
-                    href={DEMO_URL}
-                    target="_blank"
-                    rel="noopener noreferrer nofollow"
+                    href={mailDraftHref(`Cotización · ${c.name}`, [
+                      mailField("Categoría", c.name),
+                      "",
+                      "Contanos qué necesitás y te armamos el presupuesto.",
+                      "",
+                      mailField("Empresa", ""),
+                      mailField("Qué necesitás", ""),
+                    ])}
                     onClick={() =>
                       pushEvent("marketplace_lead", {
                         service: c.name,
