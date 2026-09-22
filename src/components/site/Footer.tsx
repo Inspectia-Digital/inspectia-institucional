@@ -10,6 +10,7 @@ import {
   OFFICES,
   SHOW_PRICING,
   officeLine,
+  telHref,
 } from "@/content/site";
 import { pushEvent, sourcePage } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
@@ -66,7 +67,7 @@ export function Footer() {
             {(CONTACT.phone || CONTACT.email || CONTACT.linkedin) && (
               <ul className="mt-6 space-y-3">
                 {CONTACT.phone && (
-                  <ContactRow name="phone" href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}>
+                  <ContactRow name="phone" href={telHref(CONTACT.phone)}>
                     {CONTACT.phone}
                   </ContactRow>
                 )}

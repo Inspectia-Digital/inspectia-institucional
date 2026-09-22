@@ -78,15 +78,18 @@ export const APP_URL = "https://app.inspectia.ai/ingresar";
 /**
  * WhatsApp. Va como enlace de texto debajo del par de botones en la banda de cierre.
  *
- * El número lleva un **9 que el teléfono de `CONTACT` no tiene**, y no es una errata: es
- * la misma línea, y WhatsApp exige ese 9 después del 54 para los móviles argentinos. Sin
- * él el enlace abre una conversación con un número que no existe. Que no lo "corrija"
- * nadie por hacerlo coincidir con el teléfono de arriba.
+ * **Es la misma línea que el teléfono de `CONTACT`**, sin separadores y con el 9 que
+ * WhatsApp exige después del 54 para los móviles argentinos. Sin ese 9 el enlace abre una
+ * conversación con un número que no existe.
+ *
+ * Si el teléfono cambia, este número cambia con él: son el mismo aparato. Hasta el
+ * 2026-09-22 el de `CONTACT` se publicaba sin el 9 y éste con él, y el comentario tenía
+ * que aclarar que la diferencia no era una errata. Ahora los dos lo llevan.
  *
  * `wa.me` es el formato corto oficial, y sin mensaje previo: un texto puesto por nosotros
  * en el campo de quien escribe es presuntuoso y lo primero que la persona borra.
  */
-export const WHATSAPP_URL: string | null = "https://wa.me/5491134693537";
+export const WHATSAPP_URL: string | null = "https://wa.me/5491178187497";
 
 /**
  * Contacto del pie. §11.12 pide enlaces reales y no texto plano, así que lo que es null
@@ -141,12 +144,24 @@ export const officeLine = (o: Office) =>
 export const CONTACT = {
   /** Confirmados por la cláusula 15 de los términos y condiciones, que es el documento
    *  donde legal los publicó. Antes de eso los dos eran null y el pie iba sin contacto. */
-  phone: "+54 11 3469 3537" as string | null,
+  phone: "+54 9 11 7818-7497" as string | null,
   email: "contacto@inspectia.ai" as string | null,
   /** La página de empresa, tomada del pie del WordPress que sirve inspectia.ai hoy: es la
    *  que la propia empresa venía publicando, no una que haya que adivinar. */
   linkedin: "https://www.linkedin.com/company/inspectia-ai/" as string | null,
 };
+
+/**
+ * El `tel:` a partir del número que se muestra.
+ *
+ * Estaba escrito a mano en el pie y en /contacto, los dos sacando **sólo los espacios**.
+ * Eso alcanzaba mientras el número se publicara como "+54 11 3469 3537"; con el formato
+ * actual —que lleva un guion— dejaba el guion adentro del `tel:`. Es válido según la
+ * RFC 3966, pero depender de qué separadores tenga el número visible es frágil: acá se
+ * saca todo lo que no sea un dígito o el `+`, y el enlace no depende más de cómo se
+ * escriba el número de arriba.
+ */
+export const telHref = (phone: string) => `tel:${phone.replace(/[^\d+]/g, "")}`;
 
 /**
  * A dónde va el alta al newsletter.

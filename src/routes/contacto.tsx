@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
-import { CONTACT, OFFICES, officeLine } from "@/content/site";
+import { CONTACT, OFFICES, officeLine, telHref } from "@/content/site";
 import { breadcrumbJsonLd, pageHead } from "@/lib/seo";
 import { Icon } from "@/components/icons/Icon";
 import type { IconConcept } from "@/components/icons/inspectia-icons";
@@ -66,7 +66,7 @@ function Page() {
                   name="phone"
                   label="Teléfono"
                   value={CONTACT.phone}
-                  href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}
+                  href={telHref(CONTACT.phone)}
                 />
               )}
               {CONTACT.email && (

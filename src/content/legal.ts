@@ -157,7 +157,7 @@ export const TERMS_CLAUSES: LegalClause[] = [
       "Estos TyC se rigen por las leyes de la República Argentina. Toda controversia que no pueda resolverse amigablemente será sometida a los tribunales ordinarios competentes de la Ciudad de Buenos Aires, con renuncia expresa a cualquier otro fuero o jurisdicción.",
       "Por consultas sobre estos TyC o sobre cualquier servicio contratado, el Cliente puede comunicarse a:",
       "Correo electrónico: contacto@inspectia.ai",
-      "Teléfono: +54 11 3469 3537",
+      "Teléfono: +54 9 11 7818-7497",
     ],
   },
 ];
