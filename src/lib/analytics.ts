@@ -48,6 +48,9 @@ type EngagementEvents = {
   solution_view: { industry?: string; use_case?: string };
   pricing_plan_click: { plan: string; addons_selected: string[]; price_shown: number };
   marketplace_lead: { service: string; category: string; direction: string };
+  /** Pedido de diagnóstico desde /ia. Se dispara al enviar, no al abrir el formulario:
+   *  un formulario abierto es intención, uno enviado es un lead. */
+  ia_diagnostic_request: { source_page: string; industry: string };
   whatsapp_click: { source_page: string };
   /* content_read se retiró el 9/9/2026. Estaba declarado, no lo emitía nadie, y encima
      no figuraba en la expresión del disparador de GTM -- o sea que aunque alguien lo

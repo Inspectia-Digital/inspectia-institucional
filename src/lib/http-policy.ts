@@ -39,6 +39,17 @@ const LEGACY_REDIRECTS: Record<string, string> = {
   "/plataforma/tymeo": "/plataforma/produccion",
   "/plataforma/control-de-calidad": "/plataforma/calidad",
   "/plataforma/stock-en-posiciones": "/plataforma/stock",
+
+  /* Las cinco que se mudaron a /ia, octubre de 2026.
+   *
+   * No son un renombre: lo que hacen necesita un modelo mirando cada unidad, salió del
+   * precio de lista y pasó a cotizarse. La página está, con el mismo contenido, bajo otra
+   * sección del sitio. */
+  "/plataforma/recepcion": "/ia/recepcion",
+  "/plataforma/control-de-pedidos": "/ia/control-de-pedidos",
+  "/plataforma/sobrestock-drones": "/ia/inventario-con-drones",
+  "/plataforma/camaras-inteligentes": "/ia/camaras-inteligentes",
+  "/plataforma/agente": "/ia/agentes",
   "/calculadora-roi": "/roi",
   "/autopartista": "/soluciones/autopartista",
   "/alimentos-y-bebidas": "/soluciones/alimentos",

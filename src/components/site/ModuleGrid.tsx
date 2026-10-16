@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { PLATFORM_MODULES, type PlatformModule } from "@/content/modules";
+import { MODULES, type PlatformModule } from "@/content/modules";
 import { cn } from "@/lib/utils";
 import { Icon } from "@/components/icons/Icon";
 
@@ -14,7 +14,7 @@ import { Icon } from "@/components/icons/Icon";
  * visitante entienda que hay una plataforma.
  */
 export function ModuleGrid({
-  modules = PLATFORM_MODULES,
+  modules = MODULES,
   className,
 }: {
   modules?: PlatformModule[];

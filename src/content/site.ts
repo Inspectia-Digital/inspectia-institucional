@@ -181,7 +181,7 @@ export const NEWSLETTER_ENDPOINT: string | null = null;
  * publicado la promesa de transparencia se rompe sola. La sección se construye y queda
  * fuera del aire; mientras tanto la entrada comercial es el plan gratuito.
  */
-export const SHOW_PRICING = false;
+export const SHOW_PRICING = true;
 
 /**
  * La sección de seguridad y datos de /plataforma.

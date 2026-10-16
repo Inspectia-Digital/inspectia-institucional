@@ -18,6 +18,8 @@ const { MODULES } = await import("../src/content/modules.ts");
 const { INDUSTRIES, USE_CASES } = await import("../src/content/solutions.ts");
 const { SHOW_PRICING, SHOW_RESOURCES, SITE_URL } = await import("../src/content/site.ts");
 const { approvedCases } = await import("../src/content/cases.ts");
+const { IA_APPLICATIONS } = await import("../src/content/ia.ts");
+const { KITS } = await import("../src/content/kit40.ts");
 
 /** prioridad: qué tan cerca de la compra está la página, no cuánto nos gusta. */
 const urls = [
@@ -50,6 +52,21 @@ const urls = [
     : []),
   { loc: "/simulador", priority: "0.8", changefreq: "monthly" },
   { loc: "/roi", priority: "0.9", changefreq: "monthly" },
+
+  // IA y Kit 4.0 salen de sus módulos de contenido: una aplicación o un kit nuevo entra
+  // al mapa del sitio sin que nadie se acuerde de agregarlo acá.
+  { loc: "/ia", priority: "0.9", changefreq: "monthly" },
+  ...IA_APPLICATIONS.filter((a) => a.hasPage).map((a) => ({
+    loc: `/ia/${a.id}`,
+    priority: "0.7",
+    changefreq: "monthly",
+  })),
+  { loc: "/kit-4-0", priority: "0.9", changefreq: "monthly" },
+  ...KITS.map((k) => ({
+    loc: `/kit-4-0/${k.slug}`,
+    priority: "0.7",
+    changefreq: "monthly",
+  })),
   { loc: "/partners", priority: "0.7", changefreq: "monthly" },
   { loc: "/contacto", priority: "0.6", changefreq: "yearly" },
   { loc: "/nosotros", priority: "0.5", changefreq: "yearly" },

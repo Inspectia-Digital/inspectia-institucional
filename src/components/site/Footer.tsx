@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { LOCKUP } from "@/content/assets";
-import { MODULES, PLATFORM_MODULES } from "@/content/modules";
+import { MODULES } from "@/content/modules";
 import { INDUSTRIES, USE_CASES } from "@/content/solutions";
 import {
   APP_URL,
@@ -114,7 +114,7 @@ export function Footer() {
           <div className="min-w-0">
             <FooterHeading>Plataforma</FooterHeading>
             <ul className="mt-4 space-y-3">
-              {PLATFORM_MODULES.map((m) => (
+              {MODULES.map((m) => (
                 <li key={m.key} className="min-w-0">
                   <Link
                     to="/plataforma/$modulo"

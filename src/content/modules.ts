@@ -7,19 +7,16 @@ import type { IconConcept } from "@/components/icons/inspectia-icons";
  * páginas de módulo y la matriz de industria por módulo de /soluciones. Escribir el
  * catálogo en cinco archivos distintos es cómo terminan desincronizados.
  *
- * **Son siete módulos al frente y cinco páginas que siguen vivas detrás.** El catálogo
+ * **Son siete módulos.** El catálogo
  * comercial de septiembre de 2026 (`Comercial/Definiciones/05` y `06`) reemplazó los ocho
  * módulos anteriores por siete —Producción, Calidad, Stock, Trazabilidad, Tareas,
  * Mantenimiento, Energía— y sacó del precio de lista todo lo que necesita un modelo para
  * capturar el dato: inspección por visión, conteo por visión, drones, lectura de
  * documentos, predictivo. Eso no desaparece: pasa a cotizarse como proyecto.
  *
- * Mientras tanto, las cinco páginas de lo que salió del frente —drones, cámaras,
- * recepción, pedidos y agente— **siguen publicadas y siguen indexables**, con
- * `frontstage: false`. No están en el menú ni en la grilla ni en el plano. Se mudan a
- * `/ia/{aplicación}` con su 301 cuando esa sección exista, en una sola operación: dejarlas
- * ahora apuntando a un destino provisorio obligaría a cambiarles el 301 dos veces, y una
- * cadena de redirecciones sobre la misma URL diluye justo lo que la redirección conserva.
+ * Lo que salió del frente —drones, cámaras, recepción, pedidos y agente— vive en
+ * `IA_PAGE_SOURCES`, acá abajo, y se publica bajo `/ia/{aplicación}`. Su URL vieja de
+ * `/plataforma` redirige con un 301.
  *
  * Regla que atraviesa todo el sitio (§6): **la web describe la solución y nada más**.
  * No hay ni va a haber un campo de estado. Ningún módulo se marca como disponible, en
@@ -61,15 +58,7 @@ export type ModuleHotspot = {
 
 export type PlatformModule = {
   key: ModuleKey;
-  /**
-   * Si está en el catálogo que el sitio muestra.
-   *
-   * `false` no es "deshabilitado": la página existe, responde 200 y entra al sitemap. Lo
-   * único que cambia es que no aparece en el menú, en la grilla ni en el plano. Ver la
-   * nota de arriba sobre por qué estas cinco esperan acá en vez de redirigir ya.
-   */
-  frontstage: boolean;
-  /** 01–07 para los del frente, en mono. Los de atrás no llevan número. */
+  /** 01–07, con cero adelante, en mono. */
   number: string;
   name: string;
   /** La promesa de una línea. Tope de dos líneas en la card. */
@@ -163,7 +152,6 @@ export const MODULES: PlatformModule[] = [
      =================================================================================== */
   {
     key: "produccion",
-    frontstage: true,
     number: "01",
     name: "Producción",
     promise:
@@ -270,7 +258,6 @@ export const MODULES: PlatformModule[] = [
   },
   {
     key: "calidad",
-    frontstage: true,
     number: "02",
     name: "Calidad",
     /* La página se reescribió entera en octubre de 2026.
@@ -378,7 +365,6 @@ export const MODULES: PlatformModule[] = [
   },
   {
     key: "stock",
-    frontstage: true,
     number: "03",
     name: "Stock",
     /* Absorbe recepción y control de pedidos, que en el catálogo de septiembre de 2026
@@ -482,7 +468,6 @@ export const MODULES: PlatformModule[] = [
   },
   {
     key: "trazabilidad",
-    frontstage: true,
     number: "04",
     name: "Trazabilidad",
     promise:
@@ -554,7 +539,6 @@ export const MODULES: PlatformModule[] = [
   },
   {
     key: "tareas",
-    frontstage: true,
     number: "05",
     name: "Tareas",
     promise: "La tarea de planta con responsable, plazo y evidencia, en cualquier área.",
@@ -625,7 +609,6 @@ export const MODULES: PlatformModule[] = [
   },
   {
     key: "mantenimiento",
-    frontstage: true,
     number: "06",
     name: "Mantenimiento",
     promise: "El preventivo corre por horas reales de máquina, no por calendario.",
@@ -694,7 +677,6 @@ export const MODULES: PlatformModule[] = [
   },
   {
     key: "energia",
-    frontstage: true,
     number: "07",
     name: "Energía",
     promise: "Cuánta energía cuesta cada unidad producida, no cuánta gasta la planta.",
@@ -760,17 +742,24 @@ export const MODULES: PlatformModule[] = [
       },
     ],
   },
+];
 
-  /* ===================================================================================
-     Las cinco que salieron del frente
-     ...............................................................................
-     Siguen publicadas, siguen indexables y siguen respondiendo 200. No están en el menú,
-     ni en la grilla, ni en el plano. Su contenido queda tal como estaba: se reescribe
-     cuando se mudan a /ia, no antes, para no tocar dos veces el mismo texto.
-     =================================================================================== */
+/**
+ * Las páginas que se mudaron a /ia.
+ *
+ * Son las cinco que el catálogo de septiembre de 2026 sacó del precio de lista: lo que
+ * hacen necesita un modelo mirando cada unidad, y eso se cotiza. Su contenido no se
+ * reescribió al mudarse —es el mismo que estaba publicado— y conserva la forma de
+ * `PlatformModule` porque la plantilla de /ia/{aplicación} renderiza exactamente lo
+ * mismo: encabezado, problema, qué hace y preguntas.
+ *
+ * **No están en `MODULES` y no tienen que estarlo.** El menú, la grilla, el plano y la
+ * matriz de soluciones recorren `MODULES`, y éstas no son módulos: son aplicaciones de
+ * IA. `/plataforma/{slug}` redirige a `/ia/{id}` con un 301.
+ */
+export const IA_PAGE_SOURCES: PlatformModule[] = [
   {
     key: "recepcion",
-    frontstage: false,
     number: "",
     name: "Recepción de mercadería",
     promise: "La descarga y el control de lo que entra, medidos y sin planilla.",
@@ -856,7 +845,6 @@ export const MODULES: PlatformModule[] = [
   },
   {
     key: "control-de-pedidos",
-    frontstage: false,
     number: "",
     name: "Control de pedidos",
     promise: "Seguimiento del pedido desde el picking hasta el despacho.",
@@ -935,7 +923,6 @@ export const MODULES: PlatformModule[] = [
   },
   {
     key: "sobrestock-drones",
-    frontstage: false,
     number: "",
     name: "Sobrestock con drones",
     promise: "Inventario aéreo de posiciones altas y cámaras de frío, sin subir a nadie.",
@@ -1034,7 +1021,6 @@ export const MODULES: PlatformModule[] = [
   },
   {
     key: "camaras-inteligentes",
-    frontstage: false,
     number: "",
     name: "Cámaras inteligentes",
     promise:
@@ -1123,7 +1109,6 @@ export const MODULES: PlatformModule[] = [
   },
   {
     key: "agente",
-    frontstage: false,
     number: "",
     name: "Agente",
     promise: "Agentes de IA a medida sobre los datos de tu operación.",
@@ -1206,19 +1191,10 @@ export const MODULES: PlatformModule[] = [
   },
 ];
 
-/**
- * El catálogo que el sitio muestra: menú, grilla, plano y cualquier listado.
- *
- * `MODULES` sigue siendo todo lo que tiene página —lo necesitan el enrutador, el sitemap y
- * `MODULE_BY_KEY`—, así que un listado que recorra `MODULES` sin filtrar va a mostrar
- * también las cinco que salieron del frente. Para listar, esto.
- */
-export const PLATFORM_MODULES = MODULES.filter((m) => m.frontstage);
+export const MODULE_BY_KEY = new Map([...MODULES, ...IA_PAGE_SOURCES].map((m) => [m.key, m]));
 
-export const MODULE_BY_KEY = new Map(MODULES.map((m) => [m.key, m]));
-
-/** Los del frente que tienen punto ubicado sobre el plano. */
-export const PLOTTED_MODULES = PLATFORM_MODULES.filter(
+/** Los que tienen punto ubicado sobre el plano. */
+export const PLOTTED_MODULES = MODULES.filter(
   (m): m is PlatformModule & { hotspot: ModuleHotspot } => m.hotspot !== null,
 );
 

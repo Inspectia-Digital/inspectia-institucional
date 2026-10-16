@@ -1,14 +1,5 @@
-import { TYMEO_PLANS } from "@/content/pricing";
-import {
-  fmtMoney,
-  fmtMonths,
-  fmtNum,
-  fmtPct,
-  paybackMonths,
-  roiPct,
-  type RoiModel,
-  type RoiValues,
-} from "./types";
+import { priceOf } from "@/content/pricing";
+import { fmtMoney, fmtMonths, fmtNum, fmtPct, paybackMonths, roiPct, type RoiModel } from "./types";
 
 /**
  * TYMEO: cuánto vale cada punto de OEE.
@@ -18,11 +9,15 @@ import {
  * que tenga la línea. Una mejora de OEE es difícil de estimar de antemano, y mostrar un
  * solo escenario invita a discutir el supuesto en vez del negocio.
  *
- * **El costo sale del plan elegido y no de un slider.** Antes había un campo editable de
- * "costo mensual por línea" con 250 por defecto, mientras la página de planes y la home
- * publicaban USD 35 por planta y mes: dos cifras distintas, con dos unidades distintas, a
- * la vista en la misma página. Ahora el visitante elige plan y el modelo calcula el costo,
- * que además es un dato que no tiene por qué saber de memoria.
+ * **El costo sale del precio publicado y no de un slider.** Hubo un campo editable de
+ * "costo mensual por línea" con 250 por defecto mientras la web publicaba otra cifra con
+ * otra unidad, y después un selector de planes que ya no existe. Hoy el módulo cuesta lo
+ * que dice la grilla, por línea y por mes, y el modelo lo lee de ahí: una sola fuente.
+ *
+ * **El costo escala con las líneas, y eso cambió el modelo.** Con los planes viejos el
+ * abono era por planta, así que sumar líneas mejoraba el retorno hasta el límite del plan.
+ * Producción se cobra por línea: el ahorro y el costo crecen juntos, y el retorno deja de
+ * depender de cuántas líneas se midan. Es menos vistoso y es lo que cobramos.
  */
 
 /** Escenarios alrededor de lo que el usuario cargó: un cuarto, la mitad, lo cargado,
@@ -31,43 +26,16 @@ const MEJORA_FACTORS = [0.25, 0.5, 1, 2, 4];
 const VOLUMEN_FACTORS = [0.8, 0.9, 1, 1.1, 1.2];
 const CENTER = 2;
 
-/**
- * Los planes que se pueden calcular, con sus límites.
- *
- * El precio sale de `pricing.ts` para que no haya dos fuentes: si mañana cambia el precio
- * de Start, cambia acá solo. Los límites de líneas y plantas están en el texto de las
- * prestaciones de cada plan y no en un campo, así que se declaran acá con su origen.
- *
- * Free no entra: cuesta 0, y un retorno sobre inversión cero es una división por cero.
- * Enterprise tampoco: se cotiza, así que no tiene precio con el que calcular.
- */
-const PLANS = [
-  { id: "start", label: "Start", maxLineas: 3, maxPlantas: 1 },
-  { id: "pro", label: "Pro", maxLineas: Infinity, maxPlantas: 3 },
-].map((p) => {
-  const base = TYMEO_PLANS.find((x) => x.id === p.id)?.base;
-  if (typeof base !== "number") {
-    throw new Error(`El plan "${p.id}" no tiene precio en pricing.ts`);
-  }
-  return { ...p, base };
-});
-
-const START = PLANS[0];
-const PRO = PLANS[1];
-
-/** Qué plan corresponde a una cantidad de líneas. Nunca baja de plan por su cuenta: si el
- *  visitante eligió Pro con una línea, es su decisión. */
-const planForValues = (values: RoiValues) => {
-  const chosen = PLANS.find((p) => p.base === values.plan) ?? START;
-  if (values.lineas > chosen.maxLineas) {
-    return PLANS.find((p) => values.lineas <= p.maxLineas) ?? PRO;
-  }
-  return chosen;
-};
+/** El precio de lista del módulo, de `pricing.ts`, para que no haya dos fuentes. */
+const PRECIO_LINEA = (() => {
+  const p = priceOf("produccion");
+  if (!p) throw new Error("Producción no tiene precio en pricing.ts");
+  return p.usd;
+})();
 
 export const produccionModel: RoiModel = {
   module: "produccion",
-  label: "TYMEO · OEE",
+  label: "Producción · OEE",
   intro:
     "Cuánto vale cada punto de OEE en tu línea, y cómo cambia el retorno si el volumen se mueve.",
 
@@ -78,7 +46,7 @@ export const produccionModel: RoiModel = {
       min: 1,
       max: 20,
       unit: "líneas",
-      help: "El plan se paga por planta, así que sumar líneas mejora el retorno hasta el límite del plan.",
+      help: "Cada línea que medís suma su propio abono, así que el retorno no depende de cuántas midas.",
     },
     {
       key: "volumenMensual",
@@ -107,15 +75,6 @@ export const produccionModel: RoiModel = {
       primary: true,
     },
     {
-      key: "plan",
-      label: "Plan",
-      // min y max no se usan cuando hay opciones, pero mantienen el tipo del campo
-      // uniforme y el recorte de `applyChange` inofensivo.
-      min: START.base,
-      max: PRO.base,
-      options: PLANS.map((p) => ({ value: p.base, label: `${p.label} · USD ${p.base}/mes` })),
-    },
-    {
       key: "inversionInicial",
       label: "Instalación y hardware (una vez)",
       min: 0,
@@ -133,22 +92,15 @@ export const produccionModel: RoiModel = {
     volumenMensual: 9000,
     costoUnitario: 50,
     mejoraEsperada: 0.2,
-    plan: START.base,
     inversionInicial: 0,
   },
 
-  // Que el visitante mueva el slider de líneas y vea el precio acomodarse solo es
-  // exactamente lo que queremos que pase.
-  normalize: (v) => ({ ...v, plan: planForValues(v).base }),
-
   compute: (v) => {
-    const plan = planForValues(v);
-    const costoAnual = plan.base * 12;
+    // Por línea y por mes: el abono acompaña a la cantidad de líneas medidas.
+    const costoAnual = PRECIO_LINEA * v.lineas * 12;
     const mejoras = MEJORA_FACTORS.map((f) => v.mejoraEsperada * f);
     const volumenes = VOLUMEN_FACTORS.map((f) => Math.round(v.volumenMensual * f));
 
-    // El ahorro se multiplica por las líneas; el costo no, porque el plan es por planta.
-    // Es el punto que hace que el modelo cierre.
     const ahorroDe = (volumenMensual: number, mejora: number) =>
       v.lineas * volumenMensual * 12 * v.costoUnitario * (mejora / 100);
 
@@ -163,21 +115,14 @@ export const produccionModel: RoiModel = {
     const notes: string[] = [];
     if (v.lineas === 1) {
       notes.push(
-        "Con una línea podés medir gratis: el plan Free no tiene costo, así que todo lo que recuperes es ganancia. El cálculo de acá abajo aplica cuando automatizás la captura.",
+        "Una línea con carga manual es gratis para siempre, así que todo lo que recuperes ahí es ganancia. El cálculo de abajo toma el plan pago, que es el que deja conectar el PLC.",
       );
     }
-    // El aviso sale de la cantidad de líneas y no de comparar contra el plan elegido:
-    // `normalize` ya subió el plan antes de que esto corra, así que compararlos daría
-    // siempre igual y el aviso no aparecería nunca.
-    if (v.lineas > START.maxLineas) {
+    if (v.lineas > 1) {
       notes.push(
-        `Con ${fmtNum(v.lineas)} líneas necesitás el plan ${plan.label}. Recalculado con ${fmtMoney(plan.base)} por mes.`,
+        `Cada módulo que sumes descuenta 15 puntos sobre el total, hasta un 50 %. El cálculo no lo aplica: toma ${fmtMoney(PRECIO_LINEA)} por línea sin descuento.`,
       );
     }
-    // TODO(equipo): falta el aviso de Enterprise ("con más de 3 plantas se cotiza a
-    // medida"). No hay con qué dispararlo: el modelo tiene líneas y no plantas, y Pro no
-    // tiene tope de líneas. Hace falta un campo de plantas, o definir cuántas líneas
-    // implican una planta más.
 
     return {
       headline: {
@@ -190,7 +135,7 @@ export const produccionModel: RoiModel = {
         // cotización de hardware no cambiaba nada en pantalla.
         {
           value: fmtMonths(paybackMonths(v.inversionInicial + costoAnual, netoAnual)),
-          caption: "para recuperar el plan y la instalación",
+          caption: "para recuperar el abono y la instalación",
         },
       ],
       assumptions: [
@@ -200,8 +145,8 @@ export const produccionModel: RoiModel = {
           value: `${fmtNum(v.lineas * v.volumenMensual * 12)} u, en ${fmtNum(v.lineas)} ${v.lineas === 1 ? "línea" : "líneas"}`,
         },
         { label: "Mejora de OEE cargada", value: fmtPct(v.mejoraEsperada) },
-        { label: `Plan ${plan.label}`, value: `${fmtMoney(plan.base)} por planta y mes` },
-        { label: "Costo anual del plan", value: fmtMoney(costoAnual) },
+        { label: "Precio del módulo", value: `${fmtMoney(PRECIO_LINEA)} por línea y mes` },
+        { label: "Costo anual del abono", value: fmtMoney(costoAnual) },
         { label: "Instalación y hardware", value: fmtMoney(v.inversionInicial) },
       ],
       matrix: {

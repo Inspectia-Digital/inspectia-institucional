@@ -18,7 +18,7 @@ import { mailField, openMailDraft } from "@/lib/mailto";
  * vino a sacar del sitio.
  */
 
-export type LeadForm = "roi" | "cotizacion" | "proveedor";
+export type LeadForm = "roi" | "cotizacion" | "proveedor" | "diagnostico";
 
 export type LeadPayload = {
   form: LeadForm;
@@ -46,6 +46,10 @@ const RESPALDO = {
   }),
   proveedor: (l: LeadPayload) => ({
     asunto: `Alta de proveedor · ${l.contexto}`,
+    lineas: datos(l),
+  }),
+  diagnostico: (l: LeadPayload) => ({
+    asunto: `Diagnóstico de IA · ${l.contexto}`,
     lineas: datos(l),
   }),
 } satisfies Record<LeadForm, (l: LeadPayload) => { asunto: string; lineas: string[] }>;
