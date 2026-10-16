@@ -29,8 +29,8 @@ export const Route = createFileRoute("/kit-4-0/$kit")({
     const k = loaderData && KITS.find((x) => x.slug === loaderData.slug);
     if (!k) return {};
     return pageHead({
-      title: siteTitle(`Kit ${k.code}: ${k.name}`),
-      description: `${k.solves} Somos proveedores habilitados: armamos el proyecto con hasta un 50 % de descuento.`,
+      title: siteTitle(`Kit ${k.code}: ${k.short}`),
+      description: k.seoDescription,
       path: `/kit-4-0/${k.slug}`,
       jsonLd: breadcrumbJsonLd([
         { name: "Kit 4.0", path: "/kit-4-0" },

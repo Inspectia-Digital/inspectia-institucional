@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { MODULES } from "@/content/modules";
 import { CtaPair } from "@/components/site/CtaPair";
 
 /**
@@ -17,7 +18,7 @@ const STATS = [
   // El espacio antes del % es duro: sin él, "100" y "%" pueden partirse en dos líneas.
   { value: "100\u00A0%", label: "De la producción analizada, no una muestra" },
   // El plazo vive en nueve lugares del sitio —acá, la meta description de la home, el
-  // timeline de seis etapas, el selector de perfil, TYMEO y su FAQ, la tabla de planes—
+  // timeline de seis etapas, el selector de perfil, Producción y su FAQ, la tabla de planes—
   // y los nueve dicen lo mismo. Si cambia, cambian los nueve: `grep "1 a 10"`.
   { value: "1 a 10 días", label: "De implementación a producción" },
   // TODO(equipo): el dato aprobado para este lugar es el de abajo, pero le falta el
@@ -53,22 +54,33 @@ export function Hero() {
             className="mt-4 text-[length:var(--text-hero)] leading-[var(--leading-hero)] tracking-[var(--tracking-hero)] text-on-brand"
             style={{ textWrap: "balance" }}
           >
-            Toda tu operación en una sola plataforma
+            Medí y controlá toda la operación de tu planta
           </h1>
 
           <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-on-brand-secondary">
-            InspectIA mide y controla lo que pasa en tu planta y en tu depósito: eficiencia,
-            calidad, recepción, inventario y pedidos. Funciona con las máquinas y sistemas que ya
-            tenés. Empezás por un módulo y sumás los que necesites, cuando los necesites.
+            Ves lo que hoy se pierde entre planillas, entendés por qué pasa y ajustás antes de que
+            te cueste.
           </p>
 
-          {/* Entregado como "te contamos como podemos ayudarte": el "cómo" va con tilde,
-              que es lo único que se tocó. */}
-          <p className="mt-4 max-w-[var(--lead-max)] text-on-brand-secondary">
-            Empezá gratis hoy o agendá una llamada y te contamos cómo podemos ayudarte.
+          {/* Los siete nombres, y no una frase que los resuma: quien busca "software de
+              mantenimiento" necesita leer la palabra, no deducirla de "toda la operación". */}
+          <p className="mt-6 max-w-[var(--lead-max)] text-[15px] text-on-brand-secondary">
+            {MODULES.map((m) => m.name).join(" · ")}
           </p>
 
           <CtaPair surface="brand" className="mt-9 max-w-md" />
+
+          {/* El gancho de Kit 4.0, debajo de los botones y no como tercer botón. */}
+          <p className="mt-6 max-w-[var(--lead-max)] text-[15px] text-on-brand-secondary">
+            Somos proveedores de Kit 4.0:{" "}
+            <Link
+              to="/kit-4-0"
+              className="font-semibold text-on-brand underline underline-offset-4 decoration-[var(--accent-on-brand)] hover:decoration-2"
+            >
+              hasta un 50 % de descuento en tu proyecto
+            </Link>
+            .
+          </p>
 
           {/* Enlaces de texto: los únicos botones de la sección son los dos de arriba. */}
           <p className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-[15px]">
@@ -82,7 +94,7 @@ export function Hero() {
               to="/plataforma"
               className="text-on-brand-secondary underline-offset-4 transition-colors duration-[160ms] hover:text-on-brand hover:underline"
             >
-              Ver los ocho módulos
+              Ver los siete módulos
             </Link>
           </p>
         </div>

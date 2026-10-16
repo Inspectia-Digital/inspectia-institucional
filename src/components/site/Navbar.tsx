@@ -173,6 +173,18 @@ export function Navbar() {
               </Panel>
             </NavigationMenu.Item>
 
+            <NavigationMenu.Item className="static">
+              <NavigationMenu.Link asChild>
+                <TopLink to="/ia">IA</TopLink>
+              </NavigationMenu.Link>
+            </NavigationMenu.Item>
+
+            <NavigationMenu.Item className="static">
+              <NavigationMenu.Link asChild>
+                <TopLink to="/kit-4-0">Kit 4.0</TopLink>
+              </NavigationMenu.Link>
+            </NavigationMenu.Item>
+
             {SHOW_PRICING && (
               <NavigationMenu.Item className="static">
                 <NavigationMenu.Link asChild>
@@ -293,6 +305,16 @@ export function Navbar() {
               </Accordion>
 
               <ul className="mt-2">
+                <li>
+                  <MobileRow to="/ia" onNavigate={() => setMobileOpen(false)} strong>
+                    IA
+                  </MobileRow>
+                </li>
+                <li>
+                  <MobileRow to="/kit-4-0" onNavigate={() => setMobileOpen(false)} strong>
+                    Kit 4.0
+                  </MobileRow>
+                </li>
                 {SHOW_PRICING && (
                   <li>
                     <MobileRow to="/precios" onNavigate={() => setMobileOpen(false)} strong>

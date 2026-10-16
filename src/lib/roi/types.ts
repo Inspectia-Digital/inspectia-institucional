@@ -44,7 +44,7 @@ export type RoiFigure = {
   caption: string;
 };
 
-/** Matriz de sensibilidad. Sólo TYMEO la usa: ahí el resultado no es un número sino
+/** Matriz de sensibilidad. Sólo Producción la usa: ahí el resultado no es un número sino
  *  cómo se mueve el retorno según dos variables a la vez. */
 export type RoiMatrix = {
   rowLabel: string;

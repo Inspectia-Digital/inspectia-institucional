@@ -122,7 +122,7 @@ export function RoiCalculator({
   );
 }
 
-/** Cómo se mueve el retorno según dos variables a la vez. Sólo TYMEO la usa. */
+/** Cómo se mueve el retorno según dos variables a la vez. Sólo Producción la usa. */
 function SensitivityMatrix({ matrix }: { matrix: RoiMatrix }) {
   const tone = (roi: number) =>
     roi < 0 ? "text-[var(--status-stop)]" : roi < 100 ? "text-[var(--status-warn)]" : "text-ink";

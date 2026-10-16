@@ -9,7 +9,10 @@ import { CtaPair } from "@/components/site/CtaPair";
 import { ImplementationTimeline } from "@/components/site/ImplementationTimeline";
 import { RoiMini } from "@/components/roi/RoiMini";
 import { produccionModel } from "@/lib/roi/produccion";
+import { MODULE_BY_KEY, type ModuleKey } from "@/content/modules";
 import { Icon } from "@/components/icons/Icon";
+import { MODULE_PRICES } from "@/content/pricing";
+import { SHOW_PRICING } from "@/content/site";
 
 /** Bloques propios de la home. Los que se usan en más de una página viven en site/. */
 
@@ -21,23 +24,20 @@ const H2 = "text-[28px] leading-tight text-ink md:text-[var(--text-section)]";
 
 // Sin cifras de pérdida en esta sección, a propósito: el punto es que la planta todavía
 // no tiene el número, así que ponerle uno genérico contradice lo que dice el texto.
-const COSTS = [
+const COSTS: { title: string; body: string; modulo: ModuleKey }[] = [
   {
     title: "El defecto que se descubre tarde",
     body: "La pieza mala sigue en el proceso hasta que alguien la ve, y a veces la ve el cliente. Cuando el lote ya salió, lo que se discute es la penalización.",
-    link: "Lo resuelve: Control de calidad",
     modulo: "calidad",
   },
   {
     title: "La parada que nadie clasifica",
     body: "La línea se frena varias veces por turno y el motivo queda en la memoria del supervisor. Sin la causa anotada, la misma parada vuelve el mes que viene.",
-    link: "Lo resuelve: TYMEO",
     modulo: "produccion",
   },
   {
     title: "El inventario que no cuadra",
     body: "El sistema dice que está y en el rack no está. La diferencia se descubre contando, y contar significa parar el depósito un fin de semana.",
-    link: "Lo resuelve: Control de stock en posiciones",
     modulo: "stock",
   },
 ];
@@ -65,7 +65,7 @@ export function CostOfNotMeasuring() {
                 params={{ modulo: c.modulo }}
                 className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
               >
-                {c.link}
+                {`Lo resuelve: ${MODULE_BY_KEY.get(c.modulo)?.name ?? c.modulo}`}
                 <Icon name="arrow-right" />
               </Link>
             </li>
@@ -78,10 +78,28 @@ export function CostOfNotMeasuring() {
 
 /* ---------- 05 · Plan gratis y, después, la instalación ---------- */
 
-const FREE_PLAN = [
-  "Una planta y una línea, sin límite de tiempo.",
-  "Carga manual por formulario: no hace falta instalar nada.",
-  "Sin tarjeta.",
+/**
+ * Los tres niveles de captura (doc 06 §4).
+ *
+ * **Es la sección que explica el modelo de precios sin hablar de precios.** Los tres
+ * niveles en este orden —lo cargás vos, lo carga la máquina, lo detecta un modelo— son lo
+ * que hace entendible que haya una parte publicada y una parte que se cotiza. El punto que
+ * no puede faltar es el del medio: conectar la máquina **no cambia el precio**, y en el
+ * resto del mercado automatizar la captura siempre significa subir de plan.
+ */
+const CAPTURE_LEVELS = [
+  {
+    title: "Lo cargás vos",
+    body: "Un formulario en la tablet, el celular o la compu. Sin instalar nada. Es el plan gratuito.",
+  },
+  {
+    title: "Lo carga la máquina",
+    body: "Conectamos el PLC o el sensor que ya tenés, o uno nuevo y barato. Cuesta lo mismo que la carga manual: sólo se cotiza la integración, una vez.",
+  },
+  {
+    title: "Sumale IA",
+    body: "Visión artificial, modelos y agentes que detectan, cuentan y avisan solos. Se cotiza como proyecto, con hasta un 50 % de descuento con Kit 4.0.",
+  },
 ];
 
 export function StartFree() {
@@ -89,29 +107,44 @@ export function StartFree() {
     <section className={`bg-surface-sunken ${SECTION}`}>
       <div className={CONTAINER}>
         <p className="eyebrow">Cómo se empieza</p>
-        <h2 className={`mt-4 max-w-[24ch] ${H2}`}>
-          Empezá hoy mismo, gratis. La instalación viene después.
-        </h2>
-        <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
-          Creás la cuenta y ese mismo día estás cargando producción y viendo tu OEE, sin hardware,
-          sin visita y sin cotización. El proyecto de instalación entra recién cuando quieras que el
-          dato se capture solo.
-        </p>
+        <h2 className={`mt-4 max-w-[24ch] ${H2}`}>De la planilla a la IA, al ritmo de tu planta</h2>
 
-        <ul className="mt-8 space-y-2.5">
-          {FREE_PLAN.map((line) => (
-            <li
-              key={line}
-              className="flex gap-2.5 text-[15px] leading-[var(--leading-normal)] text-ink"
-            >
-              <span
-                aria-hidden
-                className="mt-2 size-1.5 shrink-0 rounded-full bg-[var(--action-primary)]"
-              />
-              <span className="min-w-0">{line}</span>
+        <ol className="mt-12 grid gap-8 min-[900px]:grid-cols-3">
+          {CAPTURE_LEVELS.map((n, i) => (
+            <li key={n.title} className="min-w-0">
+              <span className="metric text-sm font-semibold text-brand">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="mt-4 text-[length:var(--text-card)] leading-snug text-ink">
+                {n.title}
+              </h3>
+              <p className="mt-3 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
+                {n.body}
+              </p>
             </li>
           ))}
-        </ul>
+        </ol>
+
+        <p className="mt-10 max-w-[var(--read-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink">
+          Avanzás cuando el dato lo justifica, no antes.
+        </p>
+
+        <p className="mt-6 flex flex-wrap gap-x-8 gap-y-3">
+          <Link
+            to="/precios"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
+          >
+            Ver los precios
+            <Icon name="arrow-right" />
+          </Link>
+          <Link
+            to="/ia"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
+          >
+            Ver las aplicaciones de IA
+            <Icon name="arrow-right" />
+          </Link>
+        </p>
 
         <CtaPair className="mt-9 max-w-md" plan="free" />
 
@@ -128,6 +161,88 @@ export function StartFree() {
             <ImplementationTimeline />
           </div>
         </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- 06b · Banda de IA ---------- */
+
+export function IaBand() {
+  return (
+    <section className={`bg-brand-deep ${SECTION}`}>
+      <div className={CONTAINER}>
+        <h2 className="max-w-[20ch] text-[28px] leading-tight text-on-brand md:text-[var(--text-section)]">
+          Sumale IA a tu planta
+        </h2>
+        <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-on-brand-secondary">
+          Detectamos defectos con cámaras, contamos producción sin tocar la máquina y anticipamos
+          fallas antes de que paren la línea. Partimos de un problema que se puede medir.
+        </p>
+        <p className="mt-9">
+          <Link
+            to="/ia"
+            className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] bg-white px-8 text-[15px] font-semibold text-brand-deep transition-colors duration-[160ms] hover:bg-teal-050 active:translate-y-px"
+          >
+            Ver aplicaciones de IA
+          </Link>
+        </p>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- 06c · Banda de Kit 4.0 ---------- */
+
+export function Kit40Band() {
+  return (
+    <section className={`bg-surface ${SECTION}`}>
+      <div className={CONTAINER}>
+        <h2 className={`max-w-[28ch] ${H2}`}>
+          Hasta un 50 % de descuento en tu proyecto con Kit 4.0
+        </h2>
+        <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
+          Somos proveedores habilitados para todos los kits del programa. Te decimos cuál te
+          corresponde y, mientras sale el trámite, empezás gratis con una línea.
+        </p>
+        <p className="mt-9">
+          <Link
+            to="/kit-4-0"
+            className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] border border-line-brand bg-action-soft px-8 text-[15px] font-semibold text-action-soft-text transition-colors duration-[160ms] hover:bg-teal-100 active:translate-y-px"
+          >
+            Ver qué kit te corresponde
+          </Link>
+        </p>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- 11 · Precios, el resumen ---------- */
+
+export function PricingTeaser() {
+  if (!SHOW_PRICING) return null;
+  const desde = Math.min(...MODULE_PRICES.map((p) => p.usd));
+
+  return (
+    <section className={`bg-surface-sunken ${SECTION}`}>
+      <div className={CONTAINER}>
+        <p className="eyebrow">Precios</p>
+        <h2 className={`mt-4 max-w-[24ch] ${H2}`}>El precio está publicado, módulo por módulo</h2>
+        <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
+          Cada módulo arranca con un plan gratuito, sin tarjeta y sin vencimiento, y el pago va
+          desde USD {desde} por mes. Los usuarios son ilimitados y conectar las máquinas que ya
+          tenés no te sube de plan.
+        </p>
+        <p className="mt-9">
+          <Link
+            to="/precios"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
+          >
+            Ver la grilla completa
+            <Icon name="arrow-right" />
+          </Link>
+        </p>
       </div>
     </section>
   );
@@ -245,6 +360,14 @@ export function PartnersBand() {
  */
 export const HOME_FAQ = [
   {
+    q: "¿Qué es Kit 4.0 y cómo lo uso con InspectIA?",
+    a: "Es un programa nacional que te da hasta un 50 % de descuento en proyectos de tecnología para planta. Somos proveedores habilitados para todos los kits: te ayudamos a elegir el que corresponde y armamos el proyecto.",
+  },
+  {
+    q: "¿Necesito IA para empezar?",
+    a: "No. Empezás cargando a mano, gratis. La IA se suma cuando hay un problema concreto que la justifica, como detectar defectos o anticipar fallas.",
+  },
+  {
     q: "¿Funciona con mis máquinas, aunque no sean nuevas?",
     a: "Sí, y es el caso normal. No hace falta cambiar la maquinaria: el dato se puede tomar de un sensor agregado, de una cámara, del PLC si lo tiene, o cargarse a mano desde una terminal. Con lo que la planta ya tiene alcanza para empezar a medir.",
   },
@@ -304,7 +427,7 @@ export function Faq() {
  * Tres controles, un número grande y el enlace al cálculo completo. Sin formulario: acá
  * no se pide nada, y el resultado nunca aparece detrás de un velo.
  *
- * Arranca por TYMEO porque es el módulo con el que más gente entra; desde /roi se cambia
+ * Arranca por Producción porque es el módulo con el que más gente entra; desde /roi se cambia
  * a cualquier otro.
  */
 export function HomeRoi() {

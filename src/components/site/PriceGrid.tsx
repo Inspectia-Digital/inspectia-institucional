@@ -6,7 +6,7 @@ import { pushEvent, sourcePage } from "@/lib/analytics";
 /**
  * La grilla de precios por módulo.
  *
- * Reemplaza a `PlansGrid`, que mostraba los cuatro planes de TYMEO —Free, Start, Pro,
+ * Reemplaza a `PlansGrid`, que mostraba los cuatro planes del catálogo anterior —Free, Start, Pro,
  * Enterprise— con add-ons que se tildaban. Ese producto ya no existe: hoy el precio es por
  * módulo y por unidad de cobro, y el plan gratuito es un límite de cantidad dentro de cada
  * módulo.

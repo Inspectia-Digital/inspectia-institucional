@@ -100,7 +100,7 @@
     {
       "id": "metrics",
       "title": "Métricas, tiempos y calidad",
-      "note": "Todo lo que TYMEO mide. El orden de los gráficos es fijo: disponibilidad, rendimiento, calidad, OEE.",
+      "note": "Todo lo que mide el módulo de Producción. El orden de los gráficos es fijo: disponibilidad, rendimiento, calidad, OEE.",
       "items": [
         {
           "lucide": "gauge",

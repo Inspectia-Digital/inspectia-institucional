@@ -26,7 +26,7 @@ import { Icon } from "@/components/icons/Icon";
  *
  * Las secciones largas —el problema, qué hace, las preguntas— salen de campos opcionales
  * de `modules.ts`. Donde un módulo no los tenga, la sección no se renderiza y la página
- * sigue funcionando con los bloques básicos. Hoy sólo TYMEO los tiene.
+ * sigue funcionando con los bloques básicos.
  */
 export const Route = createFileRoute("/plataforma/$modulo")({
   loader: ({ params }) => {
@@ -44,7 +44,7 @@ export const Route = createFileRoute("/plataforma/$modulo")({
     ]);
 
     return pageHead({
-      // El nombre del módulo no es un término de búsqueda: nadie busca "TYMEO". Donde hay
+      // El nombre del módulo no siempre es un término de búsqueda. Donde hay
       // un término propio se usa ese, y el nombre queda de respaldo.
       title: siteTitle(m.seoTitle ?? m.name),
       description: m.seoDescription ?? m.promise,
@@ -398,7 +398,7 @@ function ModuleFaq({ title, items }: { title: string; items: { q: string; a: str
 /* ---------- 09 · Módulos relacionados ---------- */
 
 /**
- * Si el módulo se apoya en otros, se muestran esos. Si no —el caso de TYMEO, que no se
+ * Si el módulo se apoya en otros, se muestran esos. Si no —el caso de Producción, que no se
  * apoya en ninguno—, se muestran los que se apoyan en él.
  *
  * Sin la relación inversa, la página con más tráfico orgánico del sitio sería la única sin

@@ -6,7 +6,7 @@ import type { ModuleKey } from "./modules";
  * **Fuente: `Comercial/Definiciones/05`, con el texto de publicación del `06`.** Si una
  * cifra de acá no coincide con el 05, manda el 05.
  *
- * Reemplaza a los cuatro planes de TYMEO —Free, Start, Pro, Enterprise— que modelaban un
+ * Reemplaza a los cuatro planes del catálogo anterior —Free, Start, Pro, Enterprise— que modelaban un
  * producto que ya no existe: un solo módulo con niveles por cantidad de plantas. Hoy el
  * precio es por módulo y por unidad de cobro, y el plan gratuito es un límite de cantidad
  * dentro de cada módulo, no un plan aparte.

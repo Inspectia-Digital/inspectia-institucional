@@ -2,7 +2,7 @@ import { priceOf } from "@/content/pricing";
 import { fmtMoney, fmtMonths, fmtNum, fmtPct, paybackMonths, roiPct, type RoiModel } from "./types";
 
 /**
- * TYMEO: cuánto vale cada punto de OEE.
+ * Producción: cuánto vale cada punto de OEE.
  *
  * A diferencia de los otros tres, el resultado no es un número sino una matriz de
  * sensibilidad: cómo se mueve el retorno según la mejora de OEE que logres y el volumen

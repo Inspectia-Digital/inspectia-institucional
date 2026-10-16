@@ -190,7 +190,7 @@ export const MODULES: PlatformModule[] = [
     freeTier: "Una línea, con carga manual.",
 
     h1: "Sabé qué te frena la línea, turno por turno",
-    // Se reescribe la bajada: decía "TYMEO mide el OEE…". El módulo ahora se llama
+    // Se reescribió la bajada: el módulo se llamaba TYMEO y la bajada lo nombraba. Hoy se
     // Producción y el nombre viejo no queda en ninguna parte del sitio.
     lead: "Medí el OEE de cada línea en tiempo real —cuánto de su capacidad está usando realmente—, detectá cuándo se frenó y clasificá por qué. Con eso sabés qué máquina te cuesta plata, en qué turno y con qué producto. Empezás gratis cargando los datos a mano y automatizás la captura cuando quieras.",
     seoTitle: "Software de OEE y control de producción",
