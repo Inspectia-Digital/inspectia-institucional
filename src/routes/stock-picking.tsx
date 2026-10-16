@@ -6,7 +6,7 @@ export const Route = createFileRoute("/stock-picking")({
   beforeLoad: () => {
     throw redirect({
       to: "/plataforma/$modulo",
-      params: { modulo: "stock-en-posiciones" },
+      params: { modulo: "stock" },
       statusCode: 301,
     });
   },

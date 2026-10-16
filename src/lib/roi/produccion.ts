@@ -65,8 +65,8 @@ const planForValues = (values: RoiValues) => {
   return chosen;
 };
 
-export const tymeoModel: RoiModel = {
-  module: "tymeo",
+export const produccionModel: RoiModel = {
+  module: "produccion",
   label: "TYMEO · OEE",
   intro:
     "Cuánto vale cada punto de OEE en tu línea, y cómo cambia el retorno si el volumen se mueve.",

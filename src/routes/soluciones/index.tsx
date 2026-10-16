@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
-import { MODULES } from "@/content/modules";
+import { MODULES, PLATFORM_MODULES } from "@/content/modules";
 import { USE_CASES, publishedIndustries } from "@/content/solutions";
 import { pageHead } from "@/lib/seo";
 import { Icon } from "@/components/icons/Icon";
@@ -150,7 +150,7 @@ function CoverageMatrix() {
                 <th scope="col" className="w-56 pb-4 pr-4 text-sm font-medium text-ink-secondary">
                   Industria
                 </th>
-                {MODULES.map((m) => (
+                {PLATFORM_MODULES.map((m) => (
                   <th
                     key={m.key}
                     scope="col"
@@ -180,7 +180,7 @@ function CoverageMatrix() {
                       {i.name}
                     </Link>
                   </th>
-                  {MODULES.map((m) => (
+                  {PLATFORM_MODULES.map((m) => (
                     <td key={m.key} className="py-4 text-center">
                       {i.modules.includes(m.key) ? (
                         <>

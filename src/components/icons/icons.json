@@ -970,6 +970,26 @@
       "concept": "notIncluded",
       "lucide": "minus",
       "label": "No incluido en el plan"
+    },
+    {
+      "concept": "traceability",
+      "lucide": "route",
+      "label": "Trazabilidad"
+    },
+    {
+      "concept": "tasks",
+      "lucide": "list-checks",
+      "label": "Tareas"
+    },
+    {
+      "concept": "maintenance",
+      "lucide": "wrench",
+      "label": "Mantenimiento"
+    },
+    {
+      "concept": "energy",
+      "lucide": "zap",
+      "label": "Energía"
     }
   ],
   "gaps": [

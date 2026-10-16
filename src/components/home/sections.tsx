@@ -8,7 +8,7 @@ import {
 import { CtaPair } from "@/components/site/CtaPair";
 import { ImplementationTimeline } from "@/components/site/ImplementationTimeline";
 import { RoiMini } from "@/components/roi/RoiMini";
-import { tymeoModel } from "@/lib/roi/tymeo";
+import { produccionModel } from "@/lib/roi/produccion";
 import { Icon } from "@/components/icons/Icon";
 
 /** Bloques propios de la home. Los que se usan en más de una página viven en site/. */
@@ -26,19 +26,19 @@ const COSTS = [
     title: "El defecto que se descubre tarde",
     body: "La pieza mala sigue en el proceso hasta que alguien la ve, y a veces la ve el cliente. Cuando el lote ya salió, lo que se discute es la penalización.",
     link: "Lo resuelve: Control de calidad",
-    modulo: "control-de-calidad",
+    modulo: "calidad",
   },
   {
     title: "La parada que nadie clasifica",
     body: "La línea se frena varias veces por turno y el motivo queda en la memoria del supervisor. Sin la causa anotada, la misma parada vuelve el mes que viene.",
     link: "Lo resuelve: TYMEO",
-    modulo: "tymeo",
+    modulo: "produccion",
   },
   {
     title: "El inventario que no cuadra",
     body: "El sistema dice que está y en el rack no está. La diferencia se descubre contando, y contar significa parar el depósito un fin de semana.",
     link: "Lo resuelve: Control de stock en posiciones",
-    modulo: "stock-en-posiciones",
+    modulo: "stock",
   },
 ];
 
@@ -321,7 +321,7 @@ export function HomeRoi() {
         </p>
 
         <div className="mt-12">
-          <RoiMini model={tymeoModel} />
+          <RoiMini model={produccionModel} />
         </div>
 
         <p className="mt-8 max-w-[var(--lead-max)] text-[15px] leading-[var(--leading-normal)] text-ink-secondary">

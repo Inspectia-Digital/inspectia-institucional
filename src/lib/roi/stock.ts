@@ -9,7 +9,7 @@ const PRECISION_LOGRADA = 99.9;
  * coincida con lo que dice el sistema.
  */
 export const stockModel: RoiModel = {
-  module: "stock-en-posiciones",
+  module: "stock",
   label: "Control de stock",
   intro: "Cuánto rinde contar por posición desde el celular en vez de con planilla.",
 

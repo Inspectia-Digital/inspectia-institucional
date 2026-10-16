@@ -10,7 +10,7 @@ import {
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { CtaPair } from "@/components/site/CtaPair";
 import { LOCKUP } from "@/content/assets";
-import { MODULES } from "@/content/modules";
+import { MODULES, PLATFORM_MODULES } from "@/content/modules";
 import { INDUSTRIES, USE_CASES } from "@/content/solutions";
 import { approvedCases } from "@/content/cases";
 import { APP_URL, SHOW_PRICING } from "@/content/site";
@@ -95,7 +95,7 @@ export function Navbar() {
                       larga —la de control de calidad, 105 caracteres— entra en dos
                       líneas. */}
                   <ul className="col-span-3 grid grid-cols-2 gap-x-6 gap-y-1">
-                    {MODULES.map((m) => (
+                    {PLATFORM_MODULES.map((m) => (
                       <li key={m.key} className="min-w-0">
                         <NavigationMenu.Link asChild>
                           <Link
@@ -237,7 +237,7 @@ export function Navbar() {
                   </AccordionTrigger>
                   <AccordionContent>
                     <ul>
-                      {MODULES.map((m) => (
+                      {PLATFORM_MODULES.map((m) => (
                         <li key={m.key}>
                           <Link
                             to="/plataforma/$modulo"

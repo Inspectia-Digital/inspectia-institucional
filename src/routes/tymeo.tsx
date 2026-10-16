@@ -6,7 +6,7 @@ export const Route = createFileRoute("/tymeo")({
   beforeLoad: () => {
     throw redirect({
       to: "/plataforma/$modulo",
-      params: { modulo: "tymeo" },
+      params: { modulo: "produccion" },
       statusCode: 301,
     });
   },

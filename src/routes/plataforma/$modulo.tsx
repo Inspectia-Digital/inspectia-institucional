@@ -10,7 +10,12 @@ import { PageHero } from "@/components/site/PageHero";
 import { ModuleGrid } from "@/components/site/ModuleGrid";
 import { CtaPair } from "@/components/site/CtaPair";
 import { RoiCalculator } from "@/components/roi/RoiCalculator";
-import { MODULES, MODULE_BY_KEY, type PlatformModule, type ModuleKey } from "@/content/modules";
+import {
+  MODULE_BY_KEY,
+  PLATFORM_MODULES,
+  type PlatformModule,
+  type ModuleKey,
+} from "@/content/modules";
 import { PlansGrid } from "@/components/site/PlansGrid";
 import { ADDON_PRICE_USD, TYMEO_PLANS } from "@/content/pricing";
 import { useModuleViewEvent } from "@/lib/useViewEvents";
@@ -85,7 +90,7 @@ function ModulePage() {
             Van los tres datos que definen la decisión de entrar —que hay plan gratuito,
             cuánto sale el primero que se paga, y que no se cobra por puesto— y un ancla
             a la grilla. Sin botón: los dos primarios ya están arriba y no hay un tercero. */}
-        {m.key === "tymeo" && <PriceSignal />}
+        {m.key === "produccion" && <PriceSignal />}
 
         {m.roiLinkLabel && (
           <p className="mt-6 text-[15px]">
@@ -169,10 +174,10 @@ function ModulePage() {
       {/* 06 · Después de la calculadora, no antes: quien ya vio cuánto puede recuperar es
               el que crea la cuenta. Antes de la calculadora, "gratis" se lee como versión
               limitada. */}
-      {m.key === "tymeo" && <FreePlan />}
+      {m.key === "produccion" && <FreePlan />}
 
       {/* 07 */}
-      {m.key === "tymeo" && <Plans />}
+      {m.key === "produccion" && <Plans />}
 
       {/* 08 */}
       {m.faq && <ModuleFaq title={m.faqTitle ?? `Preguntas sobre ${m.name}`} items={m.faq} />}
@@ -437,12 +442,12 @@ function Related({ module: m }: { module: PlatformModule }) {
   // Tres intentos, en orden: en qué se apoya, quién se apoya en él, y con qué se combina.
   // El tercero existe porque hay módulos donde los dos primeros dan vacío, y son
   // justamente los que más necesitan una salida.
-  const byKeys = (keys: readonly string[]) => MODULES.filter((o) => keys.includes(o.key));
+  const byKeys = (keys: readonly string[]) => PLATFORM_MODULES.filter((o) => keys.includes(o.key));
 
   const showing =
     (m.buildsOn.length > 0 && byKeys(m.buildsOn)) ||
     (() => {
-      const inverse = MODULES.filter((o) => o.buildsOn.includes(m.key));
+      const inverse = PLATFORM_MODULES.filter((o) => o.buildsOn.includes(m.key));
       return inverse.length > 0 ? inverse : byKeys(m.pairsWith ?? []);
     })();
 

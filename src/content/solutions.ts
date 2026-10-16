@@ -63,7 +63,7 @@ export const INDUSTRIES: Industry[] = [
       value: "70 tipos de falla",
       caption: "controlados en menos de 1 minuto, en una planta autopartista",
     },
-    modules: ["control-de-calidad", "tymeo", "control-de-pedidos"],
+    modules: ["calidad", "produccion", "control-de-pedidos"],
     published: true,
   },
   {
@@ -86,7 +86,7 @@ export const INDUSTRIES: Industry[] = [
     proof: null,
     context:
       "Trazabilidad de lote y control de caducidades son requisitos, no mejoras. TYMEO tiene los dos como add-on, y el registro de lo que se produjo en cada turno queda disponible para la auditoría sin rearmarlo a mano.",
-    modules: ["tymeo", "control-de-calidad", "recepcion"],
+    modules: ["produccion", "calidad", "recepcion"],
     published: true,
   },
   {
@@ -108,7 +108,7 @@ export const INDUSTRIES: Industry[] = [
       value: "De 24 a 15 operarios",
       caption: "y lead time de 48 a 30 horas, en un centro de distribución",
     },
-    modules: ["recepcion", "stock-en-posiciones", "sobrestock-drones", "control-de-pedidos"],
+    modules: ["recepcion", "stock", "sobrestock-drones", "control-de-pedidos"],
     published: true,
   },
 
@@ -136,7 +136,7 @@ export const INDUSTRIES: Industry[] = [
     ],
     context:
       "El control se hace sobre los puntos críticos del proceso —corte, confección, estampado, acabado y packaging— y no sólo sobre la prenda terminada, que es donde el retrabajo ya cuesta el doble.",
-    modules: ["control-de-calidad", "tymeo"],
+    modules: ["calidad", "produccion"],
     published: true,
   },
   /**
@@ -207,7 +207,7 @@ export const INDUSTRIES: Industry[] = [
         a: "No. La idea es completar los huecos y no reemplazar lo que funciona. Si hay un ERP o un WMS, InspectIA se integra y toma de ahí lo que ya está cargado; donde no hay nada, lo cubre. En un laboratorio eso suele significar que la gestión sigue donde está y lo que se suma es lo que hoy no existe: el registro de lo que pasa en la planta.",
       },
     ],
-    modules: ["tymeo", "control-de-calidad", "recepcion", "stock-en-posiciones"],
+    modules: ["produccion", "calidad", "recepcion", "stock"],
     published: true,
   },
   {
@@ -227,7 +227,7 @@ export const INDUSTRIES: Industry[] = [
     ],
     context:
       "En líneas auditadas por grandes retailers o distribuidores, lo que se pide no es sólo que el control exista: es poder mostrar el registro de qué se controló y cuándo.",
-    modules: ["control-de-calidad", "tymeo"],
+    modules: ["calidad", "produccion"],
     published: true,
   },
   {
@@ -249,7 +249,7 @@ export const INDUSTRIES: Industry[] = [
       "En piezas de precisión el defecto no siempre es estético: hay fallas que afectan la funcionalidad o la seguridad del conjunto, y ésas conviene detectarlas en la línea y no en el cliente.",
     // El contenido portado es todo de control visual, así que el módulo de calidad va
     // primero aunque la clasificación anterior no lo incluía.
-    modules: ["control-de-calidad", "tymeo", "control-de-pedidos"],
+    modules: ["calidad", "produccion", "control-de-pedidos"],
     published: true,
   },
 ];
@@ -301,7 +301,7 @@ export const USE_CASES: UseCase[] = [
     ],
     solution:
       "Una cámara sobre la línea inspecciona el 100 % de lo que pasa, con el mismo criterio en todos los turnos, y le dicta el rechazo al PLC sin frenar la producción.",
-    modules: ["control-de-calidad"],
+    modules: ["calidad"],
     worstIn: {
       slug: "autopartista",
       note: "En autopartes el defecto no se paga en scrap: se paga en penalización del cliente.",
@@ -323,7 +323,7 @@ export const USE_CASES: UseCase[] = [
     ],
     solution:
       "La parada se detecta sola y el operario le pone la causa desde el puesto con dos toques. A fin de mes están ordenadas por motivo, y ahí se ve cuál conviene atacar primero.",
-    modules: ["tymeo"],
+    modules: ["produccion"],
     worstIn: {
       slug: "alimentos",
       note: "En alimentos, cada cambio de formato y cada limpieza es una parada programada que nadie está midiendo.",
@@ -345,7 +345,7 @@ export const USE_CASES: UseCase[] = [
     ],
     solution:
       "El operario cuenta por posición desde el celular y la diferencia contra el sistema aparece en el momento. Para las posiciones altas y las cámaras de frío, donde el conteo manual no se hace, va el dron.",
-    modules: ["stock-en-posiciones", "sobrestock-drones"],
+    modules: ["stock", "sobrestock-drones"],
     worstIn: {
       slug: "logistica",
       note: "En un centro de distribución, el descuadre se paga en el pedido que sale incompleto.",

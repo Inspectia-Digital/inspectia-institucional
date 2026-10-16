@@ -164,9 +164,9 @@ export const PRICING_FAQ = [
  * marcha en cada caso, que no está definida. Es el pendiente que bloquea toda la página.
  */
 export const MODULE_PRICING_BASIS: { module: string; basis: string }[] = [
-  { module: "control-de-calidad", basis: "Cantidad de líneas y de puntos de inspección" },
+  { module: "calidad", basis: "Cantidad de líneas y de puntos de inspección" },
   { module: "recepcion", basis: "Cantidad de posiciones de descarga" },
-  { module: "stock-en-posiciones", basis: "Cantidad de posiciones del depósito" },
+  { module: "stock", basis: "Cantidad de posiciones del depósito" },
   { module: "sobrestock-drones", basis: "Superficie y cantidad de pasillos a relevar" },
   { module: "camaras-inteligentes", basis: "Cantidad de cámaras y de sectores a cubrir" },
   { module: "control-de-pedidos", basis: "Cantidad de puestos de despacho" },

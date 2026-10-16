@@ -66,7 +66,7 @@ const H2 = "text-[28px] leading-tight text-ink md:text-[var(--text-section)]";
 
 function Page() {
   return (
-    <SiteLayout module="tymeo">
+    <SiteLayout module="produccion">
       <PageHero
         eyebrow="Simulador de OEE"
         title="Calculá el OEE de tu línea"
@@ -124,7 +124,7 @@ function Page() {
           <p className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
             <Link
               to="/plataforma/$modulo"
-              params={{ modulo: "tymeo" }}
+              params={{ modulo: "produccion" }}
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
             >
               Ver cómo mide TYMEO
@@ -132,7 +132,7 @@ function Page() {
             </Link>
             <Link
               to="/roi"
-              search={{ modulo: "tymeo" }}
+              search={{ modulo: "produccion" }}
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
             >
               Calcular cuánto devuelve medir
