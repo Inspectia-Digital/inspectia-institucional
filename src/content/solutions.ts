@@ -45,6 +45,29 @@ export type Industry = {
 
 export const INDUSTRIES: Industry[] = [
   {
+    slug: "alimentos",
+    name: "Alimentos y bebidas",
+    h1: "Que la merma y el vencimiento no se descubran cuando el lote ya salió",
+    pain: "La merma y las caducidades se descubren cuando el lote ya salió.",
+    seoTitle: "Software de producción y trazabilidad para alimentos",
+    seoDescription:
+      "En alimentos el problema no es sólo producir: es el lote, la fecha y la merma. Medí la línea en tiempo real y tené la trazabilidad sin rearmarla a mano.",
+    problems: [
+      "La merma se calcula al cierre del mes y ya no se puede actuar sobre ella.",
+      "El control de vencimientos y de lotes se lleva en planillas paralelas al sistema.",
+      "Los cambios de formato y las limpiezas paran la línea y nadie tiene el tiempo real que llevan.",
+      "Un desvío de calidad obliga a bloquear más producto del que hacía falta, porque no se sabe exactamente qué lote.",
+    ],
+    // TODO(equipo): falta el dato de esta industria. Hay clientes en el rubro y ninguno
+    // aprobado para publicar. Con null la sección no se renderiza, que es preferible a un
+    // porcentaje de merma "del sector" sacado de un informe genérico.
+    proof: null,
+    context:
+      "Trazabilidad de lote y control de caducidades son requisitos, no mejoras. Son un módulo propio, y el registro de lo que se produjo en cada turno queda disponible para la auditoría sin rearmarlo a mano.",
+    modules: ["produccion", "calidad", "trazabilidad"],
+    published: true,
+  },
+  {
     slug: "autopartista",
     name: "Autopartista y metalmecánica",
     h1: "Que la pieza que sale de tu planta no vuelva con penalización",
@@ -64,29 +87,6 @@ export const INDUSTRIES: Industry[] = [
       caption: "controlados en menos de 1 minuto, en una planta autopartista",
     },
     modules: ["calidad", "produccion", "control-de-pedidos"],
-    published: true,
-  },
-  {
-    slug: "alimentos",
-    name: "Alimentos y bebidas",
-    h1: "Que la merma y el vencimiento no se descubran cuando el lote ya salió",
-    pain: "La merma y las caducidades se descubren cuando el lote ya salió.",
-    seoTitle: "Software de producción y trazabilidad para alimentos",
-    seoDescription:
-      "En alimentos el problema no es sólo producir: es el lote, la fecha y la merma. Medí la línea en tiempo real y tené la trazabilidad sin rearmarla a mano.",
-    problems: [
-      "La merma se calcula al cierre del mes y ya no se puede actuar sobre ella.",
-      "El control de vencimientos y de lotes se lleva en planillas paralelas al sistema.",
-      "Los cambios de formato y las limpiezas paran la línea y nadie tiene el tiempo real que llevan.",
-      "Un desvío de calidad obliga a bloquear más producto del que hacía falta, porque no se sabe exactamente qué lote.",
-    ],
-    // TODO(equipo): falta el dato de esta industria. Hay clientes en el rubro y ninguno
-    // aprobado para publicar. Con null la sección no se renderiza, que es preferible a un
-    // porcentaje de merma "del sector" sacado de un informe genérico.
-    proof: null,
-    context:
-      "Trazabilidad de lote y control de caducidades son requisitos, no mejoras. TYMEO tiene los dos como add-on, y el registro de lo que se produjo en cada turno queda disponible para la auditoría sin rearmarlo a mano.",
-    modules: ["produccion", "calidad", "recepcion"],
     published: true,
   },
   {

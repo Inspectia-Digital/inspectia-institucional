@@ -25,7 +25,20 @@ import { SITE_URL } from "@/content/site";
  */
 const LEGACY_REDIRECTS: Record<string, string> = {
   // Páginas con equivalente directo.
-  "/oee-control": "/plataforma/tymeo",
+  "/oee-control": "/plataforma/produccion",
+
+  /* El renombre del catálogo, octubre de 2026.
+   *
+   * Van acá y no como cáscara de ruta porque son URLs que el sitio nuevo publicó y Google
+   * ya indexó: `/plataforma/tymeo`, `/plataforma/control-de-calidad` y
+   * `/plataforma/stock-en-posiciones` existieron con contenido propio durante un mes.
+   *
+   * `/oee-control` se edita en lugar de agregarse: apuntaba a `/plataforma/tymeo`, que
+   * ahora redirige a `/plataforma/produccion`. Dejarlo como estaba encadenaba dos saltos
+   * sobre la misma visita, y `finalPathFor` existe justamente para que eso no pase. */
+  "/plataforma/tymeo": "/plataforma/produccion",
+  "/plataforma/control-de-calidad": "/plataforma/calidad",
+  "/plataforma/stock-en-posiciones": "/plataforma/stock",
   "/calculadora-roi": "/roi",
   "/autopartista": "/soluciones/autopartista",
   "/alimentos-y-bebidas": "/soluciones/alimentos",

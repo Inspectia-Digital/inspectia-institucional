@@ -86,12 +86,12 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://inspectia.ai/soluciones/autopartista</loc>
+    <loc>https://inspectia.ai/soluciones/alimentos</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://inspectia.ai/soluciones/alimentos</loc>
+    <loc>https://inspectia.ai/soluciones/autopartista</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
