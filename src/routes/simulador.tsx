@@ -55,8 +55,8 @@ const FAQ = [
     a: "Porque los tres factores se multiplican, no se promedian. Tres factores del 90 % dan un OEE del 72,9 %, no del 90 %. Es lo que hace que el indicador sea exigente y también lo que lo vuelve útil.",
   },
   {
-    q: "¿En qué se diferencia esto de medir el OEE con TYMEO?",
-    a: "Este simulador toma los datos de un turno que vos cargás a mano, así que sirve para una auditoría puntual o para entender el indicador. TYMEO lo calcula solo y en vivo, con los datos que salen de las máquinas, por turno, línea, puesto y operario. La diferencia práctica es que acá mirás una foto y allá mirás la película.",
+    q: "¿En qué se diferencia esto del módulo de Producción?",
+    a: "Este simulador toma los datos de un turno que vos cargás a mano, así que sirve para una auditoría puntual o para entender el indicador. El módulo de Producción lo calcula solo y en vivo, con los datos que salen de las máquinas, por turno, línea, puesto y operario. La diferencia práctica es que acá mirás una foto y allá mirás la película.",
   },
 ];
 
@@ -66,7 +66,7 @@ const H2 = "text-[28px] leading-tight text-ink md:text-[var(--text-section)]";
 
 function Page() {
   return (
-    <SiteLayout module="tymeo">
+    <SiteLayout module="produccion">
       <PageHero
         eyebrow="Simulador de OEE"
         title="Calculá el OEE de tu línea"
@@ -117,22 +117,23 @@ function Page() {
             suelen ser la pérdida más grande— no llegan nunca a la planilla porque nadie las anota.
           </p>
           <p className="mt-4 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
-            TYMEO calcula lo mismo, en vivo, con los datos que ya generan tus máquinas, y clasifica
-            cada parada por motivo. Tiene un plan gratuito que empieza con carga manual, sin
-            hardware y sin instalación, así que se puede probar con una línea antes de decidir nada.
+            El módulo de Producción calcula lo mismo, en vivo, con los datos que ya generan tus
+            máquinas, y clasifica cada parada por motivo. Tiene un plan gratuito que empieza con
+            carga manual, sin hardware y sin instalación, así que se puede probar con una línea
+            antes de decidir nada.
           </p>
           <p className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
             <Link
               to="/plataforma/$modulo"
-              params={{ modulo: "tymeo" }}
+              params={{ modulo: "produccion" }}
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
             >
-              Ver cómo mide TYMEO
+              Ver el módulo de Producción
               <Icon name="arrow-right" />
             </Link>
             <Link
               to="/roi"
-              search={{ modulo: "tymeo" }}
+              search={{ modulo: "produccion" }}
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
             >
               Calcular cuánto devuelve medir

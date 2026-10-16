@@ -2,7 +2,7 @@ import type { ModuleKey } from "@/content/modules";
 import { calidadModel } from "./calidad";
 import { recepcionModel } from "./recepcion";
 import { stockModel } from "./stock";
-import { tymeoModel } from "./tymeo";
+import { produccionModel } from "./produccion";
 import type { RoiModel, RoiValues } from "./types";
 
 export * from "./types";
@@ -14,7 +14,7 @@ export * from "./types";
  * inventada: un módulo sin modelo simplemente no tiene pestaña, y su página enlaza a la
  * calculadora de los que sí lo tienen.
  */
-export const ROI_MODELS: RoiModel[] = [tymeoModel, calidadModel, recepcionModel, stockModel];
+export const ROI_MODELS: RoiModel[] = [produccionModel, calidadModel, recepcionModel, stockModel];
 
 export const roiModelFor = (module: ModuleKey): RoiModel | undefined =>
   ROI_MODELS.find((m) => m.module === module);

@@ -7,7 +7,7 @@ import { fmtMoney, fmtMonths, fmtNum, fmtPct, paybackMonths, roiPct, type RoiMod
  * una función pura y que el costo de InspectIA está a la vista en los supuestos.
  */
 export const calidadModel: RoiModel = {
-  module: "control-de-calidad",
+  module: "calidad",
   label: "Control de calidad",
   intro:
     "Cuánto scrap dejás de producir cuando el defecto se detecta en la línea y no al cierre del mes.",

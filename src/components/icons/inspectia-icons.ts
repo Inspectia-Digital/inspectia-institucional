@@ -219,6 +219,10 @@ export const ICON = {
   whatsapp: MessageCircle, // WhatsApp
   included: Check, // Incluido en el plan
   notIncluded: Minus, // No incluido en el plan
+  traceability: Route, // Trazabilidad
+  tasks: ListChecks, // Tareas
+  maintenance: Wrench, // Mantenimiento
+  energy: Zap, // Energía
 } satisfies Record<string, LucideIcon>;
 
 export type IconConcept = keyof typeof ICON;

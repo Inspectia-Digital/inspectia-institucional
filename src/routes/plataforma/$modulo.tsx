@@ -10,9 +10,8 @@ import { PageHero } from "@/components/site/PageHero";
 import { ModuleGrid } from "@/components/site/ModuleGrid";
 import { CtaPair } from "@/components/site/CtaPair";
 import { RoiCalculator } from "@/components/roi/RoiCalculator";
-import { MODULES, MODULE_BY_KEY, type PlatformModule, type ModuleKey } from "@/content/modules";
-import { PlansGrid } from "@/components/site/PlansGrid";
-import { ADDON_PRICE_USD, TYMEO_PLANS } from "@/content/pricing";
+import { MODULE_BY_KEY, MODULES, type PlatformModule, type ModuleKey } from "@/content/modules";
+import { COMBO_MAX_DISCOUNT, COMBO_POINTS_PER_MODULE, priceOf } from "@/content/pricing";
 import { useModuleViewEvent } from "@/lib/useViewEvents";
 import { breadcrumbJsonLd, faqJsonLd, pageHead, siteTitle } from "@/lib/seo";
 import { roiModelFor } from "@/lib/roi";
@@ -27,7 +26,7 @@ import { Icon } from "@/components/icons/Icon";
  *
  * Las secciones largas —el problema, qué hace, las preguntas— salen de campos opcionales
  * de `modules.ts`. Donde un módulo no los tenga, la sección no se renderiza y la página
- * sigue funcionando con los bloques básicos. Hoy sólo TYMEO los tiene.
+ * sigue funcionando con los bloques básicos.
  */
 export const Route = createFileRoute("/plataforma/$modulo")({
   loader: ({ params }) => {
@@ -45,7 +44,7 @@ export const Route = createFileRoute("/plataforma/$modulo")({
     ]);
 
     return pageHead({
-      // El nombre del módulo no es un término de búsqueda: nadie busca "TYMEO". Donde hay
+      // El nombre del módulo no siempre es un término de búsqueda. Donde hay
       // un término propio se usa ese, y el nombre queda de respaldo.
       title: siteTitle(m.seoTitle ?? m.name),
       description: m.seoDescription ?? m.promise,
@@ -85,7 +84,7 @@ function ModulePage() {
             Van los tres datos que definen la decisión de entrar —que hay plan gratuito,
             cuánto sale el primero que se paga, y que no se cobra por puesto— y un ancla
             a la grilla. Sin botón: los dos primarios ya están arriba y no hay un tercero. */}
-        {m.key === "tymeo" && <PriceSignal />}
+        <PriceSignal m={m} />
 
         {m.roiLinkLabel && (
           <p className="mt-6 text-[15px]">
@@ -169,10 +168,7 @@ function ModulePage() {
       {/* 06 · Después de la calculadora, no antes: quien ya vio cuánto puede recuperar es
               el que crea la cuenta. Antes de la calculadora, "gratis" se lee como versión
               limitada. */}
-      {m.key === "tymeo" && <FreePlan />}
-
-      {/* 07 */}
-      {m.key === "tymeo" && <Plans />}
+      <PriceAndFree m={m} />
 
       {/* 08 */}
       {m.faq && <ModuleFaq title={m.faqTitle ?? `Preguntas sobre ${m.name}`} items={m.faq} />}
@@ -252,43 +248,80 @@ function WhatItDoes({
   );
 }
 
-/* ---------- 06 · Plan gratuito ---------- */
+/* ---------- 06 · Plan gratuito y precio ----------
 
-function FreePlan() {
-  const free = TYMEO_PLANS.find((p) => p.id === "free");
-  if (!free) return null;
+   Antes esta sección y la grilla de planes existían sólo para un módulo, porque era el
+   único con precio publicado. Con el catálogo de septiembre de 2026 los siete lo tienen,
+   así que la sección se arma con el precio del módulo que se está mirando y las dos se
+   funden en una: el plan gratuito y el pago en el mismo bloque es lo que pide el doc 06
+   §1.3, y lo que convence no es que haya un plan gratis sino verlo al lado del precio. */
+
+function PriceAndFree({ m }: { m: PlatformModule }) {
+  const price = priceOf(m.key);
+  if (!price) return null;
 
   return (
-    <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8">
+    <section id="planes" className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8">
       <div className="mx-auto max-w-[var(--content-max)]">
         <p className="eyebrow">Empezar</p>
         <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
-          Medí tu primera línea gratis, hoy
+          Empezá gratis, hoy, sin instalar nada
         </h2>
-        <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
-          No hace falta instalar nada ni esperar una cotización. Creás la cuenta, cargás la
-          producción del turno desde un formulario y tenés el OEE de tu línea calculado. Si después
-          querés que el dato se capture solo, ahí entra el hardware.
+
+        <dl className="mt-10 grid gap-8 min-[720px]:grid-cols-2">
+          <div className="min-w-0 rounded-[var(--radius-lg)] border border-line p-6">
+            <dt className="text-[13px] font-medium text-ink-secondary">Plan gratuito</dt>
+            <dd className="metric mt-2 text-[length:var(--text-lead)] font-light leading-none text-ink">
+              USD 0
+            </dd>
+            <p className="mt-4 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
+              {price.free ?? "Sin plan gratuito."} Sin tarjeta y sin vencimiento.
+            </p>
+          </div>
+
+          <div className="min-w-0 rounded-[var(--radius-lg)] border border-line-brand p-6">
+            <dt className="text-[13px] font-medium text-ink-secondary">Plan pago</dt>
+            <dd className="metric mt-2 text-[length:var(--text-lead)] font-light leading-none text-ink">
+              USD {price.usd}
+            </dd>
+            <p className="mt-4 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
+              Por {price.unit} y por mes, con usuarios ilimitados.
+            </p>
+          </div>
+        </dl>
+
+        {/* La frase que más separa a InspectIA del resto, y por eso va acá y no en una
+            nota al pie: en el resto del mercado automatizar la captura significa subir
+            de plan. */}
+        <p className="mt-8 max-w-[var(--read-max)] text-[15px] leading-[var(--leading-normal)] text-ink">
+          Conectar el PLC o el sensor que ya tenés{" "}
+          <strong className="font-semibold">no cambia este precio</strong>. Se cotiza la
+          integración, una sola vez.
         </p>
 
-        {/* Las prestaciones salen de pricing.ts y no se duplican acá. La primera línea sí
-            es propia: sin ella, "Free" hace pensar en una prueba de treinta días. */}
-        <ul className="mt-8 max-w-[var(--read-max)] space-y-2.5">
-          {["Una planta y una línea, sin límite de tiempo.", ...free.features].map((line) => (
-            <li
-              key={line}
-              className="flex gap-2.5 text-[15px] leading-[var(--leading-normal)] text-ink"
-            >
-              <span
-                aria-hidden
-                className="mt-2 size-1.5 shrink-0 rounded-full bg-[var(--action-primary)]"
-              />
-              <span className="min-w-0">{line}</span>
-            </li>
-          ))}
-        </ul>
+        <p className="mt-4 max-w-[var(--read-max)] text-[13px] leading-[var(--leading-normal)] text-ink-muted">
+          Cada módulo adicional descuenta {COMBO_POINTS_PER_MODULE} puntos sobre el total, hasta un{" "}
+          {COMBO_MAX_DISCOUNT} %.{" "}
+          <Link to="/precios" className="text-brand hover:underline hover:underline-offset-4">
+            Ver la grilla completa
+          </Link>
+          .
+        </p>
 
         <CtaPair className="mt-9 max-w-md" plan="free" />
+
+        <p className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-[15px] leading-[var(--leading-normal)] text-ink">
+          <span className="max-w-[48ch]">
+            Si el proyecto lleva hardware o IA, Kit 4.0 te puede cubrir hasta un 50 %.
+          </span>
+          <Link
+            to="/kit-4-0"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
+          >
+            Ver qué kit te corresponde
+            <Icon name="arrow-right" />
+          </Link>
+        </p>
       </div>
     </section>
   );
@@ -296,24 +329,23 @@ function FreePlan() {
 
 /* ---------- 01b · Señal de precio en el hero ---------- */
 
-function PriceSignal() {
-  const start = TYMEO_PLANS.find((pl) => pl.id === "start");
+function PriceSignal({ m }: { m: PlatformModule }) {
+  const price = priceOf(m.key);
+  if (!price) return null;
 
   return (
     <div className="mt-8 border-t border-[var(--border-on-brand)] pt-6">
       <dl className="flex flex-wrap gap-x-10 gap-y-4">
         <Signal value="USD 0" caption="Plan gratuito, sin tarjeta" />
-        {typeof start?.base === "number" && (
-          <Signal value={`USD ${start.base}`} caption="Por planta y por mes, automatizado" />
-        )}
-        <Signal value="Ilimitados" caption="Usuarios, en todos los planes pagos" />
+        <Signal value={`USD ${price.usd}`} caption={`Por ${price.unit} y por mes`} />
+        <Signal value="Ilimitados" caption="Usuarios, en todos los planes" />
       </dl>
       <p className="mt-5 text-[15px]">
         <a
           href="#planes"
           className="text-on-brand-secondary underline-offset-4 transition-colors duration-[160ms] hover:text-on-brand hover:underline"
         >
-          Ver los cuatro planes
+          Ver qué incluye el plan gratuito
         </a>
       </p>
     </div>
@@ -328,66 +360,6 @@ function Signal({ value, caption }: { value: string; caption: string }) {
       </dd>
       <dt className="mt-2 text-[13px] text-on-brand-secondary">{caption}</dt>
     </div>
-  );
-}
-
-/* ---------- 07 · Planes ----------
-
-   La grilla estaba construida y sólo vivía en /precios, que está fuera del aire, así que
-   el módulo con precio publicado no lo mostraba en ninguna parte.
-
-   Estuvo atada al mismo interruptor por un razonamiento equivocado mío: lo que no se
-   puede publicar todavía es una página **titulada** "Precios" con una tarifa y siete
-   "consultar", porque rompe su propia promesa. Mostrar los planes de TYMEO en la página
-   de TYMEO no promete nada sobre los otros siete módulos.
-
-   Y para un producto que se vende solo, el precio es parte de la descripción: alguien que
-   llegó hasta acá y no encuentra cuánto sale, se va a buscarlo a otro lado.
-
-   Los tres caminos de conversión conviven sin un tercer botón: cada card lleva el suyo
-   —la gratuita al alta, las pagas a la demo— y el contacto va como enlace de texto, que
-   es el orden de prioridad que corresponde. */
-
-function Plans() {
-  return (
-    <section id="planes" className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8">
-      <div className="mx-auto max-w-[var(--content-max)]">
-        <p className="eyebrow">Precios</p>
-        <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
-          Empezá gratis y pagá por planta, no por persona
-        </h2>
-        <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
-          Los precios están publicados porque no queremos que pidas una cotización para saber si
-          esto entra en tu presupuesto. TYMEO arranca en cero y sin tarjeta; los planes con registro
-          automatizado se pagan por planta y por mes, con usuarios ilimitados.
-        </p>
-
-        <div className="mt-12">
-          <PlansGrid />
-        </div>
-
-        <p className="mt-8 max-w-[60ch] text-[13px] leading-[var(--leading-normal)] text-ink-muted">
-          Cada add-on suma USD {ADDON_PRICE_USD} por mes. En Pro vienen incluidos.
-        </p>
-        <p className="mt-3 max-w-[60ch] text-[13px] leading-[var(--leading-normal)] text-ink-muted">
-          El precio es del software. Instalar sensores, PLC o terminales en la planta es un paso
-          aparte: lo podés resolver con tu equipo siguiendo nuestra guía, o contratarlo con nosotros
-          y se cotiza según lo que la planta necesite.
-        </p>
-
-        {/* TODO(equipo): copy mío, no viene de un documento aprobado. */}
-        <p className="mt-8 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
-          ¿Más de tres plantas, o una integración que no está en la lista?{" "}
-          <Link
-            to="/contacto"
-            className="font-semibold text-brand hover:underline hover:underline-offset-4"
-          >
-            Escribinos y lo vemos
-          </Link>
-          .
-        </p>
-      </div>
-    </section>
   );
 }
 
@@ -426,7 +398,7 @@ function ModuleFaq({ title, items }: { title: string; items: { q: string; a: str
 /* ---------- 09 · Módulos relacionados ---------- */
 
 /**
- * Si el módulo se apoya en otros, se muestran esos. Si no —el caso de TYMEO, que no se
+ * Si el módulo se apoya en otros, se muestran esos. Si no —el caso de Producción, que no se
  * apoya en ninguno—, se muestran los que se apoyan en él.
  *
  * Sin la relación inversa, la página con más tráfico orgánico del sitio sería la única sin

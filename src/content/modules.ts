@@ -1,11 +1,22 @@
 import type { IconConcept } from "@/components/icons/inspectia-icons";
 
 /**
- * Los ocho módulos de InspectIA OS, en un solo lugar.
+ * El catálogo de módulos de InspectIA, en un solo lugar.
  *
  * De acá comen el mega-menú, la grilla de la home, el plano de planta interactivo, las
- * ocho páginas de módulo y la matriz de industria por módulo de /soluciones. Escribir los
- * ocho módulos en cinco archivos distintos es cómo terminan desincronizados.
+ * páginas de módulo y la matriz de industria por módulo de /soluciones. Escribir el
+ * catálogo en cinco archivos distintos es cómo terminan desincronizados.
+ *
+ * **Son siete módulos.** El catálogo
+ * comercial de septiembre de 2026 (`Comercial/Definiciones/05` y `06`) reemplazó los ocho
+ * módulos anteriores por siete —Producción, Calidad, Stock, Trazabilidad, Tareas,
+ * Mantenimiento, Energía— y sacó del precio de lista todo lo que necesita un modelo para
+ * capturar el dato: inspección por visión, conteo por visión, drones, lectura de
+ * documentos, predictivo. Eso no desaparece: pasa a cotizarse como proyecto.
+ *
+ * Lo que salió del frente —drones, cámaras, recepción, pedidos y agente— vive en
+ * `IA_PAGE_SOURCES`, acá abajo, y se publica bajo `/ia/{aplicación}`. Su URL vieja de
+ * `/plataforma` redirige con un 301.
  *
  * Regla que atraviesa todo el sitio (§6): **la web describe la solución y nada más**.
  * No hay ni va a haber un campo de estado. Ningún módulo se marca como disponible, en
@@ -13,13 +24,19 @@ import type { IconConcept } from "@/components/icons/inspectia-icons";
  * Qué está habilitado para cada cliente lo informa la aplicación cuando entra.
  */
 export type ModuleKey =
-  | "tymeo"
-  | "control-de-calidad"
+  // Los siete del catálogo vigente.
+  | "produccion"
+  | "calidad"
+  | "stock"
+  | "trazabilidad"
+  | "tareas"
+  | "mantenimiento"
+  | "energia"
+  // Las cinco páginas que siguen vivas detrás, camino a /ia.
   | "recepcion"
-  | "stock-en-posiciones"
+  | "control-de-pedidos"
   | "sobrestock-drones"
   | "camaras-inteligentes"
-  | "control-de-pedidos"
   | "agente";
 
 /** Un número siempre va con su unidad y su período. Sin eso no se publica (§10.1). */
@@ -41,16 +58,16 @@ export type ModuleHotspot = {
 
 export type PlatformModule = {
   key: ModuleKey;
-  /** 01–08, con cero adelante, en mono. */
+  /** 01–07, con cero adelante, en mono. */
   number: string;
   name: string;
-  /** La promesa de una línea de §6. Tope de dos líneas en la card. */
+  /** La promesa de una línea. Tope de dos líneas en la card. */
   promise: string;
   /** Qué resuelve, dos líneas, para el modal del plano. Sin precio, sin captura. */
   summary: string;
   /** Qué hace falta para ponerlo a andar. Una línea. */
   needs: string;
-  /** El dato que lo sostiene. null en los cuatro que el equipo todavía no definió:
+  /** El dato que lo sostiene. null donde el equipo todavía no definió uno publicable:
    *  antes que publicar un número inventado, la sección no muestra número. */
   proof: ModuleProof | null;
   /** Concepto del léxico de iconos, no el componente. Guardar el glifo acá ataba un
@@ -72,9 +89,26 @@ export type PlatformModule = {
   /** URL de la web anterior, para la redirección 301 (§9). */
   legacyPath?: string;
 
+  /* ---------- El catálogo comercial, tal como se publica ----------
+     Texto del doc 06 §3. Las líneas "Con IA" de ese documento **no se copian acá**: en la
+     página de módulo la IA es un bloque que lleva a /ia y nada más. Detallar qué hace el
+     modelo dentro de la página de un módulo con precio de lista es exactamente lo que
+     confunde el precio publicado con el que se cotiza. */
+
+  /** Qué incluye, como lista de capacidades. */
+  includes?: string[];
+  /** Qué se desbloquea al combinarlo con otro módulo. Una o dos oraciones. */
+  withOther?: string;
+  /** Qué podés corregir con lo que el módulo te muestra. Tres acciones, en infinitivo
+   *  conjugado a vos: es lo que separa medir de servir para algo. */
+  adjusts?: string[];
+  /** El límite del plan gratuito, tal cual se publica. Siempre de cantidad, nunca de
+   *  funcionalidad: no existe la función premium y no hay que insinuar que existe. */
+  freeTier?: string;
+
   /* ---------- Contenido largo de la página de módulo ----------
-     Los seis son opcionales: donde un módulo no los tenga, la sección no se renderiza,
-     igual que ya pasa con `proof` y con el modelo de ROI. Se van llenando de a uno. */
+     Todos opcionales: donde un módulo no los tenga, la sección no se renderiza, igual que
+     ya pasa con `proof` y con el modelo de ROI. Se van llenando de a uno. */
 
   /** El titular de la página. Distinto de `promise`: la promesa describe el módulo y
    *  sirve para las cards y la meta description; el h1 tiene que ganarse el scroll. */
@@ -88,15 +122,15 @@ export type PlatformModule = {
   /** Cinco preguntas. Alimenta faqJsonLd(). */
   faq?: { q: string; a: string }[];
 
-  /** El nombre del módulo no es un término de búsqueda: nadie busca "TYMEO". Cuando
-   *  existe, este campo es el que va al title. */
+  /** El nombre del módulo no siempre es el término de búsqueda. Cuando existe, este campo
+   *  es el que va al title. Tope de 47 caracteres: `pageHead` le suma " · InspectIA". */
   seoTitle?: string;
   /** Meta description propia. Sin esto se usa `promise`. */
   seoDescription?: string;
 
   /* ---------- Encabezados que cambian de módulo a módulo ----------
-     Van en los datos y no en la ruta: la plantilla sirve a los ocho, así que un H2
-     escrito en el componente obligaría a un condicional por módulo adentro del JSX. */
+     Van en los datos y no en la ruta: la plantilla sirve a todos, así que un H2 escrito en
+     el componente obligaría a un condicional por módulo adentro del JSX. */
 
   /** H2 de "Qué hace". */
   doesTitle?: string;
@@ -113,10 +147,13 @@ export type PlatformModule = {
 };
 
 export const MODULES: PlatformModule[] = [
+  /* ===================================================================================
+     Los siete del catálogo vigente
+     =================================================================================== */
   {
-    key: "tymeo",
+    key: "produccion",
     number: "01",
-    name: "TYMEO",
+    name: "Producción",
     promise:
       "OEE en tiempo real, paradas clasificadas y plan contra real, por turno, línea, puesto y operario.",
     summary:
@@ -129,23 +166,43 @@ export const MODULES: PlatformModule[] = [
       caption: "de la reunión de arranque a los datos corriendo en producción",
     },
     icon: "oee",
-    slug: "tymeo",
+    slug: "produccion",
     hotspot: { left: "44.9%", top: "23.8%", side: "bottom", align: "center" },
     buildsOn: [],
     legacyPath: "/tymeo",
 
+    includes: [
+      "Modelo de planta y productos",
+      "Turnos y calendario",
+      "Registro de paradas con su motivo",
+      "OEE por línea, turno, producto y corrida",
+      "Planes y órdenes de producción",
+      "Pantalla de piso",
+      "Tableros y alertas",
+    ],
+    withOther:
+      "Con Calidad, el rechazo entra solo al indicador. Con Energía, sabés cuánta energía cuesta cada unidad.",
+    adjusts: [
+      "Corregís el turno mientras pasa.",
+      "Atacás primero la parada que más tiempo te come.",
+      "Ajustás el plan contra lo que de verdad se produce.",
+    ],
+    freeTier: "Una línea, con carga manual.",
+
     h1: "Sabé qué te frena la línea, turno por turno",
-    lead: "TYMEO mide el OEE de cada línea en tiempo real, detecta cuándo se frenó y te deja clasificar por qué. Con eso sabés qué máquina te cuesta plata, en qué turno y con qué producto. Empezás gratis cargando los datos a mano y automatizás la captura cuando quieras.",
-    seoTitle: "Software de OEE en tiempo real, con plan gratis",
+    // Se reescribió la bajada: el módulo se llamaba TYMEO y la bajada lo nombraba. Hoy se
+    // Producción y el nombre viejo no queda en ninguna parte del sitio.
+    lead: "Medí el OEE de cada línea en tiempo real —cuánto de su capacidad está usando realmente—, detectá cuándo se frenó y clasificá por qué. Con eso sabés qué máquina te cuesta plata, en qué turno y con qué producto. Empezás gratis cargando los datos a mano y automatizás la captura cuando quieras.",
+    seoTitle: "Software de OEE y control de producción",
     seoDescription:
       "Medí el OEE de cada línea en tiempo real, con las paradas clasificadas y el plan contra real por turno, línea y operario. Empezá gratis, sin hardware.",
     doesTitle: "Cuatro cosas, y las cuatro salen del mismo dato",
-    faqTitle: "Preguntas sobre TYMEO",
+    faqTitle: "Preguntas sobre el módulo de Producción",
     roiTitle: "Cuánto vale un punto de OEE en tu línea",
     roiLead:
       "Poné el volumen y el costo de tu línea, y elegí el plan. La matriz muestra cómo cambia el retorno según cuánto OEE recuperes, porque cuánto vas a recuperar es justamente lo que no se sabe de antemano. Sin registrarte y con los supuestos a la vista.",
     roiLinkLabel: "Calcular el retorno de tu línea",
-    relatedEyebrow: "Se apoyan en TYMEO",
+    relatedEyebrow: "Se apoyan en Producción",
     relatedTitle: "Con el dato de producción ya cargado, estos suman solos",
 
     // El orden importa: la última es el argumento comercial central del producto.
@@ -179,19 +236,19 @@ export const MODULES: PlatformModule[] = [
     faq: [
       {
         q: "¿Cómo mide el OEE si mi máquina no tiene sensores?",
-        a: "Al principio, con carga manual: el operario registra desde un formulario qué produjo y cuándo se frenó la línea, y TYMEO calcula el OEE con eso. Es exacto en la medida en que se cargue bien, y alcanza para tener el número y empezar a comparar turnos. Cuando querés que el dato se tome solo, se agrega un sensor o una lectora en el puesto.",
+        a: "Al principio, con carga manual: el operario registra desde un formulario qué produjo y cuándo se frenó la línea, y el OEE se calcula con eso. Es exacto en la medida en que se cargue bien, y alcanza para tener el número y empezar a comparar turnos. Cuando querés que el dato se tome solo, se conecta el PLC o se agrega una lectora en el puesto.",
+      },
+      {
+        q: "¿Conectar la máquina me sube de plan?",
+        a: "No, y es la diferencia con casi todo el resto del mercado. El precio publicado vale igual para carga manual que para el PLC o el sensor que la planta ya tiene conectados. Lo único que se cotiza aparte es la integración, una sola vez.",
       },
       {
         q: "¿Los operarios lo van a usar?",
         a: "Es la pregunta correcta, porque si no lo usan no hay dato. La pantalla del puesto está pensada para eso: se maneja de pie y con guantes, muestra sólo lo del turno en curso y clasificar una parada son dos toques. No hay que escribir nada.",
       },
       {
-        q: "¿Qué diferencia hay con un MES?",
-        a: "Un MES gobierna la ejecución completa de la producción y es un proyecto de meses, con licencia por puesto. TYMEO resuelve una parte —medir, detectar paradas y comparar plan contra real— y arranca gratis en una línea. Si más adelante necesitás el resto, se suman los módulos que hagan falta sin migrar nada.",
-      },
-      {
         q: "¿Se conecta con mi ERP?",
-        a: "Sí, y no es obligatorio. Podés usar TYMEO sin conectar nada y sumar la integración cuando quieras que el plan de producción entre solo o que la producción del turno vaya al sistema de gestión.",
+        a: "Sí, y no es obligatorio. Podés usarlo sin conectar nada y sumar la integración cuando quieras que el plan de producción entre solo o que la producción del turno vaya al sistema de gestión.",
       },
       {
         q: "¿Cuánto tarda en estar andando?",
@@ -200,93 +257,510 @@ export const MODULES: PlatformModule[] = [
     ],
   },
   {
-    key: "control-de-calidad",
+    key: "calidad",
     number: "02",
-    name: "Control de calidad",
+    name: "Calidad",
+    /* La página se reescribió entera en octubre de 2026.
+     *
+     * Antes era "visión artificial sobre la línea": cámara, detección del defecto y
+     * rechazo dictado al PLC. Eso es captura por IA y salió del precio de lista, así que
+     * se cotiza y vive en /ia. Lo que queda acá es el módulo con precio publicado:
+     * registrar el defecto donde pasa, con carga manual o automática, y que el impacto
+     * llegue al indicador de producción sin cargarlo dos veces. El icono también cambia,
+     * de `visionInspection` a `defect`, por la misma razón. */
     promise:
-      "Visión artificial sobre la línea: detecta el defecto y dicta el rechazo al PLC, sin frenar la producción.",
+      "El defecto queda registrado donde pasa, y el rechazo impacta el indicador de producción sin cargarlo dos veces.",
     summary:
-      "Mira cada pieza que pasa y marca la que sale mal. Si hay que descartarla, se lo indica a la máquina sin que nadie intervenga.",
-    needs: "Una cámara sobre la línea y, si hay que descartar, conexión al PLC.",
+      "Registra el defecto en el puesto, con tu catálogo de fallas, y lo cruza con lo que produjo la línea.",
+    needs: "Nada al principio: se carga desde una tablet o el celular en el puesto.",
     proof: {
       value: "70 tipos de falla",
-      caption: "en menos de 1 minuto, en una planta autopartista",
+      caption: "en el catálogo de defectos de una planta autopartista",
     },
-    icon: "visionInspection",
-    slug: "control-de-calidad",
+    icon: "defect",
+    slug: "calidad",
     hotspot: { left: "49.3%", top: "36.9%", side: "bottom", align: "center" },
-    buildsOn: ["tymeo"],
+    buildsOn: ["produccion"],
     // La web anterior le daba a este módulo la página de la vertical entera.
     legacyPath: "/manufactura",
 
-    h1: "Que no salga de la planta una pieza que no debería salir",
-    lead: "Una cámara sobre la línea mira cada pieza que pasa y marca la que sale mal. Si hay que descartarla, se lo indica a la máquina sin que nadie intervenga. Inspecciona el 100 % de lo que produce la línea, no una muestra por lote.",
-    // "en la línea" se recorta del seoTitle: el título completo daba 64 caracteres y
-    // Google corta en 60. Se saca eso antes que "visión artificial", que es el término.
-    seoTitle: "Control de calidad con visión artificial",
+    includes: [
+      "Catálogo de defectos propio",
+      "Planes de inspección y checklists",
+      "Inspección por unidad, lote y muestra",
+      "Rechazo y retrabajo separados",
+      "Pareto de fallas",
+      "Control estadístico de proceso",
+      "Alerta de deriva",
+    ],
+    withOther: "Con Producción, el rechazo impacta el OEE automáticamente.",
+    adjusts: [
+      "Frenás un lote antes de que salga.",
+      "Atacás el defecto que más se repite.",
+      "Corregís el proceso cuando la medición se empieza a correr.",
+    ],
+    freeTier: "Una línea, con carga manual.",
+
+    h1: "Que el defecto quede registrado donde pasa",
+    lead: "El inspector carga la falla en el puesto, con tu catálogo de defectos y no con una lista genérica. El rechazo y el retrabajo quedan separados, el Pareto se arma solo y el impacto llega al indicador de producción sin que nadie lo vuelva a cargar.",
+    seoTitle: "Control de calidad en planta",
     seoDescription:
-      "Inspección del 100 % de lo que produce la línea: la cámara detecta el defecto y le dicta el rechazo al PLC, sin frenar la producción. Sin muestreo.",
-    doesTitle: "El 100 %, con el mismo criterio siempre",
-    faqTitle: "Preguntas sobre control de calidad",
+      "Registrá el defecto en el puesto con tu propio catálogo de fallas, separá rechazo de retrabajo y que el impacto llegue solo al OEE. Empezá gratis.",
+    doesTitle: "Del papel del puesto al indicador, sin escalas",
+    faqTitle: "Preguntas sobre el módulo de Calidad",
     roiTitle: "Cuánto te cuesta hoy el scrap",
     roiLead:
       "Poné cuánto produce la línea, qué porcentaje se va en rechazo y cuánto vale cada pieza. Sin registrarte y con los supuestos a la vista.",
     roiLinkLabel: "Calcular cuánto te cuesta el scrap",
 
-    // El quinto instala por qué hace falta una máquina y no más gente, y va último.
     problem: [
-      "El control es por muestreo, así que lo que no cae en la muestra sale como si estuviera bien.",
-      "El criterio cambia según quién esté en la estación y qué hora del turno sea.",
-      "El defecto se descubre en el armado, o en el cliente, cuando ya se agregó valor sobre una pieza que había que tirar.",
-      "Hay una devolución cada tanto y nadie puede decir cuántas piezas del lote estaban igual.",
-      "Poner una persona a mirar el 100 % no cierra por costo, y aun así se le escapan.",
+      "La falla se anota en un papel del puesto y se carga a una planilla al otro día, si alguien se acuerda.",
+      "Cada inspector nombra el mismo defecto de una manera distinta, así que no se puede sumar.",
+      "El rechazo y el retrabajo terminan en la misma bolsa, y son dos costos muy distintos.",
+      "El Pareto de fallas se arma una vez por año, para una auditoría, y después no se mira.",
+      "El proceso se va corriendo de a poco y se descubre cuando ya salió un lote entero mal.",
     ],
 
     does: [
       {
-        title: "Inspecciona todo lo que pasa, no una muestra",
-        body: "Cada pieza que sale de la línea queda revisada, con el mismo criterio a las tres de la tarde y a las cuatro de la mañana. Deja de haber lotes sobre los que no sabés nada.",
+        title: "Tu catálogo de defectos, no una lista genérica",
+        body: "Las fallas se nombran como las nombra tu planta, con el código que ya usás. Es lo que hace que dos turnos registren lo mismo de la misma forma y que el Pareto signifique algo.",
       },
       {
-        title: "Le dicta el rechazo a la máquina",
-        body: "Cuando la pieza no pasa, InspectIA le da la orden al PLC y el descarte ocurre solo. La línea no se frena y no hace falta que alguien esté mirando la pantalla.",
+        title: "Rechazo y retrabajo, separados",
+        body: "Una pieza que se tira y una que vuelve a pasar por la línea no cuestan lo mismo ni se corrigen igual. Quedan como dos cosas distintas desde el registro, no al final en una planilla.",
       },
       {
-        title: "Aprende tus defectos, no defectos genéricos",
-        body: "El modelo se entrena con las piezas de tu planta y con lo que tu equipo de calidad considera un rechazo. En un caso autopartista llegó a 70 tipos de falla distintos.",
+        title: "El impacto llega solo al indicador de producción",
+        body: "Lo que se rechaza se descuenta del OEE de esa línea y ese turno sin que nadie lo cargue de nuevo. Deja de haber dos números de producción según a quién se le pregunte.",
       },
       {
-        title: "Queda el registro de cada pieza",
-        body: "Con la foto y el momento. Cuando hay un reclamo podés reconstruir qué salió de la línea ese turno, en lugar de discutir sobre un lote entero.",
+        title: "Control estadístico y alerta de deriva",
+        body: "Cuando la medición se empieza a correr dentro de la tolerancia, el sistema avisa antes de que aparezca el defecto. Es la diferencia entre corregir el proceso y descartar el lote.",
       },
     ],
 
     faq: [
       {
-        q: "¿Detecta el defecto que tengo yo?",
-        a: "Eso se responde con tus piezas, no con un folleto. El modelo se entrena con lo que produce tu línea y con lo que tu equipo de calidad marca como rechazo, así que el alcance depende de que el defecto se vea. En una planta autopartista llegamos a 70 tipos de falla distintos, controlados en menos de un minuto.",
+        q: "¿Necesito cámaras para usarlo?",
+        a: "No. El módulo arranca con carga manual desde una tablet o el celular en el puesto, y ése es el plan gratuito. La inspección por visión artificial es otra forma de que entre el dato: se cotiza como proyecto, porque depende del producto y del volumen, y se puede sumar después sobre el mismo módulo.",
       },
       {
-        q: "¿Tengo que cambiar la línea o la maquinaria?",
-        a: "No. Hace falta una cámara mirando el punto donde se ve el defecto y, si querés que el descarte sea automático, la conexión al PLC que ya tiene la máquina. La línea sigue funcionando como funciona hoy.",
+        q: "¿Puedo usar mi propio catálogo de defectos?",
+        a: "Sí, y es la forma en que se configura: se carga el catálogo de tu planta con los nombres y códigos que ya usa el equipo de calidad. La configuración nunca está bloqueada, así que se amplía cuando aparece un defecto nuevo.",
       },
       {
-        q: "¿Sirve la cámara que ya tengo?",
-        a: "Depende de dónde esté y de qué tenga que verse: una cámara de seguridad casi nunca está en el ángulo ni con la iluminación que necesita una inspección. En el relevamiento se define qué se puede usar y qué hay que agregar, y si hace falta la cámara la conseguimos por el marketplace.",
+        q: "¿Cómo se conecta con la producción?",
+        a: "Si tenés el módulo de Producción, el rechazo se descuenta solo del OEE de esa línea, ese turno y ese producto. Si no lo tenés, Calidad funciona igual: lo que se pierde es el cruce automático.",
       },
       {
-        q: "¿Qué pasa con los falsos rechazos?",
-        a: "Se miden y se ajustan. Al principio conviene correr la inspección en paralelo al control actual: comparás lo que marca el sistema con lo que decide tu equipo y se calibra sobre eso, antes de dejarlo dictando descartes.",
+        q: "¿Sirve para una auditoría o una certificación?",
+        a: "Queda el registro de cada inspección con su responsable, su momento y su resultado, que es lo que una auditoría pide poder reconstruir. Qué norma cubre y con qué alcance depende de tu proceso, y eso se revisa antes de prometer nada.",
       },
       {
-        q: "¿Frena la línea?",
-        a: "No. La inspección corre al ritmo de la producción y el rechazo se dicta sobre la marcha. Si el sistema se cae, la línea sigue produciendo: lo que se pierde es la inspección, no la producción.",
+        q: "¿Cuánto tarda en estar andando?",
+        a: "El plan gratuito, el mismo día: se carga el catálogo de defectos y se empieza a registrar en una línea. Lo que lleva tiempo no es el software sino acordar internamente cómo se nombra cada falla.",
       },
     ],
   },
   {
-    key: "recepcion",
+    key: "stock",
     number: "03",
+    name: "Stock",
+    /* Absorbe recepción y control de pedidos, que en el catálogo de septiembre de 2026
+     * dejaron de ser módulos y pasaron a ser parte de éste. Las dos páginas viejas siguen
+     * publicadas detrás —ver la nota del encabezado— y se mudan a /ia cuando esa sección
+     * exista, porque lo que las justifica como página propia es la versión con cámara. */
+    promise:
+      "Qué entró, qué se consumió, qué se produjo y qué salió, contra qué orden y en qué posición.",
+    summary:
+      "Sigue el material de punta a punta: la recepción, la posición en el depósito, el consumo contra la orden y el pedido que sale.",
+    needs: "Un celular Android por operario.",
+    proof: null,
+    icon: "warehouse",
+    slug: "stock",
+    hotspot: { left: "69.5%", top: "32.7%", side: "bottom", align: "right" },
+    buildsOn: [],
+    legacyPath: "/stock-picking",
+
+    includes: [
+      "Maestro de materiales",
+      "Stock por posición",
+      "Recepción de mercadería",
+      "Control de pedidos",
+      "Movimientos con responsable y motivo",
+      "Lista de materiales",
+      "Punto de reorden",
+      "Inventario cíclico",
+    ],
+    withOther:
+      "Con Producción, el consumo se descuenta solo contra la orden y el terminado ingresa sin doble carga.",
+    adjusts: [
+      "Reponés antes de quedarte sin material.",
+      "Corregís la diferencia en el momento del conteo.",
+      "Liberás espacio de lo que no se mueve.",
+    ],
+    freeTier: "Cinco posiciones.",
+
+    h1: "Que el inventario del sistema sea el del depósito",
+    lead: "El operario cuenta desde el celular, posición por posición, y la diferencia contra el sistema aparece en el momento. Lo que entra, lo que se consume contra cada orden y lo que sale quedan registrados con responsable y motivo. Se cuenta mientras el depósito sigue operando: no hace falta parar un fin de semana.",
+    seoTitle: "Software de control de stock e inventario",
+    seoDescription:
+      "Conteo cíclico por posición sin parar el depósito, recepción, consumo contra la orden y control de pedidos. La diferencia aparece en el momento.",
+    doesTitle: "Contar deja de ser un operativo",
+    faqTitle: "Preguntas sobre el módulo de Stock",
+    roiTitle: "Cuánto te cuesta hoy el inventario descuadrado",
+    roiLead:
+      "Poné cuántas posiciones tiene tu depósito, cada cuánto contás y cuánto vale el stock. Sin registrarte y con los supuestos a la vista.",
+    roiLinkLabel: "Calcular cuánto te cuesta el descuadre",
+    relatedEyebrow: "Se apoyan en este módulo",
+    relatedTitle: "Con las posiciones controladas, estos suman solos",
+
+    problem: [
+      "El sistema dice que hay y en la posición no está, así que el pedido sale incompleto.",
+      "Para tener el inventario al día hay que parar el depósito un fin de semana y contar todo.",
+      "El conteo se hace en papel y después alguien lo pasa a una planilla, con los errores que eso trae.",
+      "Cuando aparece la diferencia ya pasaron semanas y nadie puede decir en qué momento se generó.",
+      "Se compra material que ya estaba en el depósito, porque el sistema decía que no.",
+    ],
+
+    does: [
+      {
+        title: "Conteo cíclico sin parar la operación",
+        body: "Se cuentan algunas posiciones por día, en los huecos de la operación, en lugar de todo el depósito de una vez. El inventario se mantiene al día sin frenar nada.",
+      },
+      {
+        title: "La diferencia aparece en el momento",
+        body: "El operario cuenta la posición y ahí mismo ve si coincide con lo que dice el sistema. Cuando no coincide, se resuelve el mismo día y no tres semanas después.",
+      },
+      {
+        title: "De la recepción al despacho, con el mismo dato",
+        body: "Lo que baja del camión, lo que se guarda, lo que se consume contra cada orden y lo que sale en un pedido son el mismo registro. No hay tres planillas que después hay que conciliar.",
+      },
+      {
+        title: "Contra lo que dice tu WMS",
+        body: "El control se hace contra el sistema que ya usás, así que lo que se corrige se corrige donde estaba el error. No es un inventario paralelo.",
+      },
+    ],
+
+    faq: [
+      {
+        q: "¿Necesito comprar lectoras o terminales?",
+        a: "No. Se usa el celular Android del operario o uno común de gama baja. Es el módulo con el requisito más chico de todos: no hay hardware que comprar para empezar.",
+      },
+      {
+        q: "¿Reemplaza a mi WMS?",
+        a: "No, trabaja contra él. El WMS sigue siendo el sistema del depósito; lo que hace este módulo es controlar que lo que dice coincida con lo que hay en la posición, y marcar dónde no.",
+      },
+      {
+        q: "¿Hay que etiquetar las posiciones?",
+        a: "Las posiciones tienen que poder identificarse de alguna forma. Si el depósito ya está etiquetado, se usa lo que hay; si no, el etiquetado es parte de la puesta en marcha y se define en el relevamiento.",
+      },
+      {
+        q: "¿La recepción y los pedidos entran acá?",
+        a: "Sí, los dos son parte de este módulo: qué entró contra el remito y qué salió contra el pedido, con responsable y momento. Contarlo con una cámara en el muelle o en la mesa de despacho es otra forma de que entre ese dato, se cotiza como proyecto y se suma sobre el mismo módulo.",
+      },
+      {
+        q: "¿Sirve si tengo pocas posiciones?",
+        a: "Sí, y arranca bien ahí: cuanto más chico el depósito, más rápido se ordena. El requisito es un celular, así que probarlo en un sector no tiene costo de hardware.",
+      },
+    ],
+  },
+  {
+    key: "trazabilidad",
+    number: "04",
+    name: "Trazabilidad",
+    promise:
+      "De qué lote salió cada producto y en qué condiciones se fabricó, para adelante y para atrás.",
+    summary:
+      "Reconstruye la genealogía de un lote en los dos sentidos: de la materia prima al despacho y del reclamo al origen.",
+    needs: "Nada al principio: el lote se carga en el puesto, con la orden.",
+    // TODO(equipo): falta el dato publicable. El candidato natural es cuánto tarda hoy un
+    // recall contra cuánto tarda con el módulo, pero no hay una medición propia.
+    proof: null,
+    icon: "traceability",
+    slug: "trazabilidad",
+    // Punto que liberó recepción al salir del frente. La zona es la de entrada de
+    // material, que es donde arranca la genealogía de un lote.
+    hotspot: { left: "33.5%", top: "44.7%", side: "bottom", align: "center" },
+    buildsOn: ["produccion"],
+    pairsWith: ["stock", "calidad"],
+
+    includes: [
+      "Lotes y genealogía",
+      "Vencimientos y FEFO",
+      "Condiciones de producción asociadas al lote",
+      "Bloqueo y liberación",
+      "Certificados por lote",
+      "Recall",
+    ],
+    withOther: "Con Stock, el recall es completo: de la recepción al pedido, lote por lote.",
+    adjusts: [
+      "Bloqueás un lote sospechoso en el momento.",
+      "Retirás sólo los lotes afectados.",
+      "Despachás primero lo que vence primero.",
+    ],
+    freeTier: "Una línea, con carga manual.",
+
+    h1: "Reconstruí un lote en minutos, no en tres días",
+    lead: "Cada producto queda atado al lote del que salió y a las condiciones en que se fabricó. Cuando aparece un reclamo, sabés qué materia prima entró, en qué turno se produjo y a qué clientes se despachó, sin reconstruirlo con remitos y planillas.",
+    seoTitle: "Trazabilidad de lotes en planta",
+    seoDescription:
+      "De qué lote salió cada producto y en qué condiciones se fabricó, para adelante y para atrás. Bloqueo, liberación, FEFO y recall por lote.",
+    doesTitle: "Los dos sentidos del mismo hilo",
+    faqTitle: "Preguntas sobre el módulo de Trazabilidad",
+
+    problem: [
+      "Cuando hay un reclamo, reconstruir de dónde salió ese producto lleva días de remitos y planillas.",
+      "Ante la duda se retira todo lo que pueda estar afectado, porque no se puede acotar a los lotes que lo están.",
+      "No queda registro de en qué condiciones se produjo cada lote, así que no se puede explicar qué pasó.",
+      "El producto que vence primero queda atrás en la estantería y se despacha el que entró último.",
+      "La auditoría pide la genealogía de un lote y hay que armarla a mano para esa visita.",
+    ],
+
+    does: [
+      {
+        title: "Genealogía para los dos lados",
+        body: "Desde un lote de producto terminado llegás a la materia prima que lo formó, y desde un lote de materia prima llegás a todo lo que se fabricó con él. Es el mismo hilo recorrido en las dos direcciones.",
+      },
+      {
+        title: "Las condiciones quedan pegadas al lote",
+        body: "Qué línea, qué turno, qué parámetros de proceso y qué resultados de calidad. Cuando hay que explicar por qué ese lote salió distinto, el dato está, no hay que deducirlo.",
+      },
+      {
+        title: "Bloqueo y liberación en el momento",
+        body: "Un lote sospechoso se bloquea y deja de poder despacharse, con el responsable y el motivo registrados. Se libera cuando el análisis lo respalda, no cuando alguien avisa por teléfono.",
+      },
+      {
+        title: "FEFO, y el recall acotado a lo que corresponde",
+        body: "Se despacha primero lo que vence primero, y cuando hay que retirar algo se retira sólo lo afectado. La diferencia entre un recall de tres lotes y uno de un mes de producción es toda la diferencia.",
+      },
+    ],
+  },
+  {
+    key: "tareas",
+    number: "05",
+    name: "Tareas",
+    promise: "La tarea de planta con responsable, plazo y evidencia, en cualquier área.",
+    summary:
+      "Quién tiene que hacer qué, en qué turno y con qué puesto cubierto, con la evidencia de que se hizo.",
+    needs: "Nada: la nómina y los turnos se cargan y se empieza.",
+    proof: null,
+    icon: "tasks",
+    slug: "tareas",
+    // Punto que liberó cámaras inteligentes. Queda sobre el sector de operación, que es
+    // donde la tarea se asigna y se cierra.
+    hotspot: { left: "64.7%", top: "45%", side: "bottom", align: "center" },
+    buildsOn: [],
+    pairsWith: ["produccion", "mantenimiento"],
+
+    includes: [
+      "Nómina y roles por planta",
+      "Asignación a turnos y estaciones",
+      "Vista unificada del turno",
+      "Rendimiento por operario con el dato de máquina",
+      "Tareas fuera de línea",
+      "Matriz de habilidades",
+      "Cobertura de turno",
+    ],
+    withOther:
+      "Con Producción y Mantenimiento, la máquina para y la tarea ya está abierta y asignada.",
+    adjusts: [
+      "Reasignás lo que quedó sin responsable.",
+      "Cubrís un puesto antes de que arranque el turno.",
+      "Cerrás lo pendiente antes del cambio de turno.",
+    ],
+    freeTier: "Un área de tareas.",
+
+    h1: "Que cada tarea del turno tenga nombre y cierre",
+    lead: "Quién está en cada puesto, qué tiene que hacer y qué quedó pendiente del turno anterior. La asignación se ve antes de que arranque el turno, no cuando falta alguien, y lo que se hizo queda con su evidencia.",
+    seoTitle: "Gestión de tareas y turnos de planta",
+    seoDescription:
+      "Asigná las tareas del turno con responsable, plazo y evidencia. Cobertura de puestos, matriz de habilidades y lo pendiente a la vista antes de arrancar.",
+    doesTitle: "El turno se arma antes de que empiece",
+    faqTitle: "Preguntas sobre el módulo de Tareas",
+
+    problem: [
+      "El turno arranca y recién ahí se descubre que falta alguien en un puesto.",
+      "Lo que quedó pendiente del turno anterior se transmite de palabra, si se transmite.",
+      "Una tarea que no es de producción —una limpieza, un ensayo, un retrabajo— no queda registrada en ningún lado.",
+      "No se sabe quién está habilitado para operar qué, así que se cubre con el que está disponible.",
+      "Cuando hay que demostrar que una tarea se hizo, la evidencia es que alguien se acuerda.",
+    ],
+
+    does: [
+      {
+        title: "La cobertura del turno, antes del turno",
+        body: "Qué puestos están cubiertos y cuáles no, con la nómina y los turnos ya cargados. El hueco se ve con tiempo de resolverlo, no cuando la línea tendría que estar andando.",
+      },
+      {
+        title: "Quién puede operar qué",
+        body: "La matriz de habilidades dice qué está habilitado a hacer cada persona. Cubrir un puesto deja de ser poner al que está libre y pasa a ser poner al que corresponde.",
+      },
+      {
+        title: "Lo pendiente pasa de turno con nombre",
+        body: "Lo que no se cerró queda abierto, asignado y visible para el turno que entra. El cambio de turno deja de depender de que alguien se acuerde de contarlo.",
+      },
+      {
+        title: "También lo que no es producción",
+        body: "Limpiezas, ensayos, retrabajos, pedidos de otra área. Son las tareas que hoy no están en ningún sistema y son las que más se pierden.",
+      },
+    ],
+  },
+  {
+    key: "mantenimiento",
+    number: "06",
+    name: "Mantenimiento",
+    promise: "El preventivo corre por horas reales de máquina, no por calendario.",
+    summary:
+      "El plan preventivo se dispara con las horas que la máquina trabajó de verdad, y la orden se abre sola cuando para.",
+    needs: "El registro de activos. Las horas salen de Producción si ya lo tenés.",
+    proof: null,
+    icon: "maintenance",
+    slug: "mantenimiento",
+    // Punto que liberó control de pedidos. Sobre el sector de máquinas.
+    hotspot: { left: "76.1%", top: "44.5%", side: "top", align: "right" },
+    buildsOn: ["produccion"],
+    pairsWith: ["tareas"],
+
+    includes: [
+      "Registro de activos",
+      "Plan preventivo",
+      "Órdenes de trabajo e historial",
+      "MTBF, MTTR y disponibilidad",
+      "Repuestos",
+      "Checklists de tarea",
+    ],
+    withOther:
+      "Con Producción, la orden se abre sola cuando la máquina para: un CMMS necesita que alguien lo reporte.",
+    adjusts: [
+      "Programás el preventivo por horas reales de máquina.",
+      "Atacás la máquina que más falla.",
+      "Tenés el repuesto antes de que haga falta.",
+    ],
+    freeTier: "Tiempos entre mantenimientos.",
+
+    h1: "Mantenimiento por horas de máquina, no por almanaque",
+    lead: "El plan preventivo se dispara con las horas que la máquina trabajó de verdad. Cuando para, la orden de trabajo ya está abierta, con su historial y sus repuestos, sin que nadie tenga que reportarlo.",
+    seoTitle: "Software de mantenimiento preventivo",
+    seoDescription:
+      "El preventivo corre por horas reales de máquina y la orden se abre sola cuando para. MTBF, MTTR, disponibilidad, repuestos e historial por activo.",
+    doesTitle: "La diferencia con un CMMS está en quién avisa",
+    faqTitle: "Preguntas sobre el módulo de Mantenimiento",
+
+    problem: [
+      "El preventivo está planificado por fecha, así que una máquina que trabajó el doble se mantiene igual que una que estuvo parada.",
+      "La orden de trabajo se abre cuando alguien se acuerda de reportar que la máquina falló.",
+      "No se sabe qué máquina falla más ni cuánto se tarda en volver a producir.",
+      "El repuesto se pide cuando la máquina ya está parada, y ahí el plazo de entrega es lo que define la parada.",
+      "El historial de una máquina está en la cabeza del que la atiende hace quince años.",
+    ],
+
+    does: [
+      {
+        title: "El disparador son las horas reales",
+        body: "Si el módulo de Producción está midiendo, el preventivo se programa contra las horas que la máquina efectivamente trabajó. Una máquina que estuvo parada no consume plan.",
+      },
+      {
+        title: "La orden se abre sola cuando para",
+        body: "Es lo que separa esto de un CMMS: un CMMS espera que alguien cargue la falla. Acá la parada ya se detectó en producción y la orden de trabajo nace con ella.",
+      },
+      {
+        title: "MTBF, MTTR y disponibilidad por activo",
+        body: "Cuánto aguanta cada máquina entre fallas y cuánto se tarda en recuperarla. Con eso se decide dónde conviene invertir y qué conviene reemplazar.",
+      },
+      {
+        title: "Repuestos atados al plan",
+        body: "Qué repuesto consume cada tarea y cuándo va a hacer falta. El pedido se hace contra el plan y no contra la urgencia.",
+      },
+    ],
+  },
+  {
+    key: "energia",
+    number: "07",
+    name: "Energía",
+    promise: "Cuánta energía cuesta cada unidad producida, no cuánta gasta la planta.",
+    summary:
+      "Divide el consumo por lo que realmente se produjo, y muestra lo que se va en vacío y en picos de demanda.",
+    needs: "Nada al principio: luz y gas se cargan de la factura.",
+    proof: null,
+    icon: "energy",
+    slug: "energia",
+    // Punto que liberó drones. Queda en la zona alta del render, que es donde está la
+    // acometida y los tableros.
+    hotspot: { left: "57.6%", top: "13.8%", side: "bottom", align: "center" },
+    buildsOn: [],
+    pairsWith: ["produccion"],
+
+    includes: [
+      "Consumo de planta, por máquina y por línea",
+      "Consumo por unidad producida",
+      "Consumo en vacío",
+      "Costo energético por producto",
+      "Picos de demanda",
+    ],
+    withOther: "Con Producción, el kWh se divide por lo que realmente se produjo.",
+    adjusts: [
+      "Cortás el consumo en vacío.",
+      "Corrés cargas fuera de los picos.",
+      "Sabés qué producto te cuesta más energía.",
+    ],
+    freeTier: "Luz y gas cargados a mano.",
+
+    h1: "Cuánta energía te cuesta cada unidad que producís",
+    lead: "La factura dice cuánto gastó la planta. Lo que no dice es cuánto de eso se fue en producir y cuánto en máquinas encendidas sin trabajar. Dividido por lo que realmente salió, el kWh pasa a ser un costo por producto.",
+    seoTitle: "Medición de consumo energético en planta",
+    seoDescription:
+      "Cuánta energía cuesta cada unidad producida, cuánto se va en vacío y qué producto consume más. Empezá cargando la factura, sin medidores nuevos.",
+    doesTitle: "De la factura al costo por producto",
+    faqTitle: "Preguntas sobre el módulo de Energía",
+
+    problem: [
+      "La factura llega a fin de mes y no se puede atribuir a ninguna línea ni a ningún producto.",
+      "Se sabe que hay máquinas encendidas sin producir, pero no cuánto cuesta eso.",
+      "Los picos de demanda se pagan caro y nadie sabe qué los genera.",
+      "Al cotizar un producto, la energía entra como un porcentaje general y no como un costo medido.",
+      "Se proponen inversiones en eficiencia sin una línea de base contra la cual compararlas.",
+    ],
+
+    does: [
+      {
+        title: "El consumo dividido por lo que se produjo",
+        body: "Si el módulo de Producción está midiendo, el kWh se reparte contra las unidades que realmente salieron. Ahí aparece qué producto y qué línea consumen de más.",
+      },
+      {
+        title: "Lo que se va en vacío",
+        body: "Energía consumida con la máquina encendida y sin producir. Es el primer número que suele pagar el módulo, porque se corrige cambiando una rutina y no comprando nada.",
+      },
+      {
+        title: "Picos de demanda, con su causa",
+        body: "Cuándo se dispara la demanda y qué estaba pasando en la planta en ese momento. Correr una carga de horario es la medida más barata que existe.",
+      },
+      {
+        title: "Empezás con la factura",
+        body: "Se carga lo que pagás de luz y gas y ya tenés el costo por unidad. Los medidores por línea se suman después, cuando el número justifique la inversión.",
+      },
+    ],
+  },
+];
+
+/**
+ * Las páginas que se mudaron a /ia.
+ *
+ * Son las cinco que el catálogo de septiembre de 2026 sacó del precio de lista: lo que
+ * hacen necesita un modelo mirando cada unidad, y eso se cotiza. Su contenido no se
+ * reescribió al mudarse —es el mismo que estaba publicado— y conserva la forma de
+ * `PlatformModule` porque la plantilla de /ia/{aplicación} renderiza exactamente lo
+ * mismo: encabezado, problema, qué hace y preguntas.
+ *
+ * **No están en `MODULES` y no tienen que estarlo.** El menú, la grilla, el plano y la
+ * matriz de soluciones recorren `MODULES`, y éstas no son módulos: son aplicaciones de
+ * IA. `/plataforma/{slug}` redirige a `/ia/{id}` con un 301.
+ */
+export const IA_PAGE_SOURCES: PlatformModule[] = [
+  {
+    key: "recepcion",
+    number: "",
     name: "Recepción de mercadería",
     promise: "La descarga y el control de lo que entra, medidos y sin planilla.",
     summary:
@@ -298,11 +772,9 @@ export const MODULES: PlatformModule[] = [
     },
     icon: "inbound",
     slug: "recepcion",
-    hotspot: { left: "33.5%", top: "44.7%", side: "bottom", align: "center" },
+    hotspot: null,
     buildsOn: [],
-    // Ni la relación directa ni la inversa dan resultado acá, así que sin esto la página
-    // quedaría sin una sola salida a otro módulo.
-    pairsWith: ["stock-en-posiciones", "control-de-pedidos"],
+    pairsWith: ["stock", "control-de-pedidos"],
     legacyPath: "/recepcion",
 
     h1: "Descargá, controlá y cargá al sistema en un solo paso",
@@ -317,7 +789,7 @@ export const MODULES: PlatformModule[] = [
       "Poné cuánta gente tenés en la recepción, cuántas horas tarda hoy y cuánto movés por mes. Sin registrarte y con los supuestos a la vista.",
     roiLinkLabel: "Calcular cuánto te cuesta la recepción",
     relatedEyebrow: "Se combina con",
-    relatedTitle: "En el depósito, estos tres se usan juntos",
+    relatedTitle: "En el depósito, estos se usan juntos",
 
     problem: [
       "El camión espera, y lo que se demora en el muelle se paga en flete o en penalización.",
@@ -372,89 +844,86 @@ export const MODULES: PlatformModule[] = [
     ],
   },
   {
-    key: "stock-en-posiciones",
-    number: "04",
-    name: "Control de stock en posiciones",
-    promise: "Conteo por posición desde el celular, contra lo que dice el WMS.",
+    key: "control-de-pedidos",
+    number: "",
+    name: "Control de pedidos",
+    promise: "Seguimiento del pedido desde el picking hasta el despacho.",
     summary:
-      "El operario cuenta desde el celular, posición por posición, y la diferencia contra el sistema aparece en el momento.",
-    needs: "Un celular Android por operario.",
-    // TODO(equipo): falta el dato publicable (§15.1). Bloquea el bloque de números
-    // de la página de módulo y su calculadora.
+      "Sigue el pedido desde que se arma hasta que sube al camión, y avisa si falta algo antes de que salga.",
+    needs: "Una cámara sobre la mesa de despacho.",
     proof: null,
-    icon: "mobileCount",
-    slug: "stock-en-posiciones",
-    hotspot: { left: "69.5%", top: "32.7%", side: "bottom", align: "right" },
-    buildsOn: [],
-    legacyPath: "/stock-picking",
+    icon: "outbound",
+    slug: "control-de-pedidos",
+    hotspot: null,
+    buildsOn: ["stock"],
+    // Se renombra a propósito: "outbound" no lo busca nadie en español (§9).
+    legacyPath: "/outbound",
 
-    h1: "Que el inventario del sistema sea el del depósito",
-    lead: "El operario cuenta desde el celular, posición por posición, y la diferencia contra el sistema aparece en el momento. Se cuenta mientras el depósito sigue operando: no hace falta parar un fin de semana para tener el inventario al día.",
-    seoTitle: "Control de stock por posición desde el celular",
+    h1: "Sabé dónde está cada pedido sin llamar a nadie",
+    lead: "Una cámara sobre la mesa de despacho controla lo que se arma y lo compara con lo que había que enviar. Si falta algo o hay algo cambiado, aparece antes de que el pedido suba al camión. Y el estado queda a la vista de quien lo tiene que responder.",
+    seoTitle: "Control de pedidos, del picking al despacho",
     seoDescription:
-      "Conteo cíclico por posición sin parar el depósito: el operario cuenta desde el celular y la diferencia contra el WMS aparece en el momento.",
-    doesTitle: "Contar deja de ser un operativo",
-    faqTitle: "Preguntas sobre control de stock",
-    roiTitle: "Cuánto te cuesta hoy el inventario descuadrado",
-    roiLead:
-      "Poné cuántas posiciones tiene tu depósito, cada cuánto contás y cuánto vale el stock. Sin registrarte y con los supuestos a la vista.",
-    roiLinkLabel: "Calcular cuánto te cuesta el descuadre",
-    relatedEyebrow: "Se apoyan en este módulo",
-    relatedTitle: "Con las posiciones controladas, estos suman solos",
+      "Seguí cada pedido desde que se arma hasta que sube al camión, y enterate de que falta algo antes de que salga, no cuando lo reclama el cliente.",
+    doesTitle: "El error se encuentra antes de que salga",
+    faqTitle: "Preguntas sobre control de pedidos",
 
+    // El dolor de este módulo no es logístico, es comercial: el pedido que sale mal se
+    // paga en un cliente enojado y en una nota de crédito.
     problem: [
-      "El sistema dice que hay y en la posición no está, así que el pedido sale incompleto.",
-      "Para tener el inventario al día hay que parar el depósito un fin de semana y contar todo.",
-      "El conteo se hace en papel y después alguien lo pasa a una planilla, con los errores que eso trae.",
-      "Cuando aparece la diferencia ya pasaron semanas y nadie puede decir en qué momento se generó.",
-      "Se compra material que ya estaba en el depósito, porque el sistema decía que no.",
+      "El cliente llama para preguntar por su pedido y hay que ir a preguntarle a alguien del depósito.",
+      "El error de armado se descubre cuando el cliente lo recibe, y ahí ya es una nota de crédito.",
+      "No se sabe en qué etapa está un pedido: si se armó, si se controló, si está esperando el camión.",
+      "El control de salida se hace por muestreo o cuando el pedido es importante, y el resto sale sin mirar.",
+      "Cuando hay un reclamo no hay con qué demostrar qué se despachó.",
     ],
 
     does: [
       {
-        title: "Conteo cíclico sin parar la operación",
-        body: "Se cuentan algunas posiciones por día, en los huecos de la operación, en lugar de todo el depósito de una vez. El inventario se mantiene al día sin frenar nada.",
+        title: "Controla el pedido contra lo que había que enviar",
+        body: "La cámara mira lo que se armó y lo compara con el pedido. Si falta un ítem o hay uno cambiado, se avisa ahí, con el pedido todavía en la mesa.",
       },
       {
-        title: "La diferencia aparece en el momento",
-        body: "El operario cuenta la posición y ahí mismo ve si coincide con lo que dice el sistema. Cuando no coincide, se resuelve el mismo día y no tres semanas después.",
+        title: "El estado, a la vista",
+        body: "En qué etapa está cada pedido: armado, controlado, esperando despacho, despachado. Quien atiende al cliente lo mira en lugar de ir a preguntar al depósito.",
       },
       {
-        title: "Desde el celular, sin papel",
-        body: "Se cuenta en el pasillo con el teléfono en la mano y el dato ya queda cargado. No hay planilla que pasar después ni transcripción donde se pierda información.",
+        title: "Queda el registro de lo que se despachó",
+        body: "Con foto y hora. Cuando hay un reclamo se muestra qué salió, en lugar de discutir sin evidencia.",
       },
       {
-        title: "Contra lo que dice tu WMS",
-        body: "El control se hace contra el sistema que ya usás, así que lo que se corrige se corrige donde estaba el error. No es un inventario paralelo.",
+        title: "Con lo que ya controlaste al recibir y al guardar",
+        body: "Si además usás recepción y control de stock, el mismo dato acompaña al producto de punta a punta: lo que entró, dónde estaba y qué se despachó.",
       },
     ],
 
     faq: [
       {
-        q: "¿Necesito comprar lectoras o terminales?",
-        a: "No. Se usa el celular Android del operario o uno común de gama baja. Es el módulo con el requisito más chico de todos: no hay hardware que comprar para empezar.",
+        q: "¿Se conecta con mi sistema de gestión?",
+        a: "Sí. El pedido a controlar sale del sistema que ya usás —ERP o WMS— y el resultado del control vuelve ahí. También se puede empezar sin conectar nada.",
       },
       {
-        q: "¿Reemplaza a mi WMS?",
-        a: "No, trabaja contra él. El WMS sigue siendo el sistema del depósito; lo que hace este módulo es controlar que lo que dice coincida con lo que hay en la posición, y marcar dónde no.",
+        q: "¿Controla el 100 % de los pedidos?",
+        a: "Sí, y esa es la diferencia con el control por muestreo: no hay pedidos que salgan sin mirar porque no había tiempo o porque no era un cliente importante.",
       },
       {
-        q: "¿Hay que etiquetar las posiciones?",
-        a: "Las posiciones tienen que poder identificarse de alguna forma. Si el depósito ya está etiquetado, se usa lo que hay; si no, el etiquetado es parte de la puesta en marcha y se define en el relevamiento.",
+        q: "¿Frena el despacho?",
+        a: "No. El control ocurre mientras se arma, no como un paso extra al final. Lo que se frena es el pedido que está mal, que es justamente el que no debería salir.",
       },
       {
-        q: "¿Cuánto tiempo le lleva al operario?",
-        a: "Contar una posición son segundos y se hace en los huecos del turno, no como tarea aparte. La idea es justamente dejar de asignar gente a contar.",
+        // Reconoce un límite real del módulo. Decir de entrada que depende de que el
+        // producto se vea evita una implementación que después no funciona.
+        q: "¿Sirve si armo pedidos muy distintos entre sí?",
+        a: "Depende de que lo que hay que controlar se pueda ver. Cajas cerradas iguales y productos sueltos muy variados no son el mismo problema, y eso se define en el relevamiento antes de cualquier cotización.",
       },
       {
-        q: "¿Sirve si tengo pocas posiciones?",
-        a: "Sí, y arranca bien ahí: cuanto más chico el depósito, más rápido se ordena. El requisito es un celular, así que probarlo en un sector no tiene costo de hardware.",
+        q: "¿Necesito control de stock para usarlo?",
+        a: "No, funciona solo. Pero si además tenés las posiciones controladas, el dato es más completo: se sabe de qué posición salió cada ítem del pedido.",
       },
     ],
   },
   {
     key: "sobrestock-drones",
-    number: "05",
+    number: "",
     name: "Sobrestock con drones",
     promise: "Inventario aéreo de posiciones altas y cámaras de frío, sin subir a nadie.",
     summary:
@@ -468,8 +937,8 @@ export const MODULES: PlatformModule[] = [
      * Dos cosas que dejó el episodio. La primera: un precio equivocado publicado no es un
      * dato desactualizado, es una oferta que alguien puede reclamar, así que se borra
      * antes de averiguar cuál era el correcto. La segunda: éste era el **único** `proof`
-     * del sitio que publicaba un precio; los otros cinco son datos operativos —días de
-     * implementación, tipos de falla, segundos de alarma—. El comentario de TYMEO ya
+     * del sitio que publicaba un precio; los otros son datos operativos —días de
+     * implementación, tipos de falla, segundos de alarma—. El comentario de Producción ya
      * decía que un precio no es una prueba y que su lugar es la sección de planes. Este
      * quedó afuera de esa limpieza.
      *
@@ -477,8 +946,8 @@ export const MODULES: PlatformModule[] = [
     proof: null,
     icon: "drone",
     slug: "sobrestock-drones",
-    hotspot: { left: "57.6%", top: "13.8%", side: "bottom", align: "center" },
-    buildsOn: ["stock-en-posiciones"],
+    hotspot: null,
+    buildsOn: ["stock"],
     legacyPath: "/drones",
 
     h1: "Nadie más sube a contar posiciones en altura",
@@ -487,9 +956,6 @@ export const MODULES: PlatformModule[] = [
     // "inventario con drones", no "Indrone": nadie busca la marca.
     seoTitle: "Inventario con drones, sin subir a nadie",
     seoDescription:
-      // Terminaba en "Desde USD 200 por mes." y ese precio estaba mal. Una meta
-      // description se publica en los resultados de Google, así que el número equivocado
-      // no sólo estaba en la página: estaba en la búsqueda.
       "Un dron recorre las posiciones altas y las cámaras de frío y avisa dónde no coincide. Los hallazgos entran a tu WMS por API, sin cortar la operación.",
     doesTitle: "El punto ciego del depósito deja de ser ciego",
     faqTitle: "Preguntas sobre inventario con drones",
@@ -555,7 +1021,7 @@ export const MODULES: PlatformModule[] = [
   },
   {
     key: "camaras-inteligentes",
-    number: "06",
+    number: "",
     name: "Cámaras inteligentes",
     promise:
       "Las cámaras de seguridad que ya tenés, controlando la operación y previniendo accidentes.",
@@ -565,11 +1031,11 @@ export const MODULES: PlatformModule[] = [
     proof: { value: "Menos de 2 segundos", caption: "entre el hecho y la alarma" },
     icon: "camera",
     slug: "camaras-inteligentes",
-    hotspot: { left: "64.7%", top: "45%", side: "bottom", align: "center" },
+    hotspot: null,
     buildsOn: [],
     // Ningún módulo lo incluye en su buildsOn, así que sin esto la página quedaría sin
     // ninguna salida.
-    pairsWith: ["control-de-calidad", "tymeo"],
+    pairsWith: ["calidad", "produccion"],
 
     h1: "Las cámaras que ya tenés, mirando lo que importa",
     lead: "El CCTV de la planta deja de servir sólo para mirar grabaciones después de un problema. Avisa de un acceso a una zona restringida, de alguien sin el equipo de protección puesto o de una maniobra riesgosa, mientras está pasando. Sin cambiar una cámara ni tirar un cable nuevo.",
@@ -642,100 +1108,18 @@ export const MODULES: PlatformModule[] = [
     ],
   },
   {
-    key: "control-de-pedidos",
-    number: "07",
-    name: "Control de pedidos",
-    promise: "Seguimiento del pedido desde el picking hasta el despacho.",
-    summary:
-      "Sigue el pedido desde que se arma hasta que sube al camión, y avisa si falta algo antes de que salga.",
-    needs: "Una cámara sobre la mesa de despacho.",
-    // TODO(equipo): falta el dato publicable (§15.1).
-    proof: null,
-    icon: "outbound",
-    slug: "control-de-pedidos",
-    hotspot: { left: "76.1%", top: "44.5%", side: "top", align: "right" },
-    buildsOn: ["stock-en-posiciones"],
-    // Se renombra a propósito: "outbound" no lo busca nadie en español (§9).
-    legacyPath: "/outbound",
-
-    h1: "Sabé dónde está cada pedido sin llamar a nadie",
-    lead: "Una cámara sobre la mesa de despacho controla lo que se arma y lo compara con lo que había que enviar. Si falta algo o hay algo cambiado, aparece antes de que el pedido suba al camión. Y el estado queda a la vista de quien lo tiene que responder.",
-    seoTitle: "Control de pedidos, del picking al despacho",
-    seoDescription:
-      "Seguí cada pedido desde que se arma hasta que sube al camión, y enterate de que falta algo antes de que salga, no cuando lo reclama el cliente.",
-    doesTitle: "El error se encuentra antes de que salga",
-    faqTitle: "Preguntas sobre control de pedidos",
-
-    // El dolor de este módulo no es logístico, es comercial: el pedido que sale mal se
-    // paga en un cliente enojado y en una nota de crédito.
-    problem: [
-      "El cliente llama para preguntar por su pedido y hay que ir a preguntarle a alguien del depósito.",
-      "El error de armado se descubre cuando el cliente lo recibe, y ahí ya es una nota de crédito.",
-      "No se sabe en qué etapa está un pedido: si se armó, si se controló, si está esperando el camión.",
-      "El control de salida se hace por muestreo o cuando el pedido es importante, y el resto sale sin mirar.",
-      "Cuando hay un reclamo no hay con qué demostrar qué se despachó.",
-    ],
-
-    does: [
-      {
-        title: "Controla el pedido contra lo que había que enviar",
-        body: "La cámara mira lo que se armó y lo compara con el pedido. Si falta un ítem o hay uno cambiado, se avisa ahí, con el pedido todavía en la mesa.",
-      },
-      {
-        title: "El estado, a la vista",
-        body: "En qué etapa está cada pedido: armado, controlado, esperando despacho, despachado. Quien atiende al cliente lo mira en lugar de ir a preguntar al depósito.",
-      },
-      {
-        title: "Queda el registro de lo que se despachó",
-        body: "Con foto y hora. Cuando hay un reclamo se muestra qué salió, en lugar de discutir sin evidencia.",
-      },
-      {
-        title: "Con lo que ya controlaste al recibir y al guardar",
-        body: "Si además usás recepción y control de stock, el mismo dato acompaña al producto de punta a punta: lo que entró, dónde estaba y qué se despachó.",
-      },
-    ],
-
-    faq: [
-      {
-        q: "¿Se conecta con mi sistema de gestión?",
-        a: "Sí. El pedido a controlar sale del sistema que ya usás —ERP o WMS— y el resultado del control vuelve ahí. También se puede empezar sin conectar nada.",
-      },
-      {
-        q: "¿Controla el 100 % de los pedidos?",
-        a: "Sí, y esa es la diferencia con el control por muestreo: no hay pedidos que salgan sin mirar porque no había tiempo o porque no era un cliente importante.",
-      },
-      {
-        q: "¿Frena el despacho?",
-        a: "No. El control ocurre mientras se arma, no como un paso extra al final. Lo que se frena es el pedido que está mal, que es justamente el que no debería salir.",
-      },
-      {
-        // Reconoce un límite real del módulo. Decir de entrada que depende de que el
-        // producto se vea evita una implementación que después no funciona.
-        q: "¿Sirve si armo pedidos muy distintos entre sí?",
-        a: "Depende de que lo que hay que controlar se pueda ver. Cajas cerradas iguales y productos sueltos muy variados no son el mismo problema, y eso se define en el relevamiento antes de cualquier cotización.",
-      },
-      {
-        q: "¿Necesito control de stock para usarlo?",
-        a: "No, funciona solo. Pero si además tenés las posiciones controladas, el dato es más completo: se sabe de qué posición salió cada ítem del pedido.",
-      },
-    ],
-  },
-  {
     key: "agente",
-    number: "08",
+    number: "",
     name: "Agente",
     promise: "Agentes de IA a medida sobre los datos de tu operación.",
     summary:
       "Responde en palabras qué pasó en la planta o en el depósito, con los datos que los demás módulos ya vienen guardando.",
     needs: "Nada nuevo: se apoya en los módulos que ya tengas andando.",
-    // TODO(equipo): falta el dato publicable (§15.1).
     proof: null,
     icon: "agent",
     slug: "agente",
-    // TODO(equipo): falta ubicar el octavo punto sobre el render isométrico. Mientras
-    // sea null el módulo aparece en la grilla de cards pero no en el plano.
     hotspot: null,
-    buildsOn: ["tymeo", "control-de-calidad", "recepcion", "stock-en-posiciones"],
+    buildsOn: ["produccion", "calidad", "stock"],
 
     /* El eje de toda la página: un agente sirve si tiene datos sobre los que trabajar.
        Llegamos a este módulo después de que la planta ya generó meses de datos con los
@@ -807,7 +1191,7 @@ export const MODULES: PlatformModule[] = [
   },
 ];
 
-export const MODULE_BY_KEY = new Map(MODULES.map((m) => [m.key, m]));
+export const MODULE_BY_KEY = new Map([...MODULES, ...IA_PAGE_SOURCES].map((m) => [m.key, m]));
 
 /** Los que tienen punto ubicado sobre el plano. */
 export const PLOTTED_MODULES = MODULES.filter(

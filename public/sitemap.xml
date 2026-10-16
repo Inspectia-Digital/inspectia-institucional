@@ -11,42 +11,37 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://inspectia.ai/plataforma/tymeo</loc>
+    <loc>https://inspectia.ai/plataforma/produccion</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://inspectia.ai/plataforma/control-de-calidad</loc>
+    <loc>https://inspectia.ai/plataforma/calidad</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://inspectia.ai/plataforma/recepcion</loc>
+    <loc>https://inspectia.ai/plataforma/stock</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://inspectia.ai/plataforma/stock-en-posiciones</loc>
+    <loc>https://inspectia.ai/plataforma/trazabilidad</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://inspectia.ai/plataforma/sobrestock-drones</loc>
+    <loc>https://inspectia.ai/plataforma/tareas</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://inspectia.ai/plataforma/camaras-inteligentes</loc>
+    <loc>https://inspectia.ai/plataforma/mantenimiento</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://inspectia.ai/plataforma/control-de-pedidos</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://inspectia.ai/plataforma/agente</loc>
+    <loc>https://inspectia.ai/plataforma/energia</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -66,12 +61,12 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://inspectia.ai/soluciones/autopartista</loc>
+    <loc>https://inspectia.ai/soluciones/alimentos</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://inspectia.ai/soluciones/alimentos</loc>
+    <loc>https://inspectia.ai/soluciones/autopartista</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -136,6 +131,76 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://inspectia.ai/ia</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/ia/recepcion</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/ia/control-de-pedidos</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/ia/inventario-con-drones</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/ia/camaras-inteligentes</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/ia/agentes</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/kit-4-0</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/kit-4-0/bas-02-monitoreo-de-produccion</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/kit-4-0/bas-03-planificacion</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/kit-4-0/bas-04-mantenimiento</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/kit-4-0/bas-05-eficiencia-energetica</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/kit-4-0/avz-01-mantenimiento-predictivo</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/kit-4-0/avz-02-vision-artificial-calidad</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/kit-4-0/avz-03-trazabilidad</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://inspectia.ai/partners</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -149,5 +214,10 @@
     <loc>https://inspectia.ai/nosotros</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/precios</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
 </urlset>

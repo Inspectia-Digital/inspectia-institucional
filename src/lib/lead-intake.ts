@@ -44,7 +44,7 @@ function readEnv(env: unknown, key: string): string | undefined {
  * del marketplace: quien pide un presupuesto y quien ofrece un servicio.
  */
 const schema = z.object({
-  form: z.enum(["roi", "cotizacion", "proveedor"]),
+  form: z.enum(["roi", "cotizacion", "proveedor", "diagnostico"]),
   nombre: z.string().trim().min(2).max(120),
   email: z.string().trim().email().max(255),
   telefono: z.string().trim().min(6).max(25),
@@ -71,12 +71,14 @@ const ASUNTO = {
   roi: "Pedido de informe de ROI",
   cotizacion: "Pedido de cotización",
   proveedor: "Alta de proveedor en el marketplace",
+  diagnostico: "Diagnóstico de IA",
 } as const;
 
 const ETIQUETA_CONTEXTO = {
   roi: "Empresa",
   cotizacion: "Empresa",
   proveedor: "Empresa",
+  diagnostico: "Empresa",
 } as const;
 
 export async function handleLeadPost(request: Request, env: unknown): Promise<Response> {

@@ -27,9 +27,32 @@ import { Icon } from "@/components/icons/Icon";
 const OPEN_DELAY = 200;
 const CLOSE_DELAY = 300;
 
+/**
+ * El octavo punto del plano no es un módulo.
+ *
+ * El catálogo tiene siete y el plano muestra los siete, pero la IA es la otra forma de
+ * que entre el dato y no aparecía en ninguna parte del dibujo. Como no es un módulo —no
+ * tiene precio de lista, no tiene página en /plataforma— no puede salir de `MODULES`, y
+ * meterlo ahí como entrada falsa contaminaría el menú, la grilla y el sitemap.
+ *
+ * Va como punto aparte, con el mismo comportamiento que los otros —hover, foco, clic para
+ * fijar— y distinguido por el color: ámbar en vez de teal, que es el acento que el sistema
+ * reserva para lo que se cotiza.
+ */
+const IA_SPOT = {
+  key: "ia" as const,
+  name: "Sumale IA",
+  promise: "Visión artificial, modelos y agentes. Se cotiza como proyecto.",
+  icon: "visionInspection" as const,
+  // Zona libre del render, entre la línea y el depósito.
+  hotspot: { left: "40.2%", top: "52.4%" },
+};
+
+type SpotKey = ModuleKey | typeof IA_SPOT.key;
+
 export function FloorPlan() {
-  const [active, setActive] = useState<ModuleKey | null>(null);
-  const [pinned, setPinned] = useState<ModuleKey | null>(null);
+  const [active, setActive] = useState<SpotKey | null>(null);
+  const [pinned, setPinned] = useState<SpotKey | null>(null);
   const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -41,7 +64,7 @@ export function FloorPlan() {
   };
   useEffect(() => clearTimers, []);
 
-  const show = useCallback((key: ModuleKey, immediate = false) => {
+  const show = useCallback((key: SpotKey, immediate = false) => {
     clearTimers();
     const run = () => {
       setActive(key);
@@ -157,6 +180,63 @@ export function FloorPlan() {
               </div>
             );
           })}
+
+          {/* El punto de IA. Mismo comportamiento, otro color y otro destino. */}
+          <div
+            className="absolute z-20 -translate-x-1/2 -translate-y-1/2"
+            style={{ left: IA_SPOT.hotspot.left, top: IA_SPOT.hotspot.top }}
+            onMouseEnter={() => show(IA_SPOT.key)}
+            onMouseLeave={hide}
+          >
+            <button
+              type="button"
+              aria-label={`${IA_SPOT.name}: ${IA_SPOT.promise}`}
+              aria-expanded={open === IA_SPOT.key}
+              onFocus={() => show(IA_SPOT.key, true)}
+              onBlur={hide}
+              onClick={(e) => {
+                e.stopPropagation();
+                setPinned(pinned === IA_SPOT.key ? null : IA_SPOT.key);
+              }}
+              className={cn(
+                "relative grid size-10 place-items-center rounded-full",
+                "bg-[var(--accent)] text-white ring-2 ring-white",
+                "transition-opacity duration-200",
+                open !== null && open !== IA_SPOT.key ? "opacity-55" : "opacity-100",
+              )}
+            >
+              {open === IA_SPOT.key && (
+                <span
+                  aria-hidden
+                  className="absolute inset-0 animate-ping rounded-full ring-2 ring-white"
+                  style={{ animationDuration: "800ms" }}
+                />
+              )}
+              <Icon name={IA_SPOT.icon} size="empty" />
+            </button>
+
+            {open === IA_SPOT.key && (
+              <div
+                onMouseEnter={() => show(IA_SPOT.key, true)}
+                onMouseLeave={hide}
+                className="absolute left-1/2 top-full z-30 mt-3 w-[320px] max-w-[80vw] -translate-x-1/2 rounded-[var(--radius-lg)] border border-line bg-surface p-5 shadow-[var(--shadow-card)]"
+              >
+                <h3 className="text-[length:var(--text-card)] leading-snug text-ink">
+                  {IA_SPOT.name}
+                </h3>
+                <p className="mt-2 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
+                  {IA_SPOT.promise}
+                </p>
+                <Link
+                  to="/ia"
+                  className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
+                >
+                  Ver aplicaciones de IA
+                  <Icon name="arrow-right" />
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

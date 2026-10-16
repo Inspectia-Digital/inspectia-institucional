@@ -6,7 +6,7 @@ export const Route = createFileRoute("/manufactura")({
   beforeLoad: () => {
     throw redirect({
       to: "/plataforma/$modulo",
-      params: { modulo: "control-de-calidad" },
+      params: { modulo: "calidad" },
       statusCode: 301,
     });
   },

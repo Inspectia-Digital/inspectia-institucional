@@ -1,4 +1,4 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import {
   Accordion,
   AccordionContent,
@@ -7,32 +7,36 @@ import {
 } from "@/components/ui/accordion";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
-import { PlansGrid } from "@/components/site/PlansGrid";
+import { PriceGrid, PriceGridCta } from "@/components/site/PriceGrid";
 import {
-  ADDON_PRICE_USD,
   COST_COMPARISON,
-  MODULE_PRICING_BASIS,
+  MODULE_PRICES,
   PRICING_FAQ,
-  TYMEO_PLANS,
+  PRICING_NOTE,
+  QUOTED_ITEMS,
 } from "@/content/pricing";
-import { MODULE_BY_KEY, type ModuleKey } from "@/content/modules";
 import { SHOW_PRICING, SITE_URL } from "@/content/site";
 import { faqJsonLd, pageHead } from "@/lib/seo";
+import { Icon } from "@/components/icons/Icon";
 
-const TITLE = "Precios de InspectIA: planes desde USD 0 · InspectIA";
+// 45 caracteres.
+const TITLE = "Precios por módulo y plan gratuito · InspectIA";
+// 154 caracteres.
 const DESCRIPTION =
-  "TYMEO arranca gratis y el plan con registro automatizado cuesta USD 35 por planta y mes, con usuarios ilimitados. Sin licencia perpetua ni cargo por puesto.";
+  "El precio de cada módulo, publicado, con su plan gratuito al lado. Conectar tus máquinas no sube de plan y los usuarios son ilimitados. Empezá gratis.";
 
 /**
- * Precios (§7.6).
+ * Precios.
  *
- * La página está construida y **fuera del aire**. El motivo no es que falte diseño: es que
- * publicar el precio de un módulo de ocho rompe la promesa de la página. Un visitante que
- * entra a "Precios" y encuentra la tarifa de TYMEO y siete "consultar" concluye que la
- * transparencia era del título.
+ * **Es la página que más define el posicionamiento** (doc 06 §1), porque es la prueba de
+ * que esto se compra sin proyecto. Estuvo fuera del aire todo el tiempo que hubo un solo
+ * módulo con precio: un visitante que entra a "Precios" y encuentra una tarifa y siete
+ * "consultar" concluye que la transparencia era del título. Con la grilla completa del
+ * catálogo de septiembre de 2026, el motivo desapareció y `SHOW_PRICING` pasó a true.
  *
- * SHOW_PRICING la saca del menú y del sitemap; acá devuelve 404 para que tampoco quede
- * accesible por URL directa ni indexable. Se enciende cambiando una constante.
+ * El `beforeLoad` se conserva igual: si alguien vuelve a apagar la constante, la página
+ * deja de ser accesible por URL directa y deja de ser indexable, no sólo desaparece del
+ * menú.
  *
  * Es la única página del sitio donde `SoftwareApplication` corresponde, porque es la única
  * con precio: declararlo en la home o en /plataforma sin `offers` no aporta nada.
@@ -51,15 +55,18 @@ export const Route = createFileRoute("/precios")({
         "@graph": [
           {
             "@type": "SoftwareApplication",
-            name: "TYMEO",
+            name: "InspectIA",
             applicationCategory: "BusinessApplication",
             operatingSystem: "Web",
-            url: `${SITE_URL}/plataforma/tymeo`,
-            offers: TYMEO_PLANS.filter((p) => typeof p.base === "number").map((p) => ({
+            url: `${SITE_URL}/plataforma`,
+            offers: MODULE_PRICES.map((p) => ({
               "@type": "Offer",
               name: p.name,
-              price: String(p.base),
+              price: String(p.usd),
               priceCurrency: "USD",
+              // La unidad de cobro es parte de la oferta: sin esto, "100" se lee como el
+              // precio del módulo entero y no como el precio por línea o por planta.
+              description: `Por ${p.unit} y por mes`,
             })),
           },
           faqJsonLd(PRICING_FAQ),
@@ -78,78 +85,38 @@ function Page() {
     <SiteLayout>
       <PageHero
         eyebrow="Precios"
-        title="Empezá gratis y pagá por planta, no por persona"
-        lead="Los precios están publicados porque no queremos que pidas una cotización para saber si esto entra en tu presupuesto. TYMEO arranca en cero y sin tarjeta; los planes con registro automatizado se pagan por planta y por mes, con usuarios ilimitados."
+        title="El precio está publicado, módulo por módulo"
+        lead="No hace falta pedir una cotización para saber si esto entra en tu presupuesto. Cada módulo tiene su precio y su plan gratuito, los usuarios son ilimitados y conectar las máquinas que ya tenés no te sube de plan."
         cta={false}
       />
 
       <section className={`bg-surface ${SECTION}`}>
         <div className={CONTAINER}>
-          {/* Deja claro que la grilla es de un módulo y no de la plataforma entera, que
-              es la confusión que esta página puede generar. */}
-          <h2 className={`max-w-[24ch] ${H2}`}>TYMEO: medición de producción</h2>
+          <h2 className={`max-w-[24ch] ${H2}`}>Qué cuesta cada módulo</h2>
           <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
-            Estos son los planes del módulo de OEE y tiempos, que es el que casi todas las plantas
-            usan primero.
+            Se suman de a uno, cuando el dato del anterior lo justifica. No hay paquete mínimo ni
+            módulo obligatorio.
           </p>
 
           <div className="mt-12">
-            <PlansGrid />
+            <PriceGrid />
           </div>
 
-          <p className="mt-8 max-w-[60ch] text-[13px] leading-[var(--leading-normal)] text-ink-muted">
-            Cada add-on suma USD {ADDON_PRICE_USD} por mes. En Pro vienen incluidos.
-          </p>
-          <p className="mt-3 max-w-[60ch] text-[13px] leading-[var(--leading-normal)] text-ink-muted">
-            El precio es del software. Instalar sensores, PLC o terminales en la planta es un paso
-            aparte: lo podés resolver con tu equipo siguiendo nuestra guía, o contratarlo con
-            nosotros y se cotiza según lo que la planta necesite.
-          </p>
+          {/* Texto acordado con comercial, no copy de la web: cada línea responde una
+              objeción que aparece mirando la tabla. No se reescribe por estilo. */}
+          <ul className="mt-8 max-w-[var(--read-max)] space-y-2.5">
+            {PRICING_NOTE.map((line) => (
+              <li key={line} className="text-[13px] leading-[var(--leading-normal)] text-ink-muted">
+                {line}
+              </li>
+            ))}
+          </ul>
+
+          <PriceGridCta />
         </div>
       </section>
 
-      {/* Sin esta sección la página promete transparencia y la rompe en el segundo scroll. */}
-      <section className={`bg-surface-sunken ${SECTION}`}>
-        <div className={CONTAINER}>
-          <h2 className={`max-w-[24ch] ${H2}`}>Los otros módulos</h2>
-          <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
-            Cada uno se cotiza según el alcance, porque lo que define el precio cambia de módulo a
-            módulo. Esto es lo que se mide en cada caso.
-          </p>
-
-          <div className="mt-12 -mx-5 overflow-x-auto px-5 md:mx-0 md:px-0">
-            <table className="w-full min-w-[34rem] border-collapse text-left">
-              <thead>
-                <tr className="border-b border-line">
-                  <th scope="col" className="pb-3 pr-6 text-[13px] font-medium text-ink-secondary">
-                    Módulo
-                  </th>
-                  <th scope="col" className="pb-3 text-[13px] font-medium text-ink-secondary">
-                    Qué define el precio
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {MODULE_PRICING_BASIS.map((row) => (
-                  <tr key={row.module} className="border-b border-line">
-                    <th
-                      scope="row"
-                      className="py-4 pr-6 align-top text-[15px] font-medium text-ink"
-                    >
-                      {MODULE_BY_KEY.get(row.module as ModuleKey)?.name ?? row.module}
-                    </th>
-                    <td className="py-4 text-[15px] text-ink-secondary">{row.basis}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* TODO(comercial): validar los siete criterios, y agregar la columna de qué
-              incluye la puesta en marcha, que hoy no está definida. */}
-        </div>
-      </section>
-
+      <Quoted />
       <CostComparison />
 
       <section className={`bg-surface-sunken ${SECTION}`}>
@@ -177,6 +144,62 @@ function Page() {
         </div>
       </section>
     </SiteLayout>
+  );
+}
+
+/**
+ * Lo que no tiene precio de lista.
+ *
+ * Va **debajo** de la grilla y no al lado: arriba compite con el precio publicado, que es
+ * el argumento de la página. Sin cifras y sin "desde" (doc 06 §5).
+ */
+function Quoted() {
+  return (
+    <section className={`bg-surface-sunken ${SECTION}`}>
+      <div className={CONTAINER}>
+        <h2 className={`max-w-[24ch] ${H2}`}>Lo que se cotiza</h2>
+        <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
+          Tres cosas quedan fuera del precio de lista, y las tres son opcionales: el producto
+          funciona sin ninguna, cargando a mano.
+        </p>
+
+        <ul className="mt-12 grid gap-8 min-[900px]:grid-cols-3">
+          {QUOTED_ITEMS.map((item) => (
+            <li key={item.title} className="min-w-0">
+              <h3 className="text-[length:var(--text-card)] leading-snug text-ink">{item.title}</h3>
+              <p className="mt-3 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
+                {item.body}
+              </p>
+            </li>
+          ))}
+        </ul>
+
+        {/* El gancho de Kit 4.0 va acá y el tope del combo queda en la nota al pie: dos
+            "50 %" compitiendo en la misma pantalla se anulan. */}
+        <p className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-[15px] leading-[var(--leading-normal)] text-ink">
+          <span className="max-w-[48ch]">
+            Somos proveedores de Kit 4.0: tu proyecto puede tener hasta un 50 % de descuento.
+          </span>
+          <Link
+            to="/kit-4-0"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
+          >
+            Ver qué kit te corresponde
+            <Icon name="arrow-right" />
+          </Link>
+        </p>
+
+        <p className="mt-4">
+          <Link
+            to="/ia"
+            hash="diagnostico"
+            className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] border border-line-brand bg-action-soft px-8 text-[15px] font-semibold text-action-soft-text transition-colors duration-[160ms] hover:bg-teal-100 active:translate-y-px"
+          >
+            Pedí un diagnóstico
+          </Link>
+        </p>
+      </div>
+    </section>
   );
 }
 

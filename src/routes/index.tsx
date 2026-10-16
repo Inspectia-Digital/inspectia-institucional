@@ -10,16 +10,21 @@ import {
   Faq,
   HomeRoi,
   HOME_FAQ,
+  IaBand,
+  Kit40Band,
   MarketplaceTeaser,
   PartnersBand,
+  PricingTeaser,
   StartFree,
 } from "@/components/home/sections";
 import { faqJsonLd, organizationJsonLd, pageHead } from "@/lib/seo";
 import { Icon } from "@/components/icons/Icon";
 
-const TITLE = "Software de OEE, calidad e inventario industrial · InspectIA";
+// 58 caracteres.
+const TITLE = "Medí y controlá la operación de tu planta · InspectIA";
+// 155 caracteres.
 const DESCRIPTION =
-  "Ocho módulos sobre la operación que ya tenés: OEE, calidad, recepción, inventario y pedidos. De la reunión de arranque a producción, entre 1 y 10 días.";
+  "Producción, calidad, stock, mantenimiento, tareas y energía en un solo sistema. Ves lo que hoy se pierde, entendés por qué y ajustás. Empezá gratis.";
 
 /**
  * Home (§7.1). Una idea por sección, y cada sección con su página de destino: la home
@@ -58,6 +63,10 @@ function Home() {
       <StartFree />
       {/* 06 */}
       <AudienceTabs />
+      {/* 06b */}
+      <IaBand />
+      {/* 06c */}
+      <Kit40Band />
 
       {/* TODO(fase 3): 07 · Caso destacado. Un caso a sangre con foto y tres números,
           rotando entre manufactura y logística. Bloqueado por la aprobación de nombres y
@@ -69,10 +78,8 @@ function Home() {
       <HomeRoi />
       {/* 10 */}
       <PartnersBand />
-      {/* 11 · Precios queda fuera del aire hasta tener el precio de todos los módulos
-          (SHOW_PRICING). El copy aprobado, para cuando se destrabe:
-          "TYMEO arranca gratis y el plan con hardware cuesta USD 35 por planta y mes.
-           Los demás módulos se cotizan según el alcance." */}
+      {/* 11 */}
+      <PricingTeaser />
       {/* 12 */}
       <Faq />
       {/* 13 · La banda de cierre la monta SiteLayout. */}
@@ -80,14 +87,14 @@ function Home() {
   );
 }
 
-/** Bloque 03: el plano interactivo arriba y la grilla de los ocho módulos abajo. */
+/** Bloque 03: el plano interactivo arriba y la grilla de los siete módulos abajo. */
 function Platform() {
   return (
     <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8 min-[1100px]:py-[var(--section-pad)]">
       <div className="mx-auto max-w-[var(--content-max)]">
         <p className="eyebrow">La plataforma</p>
         <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
-          Una sola plataforma para gobernar toda tu operación.
+          Una sola plataforma para toda tu operación
         </h2>
         <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
           Contratás sólo los módulos que usás. Los datos se cargan una sola vez, mismos usuarios,
@@ -97,7 +104,7 @@ function Platform() {
         {/* El plano no entra en un teléfono. Mide 640px de ancho mínimo porque abajo de
             eso el render isométrico deja de leerse, así que en 375 quedaba un dibujo
             recortado que hay que arrastrar y donde no se distingue nada. La grilla de
-            abajo cuenta lo mismo —los ocho módulos— y en mobile lo cuenta mejor. */}
+            abajo cuenta lo mismo —los siete módulos— y en mobile lo cuenta mejor. */}
         <div className="mt-12 hidden min-[720px]:block">
           <FloorPlan />
         </div>

@@ -5,8 +5,8 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 export const Route = createFileRoute("/recepcion")({
   beforeLoad: () => {
     throw redirect({
-      to: "/plataforma/$modulo",
-      params: { modulo: "recepcion" },
+      to: "/ia/$aplicacion",
+      params: { aplicacion: "recepcion" },
       statusCode: 301,
     });
   },

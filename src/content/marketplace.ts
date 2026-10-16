@@ -32,7 +32,7 @@ export const MARKETPLACE_CATEGORIES: MarketplaceCategory[] = [
     // La key no cambia: es el filtro y la URL de la categoría.
     name: "Hardware, sensores e IoT",
     solves: "Cámaras, sensores, lectoras y la instalación en piso de planta.",
-    combinesWith: ["control-de-calidad", "tymeo", "camaras-inteligentes"],
+    combinesWith: ["calidad", "produccion"],
     providers: [
       { name: "Balluff", logo: PARTNER_LOGO.balluff },
       // Teksis entra por la parte de "instalación en piso de planta" de esta categoría:
@@ -45,21 +45,25 @@ export const MARKETPLACE_CATEGORIES: MarketplaceCategory[] = [
     key: "erp",
     name: "ERP",
     solves: "Implementación del ERP y del enlace con la planta, para no recargar el dato a mano.",
-    combinesWith: ["tymeo", "recepcion"],
+    combinesWith: ["produccion", "stock"],
     providers: [{ name: "BPS", logo: PARTNER_LOGO.bps }],
   },
   {
     key: "wms",
     name: "WMS",
     solves: "Gestión de depósito que recibe lo que cuentan los módulos de stock y recepción.",
-    combinesWith: ["recepcion", "stock-en-posiciones", "control-de-pedidos"],
+    combinesWith: ["stock", "trazabilidad"],
     providers: [{ name: "Cygnus", logo: PARTNER_LOGO.cygnus }],
   },
   {
     key: "bots",
     name: "Bots y automatización",
     solves: "Tareas repetitivas de oficina y de piso, resueltas sin gente.",
-    combinesWith: ["agente"],
+    /* Vacío, y es correcto: el módulo Agente salió del catálogo y la automatización por
+     * agentes pasó a cotizarse como proyecto. Apuntar esta categoría a cualquiera de los
+     * siete sería forzar una relación que no existe; la grilla omite la línea "Se combina
+     * con" cuando la lista está vacía. */
+    combinesWith: [],
     providers: [],
   },
   {
@@ -74,7 +78,7 @@ export const MARKETPLACE_CATEGORIES: MarketplaceCategory[] = [
     key: "datos",
     name: "Datos y analítica",
     solves: "Tableros de gestión y BI sobre los datos que la plataforma genera.",
-    combinesWith: ["tymeo", "control-de-calidad", "stock-en-posiciones"],
+    combinesWith: ["produccion", "calidad", "stock"],
     providers: [
       { name: "Quantit Data", logo: PARTNER_LOGO.quantit },
       { name: "Tecnología BI", logo: PARTNER_LOGO["tecnologia-bi"] },

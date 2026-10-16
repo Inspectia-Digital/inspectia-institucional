@@ -5,8 +5,8 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 export const Route = createFileRoute("/outbound")({
   beforeLoad: () => {
     throw redirect({
-      to: "/plataforma/$modulo",
-      params: { modulo: "control-de-pedidos" },
+      to: "/ia/$aplicacion",
+      params: { aplicacion: "control-de-pedidos" },
       statusCode: 301,
     });
   },
