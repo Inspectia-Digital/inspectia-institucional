@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { APP_SHOT } from "@/content/assets";
 import { MODULES } from "@/content/modules";
 import { CtaPair } from "@/components/site/CtaPair";
 
@@ -14,40 +15,34 @@ import { CtaPair } from "@/components/site/CtaPair";
  */
 
 /** Cada dato lleva su unidad y su período. Un número suelto no dice nada (§10.1). */
-const STATS = [
-  // El espacio antes del % es duro: sin él, "100" y "%" pueden partirse en dos líneas.
-  { value: "100\u00A0%", label: "De la producción analizada, no una muestra" },
-  // El plazo vive en nueve lugares del sitio —acá, la meta description de la home, el
-  // timeline de seis etapas, el selector de perfil, Producción y su FAQ, la tabla de planes—
-  // y los nueve dicen lo mismo. Si cambia, cambian los nueve: `grep "1 a 10"`.
-  { value: "1 a 10 días", label: "De implementación a producción" },
-  // TODO(equipo): el dato aprobado para este lugar es el de abajo, pero le falta el
-  // denominador: "75\u00A0% más barato" que qué. Hasta que el equipo lo escriba, va el repago,
-  // que sí tiene contra qué medirse. Confirmado el denominador, se cambia por:
-  //   { value: "75\u00A0%", label: "Más barato que automatizar la línea" },
-  // Entregado como "Repagos en menores a un 1 mes"; se publica con la concordancia
-  // corregida y nada más. El dato anterior era repago en menos de seis meses sobre el
-  // costo del módulo: éste afirma seis veces más rápido y sobre el costo total.
-  { value: "Repago en menos de 1 mes", label: "Sobre el costo total" },
-];
-
 export function Hero() {
   return (
     <section className="bg-brand-deep px-5 py-16 md:px-8 md:py-24 min-[1100px]:py-[var(--section-pad)]">
-      <div className="mx-auto max-w-[var(--content-max-hero)]">
-        {/* TODO(equipo): la segunda columna es una foto real de planta, a 36% y con borde
-            al 14% (§11.2). Falta la fotografía propia (§15.9). El render isométrico no
-            sirve acá: ya es el protagonista del bloque 03 y repetirlo lo gasta.
-            Alt aprobado, a ajustar a lo que muestre la foto real:
-            "Línea de producción en planta, con operario controlando el proceso desde una
-             terminal" */}
-        {/* El 64% reserva el 36% para la foto, y eso sólo tiene sentido cuando las dos
-            columnas conviven. Sin el corte, en un teléfono de 375px la columna de texto
-            medía 214px: el h1 quedaba clavado en el mínimo del clamp y el lead caía en
-            columna angosta, reservando el resto para una foto que en mobile no va. */}
-        <div className="hero-col max-w-full min-[900px]:max-w-[64%] min-[1100px]:max-w-[46rem]">
-          <p className="text-xs font-semibold uppercase tracking-[var(--tracking-widest)] text-[var(--accent-on-brand)]">
-            InspectIA · Una plataforma con soluciones aplicadas a la industria y la logística
+      {/* Dos columnas cuando hay captura, una sola cuando no.
+
+          La segunda columna es la aplicación andando, no una foto de planta: el visitante
+          ya ve una planta en el bloque del plano, y lo que no ve en ninguna parte es qué
+          le queda en la pantalla después de comprar. Para un producto que se contrata
+          solo, esa es la objeción que el encabezado puede sacar del medio.
+
+          **En mobile no se muestra.** Un tablero con tablas y gráficos a 375px no se lee:
+          ocupa media pantalla y no comunica nada, y lo que empuja ahí son el titular y los
+          botones. No es que el móvil se pensó después; es que ese contenido no entra. */}
+      <div
+        className={
+          APP_SHOT
+            ? "mx-auto grid max-w-[var(--content-max-hero)] items-center gap-12 min-[900px]:grid-cols-[minmax(0,1fr)_minmax(0,0.78fr)]"
+            : "mx-auto max-w-[var(--content-max-hero)]"
+        }
+      >
+        <div className="hero-col max-w-full min-[1100px]:max-w-[46rem]">
+          {/* Sin versales, a diferencia del resto de los eyebrow del sitio.
+              El texto pasó de 54 a 80 caracteres y en mayúsculas con tracking ancho ocupa
+              tres líneas en un teléfono, justo arriba del titular y con el mismo peso
+              visual: le compite en vez de presentarlo. En caja baja entra en dos y vuelve
+              a leerse como lo que es, una bajada de marca. */}
+          <p className="text-[13px] font-medium text-[var(--accent-on-brand)]">
+            InspectIA · Una plataforma con soluciones para toda la operación de una fábrica
           </p>
 
           <h1
@@ -81,49 +76,23 @@ export function Hero() {
             </Link>
             .
           </p>
-
-          {/* Enlaces de texto: los únicos botones de la sección son los dos de arriba. */}
-          <p className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-[15px]">
-            <Link
-              to="/roi"
-              className="text-on-brand-secondary underline-offset-4 transition-colors duration-[160ms] hover:text-on-brand hover:underline"
-            >
-              Calcular mi ROI
-            </Link>
-            <Link
-              to="/plataforma"
-              className="text-on-brand-secondary underline-offset-4 transition-colors duration-[160ms] hover:text-on-brand hover:underline"
-            >
-              Ver los siete módulos
-            </Link>
-          </p>
         </div>
 
-        {/* Tres líneas apiladas en mobile y una fila en desktop: nunca una grilla de 2+1,
-            que deja un dato colgado y se lee como un error de maquetado. */}
-        <dl className="mt-14 flex flex-col gap-6 border-t border-[var(--border-on-brand)] pt-8 min-[720px]:flex-row min-[720px]:gap-0">
-          {STATS.map((s, i) => (
-            <div
-              key={s.value}
-              className={
-                "min-w-0 min-[720px]:flex-1 min-[720px]:px-8 " +
-                (i > 0
-                  ? "min-[720px]:border-l min-[720px]:border-[var(--border-on-brand)]"
-                  : "min-[720px]:pl-0")
-              }
-            >
-              <dt className="sr-only">{s.label}</dt>
-              <dd>
-                <span className="metric block text-[32px] font-light leading-none text-[var(--accent-on-brand)]">
-                  {s.value}
-                </span>
-                <span className="mt-3 block text-xs uppercase tracking-[var(--tracking-caps)] text-on-brand-label">
-                  {s.label}
-                </span>
-              </dd>
-            </div>
-          ))}
-        </dl>
+        {APP_SHOT && (
+          <div className="hidden min-[900px]:block">
+            <img
+              src={APP_SHOT.src}
+              width={APP_SHOT.width}
+              height={APP_SHOT.height}
+              alt={APP_SHOT.alt}
+              // El encabezado es lo primero que se pinta: esta imagen no se difiere.
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+              className="w-full rounded-[var(--radius-lg)] border border-[var(--border-on-brand)] shadow-[var(--shadow-card)]"
+            />
+          </div>
+        )}
       </div>
     </section>
   );

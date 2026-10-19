@@ -379,7 +379,8 @@ export const MODULES: PlatformModule[] = [
     proof: null,
     icon: "warehouse",
     slug: "stock",
-    hotspot: { left: "69.5%", top: "32.7%", side: "bottom", align: "right" },
+    // Centrado sobre los racks, no en su borde.
+    hotspot: { left: "64%", top: "25%", side: "bottom", align: "center" },
     buildsOn: [],
     legacyPath: "/stock-picking",
 
@@ -480,9 +481,9 @@ export const MODULES: PlatformModule[] = [
     proof: null,
     icon: "traceability",
     slug: "trazabilidad",
-    // Punto que liberó recepción al salir del frente. La zona es la de entrada de
-    // material, que es donde arranca la genealogía de un lote.
-    hotspot: { left: "33.5%", top: "44.7%", side: "bottom", align: "center" },
+    // Sobre los pallets de materia prima que entran a la línea, que es donde arranca la
+    // genealogía de un lote. Comparte la vertical con el punto de recepción, más abajo.
+    hotspot: { left: "34%", top: "31%", side: "bottom", align: "center" },
     buildsOn: ["produccion"],
     pairsWith: ["stock", "calidad"],
 
@@ -618,8 +619,8 @@ export const MODULES: PlatformModule[] = [
     proof: null,
     icon: "maintenance",
     slug: "mantenimiento",
-    // Punto que liberó control de pedidos. Sobre el sector de máquinas.
-    hotspot: { left: "76.1%", top: "44.5%", side: "top", align: "right" },
+    // Sobre el espacio libre que queda arriba de la línea, del lado de las máquinas.
+    hotspot: { left: "48%", top: "16%", side: "bottom", align: "center" },
     buildsOn: ["produccion"],
     pairsWith: ["tareas"],
 
@@ -686,9 +687,9 @@ export const MODULES: PlatformModule[] = [
     proof: null,
     icon: "energy",
     slug: "energia",
-    // Punto que liberó drones. Queda en la zona alta del render, que es donde está la
-    // acometida y los tableros.
-    hotspot: { left: "57.6%", top: "13.8%", side: "bottom", align: "center" },
+    // Afuera de la nave, junto a la planta de tratamiento y al camión de desecho: el
+    // consumo de planta no se mide adentro de la línea.
+    hotspot: { left: "87%", top: "60%", side: "top", align: "right" },
     buildsOn: [],
     pairsWith: ["produccion"],
 

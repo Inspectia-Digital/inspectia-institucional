@@ -8,12 +8,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { CtaPair } from "@/components/site/CtaPair";
 import { LOCKUP } from "@/content/assets";
 import { MODULES } from "@/content/modules";
 import { INDUSTRIES, USE_CASES } from "@/content/solutions";
+import { IA_APPLICATIONS } from "@/content/ia";
 import { approvedCases } from "@/content/cases";
-import { APP_URL, SHOW_PRICING } from "@/content/site";
+import { APP_URL, SHOW_PRICING, SIGNUP_URL } from "@/content/site";
+import { pushEvent, sourcePage } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { Icon } from "@/components/icons/Icon";
 
@@ -139,7 +140,13 @@ export function Navbar() {
             <NavigationMenu.Item className="static">
               <MenuTrigger>Soluciones</MenuTrigger>
               <Panel>
-                <div className="grid grid-cols-2 gap-10">
+                {/* Tres columnas: industria, caso de uso e IA.
+                    IA estaba como entrada propia de la barra y ahí competía con
+                    Plataforma por la atención sin ser un nivel equivalente: no es una
+                    familia de producto, es una forma de resolver un problema. Dentro de
+                    Soluciones queda donde el visitante la busca —"cómo resuelvo esto"— y
+                    libera un lugar en una barra que ya no entraba. */}
+                <div className="grid grid-cols-3 gap-10">
                   <MenuColumn title="Por industria">
                     {INDUSTRIES.filter((i) => i.published).map((i) => (
                       <MenuRow key={i.slug} to={`/soluciones/${i.slug}`}>
@@ -153,6 +160,14 @@ export function Navbar() {
                         {u.name}
                       </MenuRow>
                     ))}
+                  </MenuColumn>
+                  <MenuColumn title="Con IA">
+                    {IA_APPLICATIONS.filter((a) => a.hasPage).map((a) => (
+                      <MenuRow key={a.id} to={`/ia/${a.id}`}>
+                        {a.title}
+                      </MenuRow>
+                    ))}
+                    <MenuRow to="/ia">Ver todas las aplicaciones</MenuRow>
                   </MenuColumn>
                 </div>
                 {/* El enlace aparece cuando hay al menos un caso aprobado para publicar.
@@ -173,18 +188,6 @@ export function Navbar() {
               </Panel>
             </NavigationMenu.Item>
 
-            <NavigationMenu.Item className="static">
-              <NavigationMenu.Link asChild>
-                <TopLink to="/ia">IA</TopLink>
-              </NavigationMenu.Link>
-            </NavigationMenu.Item>
-
-            <NavigationMenu.Item className="static">
-              <NavigationMenu.Link asChild>
-                <TopLink to="/kit-4-0">Kit 4.0</TopLink>
-              </NavigationMenu.Link>
-            </NavigationMenu.Item>
-
             {SHOW_PRICING && (
               <NavigationMenu.Item className="static">
                 <NavigationMenu.Link asChild>
@@ -203,23 +206,36 @@ export function Navbar() {
 
         {/* ---------- Derecha ---------- */}
         <div className="hidden items-center gap-6 nav:flex">
-          {/* Enlaces de texto: los únicos botones de la barra son los dos primarios.
-              Y por eso son también lo primero que se cae: entre el corte de 900px y los
-              1100 la barra completa —lockup, tres entradas, dos enlaces y los dos
-              botones— no entra, y lo que hacía era empujar el documento. Los dos botones
-              se quedan siempre (§11.1); los dos enlaces vuelven cuando hay lugar, y
-              mientras tanto siguen en el pie y en el menú de mobile. */}
-          <div className="hidden items-center gap-6 min-[1100px]:flex">
+          {/* Los dos botones de la barra son Ingresar y Empezar gratis, y no los dos
+              primarios del sitio.
+
+              "Agendar demo" se fue de acá a la banda de cierre. Los tres juntos hacían
+              que la barra no entrara —se partía en dos líneas desde los 1100px— y además
+              competían: agendar una demo es una decisión que se toma después de leer la
+              página, no antes de empezar a leerla. Arriba quedan las dos acciones que
+              alguien decidido ya trae resueltas: entrar a su cuenta, o abrir una.
+
+              Empezar gratis va relleno y es el único botón sólido de la barra. */}
+          <div className="hidden items-center min-[1100px]:flex">
             <TopLink to="/roi">Calcular ROI</TopLink>
+          </div>
+          <div className="flex items-center gap-3">
             <a
               href={APP_URL}
               rel="nofollow"
-              className="text-[15px] font-medium text-ink-secondary transition-colors duration-[160ms] hover:text-brand"
+              className="inline-flex h-11 items-center justify-center rounded-[var(--radius-md)] border border-line-brand bg-action-soft px-5 text-[15px] font-semibold text-action-soft-text transition-colors duration-[160ms] hover:bg-teal-100 active:translate-y-px"
             >
               Ingresar
             </a>
+            <a
+              href={SIGNUP_URL}
+              rel="nofollow"
+              onClick={() => pushEvent("signup_start", { source_page: sourcePage() })}
+              className="inline-flex h-11 items-center justify-center rounded-[var(--radius-md)] bg-action px-5 text-[15px] font-semibold text-white transition-colors duration-[160ms] hover:bg-action-hover active:translate-y-px"
+            >
+              Empezar gratis
+            </a>
           </div>
-          <CtaPair size="bar" />
         </div>
 
         {/* ---------- Mobile ---------- */}
@@ -305,16 +321,6 @@ export function Navbar() {
               </Accordion>
 
               <ul className="mt-2">
-                <li>
-                  <MobileRow to="/ia" onNavigate={() => setMobileOpen(false)} strong>
-                    IA
-                  </MobileRow>
-                </li>
-                <li>
-                  <MobileRow to="/kit-4-0" onNavigate={() => setMobileOpen(false)} strong>
-                    Kit 4.0
-                  </MobileRow>
-                </li>
                 {SHOW_PRICING && (
                   <li>
                     <MobileRow to="/precios" onNavigate={() => setMobileOpen(false)} strong>

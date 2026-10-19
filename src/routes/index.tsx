@@ -10,8 +10,7 @@ import {
   Faq,
   HomeRoi,
   HOME_FAQ,
-  IaBand,
-  Kit40Band,
+  IaAndKitBand,
   MarketplaceTeaser,
   PartnersBand,
   PricingTeaser,
@@ -64,9 +63,7 @@ function Home() {
       {/* 06 */}
       <AudienceTabs />
       {/* 06b */}
-      <IaBand />
-      {/* 06c */}
-      <Kit40Band />
+      <IaAndKitBand />
 
       {/* TODO(fase 3): 07 · Caso destacado. Un caso a sangre con foto y tres números,
           rotando entre manufactura y logística. Bloqueado por la aprobación de nombres y
@@ -92,14 +89,21 @@ function Platform() {
   return (
     <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8 min-[1100px]:py-[var(--section-pad)]">
       <div className="mx-auto max-w-[var(--content-max)]">
-        <p className="eyebrow">La plataforma</p>
-        <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
-          Una sola plataforma para toda tu operación
-        </h2>
-        <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
-          Contratás sólo los módulos que usás. Los datos se cargan una sola vez, mismos usuarios,
-          mismo tablero. Podés contratar cuando quieras desde el Marketplace.
-        </p>
+        {/* El único encabezado centrado de la home, y tiene motivo: abajo va el plano,
+            que es una imagen ancha y centrada. Un título pegado al margen izquierdo sobre
+            una imagen que ocupa todo el ancho queda flotando, sin nada que lo sostenga.
+            El resto de las secciones siguen alineadas a la izquierda, que es lo que hace
+            legible un párrafo. */}
+        <div className="mx-auto max-w-[var(--lead-max)] text-center">
+          <p className="eyebrow">La plataforma</p>
+          <h2 className="mt-4 text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+            Una sola plataforma para toda tu operación
+          </h2>
+          <p className="mt-6 text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
+            Contratás sólo los módulos que usás. Los datos se cargan una sola vez, mismos usuarios,
+            mismo tablero.
+          </p>
+        </div>
 
         {/* El plano no entra en un teléfono. Mide 640px de ancho mínimo porque abajo de
             eso el render isométrico deja de leerse, así que en 375 quedaba un dibujo

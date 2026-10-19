@@ -28,27 +28,28 @@ const OPEN_DELAY = 200;
 const CLOSE_DELAY = 300;
 
 /**
- * El octavo punto del plano no es un módulo.
+ * El octavo punto del plano: el control de recepción.
  *
- * El catálogo tiene siete y el plano muestra los siete, pero la IA es la otra forma de
- * que entre el dato y no aparecía en ninguna parte del dibujo. Como no es un módulo —no
- * tiene precio de lista, no tiene página en /plataforma— no puede salir de `MODULES`, y
- * meterlo ahí como entrada falsa contaminaría el menú, la grilla y el sitemap.
+ * **No es un módulo y por eso está acá y no en `MODULES`.** El catálogo de septiembre lo
+ * dejó adentro de Stock como contenido, y la versión que se cotiza —contar con una cámara
+ * en el muelle— vive en /ia. Pero en el dibujo el muelle existe y la operación arranca
+ * ahí: sacarlo del plano dejaba la puerta de entrada de la planta sin marcar.
  *
- * Va como punto aparte, con el mismo comportamiento que los otros —hover, foco, clic para
- * fijar— y distinguido por el color: ámbar en vez de teal, que es el acento que el sistema
- * reserva para lo que se cotiza.
+ * Hubo un punto de "Sumale IA" en este lugar del archivo, con el mismo mecanismo. Se sacó
+ * porque la IA no es un lugar de la planta: está en todos y en ninguno, y un punto sobre
+ * el piso le hacía creer al que mira que había una máquina de IA en algún rincón.
+ *
  */
-const IA_SPOT = {
-  key: "ia" as const,
-  name: "Sumale IA",
-  promise: "Visión artificial, modelos y agentes. Se cotiza como proyecto.",
-  icon: "visionInspection" as const,
-  // Zona libre del render, entre la línea y el depósito.
-  hotspot: { left: "40.2%", top: "52.4%" },
+const DOCK_SPOT = {
+  key: "recepcion-dock" as const,
+  name: "Control de recepción",
+  promise: "Lo que baja del camión, contado y controlado contra el remito, en el momento.",
+  icon: "inbound" as const,
+  // El muelle, donde entra la mercadería.
+  hotspot: { left: "33.5%", top: "44.7%" },
 };
 
-type SpotKey = ModuleKey | typeof IA_SPOT.key;
+type SpotKey = ModuleKey | typeof DOCK_SPOT.key;
 
 export function FloorPlan() {
   const [active, setActive] = useState<SpotKey | null>(null);
@@ -181,57 +182,61 @@ export function FloorPlan() {
             );
           })}
 
-          {/* El punto de IA. Mismo comportamiento, otro color y otro destino. */}
+          {/* El punto del muelle. Mismo comportamiento, otro color y otro destino. */}
           <div
             className="absolute z-20 -translate-x-1/2 -translate-y-1/2"
-            style={{ left: IA_SPOT.hotspot.left, top: IA_SPOT.hotspot.top }}
-            onMouseEnter={() => show(IA_SPOT.key)}
+            style={{ left: DOCK_SPOT.hotspot.left, top: DOCK_SPOT.hotspot.top }}
+            onMouseEnter={() => show(DOCK_SPOT.key)}
             onMouseLeave={hide}
           >
             <button
               type="button"
-              aria-label={`${IA_SPOT.name}: ${IA_SPOT.promise}`}
-              aria-expanded={open === IA_SPOT.key}
-              onFocus={() => show(IA_SPOT.key, true)}
+              aria-label={`${DOCK_SPOT.name}: ${DOCK_SPOT.promise}`}
+              aria-expanded={open === DOCK_SPOT.key}
+              onFocus={() => show(DOCK_SPOT.key, true)}
               onBlur={hide}
               onClick={(e) => {
                 e.stopPropagation();
-                setPinned(pinned === IA_SPOT.key ? null : IA_SPOT.key);
+                setPinned(pinned === DOCK_SPOT.key ? null : DOCK_SPOT.key);
               }}
               className={cn(
                 "relative grid size-10 place-items-center rounded-full",
-                "bg-[var(--accent)] text-white ring-2 ring-white",
+                // El mismo relleno que los otros siete: el muelle es parte de la
+                // operación como cualquier otro punto, y pintarlo distinto sugería una
+                // categoría que no existe.
+                "bg-brand text-white ring-2 ring-white",
                 "transition-opacity duration-200",
-                open !== null && open !== IA_SPOT.key ? "opacity-55" : "opacity-100",
+                open !== null && open !== DOCK_SPOT.key ? "opacity-55" : "opacity-100",
               )}
             >
-              {open === IA_SPOT.key && (
+              {open === DOCK_SPOT.key && (
                 <span
                   aria-hidden
                   className="absolute inset-0 animate-ping rounded-full ring-2 ring-white"
                   style={{ animationDuration: "800ms" }}
                 />
               )}
-              <Icon name={IA_SPOT.icon} size="empty" />
+              <Icon name={DOCK_SPOT.icon} size="empty" />
             </button>
 
-            {open === IA_SPOT.key && (
+            {open === DOCK_SPOT.key && (
               <div
-                onMouseEnter={() => show(IA_SPOT.key, true)}
+                onMouseEnter={() => show(DOCK_SPOT.key, true)}
                 onMouseLeave={hide}
                 className="absolute left-1/2 top-full z-30 mt-3 w-[320px] max-w-[80vw] -translate-x-1/2 rounded-[var(--radius-lg)] border border-line bg-surface p-5 shadow-[var(--shadow-card)]"
               >
                 <h3 className="text-[length:var(--text-card)] leading-snug text-ink">
-                  {IA_SPOT.name}
+                  {DOCK_SPOT.name}
                 </h3>
                 <p className="mt-2 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
-                  {IA_SPOT.promise}
+                  {DOCK_SPOT.promise}
                 </p>
                 <Link
-                  to="/ia"
+                  to="/ia/$aplicacion"
+                  params={{ aplicacion: "recepcion" }}
                   className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
                 >
-                  Ver aplicaciones de IA
+                  Ver control de recepción
                   <Icon name="arrow-right" />
                 </Link>
               </div>

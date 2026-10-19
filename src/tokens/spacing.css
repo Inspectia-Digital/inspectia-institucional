@@ -16,10 +16,20 @@
   --space-12: 80px;
   --space-13: 120px;
 
-  /* Padding vertical de sección, por ancho de viewport. */
-  --section-pad: 120px; /* ≥1100 */
-  --section-pad-md: 72px; /* 720–1100 */
-  --section-pad-sm: 56px; /* <720 */
+  /* Padding vertical de sección, por ancho de viewport.
+
+     Bajados de 120/72/56 el 19/10/2026. El valor anterior venía de §10.3 —"el aire es lo
+     que hace que una página con doce bloques se sienta simple"— y la idea sigue siendo
+     cierta, pero 120 arriba y 120 abajo son 240px de nada entre dos secciones: con doce
+     bloques, la página pedía scroll sin entregar contenido y se leía despareja, porque el
+     hueco entre secciones era mayor que varias secciones enteras.
+
+     96 sigue siendo aire generoso para una institucional y recorta cerca de 1.700px de
+     scroll en la home. Si vuelve a sentirse apretada, el problema va a estar en el
+     interior de las secciones y no acá. */
+  --section-pad: 96px; /* ≥1100 */
+  --section-pad-md: 64px; /* 720–1100 */
+  --section-pad-sm: 48px; /* <720 */
 
   /* Padding lateral de página. */
   --page-pad: 32px;

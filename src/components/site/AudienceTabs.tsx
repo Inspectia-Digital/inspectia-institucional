@@ -23,7 +23,6 @@ type Profile = {
   pain: string;
   body: string;
   modules: ModuleKey[];
-  stat: { value: string; caption: string };
   /** Adónde sale cada perfil. Es un enlace de texto y no un botón: los dos únicos
    *  botones de la home son los primarios. */
   exit: { label: string; kind: "roi" | "signup" | "partners" };
@@ -36,7 +35,6 @@ const PROFILES: Profile[] = [
     pain: "Sé que pierdo eficiencia pero no puedo decir dónde.",
     body: "Ves qué línea te frena, cuántas veces y por qué, y cuánta producción se va en retrabajo.",
     modules: ["produccion", "calidad"],
-    stat: { value: "70 tipos de falla", caption: "en menos de 1 minuto · planta autopartista" },
     exit: { label: "Calcular mi ROI", kind: "roi" },
   },
   {
@@ -45,7 +43,6 @@ const PROFILES: Profile[] = [
     pain: "El sistema y el depósito no dicen lo mismo, y me entero tarde.",
     body: "Controlás lo que entra, contás por posición sin parar la operación y seguís el pedido hasta el camión.",
     modules: ["recepcion", "stock", "sobrestock-drones", "control-de-pedidos"],
-    stat: { value: "De 24 a 15 operarios", caption: "en recepción · centro de distribución" },
     exit: { label: "Calcular mi ROI", kind: "roi" },
   },
   {
@@ -54,7 +51,6 @@ const PROFILES: Profile[] = [
     pain: "Necesito saber si esto es para una empresa de mi tamaño.",
     body: "Arrancás con el plan gratuito en una línea, medís un mes y decidís con datos propios si vale automatizar.",
     modules: [],
-    stat: { value: "USD 35", caption: "por planta y mes, con plan gratuito sin hardware" },
     exit: { label: "Empezar gratis", kind: "signup" },
   },
   {
@@ -63,7 +59,6 @@ const PROFILES: Profile[] = [
     pain: "Recomiendo mejoras, pero no tengo con qué ejecutarlas.",
     body: "Vos diagnosticás y acompañás; nosotros instalamos, conectamos y sostenemos el servicio. Y te derivamos los clientes que piden consultor.",
     modules: [],
-    stat: { value: "1–10 días", caption: "de la reunión de arranque a producción" },
     exit: { label: "Conocer el programa de partners", kind: "partners" },
   },
 ];
@@ -153,14 +148,7 @@ export function AudienceTabs() {
             )}
           </div>
 
-          <div className="min-w-0 min-[900px]:w-56 min-[900px]:border-l min-[900px]:border-line min-[900px]:pl-10">
-            <p className="metric text-[32px] font-light leading-none text-ink">
-              {profile.stat.value}
-            </p>
-            <p className="mt-3 text-[13px] leading-snug text-ink-secondary">
-              {profile.stat.caption}
-            </p>
-          </div>
+          <div className="min-w-0 min-[900px]:w-56 min-[900px]:border-l min-[900px]:border-line min-[900px]:pl-10"></div>
         </div>
       </div>
     </section>

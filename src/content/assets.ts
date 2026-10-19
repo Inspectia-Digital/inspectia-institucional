@@ -32,6 +32,20 @@ export const PLANT_PLAN = {
  * iconos declara el isotipo como no vectorizado. A 96px de alto para usarse a 32 se ve
  * bien en pantallas 3x, pero un SVG pesaría menos y escalaría sin techo.
  */
+/**
+ * La captura de la aplicación que acompaña al encabezado de la home.
+ *
+ * **Mientras sea null, el hero va a una sola columna y a ancho completo**, que es mejor
+ * que reservar el 40 % de la primera pantalla para un hueco. Era lo que pasaba hasta
+ * ahora: la columna de texto estaba capada al 64 % esperando una foto que nunca llegó, y
+ * el resultado era un encabezado con un vacío al lado.
+ *
+ * Para publicarla: el archivo va a `assets-src/app/`, se mapea en
+ * `scripts/optimize-images.mjs` y se corre `npm run images -- app`. El `alt` tiene que
+ * describir lo que se ve en el tablero, no decir "captura de pantalla".
+ */
+export const APP_SHOT: { src: string; width: number; height: number; alt: string } | null = null;
+
 export const LOCKUP = {
   /** Teal sobre fondos claros. */
   src: "/img/brand/lockup.webp",

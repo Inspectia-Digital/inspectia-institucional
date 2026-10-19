@@ -166,53 +166,58 @@ export function StartFree() {
   );
 }
 
-/* ---------- 06b · Banda de IA ---------- */
+/* ---------- 06b · IA y Kit 4.0, en una sola banda ---------- */
 
-export function IaBand() {
+/**
+ * Las dos eran bandas separadas, una abajo de la otra, cada una con un título, un párrafo
+ * y un botón.
+ *
+ * **Medido el 19/10/2026: juntas ocupaban 951px de los que 384 eran padding.** Dos bloques
+ * consecutivos con la misma forma y el mismo peso visual no se leen como dos ideas: se
+ * leen como relleno, y es el patrón que hace que una página parezca armada por plantilla.
+ *
+ * Van juntas porque son una sola idea en dos tiempos: la IA es lo que podrías sumar, y el
+ * Kit 4.0 es cómo lo pagás. Puestas lado a lado esa relación se ve sin explicarla.
+ */
+export function IaAndKitBand() {
   return (
     <section className={`bg-brand-deep ${SECTION}`}>
-      <div className={CONTAINER}>
-        <h2 className="max-w-[20ch] text-[28px] leading-tight text-on-brand md:text-[var(--text-section)]">
-          Sumale IA a tu planta
-        </h2>
-        <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-on-brand-secondary">
-          Detectamos defectos con cámaras, contamos producción sin tocar la máquina y anticipamos
-          fallas antes de que paren la línea. Partimos de un problema que se puede medir.
-        </p>
-        <p className="mt-9">
-          <Link
-            to="/ia"
-            className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] bg-white px-8 text-[15px] font-semibold text-brand-deep transition-colors duration-[160ms] hover:bg-teal-050 active:translate-y-px"
-          >
-            Ver aplicaciones de IA
-          </Link>
-        </p>
-      </div>
-    </section>
-  );
-}
+      <div className={`${CONTAINER} grid gap-12 min-[900px]:grid-cols-2 min-[900px]:gap-16`}>
+        <div className="min-w-0">
+          <h2 className="max-w-[20ch] text-[28px] leading-tight text-on-brand md:text-[var(--text-section)]">
+            Sumale IA a tu planta
+          </h2>
+          <p className="mt-5 text-[15px] leading-[var(--leading-normal)] text-on-brand-secondary">
+            Detectamos defectos con cámaras, contamos producción sin tocar la máquina y anticipamos
+            fallas antes de que paren la línea. Partimos de un problema que se puede medir.
+          </p>
+          <p className="mt-7">
+            <Link
+              to="/ia"
+              className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] bg-white px-7 text-[15px] font-semibold text-brand-deep transition-colors duration-[160ms] hover:bg-teal-050 active:translate-y-px"
+            >
+              Ver aplicaciones de IA
+            </Link>
+          </p>
+        </div>
 
-/* ---------- 06c · Banda de Kit 4.0 ---------- */
-
-export function Kit40Band() {
-  return (
-    <section className={`bg-surface ${SECTION}`}>
-      <div className={CONTAINER}>
-        <h2 className={`max-w-[28ch] ${H2}`}>
-          Hasta un 50 % de descuento en tu proyecto con Kit 4.0
-        </h2>
-        <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
-          Somos proveedores habilitados para todos los kits del programa. Te decimos cuál te
-          corresponde y, mientras sale el trámite, empezás gratis con una línea.
-        </p>
-        <p className="mt-9">
-          <Link
-            to="/kit-4-0"
-            className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] border border-line-brand bg-action-soft px-8 text-[15px] font-semibold text-action-soft-text transition-colors duration-[160ms] hover:bg-teal-100 active:translate-y-px"
-          >
-            Ver qué kit te corresponde
-          </Link>
-        </p>
+        <div className="min-w-0 min-[900px]:border-l min-[900px]:border-[var(--border-on-brand)] min-[900px]:pl-16">
+          <h2 className="max-w-[22ch] text-[28px] leading-tight text-on-brand md:text-[var(--text-section)]">
+            Y hasta un 50 % de descuento con Kit 4.0
+          </h2>
+          <p className="mt-5 text-[15px] leading-[var(--leading-normal)] text-on-brand-secondary">
+            Somos proveedores habilitados para todos los kits del programa. Te decimos cuál te
+            corresponde y, mientras sale el trámite, empezás gratis con una línea.
+          </p>
+          <p className="mt-7">
+            <Link
+              to="/kit-4-0"
+              className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] border border-white/42 bg-white/12 px-7 text-[15px] font-semibold text-white transition-colors duration-[160ms] hover:bg-white/20 active:translate-y-px"
+            >
+              Ver qué kit te corresponde
+            </Link>
+          </p>
+        </div>
       </div>
     </section>
   );
