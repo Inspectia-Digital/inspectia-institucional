@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boceto home · InspectIA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Tokens reales del repo (src/tokens/). No hay ningún color inventado acá. */
+  :root{
+    --teal-950:#04292b; --teal-900:#084749; --teal-800:#0a5c5f; --teal-700:#0d7377;
+    --teal-650:#0c8288; --teal-500:#129fa5; --cyan-400:#17ccd3; --teal-300:#5fd9de;
+    --teal-200:#a4e9ec; --teal-100:#d3f4f6; --teal-050:#edfafb;
+    --grey-950:#111517; --grey-900:#1b2124; --grey-700:#454e53; --grey-600:#5f696e;
+    --grey-400:#a3abaf; --grey-300:#c9cfd2; --grey-200:#e6e6e6; --grey-150:#eff1f2;
+    --grey-100:#f5f6f7; --grey-050:#fafbfb;
+    --ink:var(--grey-900); --ink-2:var(--grey-600);
+    --border-on-brand:rgba(255,255,255,.14);
+    --on-brand-label:rgba(255,255,255,.72);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--grey-100);color:var(--ink);
+       font-family:Poppins,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+       font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:40px 20px 80px}
+
+  /* ---- cabecera del documento ---- */
+  .doc-head{border-bottom:1px solid var(--grey-300);padding-bottom:28px;margin-bottom:44px}
+  .doc-head h1{font-size:28px;font-weight:500;letter-spacing:-.02em;margin:0 0 10px}
+  .doc-head p{margin:0;color:var(--ink-2);max-width:68ch}
+  .tag{display:inline-block;font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+       color:var(--teal-700);font-weight:600;margin-bottom:12px}
+
+  h2.sec{font-size:20px;font-weight:500;letter-spacing:-.01em;margin:56px 0 6px;
+         padding-top:28px;border-top:1px solid var(--grey-300)}
+  h2.sec:first-of-type{border-top:0;padding-top:0}
+  .sub{color:var(--ink-2);margin:0 0 26px;max-width:72ch;font-size:14px}
+
+  /* ---- mapa de secciones antes/después ---- */
+  .mapa{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  @media(max-width:780px){.mapa{grid-template-columns:1fr}}
+  .col h3{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2);
+          font-weight:600;margin:0 0 12px}
+  .col.after h3{color:var(--teal-700)}
+  ol.flow{list-style:none;margin:0;padding:0;counter-reset:s}
+  ol.flow li{counter-increment:s;position:relative;background:#fff;border:1px solid var(--grey-200);
+             border-radius:8px;padding:9px 12px 9px 40px;margin-bottom:5px;font-size:13.5px;
+             display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+  ol.flow li::before{content:counter(s);position:absolute;left:12px;top:9px;
+             font-size:11px;color:var(--grey-400);font-variant-numeric:tabular-nums;font-weight:600}
+  .px{color:var(--grey-400);font-size:11.5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  li.moved{border-color:var(--teal-500);background:var(--teal-050);box-shadow:0 0 0 2px var(--teal-100)}
+  li.moved::before{color:var(--teal-700)}
+  li.merged{border-color:var(--teal-500);background:var(--teal-050)}
+  li.merged::before{color:var(--teal-700)}
+  li.gone{opacity:.45;text-decoration:line-through;text-decoration-color:var(--grey-400)}
+  li.touched{border-color:var(--grey-400);border-style:dashed}
+  .badge{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.05em;
+         text-transform:uppercase;color:#fff;background:var(--teal-650);
+         border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:1px}
+  .badge.g{background:var(--grey-600)}
+
+  /* ---- marcos de dispositivo ---- */
+  .frames{display:flex;gap:36px;flex-wrap:wrap;align-items:flex-start}
+  .phone{width:375px;flex:none;border:10px solid var(--grey-950);border-radius:30px;
+         overflow:hidden;background:#fff;box-shadow:0 18px 40px -16px rgba(4,41,43,.35)}
+  .cap{font-size:12px;color:var(--ink-2);margin-top:10px;text-align:center;width:375px}
+  .fold{position:relative}
+  .fold::after{content:"— fin de la primera pantalla (812px) —";position:absolute;left:0;right:0;
+         bottom:0;transform:translateY(50%);font-size:9.5px;letter-spacing:.04em;color:var(--cyan-400);
+         text-align:center;background:linear-gradient(90deg,transparent,rgba(4,41,43,.9) 18%,rgba(4,41,43,.9) 82%,transparent);
+         padding:2px 0}
+
+  /* ---- hero ---- */
+  .hero{background:var(--teal-900);color:#fff;padding:26px 20px 22px}
+  .hero .eyebrow{font-size:12px;line-height:1.45;color:var(--teal-200);margin:0 0 14px;font-weight:500}
+  .hero h1{font-size:27px;line-height:1.18;font-weight:500;letter-spacing:-.02em;margin:0 0 14px}
+  .hero .lead{font-size:15px;line-height:1.55;color:rgba(255,255,255,.88);margin:0 0 16px}
+  .hwline{display:flex;gap:9px;align-items:flex-start;border-left:2px solid var(--cyan-400);
+          padding:2px 0 2px 11px;margin:0 0 14px}
+  .hwline b{color:var(--cyan-400);font-weight:600}
+  .hwline span{font-size:14px;line-height:1.45;color:rgba(255,255,255,.92)}
+  .mods{font-size:11.5px;letter-spacing:.02em;color:var(--on-brand-label);margin:0 0 18px;line-height:1.7}
+  .btns{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+  .btn{display:block;text-align:center;border-radius:8px;padding:14px;font-size:15px;
+       font-weight:600;text-decoration:none}
+  .btn-p{background:var(--teal-650);color:#fff}
+  .btn-s{border:1px solid var(--border-on-brand);color:#fff}
+  .priceline{font-size:12.5px;color:var(--on-brand-label);margin:0 0 14px;padding-top:12px;
+             border-top:1px solid var(--border-on-brand)}
+  .priceline b{color:#fff;font-weight:600}
+  .priceline a{color:var(--teal-300)}
+  .kit{font-size:12px;line-height:1.5;color:var(--on-brand-label);margin:0}
+  .kit b{color:#fff}
+
+  .nuevo{outline:2px solid var(--cyan-400);outline-offset:3px;border-radius:4px;position:relative}
+  .nuevo::before{content:"nuevo";position:absolute;top:-9px;right:-2px;font-size:9px;
+       letter-spacing:.06em;text-transform:uppercase;background:var(--cyan-400);color:var(--teal-950);
+       font-weight:700;padding:1px 5px;border-radius:3px}
+
+  /* ---- el plano dentro del hero ---- */
+  .plano{position:relative;border-radius:10px;overflow:hidden;background:var(--grey-150);
+         border:1px solid var(--border-on-brand)}
+  .plano img{display:block;width:100%;height:100%;object-fit:cover}
+  /* Variante A: el render entero, a lo ancho. */
+  .plano.full{aspect-ratio:16/9}
+  .plano.full img{object-position:center}
+  /* Variante B: recorte sobre la nave, que es donde está la información. */
+  .plano.crop{aspect-ratio:4/3}
+  .plano.crop img{object-position:52% 26%;transform:scale(1.52);transform-origin:52% 26%}
+  .dot{position:absolute;width:13px;height:13px;border-radius:50%;background:var(--teal-650);
+       border:2px solid #fff;box-shadow:0 1px 5px rgba(4,41,43,.45);transform:translate(-50%,-50%)}
+  .dot.big{width:15px;height:15px}
+  .dot::after{content:"";position:absolute;inset:-6px;border-radius:50%;
+       border:1px solid rgba(23,204,211,.6)}
+  .tip{position:absolute;background:#fff;color:var(--ink);border-radius:8px;padding:8px 11px;
+       box-shadow:0 8px 22px -8px rgba(4,41,43,.5);font-size:11.5px;line-height:1.35;
+       width:150px;transform:translate(-50%,10px)}
+  .tip b{display:block;font-size:12.5px;margin-bottom:2px}
+
+  .variant{border:1px solid var(--grey-300);border-radius:12px;padding:20px;background:#fff;margin-bottom:26px}
+  .variant>h3{margin:0 0 4px;font-size:16px;font-weight:600}
+  .variant>p.v{margin:0 0 18px;font-size:13.5px;color:var(--ink-2);max-width:74ch}
+  .pro{font-size:13px;margin:4px 0;padding-left:18px;position:relative;color:var(--ink-2)}
+  .pro::before{content:"+";position:absolute;left:3px;color:var(--teal-700);font-weight:700}
+  .con{font-size:13px;margin:4px 0;padding-left:18px;position:relative;color:var(--ink-2)}
+  .con::before{content:"−";position:absolute;left:3px;color:#9a3412;font-weight:700}
+
+  .copyopt{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 0 10px}
+  @media(max-width:720px){.copyopt{grid-template-columns:1fr}}
+  .copyopt>div{border:1px solid var(--grey-300);border-radius:9px;padding:14px 16px;background:#fff}
+  .copyopt .big{background:var(--teal-900);color:#fff;border-color:var(--teal-900)}
+  .copyopt .big .ln{font-size:15px;line-height:1.45}
+  .copyopt .big .ln b{color:var(--cyan-400)}
+  .copyopt .why{font-size:12.5px;color:var(--ink-2);margin:10px 0 0;line-height:1.5}
+  .copyopt .big .why{color:rgba(255,255,255,.72)}
+  .tachado{text-decoration:line-through;text-decoration-color:#9a3412;opacity:.7}
+
+  /* ---- trust + problema ---- */
+  .trust{padding:20px;border-bottom:1px solid var(--grey-200);text-align:center}
+  .trust p{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2);
+           font-weight:600;margin:0 0 12px}
+  .logos{display:flex;gap:16px;justify-content:center;align-items:center}
+  .logos i{display:block;height:17px;width:58px;background:var(--grey-300);border-radius:3px}
+  .prob{padding:26px 20px}
+  .prob .eyebrow{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--teal-700);
+                 font-weight:600;margin:0 0 9px}
+  .prob h2{font-size:22px;line-height:1.25;font-weight:500;letter-spacing:-.015em;margin:0 0 10px}
+  .prob .lead{font-size:14px;color:var(--ink-2);margin:0 0 20px;line-height:1.55}
+  .card{border:1px solid var(--grey-200);border-radius:10px;padding:15px;margin-bottom:10px;background:#fff}
+  .card h4{font-size:15px;font-weight:600;margin:0 0 6px}
+  .card p{font-size:13.5px;color:var(--ink-2);margin:0 0 9px;line-height:1.5}
+  .card a{font-size:12.5px;color:var(--teal-700);font-weight:600;text-decoration:none}
+
+  /* ---- bloque fusionado ---- */
+  .fusion{background:var(--teal-900);color:#fff;border-radius:12px;padding:34px 30px;max-width:900px}
+  .fusion .eyebrow{font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+                   color:var(--teal-300);font-weight:600;margin:0 0 10px}
+  .fusion h3{font-size:26px;line-height:1.22;font-weight:500;letter-spacing:-.02em;margin:0 0 10px;max-width:22ch}
+  .fusion>p{color:rgba(255,255,255,.8);font-size:14.5px;margin:0 0 26px;max-width:62ch}
+  .cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+         border-top:1px solid var(--border-on-brand)}
+  @media(max-width:720px){.cols3{grid-template-columns:1fr}}
+  .cols3>div{padding:22px 20px 4px}
+  .cols3>div+div{border-left:1px solid var(--border-on-brand)}
+  @media(max-width:720px){.cols3>div+div{border-left:0;border-top:1px solid var(--border-on-brand)}}
+  .cols3 h4{font-size:15.5px;font-weight:600;margin:0 0 8px}
+  .cols3 p{font-size:13.5px;color:rgba(255,255,255,.76);margin:0 0 14px;line-height:1.5}
+  .cols3 a{font-size:13px;color:var(--teal-300);font-weight:600;text-decoration:none}
+
+  /* ---- tabs ---- */
+  .tabs-demo{display:flex;gap:40px;flex-wrap:wrap}
+  .tabrow{display:flex;gap:8px;flex-wrap:wrap;max-width:420px}
+  .tab{border:1px solid var(--grey-300);border-radius:8px;background:#fff;font-family:inherit;
+       font-size:13.5px;color:var(--ink);padding:0 14px;display:flex;align-items:center}
+  .tab.old{height:36px}
+  .tab.new{height:44px}
+  .tab.on{background:var(--teal-050);border-color:var(--teal-700);color:var(--teal-700);font-weight:600}
+  .ruler{font-size:11.5px;color:var(--grey-400);margin-top:8px;font-variant-numeric:tabular-nums}
+  .ko{color:#9a3412;font-weight:600}
+  .ok{color:var(--teal-700);font-weight:600}
+
+  /* ---- tabla de saldo ---- */
+  table.saldo{border-collapse:collapse;width:100%;max-width:620px;font-size:13.5px;margin-top:6px}
+  table.saldo th,table.saldo td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--grey-200)}
+  table.saldo th{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);font-weight:600}
+  table.saldo td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  table.saldo tr.tot td{font-weight:600;border-bottom:0;border-top:1px solid var(--grey-400)}
+  .nota{font-size:12.5px;color:var(--ink-2);background:var(--grey-050);border-left:2px solid var(--grey-300);
+        padding:11px 14px;border-radius:0 6px 6px 0;max-width:72ch;margin-top:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="doc-head" style="background:#fff7ed;border:1px solid #fdba74;border-radius:10px;padding:16px 18px;margin-bottom:28px">
+    <p style="margin:0;font-size:13.5px;color:#7c2d12"><b>Superado por lo implementado.</b>
+       Los bocetos de hero con el plano adentro (variantes A y B) <b>no se usaron</b>: el recorte no
+       puede llevar los puntos de los módulos y el hero quedaba sobrecargado. En su lugar va la
+       captura de la aplicación. El mapa de secciones, la línea de las máquinas, el precio a la
+       vista, la fusión y los tabs sí se implementaron. Los números reales están en
+       <code>2026-10-19-diagnostico-conversion-home.md</code>, no acá.</p>
+  </div>
+
+  <div class="doc-head">
+    <span class="tag">Boceto · 19/10/2026</span>
+    <h1>Home: cómo quedaría con los cambios 1, 2, 4, 5 y 6</h1>
+    <p>Los logos quedan como están (cambio 3 descartado). Lo que sigue usa los tokens reales
+       de <code>src/tokens/</code> y las medidas reales del sitio publicado — ningún color ni
+       número inventado. Es un boceto de estructura y jerarquía, no el diseño final.</p>
+  </div>
+
+  <!-- ===================== 1. MAPA DE SECCIONES ===================== -->
+  <h2 class="sec">El recorrido, antes y después</h2>
+  <p class="sub">Altos medidos a 375px. Dos movimientos: el problema sube por encima del catálogo,
+     y los tres bloques de “además hacemos más cosas” se funden en uno.</p>
+
+  <div class="mapa">
+    <div class="col">
+      <h3>Hoy · 13 secciones · 15.017px</h3>
+      <ol class="flow">
+        <li><span>Hero</span><span class="px">652</span></li>
+        <li><span>Confían en nosotros</span><span class="px">221</span></li>
+        <li><span>Una sola plataforma <span class="badge g">catálogo</span></span><span class="px">2.178</span></li>
+        <li class="moved"><span>Lo que no se mide, se paga igual <span class="badge">problema</span></span><span class="px">1.057</span></li>
+        <li><span>De la planilla a la IA</span><span class="px">1.988</span></li>
+        <li class="touched"><span>¿Desde dónde lo mirás?</span><span class="px">698</span></li>
+        <li class="merged"><span>Sumale IA + Kit 4.0</span><span class="px">711</span></li>
+        <li class="merged"><span>Todo en un solo proveedor</span><span class="px">1.601</span></li>
+        <li><span>Calculadora de ROI</span><span class="px">1.329</span></li>
+        <li><span>Vos conocés la planta</span><span class="px">529</span></li>
+        <li><span>El precio está publicado</span><span class="px">529</span></li>
+        <li><span>Preguntas frecuentes</span><span class="px">902</span></li>
+        <li><span>Veinte minutos / demo</span><span class="px">632</span></li>
+      </ol>
+    </div>
+
+    <div class="col after">
+      <h3>Propuesta · 12 secciones · ~13.100px</h3>
+      <ol class="flow">
+        <li class="touched"><span>Hero <span class="badge">+ plano + hardware + precio</span></span><span class="px">~900</span></li>
+        <li><span>Confían en nosotros</span><span class="px">221</span></li>
+        <li class="moved"><span>Lo que no se mide, se paga igual <span class="badge">sube</span></span><span class="px">1.057</span></li>
+        <li class="touched"><span>Una sola plataforma <span class="badge">sin el plano</span></span><span class="px">~1.250</span></li>
+        <li><span>De la planilla a la IA</span><span class="px">1.988</span></li>
+        <li class="touched"><span>¿Desde dónde lo mirás? <span class="badge">tabs 44px</span></span><span class="px">~720</span></li>
+        <li class="merged"><span>El proyecto completo <span class="badge">fusión ×2</span></span><span class="px">~1.100</span></li>
+        <li><span>Calculadora de ROI</span><span class="px">1.329</span></li>
+        <li><span>Vos conocés la planta</span><span class="px">529</span></li>
+        <li><span>El precio está publicado</span><span class="px">529</span></li>
+        <li><span>Preguntas frecuentes</span><span class="px">902</span></li>
+        <li><span>Veinte minutos / demo</span><span class="px">632</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <table class="saldo">
+    <tr><th>Saldo</th><th class="n">Hoy</th><th class="n">Propuesta</th></tr>
+    <tr><td>Secciones</td><td class="n">13</td><td class="n">12</td></tr>
+    <tr><td>Encabezados H2</td><td class="n">13</td><td class="n">11</td></tr>
+    <tr><td>Alto en mobile</td><td class="n">15.017px</td><td class="n">~13.100px</td></tr>
+    <tr class="tot"><td>Pantallas de scroll (375px)</td><td class="n">18,5</td><td class="n">~16,1</td></tr>
+  </table>
+
+  <p class="nota"><b>Dónde queda el problema.</b> Hoy el visitante llega al bloque del problema
+     después de 4.051px de catálogo. Con el cambio lo lee a los ~1.120px, antes de que le muestres
+     un solo módulo. Para alguien que no sabe que esta categoría existe, ese es el orden que importa.<br>
+     <b>Los números de la columna derecha son estimaciones</b>, salvo los que no cambian. Los reales
+     se miden cuando esté implementado, igual que hice con los de la izquierda.</p>
+
+  <!-- ===================== 2. HERO ===================== -->
+  <h2 class="sec">La línea que reemplaza a “sin comprar hardware”</h2>
+  <p class="sub">La que puse estaba mal, y no por gusto: <b>ustedes sí venden hardware</b> — está en
+     el marketplace, con plazo de entrega de 1 a 10 días. “Sin comprar hardware” se contradice con
+     la propia oferta y además regala margen. Lo que es cierto es que no hay que tocar las máquinas.</p>
+
+  <p style="font-size:14px;margin:0 0 14px"><span class="tachado">Sin comprar hardware. Conectamos el PLC o el sensor que ya tenés.</span></p>
+
+  <div class="copyopt">
+    <div class="big">
+      <p class="ln" style="margin:0"><b>Con las máquinas que ya tenés.</b> Conectamos el PLC o un sensor y obtenemos la información de la línea.</p>
+      <p class="why">Afirmativa: no pide permiso ni niega nada, describe cómo entra. Y cierra el
+         circuito en tres tiempos — <b>con qué</b> (las máquinas que ya tenés), <b>qué hacemos</b>
+         (conectamos) y <b>qué obtenés</b> (la información de la línea). La versión anterior se
+         quedaba en el segundo tiempo y dejaba al lector preguntándose para qué.</p>
+    </div>
+    <div>
+      <p class="ln" style="margin:0;font-size:15px;line-height:1.45"><b style="color:var(--teal-700)">Sin cambiar una máquina.</b> Conectamos el PLC o un sensor y obtenemos la información de la línea.</p>
+      <p class="why">Niega la objeción de frente. Más filosa y más corta, pero introduce la idea de
+         “cambiar máquinas” en la cabeza del que leía tranquilo. Conviene si el outbound confirma
+         que esa es la primera pregunta que hacen.</p>
+    </div>
+  </div>
+  <p class="nota">En los bocetos de abajo uso la primera. Son intercambiables: es una línea en
+     <code>src/content/</code>.</p>
+
+  <!-- ===================== HERO: DOS VARIANTES ===================== -->
+  <h2 class="sec">El hero, con el plano adentro</h2>
+  <p class="sub">El render es 16:9 y tiene mucho gris muerto alrededor de la nave, así que no entra
+     igual de bien en cualquier lugar. Dos maneras de meterlo, con lo que gana y lo que pierde cada una.</p>
+
+  <!-- ---- VARIANTE A ---- -->
+  <div class="variant">
+    <h3>A · El plano a lo ancho, abajo del texto</h3>
+    <p class="v">El hero sigue a una columna y el plano cierra la primera pantalla, cortado por el
+       fold. Es el mismo bloque que hoy está en la posición 3, movido acá — no se repite: baja de
+       “Una sola plataforma”, que se queda con la grilla de módulos y adelgaza ~900px.</p>
+
+    <div class="frames">
+      <div>
+        <div class="phone">
+          <div class="hero fold">
+            <p class="eyebrow">InspectIA · Una plataforma con soluciones para toda la operación de una fábrica</p>
+            <h1>Medí y controlá toda la operación de tu planta</h1>
+            <p class="lead">Ves lo que hoy se pierde entre planillas, entendés por qué pasa y ajustás
+               antes de que te cueste.</p>
+
+            <div class="hwline nuevo">
+              <span><b>Con las máquinas que ya tenés.</b> Conectamos el PLC o un sensor y obtenemos la información de la línea.</span>
+            </div>
+
+            <div class="btns">
+              <a class="btn btn-p" href="#">Empezar gratis</a>
+              <a class="btn btn-s" href="#">Agendar demo</a>
+            </div>
+
+            <p class="priceline nuevo">Desde <b>USD 50</b> por módulo, con plan gratuito en cada uno.
+               <a href="#">Ver el precio completo</a></p>
+
+            <div class="plano full nuevo" style="margin-top:4px">
+              <img src="../../public/img/plant/fabrica-logistica-960.webp" alt="Vista isométrica de una planta con los módulos ubicados en su punto de la operación">
+              <span class="dot" style="left:44.9%;top:23.8%"></span>
+              <span class="dot" style="left:49.3%;top:36.9%"></span>
+              <span class="dot" style="left:64%;top:25%"></span>
+              <span class="dot" style="left:34%;top:31%"></span>
+              <span class="dot" style="left:64.7%;top:45%"></span>
+              <span class="dot" style="left:48%;top:16%"></span>
+              <span class="dot" style="left:87%;top:60%"></span>
+              <span class="dot" style="left:33.5%;top:44.7%"></span>
+            </div>
+          </div>
+        </div>
+        <p class="cap">375px — el plano asoma en el corte e invita a scrollear</p>
+      </div>
+
+      <div style="flex:1;min-width:290px">
+        <p class="pro">La lista de siete módulos se puede sacar: el plano <em>es</em> esa lista, pero mostrada.</p>
+        <p class="pro">El plano cae donde hoy hay un hueco, y libera ~900px de la sección 3.</p>
+        <p class="pro">A lo ancho el render se lee: los puntos quedan separados.</p>
+        <p class="con">Empuja el fold. Los botones siguen arriba del corte, pero el plano queda cortado al medio.</p>
+        <p class="con">En mobile los ocho puntos quedan a ~30px entre sí: se ven, pero tocarlos es incómodo.
+           Se resuelve dejándolos de adorno en mobile y activos de 900px para arriba.</p>
+        <div class="card" style="margin-top:16px">
+          <h4>Qué pasa con “Una sola plataforma”</h4>
+          <p>Pierde el plano y se queda con la grilla de siete módulos y su encabezado centrado.
+             De 2.178px pasa a ~1.250px. Sumado a la fusión, la home baja a ~13.000px.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ---- VARIANTE B ---- -->
+  <div class="variant">
+    <h3>B · Dos columnas, con el plano recortado</h3>
+    <p class="v">En desktop el texto va a la izquierda y a la derecha entra el plano <b>recortado
+       sobre la nave</b>, que es donde está la información. El render completo tiene el 40 % de
+       superficie en gris vacío; recortado se ve la línea, los racks y los autoelevadores.
+       En mobile cae a la variante A.</p>
+
+    <div style="background:var(--teal-900);border-radius:12px;padding:34px 30px;color:#fff">
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.82fr);gap:34px;align-items:center">
+        <div>
+          <p class="eyebrow" style="font-size:12px;color:var(--teal-200);margin:0 0 14px;font-weight:500">InspectIA · Una plataforma con soluciones para toda la operación de una fábrica</p>
+          <h1 style="font-size:34px;line-height:1.16;font-weight:500;letter-spacing:-.025em;margin:0 0 14px">Medí y controlá toda la operación de tu planta</h1>
+          <p style="font-size:16px;line-height:1.55;color:rgba(255,255,255,.88);margin:0 0 16px">Ves lo que hoy se pierde entre planillas, entendés por qué pasa y ajustás antes de que te cueste.</p>
+          <div class="hwline" style="margin-bottom:18px">
+            <span style="font-size:15px"><b>Con las máquinas que ya tenés.</b> Conectamos el PLC o un sensor y obtenemos la información de la línea.</span>
+          </div>
+          <div style="display:flex;gap:10px;margin-bottom:16px">
+            <a class="btn btn-p" style="padding:14px 26px" href="#">Empezar gratis</a>
+            <a class="btn btn-s" style="padding:14px 26px" href="#">Agendar demo</a>
+          </div>
+          <p class="priceline" style="margin:0">Desde <b>USD 50</b> por módulo, con plan gratuito en cada uno. <a href="#">Ver el precio completo</a></p>
+        </div>
+
+        <div class="plano crop">
+          <img src="../../public/img/plant/fabrica-logistica-960.webp" alt="Detalle de la nave: línea de producción y racks, con los módulos ubicados en su punto">
+          <span class="dot big" style="left:40%;top:30%"></span>
+          <span class="dot big" style="left:50%;top:52%"></span>
+          <span class="dot big" style="left:72%;top:33%"></span>
+          <span class="dot big" style="left:24%;top:44%"></span>
+          <span class="dot big" style="left:46%;top:14%"></span>
+          <div class="tip" style="left:50%;top:52%"><b>Calidad</b>El defecto, detectado en la línea y no en el cliente.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:20px">
+      <div>
+        <p class="pro">El recorte muestra <em>operación</em>: cintas, racks, autoelevadores. El render completo, a este tamaño, muestra sobre todo piso gris.</p>
+        <p class="pro">Los puntos quedan lejos entre sí y el tooltip entra cómodo.</p>
+        <p class="pro">El hero no se estira: todo entra arriba del fold en desktop.</p>
+      </div>
+      <div>
+        <p class="con">El recorte es una vista distinta de la misma imagen: hay que decidir si el plano completo sigue existiendo más abajo o desaparece.</p>
+        <p class="con">Si sigue existiendo, se repite el render dos veces en la misma página.</p>
+        <p class="con">Necesita un asset nuevo recortado (o un <code>object-position</code> fijo, que es más frágil si mañana cambia el render).</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="max-width:74ch">
+    <h4>Cuál recomiendo</h4>
+    <p><b>La A.</b> Mueve el plano en vez de duplicarlo, saca la lista de texto de los siete módulos
+       —que el plano ya dice, pero mostrando— y de paso adelgaza la sección más larga de la home.
+       La B se ve mejor en desktop, pero deja abierta la pregunta de qué hacer con el plano completo,
+       y cualquier respuesta cuesta: o lo repetís, o perdés el bloque interactivo que hoy es lo más
+       distintivo que tiene el sitio.</p>
+    <p>Si querés las dos: A en mobile y B en desktop es exactamente el mismo componente con dos
+       recortes. Es más trabajo, no mucho más.</p>
+  </div>
+
+  <!-- ===================== 3. EL REORDEN ===================== -->
+  <h2 class="sec">Lo que ve después de scrollear (cambio 2)</h2>
+  <p class="sub">El bloque del problema ya existe y está bien escrito. Solo cambia de lugar:
+     pasa de la posición 4 a la 3, por encima del catálogo. No hay copy nuevo.</p>
+
+  <div class="frames">
+    <div>
+      <div class="phone">
+        <div class="trust">
+          <p>Confían en nosotros</p>
+          <div class="logos"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="prob">
+          <p class="eyebrow">El costo de no medir</p>
+          <h2>Lo que no se mide, se paga igual</h2>
+          <p class="lead">La mayoría de las plantas ya sabe que pierde plata en estos tres frentes.
+             Lo que no tiene es el número, y sin el número no hay nada que corregir.</p>
+
+          <div class="card">
+            <h4>El defecto que se descubre tarde</h4>
+            <p>La pieza mala sigue en el proceso hasta que alguien la ve, y a veces la ve el cliente.</p>
+            <a href="#">Lo resuelve: Calidad →</a>
+          </div>
+          <div class="card">
+            <h4>La parada que nadie clasifica</h4>
+            <p>La línea se frena varias veces por turno y el motivo queda en la memoria del supervisor.</p>
+            <a href="#">Lo resuelve: Producción →</a>
+          </div>
+          <div class="card">
+            <h4>El inventario que no cuadra</h4>
+            <p>El sistema dice que está y en el rack no está.</p>
+            <a href="#">Lo resuelve: Stock →</a>
+          </div>
+        </div>
+      </div>
+      <p class="cap">Posición 3 — antes estaba en la 4, detrás de 2.178px de catálogo</p>
+    </div>
+
+    <div style="flex:1;min-width:300px">
+      <div class="card">
+        <h4>Por qué gana este orden</h4>
+        <p>Cada tarjeta termina en “Lo resuelve: Calidad / Producción / Stock”. Puestas
+           <b>antes</b> del catálogo, esos enlaces son la entrada natural al bloque siguiente:
+           el lector llega a la grilla de módulos buscando algo, en vez de recibiéndola.</p>
+        <p>Puestas después, como hoy, repiten información que el lector ya vio y los enlaces
+           apuntan hacia arriba.</p>
+      </div>
+      <div class="card">
+        <h4>Qué cuesta implementarlo</h4>
+        <p>Mover dos líneas en <code>src/routes/index.tsx</code>: <code>&lt;CostOfNotMeasuring /&gt;</code>
+           por encima de <code>&lt;Platform /&gt;</code>. Sin cambios de componente ni de copy.</p>
+      </div>
+      <div class="card">
+        <h4>Lo que hay que revisar al moverlo</h4>
+        <p>El fondo alterna claro/oscuro entre secciones. Al intercambiar dos, puede quedar
+           claro contra claro — se chequea al abrir la página, no antes.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 4. FUSIÓN ===================== -->
+  <h2 class="sec">El bloque fusionado (cambio 4)</h2>
+  <p class="sub">Hoy son dos secciones y tres encabezados seguidos —“Sumale IA”, “Y hasta un 50 %
+     con Kit 4.0”, “Todo lo que el proyecto necesita, en un solo proveedor”— que dicen la misma cosa
+     tres veces: <em>además hacemos más</em>. Juntos ocupan 2.312px. Como un bloque de tres columnas,
+     el mismo contenido se lee como una oferta completa en vez de tres ofertas laterales.</p>
+
+  <div class="fusion">
+    <p class="eyebrow">El proyecto completo</p>
+    <h3>Todo lo que el proyecto necesita, en un solo proveedor</h3>
+    <p>Un proyecto de planta casi nunca es sólo software: hacen falta cámaras, sensores, un ERP que
+       hable con el resto, y a veces plata que no está. Las tres puertas salen del mismo lugar.</p>
+    <div class="cols3">
+      <div>
+        <h4>Sumale IA</h4>
+        <p>Visión artificial, modelos y agentes sobre lo que ya estás midiendo. Se cotiza como proyecto.</p>
+        <a href="#">Ver aplicaciones de IA →</a>
+      </div>
+      <div>
+        <h4>Kit 4.0</h4>
+        <p>Somos proveedores habilitados: hasta un 50 % de descuento en tu proyecto.</p>
+        <a href="#">Cómo se tramita →</a>
+      </div>
+      <div>
+        <h4>Hardware e integración</h4>
+        <p>Cámaras, sensores, lectoras, la instalación en piso y la integración con tu ERP.</p>
+        <a href="#">Ver el marketplace →</a>
+      </div>
+    </div>
+  </div>
+
+  <p class="nota"><b>Ahorro:</b> ~1.200px y una sección menos. En mobile las tres columnas se apilan,
+     así que ahí el ahorro viene de sacar los encabezados y los dos bloques de introducción repetidos,
+     no de la grilla.</p>
+
+  <!-- ===================== 5. TABS ===================== -->
+  <h2 class="sec">Los tabs de audiencia (cambio 6)</h2>
+  <p class="sub">Los cuatro controles de “¿Desde dónde lo mirás?” miden 36px de alto. Son botones
+     reales que se tocan con el dedo, en un celular, probablemente con luz de planta.</p>
+
+  <div class="tabs-demo">
+    <div>
+      <div class="tabrow">
+        <button class="tab old on">Producción y calidad</button>
+        <button class="tab old">Logística e inventario</button>
+        <button class="tab old">Dueño o gerencia</button>
+        <button class="tab old">Consultor</button>
+      </div>
+      <p class="ruler">Hoy · 36px de alto — <span class="ko">8px por debajo del mínimo</span></p>
+    </div>
+    <div>
+      <div class="tabrow">
+        <button class="tab new on">Producción y calidad</button>
+        <button class="tab new">Logística e inventario</button>
+        <button class="tab new">Dueño o gerencia</button>
+        <button class="tab new">Consultor</button>
+      </div>
+      <p class="ruler">Propuesta · 44px — <span class="ok">mínimo táctil cumplido</span></p>
+    </div>
+  </div>
+
+  <p class="nota">Es un cambio de clase en <code>AudienceTabs.tsx</code>. Suma ~22px al alto de la
+     sección en desktop y algo más en mobile, donde los tabs se apilan en dos filas.</p>
+
+  <!-- ===================== 6. LO QUE NO ESTÁ ACÁ ===================== -->
+  <h2 class="sec">Lo que este boceto no incluye</h2>
+  <p class="sub" style="max-width:72ch">
+     <b>Los logos</b> quedan exactamente como están: marquee de 17, sin partir. Era el cambio 3 y lo
+     descartaste.<br>
+     <b>La captura de la app</b> sigue pendiente de que la pases: el hero ya tiene escrito el layout
+     de dos columnas y se activa solo cuando cargues <code>APP_SHOT</code>. En este boceto el hero va
+     a una columna, que es como se ve hoy.<br>
+     <b>El GTM</b> sigue sin importar, así que nada de esto se va a poder medir cuando llegue tráfico.</p>
+
+</div>
+</body>
+</html>
