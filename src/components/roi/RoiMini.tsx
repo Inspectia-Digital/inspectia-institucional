@@ -19,7 +19,7 @@ export function RoiMini({ model }: { model: RoiModel }) {
 
   return (
     <div className="rounded-[var(--radius-lg)] border border-line bg-surface p-8 md:p-10">
-      <div className="grid gap-10 min-[900px]:grid-cols-2 min-[900px]:gap-16">
+      <div className="grid gap-10 min-[1000px]:grid-cols-2 min-[1000px]:gap-16">
         <div className="min-w-0 space-y-7">
           {fields.map((f) => (
             <SliderField

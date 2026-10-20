@@ -16,31 +16,55 @@
   --space-12: 80px;
   --space-13: 120px;
 
-  /* Padding vertical de sección, por ancho de viewport.
+  /* Padding vertical de sección: 112 en escritorio, 72 en tablet, 56 en celular
+     (Lineamientos §Espacio).
 
-     Bajados de 120/72/56 el 19/10/2026. El valor anterior venía de §10.3 —"el aire es lo
-     que hace que una página con doce bloques se sienta simple"— y la idea sigue siendo
-     cierta, pero 120 arriba y 120 abajo son 240px de nada entre dos secciones: con doce
-     bloques, la página pedía scroll sin entregar contenido y se leía despareja, porque el
-     hueco entre secciones era mayor que varias secciones enteras.
+     **Los tres tokens valen lo mismo y cambian juntos con el ancho.** Antes cada uno era
+     un valor fijo y la sección elegía cuál usar, así que convivían dos convenciones: 44
+     secciones escribían `py-[var(--section-pad-md)]` a secas —y se quedaban en 72px
+     también a 1440, donde corresponden 112— y otras 22 encadenaban el token chico con el
+     grande por media query. El resultado era una página con huecos de 72 y de 112
+     mezclados sin un motivo.
 
-     96 sigue siendo aire generoso para una institucional y recorta cerca de 1.700px de
-     scroll en la home. Si vuelve a sentirse apretada, el problema va a estar en el
-     interior de las secciones y no acá. */
-  --section-pad: 96px; /* ≥1100 */
-  --section-pad-md: 64px; /* 720–1100 */
-  --section-pad-sm: 48px; /* <720 */
+     Con el valor atado al viewport, cualquiera de los tres nombres da el número correcto
+     en cada ancho y las dos convenciones convergen sin tocar 66 archivos. Los nombres
+     `-md` y `-sm` quedan por compatibilidad: hoy son alias de lo mismo. */
+  --section-pad: 56px;
+  --section-pad-md: var(--section-pad);
+  --section-pad-sm: var(--section-pad);
 
   /* Padding lateral de página. */
   --page-pad: 32px;
   --page-pad-sm: 20px;
 
   --gutter: 24px; /* grilla de 12 columnas */
-  --content-max: 1200px;
-  --content-max-hero: 1320px;
-  --read-max: 640px; /* ancho de lectura del cuerpo */
-  --lead-max: 60ch; /* el lead se mide en caracteres, no en px */
+  --content-max: 1120px;
+  /* El hero ya no es más ancho que el resto: con el contenido a 1120 y el fondo blanco,
+     un encabezado a 1320 se salía del eje del resto de la página sin ganar nada. */
+  --content-max-hero: 1120px;
 
-  --navbar-h: 72px;
-  --navbar-h-sm: 60px; /* <900px */
+  /* Los dos anchos de texto, en píxeles y no en caracteres.
+     Lineamientos §Tipografía: "lead hasta 640 px, cuerpo hasta 680 px. Un párrafo más
+     ancho no se lee." Estaban en ch, que ata la medida al ancho de la fuente y hacía que
+     el mismo token diera anchos distintos según el cuerpo del texto. */
+  --read-max: 680px; /* cuerpo */
+  --lead-max: 640px; /* lead */
+
+  /* 68px es la altura del rediseño del 20/10. La variante chica sube de 60 a 64: con
+     el botón principal de 48px adentro, 60 dejaba 6px arriba y abajo y se veía apretado. */
+  --navbar-h: 68px;
+  --navbar-h-sm: 64px;
+}
+
+/* Los dos escalones del padding de sección. Van acá y no en `:root` de arriba porque una
+   media query no puede vivir dentro de un bloque de declaraciones. */
+@media (min-width: 640px) {
+  :root {
+    --section-pad: 72px;
+  }
+}
+@media (min-width: 1000px) {
+  :root {
+    --section-pad: 112px;
+  }
 }

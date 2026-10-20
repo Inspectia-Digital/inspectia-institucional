@@ -34,3 +34,8 @@ dist-ssr
 .claude/settings.local.json
 
 .env
+
+# Handoffs de diseño. Llegan como .zip, se extraen, y lo que vale —el plan, las capturas,
+# el boceto— queda versionado en docs/. El zip en sí es transitorio y pesa: el del design
+# system son 28 MB, y git los guardaría para siempre.
+*.zip

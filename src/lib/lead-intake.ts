@@ -44,9 +44,9 @@ function readEnv(env: unknown, key: string): string | undefined {
  * del marketplace: quien pide un presupuesto y quien ofrece un servicio.
  */
 const schema = z.object({
-  form: z.enum(["roi", "cotizacion", "proveedor", "diagnostico"]),
+  form: z.enum(["roi", "cotizacion", "proveedor", "diagnostico", "campo"]),
   nombre: z.string().trim().min(2).max(120),
-  email: z.string().trim().email().max(255),
+  email: z.string().trim().email().max(255).optional(),
   telefono: z.string().trim().min(6).max(25),
   /** La empresa de quien pide. En los dos formularios es lo mismo. */
   contexto: z.string().trim().min(2).max(120),
@@ -72,6 +72,9 @@ const ASUNTO = {
   cotizacion: "Pedido de cotización",
   proveedor: "Alta de proveedor en el marketplace",
   diagnostico: "Diagnóstico de IA",
+  // Va con la marca adelante: estos avisos los lee la misma casilla que los de industria
+  // y el asunto es lo único que distingue de qué producto vino.
+  campo: "Contacto de InspectIA Campo",
 } as const;
 
 const ETIQUETA_CONTEXTO = {
@@ -79,6 +82,9 @@ const ETIQUETA_CONTEXTO = {
   cotizacion: "Empresa",
   proveedor: "Empresa",
   diagnostico: "Empresa",
+  // En Campo el contexto no es una empresa: es el campo o el establecimiento, y muchos
+  // no están a nombre de una razón social.
+  campo: "Campo o empresa",
 } as const;
 
 export async function handleLeadPost(request: Request, env: unknown): Promise<Response> {
@@ -115,7 +121,7 @@ export async function handleLeadPost(request: Request, env: unknown): Promise<Re
   const lineas = [
     `${ETIQUETA_CONTEXTO[lead.form]}: ${lead.contexto}`,
     `Nombre: ${lead.nombre}`,
-    `Correo: ${lead.email}`,
+    ...(lead.email ? [`Correo: ${lead.email}`] : ["Correo: no lo dejó — contactar por teléfono"]),
     `Teléfono: ${lead.telefono}`,
     ...(lead.detalle?.length ? ["", ...lead.detalle] : []),
   ];
@@ -132,7 +138,8 @@ export async function handleLeadPost(request: Request, env: unknown): Promise<Re
         sender: { name: "Sitio InspectIA", email: remitente },
         to: [{ email: destino }],
         // Contestar el aviso escribe directo a la persona, sin copiar la dirección a mano.
-        replyTo: { email: lead.email, name: lead.nombre },
+        // Sin correo no hay a quién responderle: el aviso se contesta por teléfono.
+        ...(lead.email ? { replyTo: { email: lead.email, name: lead.nombre } } : {}),
         subject: `${ASUNTO[lead.form]} · ${lead.contexto}`,
         textContent: lineas.join("\n"),
       }),

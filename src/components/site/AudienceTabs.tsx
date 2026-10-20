@@ -71,7 +71,7 @@ export function AudienceTabs() {
     .filter((m): m is NonNullable<typeof m> => Boolean(m));
 
   return (
-    <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8 min-[1100px]:py-[var(--section-pad)]">
+    <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8 min-[1000px]:py-[var(--section-pad)]">
       <div className="mx-auto max-w-[var(--content-max)]">
         <p className="eyebrow">Según quién sos</p>
         <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
@@ -95,7 +95,10 @@ export function AudienceTabs() {
                 aria-selected={isActive}
                 onClick={() => setActive(p.key)}
                 className={cn(
-                  "h-9 shrink-0 whitespace-nowrap rounded-[var(--radius-pill)] border px-4 text-sm font-medium",
+                  // 44px y no 36: son cuatro controles que se tocan con el dedo, en un
+                  // teléfono y probablemente con luz de planta. 36 queda 8px por debajo
+                  // del mínimo táctil y se nota al errarle.
+                  "h-11 shrink-0 whitespace-nowrap rounded-[var(--radius-pill)] border px-5 text-sm font-medium",
                   "transition-colors duration-[160ms]",
                   isActive
                     ? "border-transparent bg-action text-white"
@@ -112,7 +115,7 @@ export function AudienceTabs() {
           role="tabpanel"
           // key: la entrada se vuelve a disparar al cambiar de perfil.
           key={profile.key}
-          className="mt-10 grid animate-rise-in gap-10 rounded-[var(--radius-lg)] border border-line p-8 md:p-10 min-[900px]:grid-cols-[1fr_auto] min-[900px]:gap-16"
+          className="mt-8 grid animate-rise-in gap-10 border-t border-line pt-8 min-[1000px]:grid-cols-[1fr_auto] min-[1000px]:gap-16"
         >
           <div className="min-w-0">
             <h3 className="sr-only">{profile.tab}</h3>
@@ -148,7 +151,7 @@ export function AudienceTabs() {
             )}
           </div>
 
-          <div className="min-w-0 min-[900px]:w-56 min-[900px]:border-l min-[900px]:border-line min-[900px]:pl-10"></div>
+          <div className="min-w-0 min-[1000px]:w-56 min-[1000px]:border-l min-[1000px]:border-line min-[1000px]:pl-10"></div>
         </div>
       </div>
     </section>

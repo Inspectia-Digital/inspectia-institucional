@@ -247,7 +247,7 @@ export function MarketplaceDialog({ direccion, categoria, descripcion, children 
               type="submit"
               disabled={isSubmitting}
               className={cn(
-                "mt-6 h-[52px] w-full rounded-[var(--radius-md)] bg-action px-8 text-[15px] font-semibold text-white",
+                "mt-6 h-12 w-full rounded-[var(--radius-md)] bg-action px-8 text-[15px] font-semibold text-white",
                 "transition-colors duration-[160ms] hover:bg-action-hover active:translate-y-px",
                 "disabled:bg-[var(--action-disabled-bg)] disabled:text-[var(--action-disabled-text)]",
               )}

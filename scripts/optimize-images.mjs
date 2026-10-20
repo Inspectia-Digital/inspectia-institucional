@@ -168,6 +168,51 @@ async function optimizePlant() {
 }
 
 /**
+ * La captura de la aplicación del encabezado de la home.
+ *
+ * Se dibuja a ~520px de ancho en la columna derecha, así que 1100 cubre pantallas 2x y la
+ * variante de 760 sirve para el resto. No hay recorte: lo que entra es lo que se capturó,
+ * porque recortar una interfaz por la mitad deja controles cortados y se nota.
+ *
+ * **No falla si el archivo no está todavía.** Es la etapa de un asset que se agrega
+ * cuando aparece, y hacer que `npm run images` se caiga entero por eso obligaría a
+ * comentar la línea cada vez. Avisa y sigue.
+ *
+ * Al terminar imprime las medidas, que son las que hay que copiar a `APP_SHOT` en
+ * `src/content/assets.ts` junto con el texto alternativo.
+ */
+const APP_SHOT_WIDTHS = [1100, 760];
+
+async function optimizeAppShot() {
+  const from = join(RAW, "app", "tablero.png");
+  try {
+    await stat(from);
+  } catch {
+    console.log("  assets-src/app/tablero.png todavía no está — nada que hacer.");
+    return;
+  }
+
+  await mkdir(join(OUT, "app"), { recursive: true });
+  let medidas = null;
+  for (const width of APP_SHOT_WIDTHS) {
+    const suffix = width === APP_SHOT_WIDTHS[0] ? "" : `-${width}`;
+    const to = join(OUT, "app", `tablero${suffix}.webp`);
+    const info = await sharp(from)
+      .resize({ width, withoutEnlargement: true })
+      .webp({ quality: 86 })
+      .toFile(to);
+    if (!medidas) medidas = info;
+    console.log(
+      `  tablero.png → tablero${suffix}.webp ${kb(await sizeOf(to))} ${info.width}x${info.height}`,
+    );
+  }
+  console.log(
+    `  → en APP_SHOT: width: ${medidas.width}, height: ${medidas.height}, ` +
+      `src: "/img/app/tablero.webp"`,
+  );
+}
+
+/**
  * Lockup de marca.
  *
  * Hasta ahora la barra y el pie escribían "InspectIA" con tipografía, porque no había
@@ -361,6 +406,10 @@ if (corre("logos")) {
 if (corre("plano")) {
   console.log("Plano de planta:");
   await optimizePlant();
+}
+if (corre("app")) {
+  console.log("Captura de la aplicación:");
+  await optimizeAppShot();
 }
 
 /**

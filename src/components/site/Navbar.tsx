@@ -60,8 +60,13 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b border-line bg-surface",
-        scrolled && "[backdrop-filter:var(--blur-panel)] bg-surface/90",
+        // El blur y la transparencia van siempre, no sólo al scrollear: el rediseño del
+        // 20/10 pide una barra de vidrio permanente, y el cambio al pasar de 0 a 1px de
+        // scroll se notaba como un parpadeo.
+        "sticky top-0 z-50 border-b border-line bg-surface/94 [backdrop-filter:var(--blur-panel)]",
+        // La sombra sutil al scrollear se queda: es lo que despega la barra del contenido
+        // cuando algo pasa por debajo.
+        scrolled && "border-line-strong",
       )}
     >
       <div
@@ -216,7 +221,7 @@ export function Navbar() {
               alguien decidido ya trae resueltas: entrar a su cuenta, o abrir una.
 
               Empezar gratis va relleno y es el único botón sólido de la barra. */}
-          <div className="hidden items-center min-[1100px]:flex">
+          <div className="hidden items-center min-[1000px]:flex">
             <TopLink to="/roi">Calcular ROI</TopLink>
           </div>
           <div className="flex items-center gap-3">

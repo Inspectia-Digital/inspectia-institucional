@@ -108,6 +108,55 @@ export const PRICING_NOTE = [
 ];
 
 /**
+ * Los tres planes de cualquier módulo.
+ *
+ * ## Lo que los diferencia, y lo que NO
+ *
+ * **Difieren en cantidad de la unidad de medida y en nada más.** No hay funciones
+ * premium: todo lo que hace un módulo está en los tres planes, y lo que cambia es cuántas
+ * líneas, plantas o máquinas entran. Esto no es una posición de marketing, es cómo está
+ * construido el producto, y por eso la tabla de la página no lleva una grilla de tildes y
+ * cruces: con las mismas marcas en las tres columnas no diría nada, y con cruces estaría
+ * describiendo un producto que no existe.
+ *
+ * (La aplicación **puede** ocultar submódulos por empresa, pero eso existe para esconder
+ * lo que un cliente no usa y para dejar abierta la puerta a otra estrategia de pricing más
+ * adelante. Hoy no es una dimensión de precio y la web no lo refleja.)
+ *
+ * ## El tercero no tiene precio y no debe tenerlo
+ *
+ * `a-medida` agrupa lo que ya estaba en `QUOTED_ITEMS`: implementación, proyectos de IA,
+ * hardware y desarrollos propios. Va sin "desde" por el mismo motivo que esos ítems: un
+ * número en un proyecto que depende del producto y del volumen es un número que después
+ * hay que desmentir.
+ */
+export const PLAN_TIERS = [
+  {
+    key: "gratuito",
+    name: "Gratuito",
+    /** El precio se muestra como texto: no siempre es un número. */
+    price: "USD 0",
+    /** Qué lo limita. Se completa por módulo desde `MODULE_PRICES.free`. */
+    note: "Sin tarjeta y sin vencimiento.",
+    cta: "free",
+  },
+  {
+    key: "pago",
+    name: "Pago",
+    price: null, // sale del módulo
+    note: "Usuarios ilimitados.",
+    cta: "free",
+  },
+  {
+    key: "a-medida",
+    name: "A medida",
+    price: "Cotizado",
+    note: "Implementación, proyectos de IA, hardware y desarrollos propios para tu operación.",
+    cta: "demo",
+  },
+] as const;
+
+/**
  * Lo que se nombra y no se cotiza en la página.
  *
  * **Sin precio y sin "desde"** (doc 06 §5). Un "desde USD X" en un proyecto que depende

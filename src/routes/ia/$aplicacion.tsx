@@ -54,7 +54,7 @@ export const Route = createFileRoute("/ia/$aplicacion")({
   component: AppPage,
 });
 
-const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1100px]:py-[var(--section-pad)]";
+const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1000px]:py-[var(--section-pad)]";
 const CONTAINER = "mx-auto max-w-[var(--content-max)]";
 const H2 = "text-[28px] leading-tight text-ink md:text-[var(--text-section)]";
 
@@ -76,7 +76,7 @@ function AppPage() {
           <Link
             to="/ia"
             hash="diagnostico"
-            className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] bg-white px-8 text-[15px] font-semibold text-brand-deep transition-colors duration-[160ms] hover:bg-teal-050 active:translate-y-px"
+            className="inline-flex h-12 items-center justify-center rounded-[var(--radius-md)] bg-white px-8 text-[15px] font-semibold text-brand-deep transition-colors duration-[160ms] hover:bg-teal-050 active:translate-y-px"
           >
             Pedí un diagnóstico
           </Link>
@@ -93,7 +93,7 @@ function AppPage() {
           desde /ia ya las leyó, y quien llega desde una búsqueda las necesita acá. */}
       <section className={`bg-surface ${SECTION}`}>
         <div className={CONTAINER}>
-          <dl className="grid gap-8 min-[720px]:grid-cols-2 min-[1100px]:grid-cols-4">
+          <dl className="grid gap-8 min-[1000px]:grid-cols-4">
             <Dato term="El problema" desc={app.problem} />
             <Dato term="Cómo funciona" desc={app.how} />
             <Dato term="Qué necesita tu planta" desc={app.needs} />
@@ -103,7 +103,7 @@ function AppPage() {
       </section>
 
       {src?.problem && (
-        <section className={`bg-surface-sunken ${SECTION}`}>
+        <section className={`bg-surface ${SECTION}`}>
           <div className={CONTAINER}>
             <h2 className={`max-w-[24ch] ${H2}`}>Cuándo aparece este problema</h2>
             <ul className="mt-10 max-w-[var(--read-max)] space-y-3">
@@ -128,7 +128,7 @@ function AppPage() {
         <section className={`bg-surface ${SECTION}`}>
           <div className={CONTAINER}>
             <h2 className={`max-w-[24ch] ${H2}`}>{src.doesTitle ?? "Qué hace"}</h2>
-            <ul className="mt-12 grid gap-8 min-[900px]:grid-cols-2">
+            <ul className="mt-12 grid gap-8 min-[1000px]:grid-cols-2">
               {src.does.map((d) => (
                 <li key={d.title} className="min-w-0">
                   <h3 className="text-[length:var(--text-card)] leading-snug text-ink">
@@ -144,7 +144,7 @@ function AppPage() {
         </section>
       )}
 
-      <section className={`bg-surface-sunken ${SECTION}`}>
+      <section className={`bg-surface ${SECTION}`}>
         <div className={CONTAINER}>
           <h2 className={`max-w-[24ch] ${H2}`}>Cómo se contrata</h2>
           <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">

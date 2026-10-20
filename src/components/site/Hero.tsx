@@ -1,98 +1,92 @@
 import { Link } from "@tanstack/react-router";
-import { APP_SHOT } from "@/content/assets";
-import { MODULES } from "@/content/modules";
+import { MODULE_PRICES } from "@/content/pricing";
 import { CtaPair } from "@/components/site/CtaPair";
+import { ProductCard } from "@/components/site/ProductCard";
 
 /**
- * Hero de la home (§11.2).
+ * Hero de la home (rediseño del 20/10/2026).
  *
- * Lo que había antes era otra cosa: el titular, los CTA y el plano isométrico con sus
- * puntos, todo en el mismo bloque. El plano se fue al bloque 03, que es donde se explica
- * la plataforma; acá queda el mensaje y los dos caminos de entrada.
+ * ## Qué cambió y qué se sostuvo
  *
- * El titular se mide en cqw y la columna lleva `hero-col`. La regla es máximo tres
- * líneas, y un tamaño fijo no puede cumplirla en todos los anchos.
+ * El rediseño lo pasa de **banda teal a sangre** a **fondo blanco con dos columnas**: el
+ * texto a la izquierda y una vista del producto a la derecha. La única superficie teal de
+ * la página pasa a ser el bloque "Cómo empezar". Es un cambio de criterio, no un ajuste:
+ * el teal deja de ser lo primero que se ve y se reserva para el momento de mayor énfasis.
+ *
+ * Cuatro cosas del encabezado anterior se sostuvieron contra el boceto, por decisión
+ * explícita del 20/10:
+ *
+ * 1. **"Empezar gratis" es el botón destacado**, no "Agendar demo". El boceto proponía lo
+ *    inverso. Es la diferencia entre empujar autoservicio o empujar reunión, y el producto
+ *    se contrata solo.
+ * 2. **"Agendar demo" sigue abriendo el calendario** en pestaña nueva, no bajando a un
+ *    formulario. Agregar un paso entre la intención y la reunión cuesta reuniones.
+ * 3. **La línea de las máquinas se queda entera**, con "el PLC o un sensor". El boceto la
+ *    fundía en el lead y perdía esa parte, que es la concreta y la que el comprador puede
+ *    verificar.
+ * 4. **El precio sigue a la vista.** Va más liviano que antes —una línea de 14px al pie,
+ *    sin filete ni borde superior— para no pelearse con el aire que el rediseño busca,
+ *    pero no baja al 80 % de la página.
+ *
+ * ## Lo que se fue, y por qué
+ *
+ * El eyebrow de marca y la lista de los siete módulos. Los dos decían lo que el bloque
+ * siguiente muestra: la lista de módulos es ahora la grilla de siete tarjetas de "La
+ * plataforma", cada una con su nombre y su línea. Repetirlos en el encabezado era el peso
+ * que el rediseño viene a sacar.
  */
 
-/** Cada dato lleva su unidad y su período. Un número suelto no dice nada (§10.1). */
+/**
+ * El piso de precio sale de la tabla, no de una constante escrita acá: si mañana baja un
+ * módulo, el encabezado lo dice sin que nadie se acuerde de venir a tocarlo.
+ */
+const DESDE_USD = Math.min(...MODULE_PRICES.map((p) => p.usd));
+
 export function Hero() {
   return (
-    <section className="bg-brand-deep px-5 py-16 md:px-8 md:py-24 min-[1100px]:py-[var(--section-pad)]">
-      {/* Dos columnas cuando hay captura, una sola cuando no.
-
-          La segunda columna es la aplicación andando, no una foto de planta: el visitante
-          ya ve una planta en el bloque del plano, y lo que no ve en ninguna parte es qué
-          le queda en la pantalla después de comprar. Para un producto que se contrata
-          solo, esa es la objeción que el encabezado puede sacar del medio.
-
-          **En mobile no se muestra.** Un tablero con tablas y gráficos a 375px no se lee:
-          ocupa media pantalla y no comunica nada, y lo que empuja ahí son el titular y los
-          botones. No es que el móvil se pensó después; es que ese contenido no entra. */}
-      <div
-        className={
-          APP_SHOT
-            ? "mx-auto grid max-w-[var(--content-max-hero)] items-center gap-12 min-[900px]:grid-cols-[minmax(0,1fr)_minmax(0,0.78fr)]"
-            : "mx-auto max-w-[var(--content-max-hero)]"
-        }
-      >
-        <div className="hero-col max-w-full min-[1100px]:max-w-[46rem]">
-          {/* Sin versales, a diferencia del resto de los eyebrow del sitio.
-              El texto pasó de 54 a 80 caracteres y en mayúsculas con tracking ancho ocupa
-              tres líneas en un teléfono, justo arriba del titular y con el mismo peso
-              visual: le compite en vez de presentarlo. En caja baja entra en dos y vuelve
-              a leerse como lo que es, una bajada de marca. */}
-          <p className="text-[13px] font-medium text-[var(--accent-on-brand)]">
-            InspectIA · Una plataforma con soluciones para toda la operación de una fábrica
-          </p>
-
+    <section className="bg-surface px-5 pb-[72px] pt-[96px] md:px-8">
+      <div className="mx-auto grid max-w-[var(--content-max)] items-center gap-10 min-[1000px]:grid-cols-[minmax(0,1fr)_minmax(0,0.82fr)] min-[1000px]:gap-14">
+        <div className="hero-col min-w-0">
           <h1
-            className="mt-4 text-[length:var(--text-hero)] leading-[var(--leading-hero)] tracking-[var(--tracking-hero)] text-on-brand"
+            className="text-[length:var(--text-hero)] leading-[var(--leading-hero)] tracking-[var(--tracking-hero)] text-ink"
             style={{ textWrap: "balance" }}
           >
             Medí y controlá toda la operación de tu planta
           </h1>
 
-          <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-on-brand-secondary">
-            Ves lo que hoy se pierde entre planillas, entendés por qué pasa y ajustás antes de que
-            te cueste.
+          <p className="mt-5 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
+            Producción, calidad, stock, trazabilidad y tareas en una sola pantalla.
           </p>
 
-          {/* Los siete nombres, y no una frase que los resuma: quien busca "software de
-              mantenimiento" necesita leer la palabra, no deducirla de "toda la operación". */}
-          <p className="mt-6 max-w-[var(--lead-max)] text-[15px] text-on-brand-secondary">
-            {MODULES.map((m) => m.name).join(" · ")}
+          {/* El filete al costado y no un ícono: marca la línea como aparte sin sumar un
+              elemento gráfico más a la primera pantalla. */}
+          <p className="mt-5 max-w-[var(--lead-max)] border-l-2 border-line-brand pl-4 text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink">
+            <span className="font-semibold text-brand">Modo manual con formulario</span>, o
+            conectamos el PLC o un sensor y obtenemos la información de la línea.
           </p>
 
-          <CtaPair surface="brand" className="mt-9 max-w-md" />
+          <CtaPair className="mt-8 max-w-md" plan="free" />
 
-          {/* El gancho de Kit 4.0, debajo de los botones y no como tercer botón. */}
-          <p className="mt-6 max-w-[var(--lead-max)] text-[15px] text-on-brand-secondary">
-            Somos proveedores de Kit 4.0:{" "}
+          {/* El precio, en cuerpo secundario y sin borde ni filete. Sigue estando en la
+              primera pantalla —es ventaja contra quien te hace pedir cotización— pero deja
+              de pesar como un bloque propio. */}
+          <p className="mt-5 text-[14px] leading-[var(--leading-normal)] text-ink-muted">
+            Desde <span className="font-semibold text-ink-secondary">USD {DESDE_USD}</span> por
+            módulo, con plan gratuito en cada uno.{" "}
             <Link
-              to="/kit-4-0"
-              className="font-semibold text-on-brand underline underline-offset-4 decoration-[var(--accent-on-brand)] hover:decoration-2"
+              to="/precios"
+              className="font-medium text-brand underline-offset-4 hover:underline"
             >
-              hasta un 50 % de descuento en tu proyecto
+              Ver precios
             </Link>
-            .
           </p>
         </div>
 
-        {APP_SHOT && (
-          <div className="hidden min-[900px]:block">
-            <img
-              src={APP_SHOT.src}
-              width={APP_SHOT.width}
-              height={APP_SHOT.height}
-              alt={APP_SHOT.alt}
-              // El encabezado es lo primero que se pinta: esta imagen no se difiere.
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-              className="w-full rounded-[var(--radius-lg)] border border-[var(--border-on-brand)] shadow-[var(--shadow-card)]"
-            />
-          </div>
-        )}
+        {/* La vista del producto. En celular no se muestra: a 375px un panel con tres filas
+            de datos no se lee, y lo que empuja ahí son el titular y los botones. */}
+        <div className="hidden min-[1000px]:block">
+          <ProductCard />
+        </div>
       </div>
     </section>
   );

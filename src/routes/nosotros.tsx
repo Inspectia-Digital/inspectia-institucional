@@ -65,7 +65,7 @@ const THESIS = [
   },
 ];
 
-const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1100px]:py-[var(--section-pad)]";
+const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1000px]:py-[var(--section-pad)]";
 const CONTAINER = "mx-auto max-w-[var(--content-max)]";
 const H2 = "text-[28px] leading-tight text-ink md:text-[var(--text-section)]";
 const LEAD =
@@ -111,14 +111,14 @@ function Page() {
       {/* TODO(equipo): sin fotos ni nombres individuales. Publicar el plantel con nombre,
           foto y rol le daría cara a la empresa, pero requiere que cada persona lo apruebe.
           Fotos de stock o avatares genéricos no son una alternativa: restan. */}
-      <section className={`bg-surface-sunken ${SECTION}`}>
+      <section className={`bg-surface ${SECTION}`}>
         <div className={CONTAINER}>
           <h2 className={`max-w-[24ch] ${H2}`}>Quiénes lo hacen</h2>
           <p className={LEAD}>
             Un equipo chico, con dos mitades que no suelen convivir: ciencia de datos con formación
             de posgrado, e ingeniería que instala sensores en una planta un sábado a la mañana.
           </p>
-          <ul className="mt-12 grid gap-8 min-[720px]:grid-cols-2">
+          <ul className="mt-12 grid gap-8 min-[1000px]:grid-cols-2">
             {TEAM.map((t) => (
               <li key={t.title} className="min-w-0">
                 <h3 className="text-[length:var(--text-card)] leading-snug text-ink">{t.title}</h3>
@@ -156,7 +156,7 @@ function Page() {
           estiman: un inversor que detecta una cifra inflada cierra la conversación. El
           bloque está escrito para funcionar sin ellas —explica el modelo, no el tamaño—.
           Cuando el equipo dé las cifras, se agregan tres métricas y nada más. */}
-      <section className={`bg-surface-sunken ${SECTION}`}>
+      <section className={`bg-surface ${SECTION}`}>
         <div className={CONTAINER}>
           <p className="eyebrow">Para inversores</p>
           <h2 className={`mt-4 max-w-[24ch] ${H2}`}>La tesis, en un párrafo</h2>
@@ -169,7 +169,7 @@ function Page() {
             cercano a cero.
           </p>
 
-          <ul className="mt-12 grid gap-8 min-[720px]:grid-cols-3">
+          <ul className="mt-12 grid gap-8 min-[1000px]:grid-cols-3">
             {THESIS.map((t) => (
               <li key={t.title} className="min-w-0">
                 <h3 className="text-[length:var(--text-card)] leading-snug text-ink">{t.title}</h3>

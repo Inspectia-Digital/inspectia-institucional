@@ -12,7 +12,7 @@
  * nombre, así que quien vuelve a revisar el formulario ya no sabe qué puso dónde.
  */
 export const INPUT =
-  "h-[52px] w-full rounded-[var(--radius-md)] border border-line-strong bg-surface px-3.5 text-[15px] text-ink outline-none focus:border-line-brand";
+  "h-12 w-full rounded-[var(--radius-md)] border border-line-strong bg-surface px-3.5 text-[15px] text-ink outline-none focus:border-line-brand";
 
 /** El mismo control, en alto de área de texto. */
 export const TEXTAREA =

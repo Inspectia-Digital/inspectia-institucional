@@ -24,14 +24,25 @@ export function BottomCta({
   industry?: string;
 }) {
   return (
-    <section className="bg-brand-deep px-5 py-24 md:px-8">
+    /* Blanco, y no teal como hasta el 19/10/2026.
+
+       Los lineamientos limitan el teal profundo a **una banda por página**, y la que se
+       queda con ella es el encabezado: es la superficie de marca y lo primero que ve
+       alguien que no conoce la empresa. Con el cierre también en teal, toda página
+       empezaba y terminaba en oscuro con el medio alternando — que es exactamente lo que
+       el documento llama "una página que se siente cargada".
+
+       El cierre no pierde fuerza por ser blanco: lo que empuja ahí es el botón, que sigue
+       siendo el único sólido de la sección. La línea de arriba lo separa del bloque
+       anterior ahora que no hay cambio de fondo que lo haga. */
+    <section className="border-t border-line bg-surface px-5 py-[var(--section-pad)] md:px-8">
       <div className="mx-auto flex max-w-[var(--content-max)] flex-col items-center text-center">
-        <h2 className="max-w-[18ch] text-[28px] leading-tight text-on-brand md:text-[var(--text-section)]">
+        <h2 className="max-w-[18ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
           {title}
         </h2>
-        <p className="mt-5 max-w-[var(--lead-max)] text-on-brand-secondary">{lead}</p>
+        <p className="mt-5 max-w-[var(--lead-max)] text-ink-secondary">{lead}</p>
 
-        <CtaPair surface="brand" module={module} industry={industry} className="mt-9 max-w-md" />
+        <CtaPair module={module} industry={industry} className="mt-9 max-w-md" />
 
         {WHATSAPP_URL && (
           <a
@@ -39,7 +50,7 @@ export function BottomCta({
             target="_blank"
             rel="noopener noreferrer nofollow"
             onClick={() => pushEvent("whatsapp_click", { source_page: sourcePage() })}
-            className="mt-6 inline-flex items-center gap-2 text-sm text-on-brand-secondary transition-colors duration-[160ms] hover:text-on-brand"
+            className="mt-6 inline-flex items-center gap-2 text-sm text-ink-secondary transition-colors duration-[160ms] hover:text-brand"
           >
             <Icon name="whatsapp" />
             Escribinos por WhatsApp

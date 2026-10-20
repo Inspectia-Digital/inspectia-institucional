@@ -4,16 +4,12 @@ import { Hero } from "@/components/site/Hero";
 import { TrustBar } from "@/components/site/TrustBar";
 import { FloorPlan } from "@/components/site/FloorPlan";
 import { ModuleGrid } from "@/components/site/ModuleGrid";
-import { AudienceTabs } from "@/components/site/AudienceTabs";
 import {
   CostOfNotMeasuring,
   Faq,
   HomeRoi,
   HOME_FAQ,
-  IaAndKitBand,
-  MarketplaceTeaser,
-  PartnersBand,
-  PricingTeaser,
+  CommercialStrip,
   StartFree,
 } from "@/components/home/sections";
 import { faqJsonLd, organizationJsonLd, pageHead } from "@/lib/seo";
@@ -48,38 +44,53 @@ export const Route = createFileRoute("/")({
 function Home() {
   return (
     <SiteLayout>
-      {/* 01 */}
+      {/* Orden del rediseño del 20/10: diez bloques, de lo prioritario a lo accesorio.
+          Cada uno con una idea y, como mucho, un botón principal. El detalle por módulo,
+          las vistas por rol y el texto largo de consultoras viven en páginas internas.
+
+          Lo que salió de la home: las pestañas por audiencia (AudienceTabs) y el teaser
+          del marketplace. La línea de seis etapas salió de StartFree a su propia página.
+          Lo que queda pendiente está marcado abajo con su número de bloque. */}
+
+      {/* 01 · Encabezado. Blanco, con la vista del producto al costado. */}
       <Hero />
-      {/* 02 · Las cinco familias juntas y en desplazamiento, por pedido explícito. Es la
-          fila única que tenía la web anterior, y contradice a §11.10 en los dos puntos
-          que ese apartado fija: ver la cabecera de TrustBar. */}
+
+      {/* 02 · Prueba social.
+
+          **Sigue en desplazamiento, y es deliberado.** El boceto pide "una fila, sin
+          carrusel", pero eso supone una lista corta de clientes y acá hay diecisiete
+          entradas que mezclan clientes, fabricantes, consultoras y programas. En una fila
+          estática se desbordan a tres renglones; en una sola fila sin movimiento habría
+          que recortar la lista, que es exactamente el cambio que se evaluó el 19/10 y se
+          descartó. Hasta que esa decisión se tome, el desplazamiento es lo que deja la
+          lista entera en un renglón. */}
       <TrustBar family="todas" marquee />
-      {/* 03 · La sección más importante de la home. */}
+
+      {/* 03 · La plataforma: el plano interactivo y las siete tarjetas de módulo. El plano
+              se mantiene interactivo por decisión del 20/10: el boceto lo proponía como
+              imagen estática y los puntos son trabajo hecho a mano. */}
       <Platform />
-      {/* 04 */}
+
+      {/* 04 · El problema, en tres columnas de texto suelto. */}
       <CostOfNotMeasuring />
-      {/* 05 */}
+
+      {/* 05 · La única superficie teal de la página. */}
       <StartFree />
-      {/* 06 */}
-      <AudienceTabs />
-      {/* 06b */}
-      <IaAndKitBand />
 
-      {/* TODO(fase 3): 07 · Caso destacado. Un caso a sangre con foto y tres números,
-          rotando entre manufactura y logística. Bloqueado por la aprobación de nombres y
-          cifras de cliente (§15.7). */}
-
-      {/* 08 */}
-      <MarketplaceTeaser />
-      {/* 09 */}
+      {/* 06 · La calculadora. */}
       <HomeRoi />
+
+      {/* 07 · Para tu rubro. Pendiente: los rubros son provisorios y faltan las fotos. */}
+
+      {/* 08 · Precio, consultoras y proveedor único, en una franja de tres columnas.
+              Reemplaza a PricingTeaser, PartnersBand y ProjectBand, que eran tres
+              secciones de pantalla completa diciendo lo mismo. */}
+      <CommercialStrip />
+
+      {/* 09 · Formulario. Pendiente. */}
+
       {/* 10 */}
-      <PartnersBand />
-      {/* 11 */}
-      <PricingTeaser />
-      {/* 12 */}
       <Faq />
-      {/* 13 · La banda de cierre la monta SiteLayout. */}
     </SiteLayout>
   );
 }
@@ -87,7 +98,7 @@ function Home() {
 /** Bloque 03: el plano interactivo arriba y la grilla de los siete módulos abajo. */
 function Platform() {
   return (
-    <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8 min-[1100px]:py-[var(--section-pad)]">
+    <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8 min-[1000px]:py-[var(--section-pad)]">
       <div className="mx-auto max-w-[var(--content-max)]">
         {/* El único encabezado centrado de la home, y tiene motivo: abajo va el plano,
             que es una imagen ancha y centrada. Un título pegado al margen izquierdo sobre
@@ -109,7 +120,7 @@ function Platform() {
             eso el render isométrico deja de leerse, así que en 375 quedaba un dibujo
             recortado que hay que arrastrar y donde no se distingue nada. La grilla de
             abajo cuenta lo mismo —los siete módulos— y en mobile lo cuenta mejor. */}
-        <div className="mt-12 hidden min-[720px]:block">
+        <div className="mt-12 hidden min-[640px]:block">
           <FloorPlan />
         </div>
 

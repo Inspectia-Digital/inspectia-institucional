@@ -133,8 +133,8 @@ export function OeeSimulator() {
   const t = tramo(r.oee);
 
   return (
-    <div className="grid gap-8 min-[1100px]:grid-cols-[380px_1fr] min-[1100px]:gap-12">
-      <div className="min-w-0 min-[1100px]:w-[380px]">
+    <div className="grid gap-8 min-[1000px]:grid-cols-[380px_1fr] min-[1000px]:gap-12">
+      <div className="min-w-0 min-[1000px]:w-[380px]">
         <p className="eyebrow">Los datos de tu turno</p>
         <p className="mt-3 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
           Cargá lo que pasó en un turno real. Si no tenés un dato a mano, dejá el que está y mirá
@@ -154,8 +154,8 @@ export function OeeSimulator() {
 
       {/* En mobile el resultado va arriba de los controles: el número es lo que se viene
           a ver. En escritorio vuelve al orden del documento. */}
-      <div className="order-first min-w-0 min-[1100px]:order-none">
-        <div className="min-[1100px]:sticky min-[1100px]:top-[calc(var(--navbar-h)+1rem)]">
+      <div className="order-first min-w-0 min-[1000px]:order-none">
+        <div className="min-[1000px]:sticky min-[1000px]:top-[calc(var(--navbar-h)+1rem)]">
           <div className="rounded-[var(--radius-lg)] border border-line bg-surface-sunken p-8">
             <p className="eyebrow">Tu OEE</p>
             <p
@@ -170,7 +170,7 @@ export function OeeSimulator() {
             </p>
             <p className="mt-3 text-[15px] text-ink-secondary">{t.label}</p>
 
-            <dl className="mt-8 grid gap-6 min-[720px]:grid-cols-3">
+            <dl className="mt-8 grid gap-6 min-[1000px]:grid-cols-3">
               <Factor label="Disponibilidad" value={pct(r.disponibilidad)} />
               <Factor label="Rendimiento" value={pct(r.rendimiento)} />
               <Factor label="Calidad" value={pct(r.calidad)} />

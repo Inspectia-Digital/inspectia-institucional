@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CampoRouteImport } from './routes/campo'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as DemoRouteImport } from './routes/demo'
 import { Route as DronesRouteImport } from './routes/drones'
@@ -42,6 +43,11 @@ import { Route as SolucionesCasosDeUsoCasoRouteImport } from './routes/solucione
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CampoRoute = CampoRouteImport.update({
+  id: '/campo',
+  path: '/campo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactoRoute = ContactoRouteImport.update({
@@ -188,6 +194,7 @@ const SolucionesCasosDeUsoCasoRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/campo': typeof CampoRoute
   '/contacto': typeof ContactoRoute
   '/demo': typeof DemoRoute
   '/drones': typeof DronesRoute
@@ -219,6 +226,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/campo': typeof CampoRoute
   '/contacto': typeof ContactoRoute
   '/demo': typeof DemoRoute
   '/drones': typeof DronesRoute
@@ -251,6 +259,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/campo': typeof CampoRoute
   '/contacto': typeof ContactoRoute
   '/demo': typeof DemoRoute
   '/drones': typeof DronesRoute
@@ -284,6 +293,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/campo'
     | '/contacto'
     | '/demo'
     | '/drones'
@@ -315,6 +325,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/campo'
     | '/contacto'
     | '/demo'
     | '/drones'
@@ -346,6 +357,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/campo'
     | '/contacto'
     | '/demo'
     | '/drones'
@@ -378,6 +390,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CampoRoute: typeof CampoRoute
   ContactoRoute: typeof ContactoRoute
   DemoRoute: typeof DemoRoute
   DronesRoute: typeof DronesRoute
@@ -415,6 +428,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/campo': {
+      id: '/campo'
+      path: '/campo'
+      fullPath: '/campo'
+      preLoaderRoute: typeof CampoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contacto': {
@@ -618,6 +638,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CampoRoute: CampoRoute,
   ContactoRoute: ContactoRoute,
   DemoRoute: DemoRoute,
   DronesRoute: DronesRoute,

@@ -25,7 +25,7 @@ export function ModuleGrid({
       className={cn(
         "grid gap-6",
         // Colapsa a 2 en 1100 y a 1 en 720, como el resto de las grillas del sitio.
-        "grid-cols-1 min-[720px]:grid-cols-2 min-[1100px]:grid-cols-4",
+        "grid-cols-1 min-[1000px]:grid-cols-4",
         className,
       )}
     >
@@ -38,7 +38,8 @@ export function ModuleGrid({
             className={cn(
               "group flex h-full flex-col rounded-[var(--radius-lg)] border border-line bg-surface p-6",
               "transition-[border-color,box-shadow] duration-[160ms] ease-[var(--ease-out)]",
-              "hover:border-line-brand hover:shadow-[var(--shadow-sm)]",
+              // El hover cambia color, no eleva (Lineamientos §Superficies).
+              "hover:border-line-brand",
             )}
           >
             <div className="flex items-center justify-between">

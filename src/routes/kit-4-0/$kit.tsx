@@ -41,7 +41,7 @@ export const Route = createFileRoute("/kit-4-0/$kit")({
   component: KitPage,
 });
 
-const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1100px]:py-[var(--section-pad)]";
+const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1000px]:py-[var(--section-pad)]";
 const CONTAINER = "mx-auto max-w-[var(--content-max)]";
 const H2 = "text-[28px] leading-tight text-ink md:text-[var(--text-section)]";
 
@@ -74,7 +74,7 @@ function KitPage() {
         </div>
       </section>
 
-      <section className={`bg-surface-sunken ${SECTION}`}>
+      <section className={`bg-surface ${SECTION}`}>
         <div className={CONTAINER}>
           <h2 className={`max-w-[24ch] ${H2}`}>Qué incluye el proyecto</h2>
           <ul className="mt-10 max-w-[var(--read-max)] space-y-2.5">
@@ -143,7 +143,7 @@ function KitPage() {
         </section>
       )}
 
-      <section className={`bg-surface-sunken ${SECTION}`}>
+      <section className={`bg-surface ${SECTION}`}>
         <div className={CONTAINER}>
           <h2 className={`max-w-[24ch] ${H2}`}>Cómo se empieza</h2>
           <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
@@ -154,7 +154,7 @@ function KitPage() {
             <Link
               to="/ia"
               hash="diagnostico"
-              className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] bg-action px-8 text-[15px] font-semibold text-white transition-colors duration-[160ms] hover:bg-action-hover active:translate-y-px"
+              className="inline-flex h-12 items-center justify-center rounded-[var(--radius-md)] bg-action px-8 text-[15px] font-semibold text-white transition-colors duration-[160ms] hover:bg-action-hover active:translate-y-px"
             >
               Pedí un diagnóstico
             </Link>

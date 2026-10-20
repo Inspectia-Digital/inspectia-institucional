@@ -8,6 +8,7 @@ import {
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { PriceGrid, PriceGridCta } from "@/components/site/PriceGrid";
+import { PlanTiers } from "@/components/site/PlanTiers";
 import {
   COST_COMPARISON,
   MODULE_PRICES,
@@ -76,7 +77,7 @@ export const Route = createFileRoute("/precios")({
   component: Page,
 });
 
-const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1100px]:py-[var(--section-pad)]";
+const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1000px]:py-[var(--section-pad)]";
 const CONTAINER = "mx-auto max-w-[var(--content-max)]";
 const H2 = "text-[28px] leading-tight text-ink md:text-[var(--text-section)]";
 
@@ -86,9 +87,30 @@ function Page() {
       <PageHero
         eyebrow="Precios"
         title="El precio está publicado, módulo por módulo"
-        lead="No hace falta pedir una cotización para saber si esto entra en tu presupuesto. Cada módulo tiene su precio y su plan gratuito, los usuarios son ilimitados y conectar las máquinas que ya tenés no te sube de plan."
+        lead="No hace falta pedir una cotización para saber si esto entra en tu presupuesto. Cada módulo tiene su precio, su plan gratuito y la opción de armarlo a medida; los usuarios son ilimitados y conectar las máquinas que ya tenés no te sube de plan."
         cta={false}
       />
+
+      {/* Los tres planes antes de la grilla de módulos.
+
+          La página explicaba el precio por módulo y dejaba el tercer plan sin nombre: lo
+          que hoy es "A medida" vivía más abajo como "Lo que se cotiza", que se leía como
+          una lista de extras y no como una forma de contratar. Mientras tanto la página de
+          cada módulo ya mostraba tres planes, así que las dos se contradecían.
+
+          Va arriba porque es el modelo comercial —cómo se contrata— y la grilla de abajo
+          es el detalle —cuánto sale cada pieza—. */}
+      <section className={`bg-surface ${SECTION}`}>
+        <div className={CONTAINER}>
+          <h2 className={`max-w-[24ch] ${H2}`}>Tres maneras de contratarlo</h2>
+          <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
+            Las tres dan el producto completo. Lo que cambia es el volumen que entra y, en la
+            tercera, todo lo que se arma alrededor.
+          </p>
+
+          <PlanTiers subject="la plataforma" className="mt-12" />
+        </div>
+      </section>
 
       <section className={`bg-surface ${SECTION}`}>
         <div className={CONTAINER}>
@@ -119,7 +141,7 @@ function Page() {
       <Quoted />
       <CostComparison />
 
-      <section className={`bg-surface-sunken ${SECTION}`}>
+      <section className={`bg-surface ${SECTION}`}>
         <div className="mx-auto max-w-[50rem]">
           <p className="eyebrow">Antes de contratar</p>
           <h2 className={`mt-4 ${H2}`}>Preguntas de facturación</h2>
@@ -155,15 +177,15 @@ function Page() {
  */
 function Quoted() {
   return (
-    <section className={`bg-surface-sunken ${SECTION}`}>
+    <section className={`bg-surface ${SECTION}`}>
       <div className={CONTAINER}>
-        <h2 className={`max-w-[24ch] ${H2}`}>Lo que se cotiza</h2>
+        <h2 className={`max-w-[24ch] ${H2}`}>Qué incluye el plan a medida</h2>
         <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
           Tres cosas quedan fuera del precio de lista, y las tres son opcionales: el producto
-          funciona sin ninguna, cargando a mano.
+          funciona sin ninguna, cargando a mano. Cuando hacen falta, se cotizan juntas.
         </p>
 
-        <ul className="mt-12 grid gap-8 min-[900px]:grid-cols-3">
+        <ul className="mt-12 grid gap-8 min-[1000px]:grid-cols-3">
           {QUOTED_ITEMS.map((item) => (
             <li key={item.title} className="min-w-0">
               <h3 className="text-[length:var(--text-card)] leading-snug text-ink">{item.title}</h3>
@@ -193,7 +215,7 @@ function Quoted() {
           <Link
             to="/ia"
             hash="diagnostico"
-            className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] border border-line-brand bg-action-soft px-8 text-[15px] font-semibold text-action-soft-text transition-colors duration-[160ms] hover:bg-teal-100 active:translate-y-px"
+            className="inline-flex h-12 items-center justify-center rounded-[var(--radius-md)] border border-line-brand bg-action-soft px-8 text-[15px] font-semibold text-action-soft-text transition-colors duration-[160ms] hover:bg-teal-100 active:translate-y-px"
           >
             Pedí un diagnóstico
           </Link>
@@ -222,7 +244,7 @@ function CostComparison() {
           que importan cuando se compara el costo de tres años y no el precio de la primera factura.
         </p>
 
-        <div className="mt-12 hidden min-[900px]:block">
+        <div className="mt-12 hidden min-[1000px]:block">
           <table className="w-full border-collapse text-left">
             <thead>
               <tr className="border-b border-line">
@@ -263,9 +285,9 @@ function CostComparison() {
           </table>
         </div>
 
-        <div className="mt-12 space-y-6 min-[900px]:hidden">
+        <div className="mt-12 space-y-6 min-[1000px]:hidden">
           {columns.map((c, col) => (
-            <div key={c} className="min-w-0 rounded-[var(--radius-lg)] border border-line p-6">
+            <div key={c} className="min-w-0 border-t border-line pt-5">
               <h3
                 className={`text-[length:var(--text-card)] leading-snug ${col === 0 ? "text-brand" : "text-ink"}`}
               >

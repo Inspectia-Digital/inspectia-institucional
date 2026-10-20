@@ -54,7 +54,7 @@ function Page() {
         cta={false}
       />
 
-      <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8 min-[1100px]:py-[var(--section-pad)]">
+      <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8 min-[1000px]:py-[var(--section-pad)]">
         <div className="mx-auto max-w-[var(--content-max)]">
           {/* Pills y no un desplegable: siete opciones se leen de un vistazo y elegir una
               es un clic, contra tres de un select. */}
@@ -69,17 +69,14 @@ function Page() {
             ))}
           </div>
 
-          <ul className="mt-10 grid gap-6 min-[720px]:grid-cols-2 min-[1100px]:grid-cols-3">
+          <ul className="mt-10 grid gap-6 min-[1000px]:grid-cols-3">
             {shown.map((c) => {
               const modules = c.combinesWith
                 .map((k) => MODULES.find((m) => m.key === k)?.name)
                 .filter(Boolean);
 
               return (
-                <li
-                  key={c.key}
-                  className="flex min-w-0 flex-col rounded-[var(--radius-lg)] border border-line p-6"
-                >
+                <li key={c.key} className="flex min-w-0 flex-col border-t border-line pt-5">
                   <h3 className="text-[length:var(--text-card)] leading-snug text-ink">{c.name}</h3>
                   <p className="mt-3 text-[15px] leading-[var(--leading-normal)] text-ink">
                     {c.solves}
@@ -151,7 +148,7 @@ function Page() {
       {/* CTA del cliente. Un solo botón y no el par: quien está en esta página no viene a
           crear una cuenta gratis, viene a resolver un proyecto. */}
       <section className="bg-surface px-5 pb-[var(--section-pad-md)] md:px-8">
-        <div className="mx-auto max-w-[var(--content-max)] rounded-[var(--radius-lg)] border border-line p-8 md:p-10">
+        <div className="mx-auto max-w-[var(--content-max)] border-t border-line pt-10">
           <h2 className="max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
             ¿No sabés cuál necesitás?
           </h2>
@@ -166,7 +163,7 @@ function Page() {
             onClick={() =>
               pushEvent("demo_scheduled_click", { source_page: "/plataforma/marketplace" })
             }
-            className="mt-8 inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] bg-action px-8 text-[15px] font-semibold text-white transition-colors duration-[160ms] hover:bg-action-hover active:translate-y-px"
+            className="mt-8 inline-flex h-12 items-center justify-center rounded-[var(--radius-md)] bg-action px-8 text-[15px] font-semibold text-white transition-colors duration-[160ms] hover:bg-action-hover active:translate-y-px"
           >
             Agendar demo
           </a>
@@ -175,7 +172,7 @@ function Page() {
 
       {/* Captación de oferta. Le habla a otra audiencia, así que va en banda aparte y
           separada de la grilla: no puede parecer parte de la oferta al cliente. */}
-      <section className="bg-surface-sunken px-5 py-[var(--section-pad-md)] md:px-8">
+      <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8">
         <div className="mx-auto max-w-[var(--content-max)]">
           <p className="eyebrow">Para proveedores</p>
           <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
@@ -195,7 +192,7 @@ function Page() {
           >
             <button
               type="button"
-              className="mt-8 inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] border border-line-brand bg-action-soft px-8 text-[15px] font-semibold text-action-soft-text transition-colors duration-[160ms] hover:bg-teal-100 active:translate-y-px"
+              className="mt-8 inline-flex h-12 items-center justify-center rounded-[var(--radius-md)] border border-line-brand bg-action-soft px-8 text-[15px] font-semibold text-action-soft-text transition-colors duration-[160ms] hover:bg-teal-100 active:translate-y-px"
             >
               Escribinos
             </button>

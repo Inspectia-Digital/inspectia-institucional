@@ -133,7 +133,7 @@ export function LeadForm({ module, outcome }: { module: string; outcome: RoiOutc
       </p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-6" noValidate>
-        <div className="grid gap-4 min-[720px]:grid-cols-2 min-[1100px]:grid-cols-4">
+        <div className="grid gap-4 min-[1000px]:grid-cols-4">
           <Field label="Nombre y apellido" error={errors.nombre?.message}>
             <input {...register("nombre")} autoComplete="name" className={INPUT} />
           </Field>
@@ -158,7 +158,7 @@ export function LeadForm({ module, outcome }: { module: string; outcome: RoiOutc
           type="submit"
           disabled={isSubmitting}
           className={cn(
-            "mt-6 h-[52px] rounded-[var(--radius-md)] bg-action px-8 text-[15px] font-semibold text-white",
+            "mt-6 h-12 rounded-[var(--radius-md)] bg-action px-8 text-[15px] font-semibold text-white",
             "transition-colors duration-[160ms] hover:bg-action-hover active:translate-y-px",
             "disabled:bg-[var(--action-disabled-bg)] disabled:text-[var(--action-disabled-text)]",
           )}

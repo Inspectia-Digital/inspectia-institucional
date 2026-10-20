@@ -102,24 +102,22 @@ export function ImplementationTimeline({
   return (
     <div>
       <p className="metric text-[32px] font-light leading-none text-ink">1–10 días</p>
-      <p className="mt-2 text-xs uppercase tracking-[var(--tracking-caps)] text-ink-secondary">
-        Tiempo total estimado
-      </p>
+      <p className="mt-2 text-sm text-ink-secondary">Tiempo total estimado</p>
 
       {/* Riel horizontal en desktop, vertical en mobile. Sin scroll horizontal. */}
       <ol
         className={cn(
           "relative mt-10 grid gap-8",
-          "min-[1100px]:grid-cols-6 min-[1100px]:gap-6",
+          "min-[1000px]:grid-cols-6 min-[1000px]:gap-6",
           // La línea de 1px a la altura del centro de los nodos. Sólo en el riel horizontal.
-          "min-[1100px]:before:absolute min-[1100px]:before:left-4 min-[1100px]:before:right-4",
-          "min-[1100px]:before:top-4 min-[1100px]:before:h-px min-[1100px]:before:bg-line-strong",
+          "min-[1000px]:before:absolute min-[1000px]:before:left-4 min-[1000px]:before:right-4",
+          "min-[1000px]:before:top-4 min-[1000px]:before:h-px min-[1000px]:before:bg-line-strong",
         )}
       >
         {STAGES.map((s, i) => (
           <li
             key={s.n}
-            className="relative min-w-0 animate-rise-in pl-12 min-[1100px]:pl-0"
+            className="relative min-w-0 animate-rise-in pl-12 min-[1000px]:pl-0"
             // Escalonado de 60ms entre hermanos, izquierda a derecha, una sola vez.
             style={{ animationDelay: `${i * 60}ms` }}
           >
@@ -127,7 +125,7 @@ export function ImplementationTimeline({
             <span
               aria-hidden
               className={cn(
-                "absolute left-[15px] top-8 h-[calc(100%+2rem)] w-px bg-line-strong min-[1100px]:hidden",
+                "absolute left-[15px] top-8 h-[calc(100%+2rem)] w-px bg-line-strong min-[1000px]:hidden",
                 i === STAGES.length - 1 && "hidden",
               )}
             />
@@ -135,7 +133,7 @@ export function ImplementationTimeline({
               className={cn(
                 "metric absolute left-0 top-0 grid size-8 place-items-center rounded-full",
                 "border border-line-strong bg-surface text-xs font-semibold text-ink",
-                "min-[1100px]:relative min-[1100px]:mb-4",
+                "min-[1000px]:relative min-[1000px]:mb-4",
               )}
             >
               {s.n}

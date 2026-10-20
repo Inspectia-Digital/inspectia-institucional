@@ -14,6 +14,8 @@
 @import "./tokens/motion.css";
 @import "./tokens/elevation.css";
 @import "./tokens/theme.css";
+/* Después de theme.css a propósito: redefine sus alias, acotado a [data-theme="campo"]. */
+@import "./tokens/campo.css";
 @import "./tokens/base.css";
 
 /* Puente hacia las utilidades de Tailwind. Todo apunta a un token: acá no se define un
@@ -24,9 +26,10 @@
    lados (`--radius-sm: var(--radius-sm)`) sería autorreferente y dejaría la propiedad
    inválida. Los que sí van son los que Tailwind no conoce. */
 @theme inline {
-  /* El mega-menú pasa a hoja con acordeones a partir de 900px (§12), que no cae en
-     ningún breakpoint de Tailwind: lg son 1024 y md son 768. */
-  --breakpoint-nav: 900px;
+  /* El mega-menú pasa a hoja con acordeones a partir de 1000px, que es el corte alto de
+     los tres rangos del rediseño (≥1000 · 640–1000 · <640). Era 900 y quedaba fuera de
+     esos rangos: la barra cambiaba de forma en un ancho donde nada más lo hacía. */
+  --breakpoint-nav: 1000px;
 
   --font-sans: var(--font-brand);
 

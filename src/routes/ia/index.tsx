@@ -41,7 +41,7 @@ export const Route = createFileRoute("/ia/")({
   component: Page,
 });
 
-const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1100px]:py-[var(--section-pad)]";
+const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1000px]:py-[var(--section-pad)]";
 const CONTAINER = "mx-auto max-w-[var(--content-max)]";
 const H2 = "text-[28px] leading-tight text-ink md:text-[var(--text-section)]";
 
@@ -57,7 +57,7 @@ function Page() {
         <p className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-3">
           <a
             href="#diagnostico"
-            className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] bg-white px-8 text-[15px] font-semibold text-brand-deep transition-colors duration-[160ms] hover:bg-teal-050 active:translate-y-px"
+            className="inline-flex h-12 items-center justify-center rounded-[var(--radius-md)] bg-white px-8 text-[15px] font-semibold text-brand-deep transition-colors duration-[160ms] hover:bg-teal-050 active:translate-y-px"
           >
             Pedí un diagnóstico
           </a>
@@ -78,7 +78,7 @@ function Page() {
             lista, sirve igual como referencia de qué hace falta para encararlo.
           </p>
 
-          <ul className="mt-12 grid gap-10 min-[900px]:grid-cols-2">
+          <ul className="mt-12 grid gap-10 min-[1000px]:grid-cols-2">
             {IA_APPLICATIONS.map((a) => (
               <li key={a.id} id={a.id} className="min-w-0 scroll-mt-28">
                 <h3 className="text-[length:var(--text-card)] leading-snug text-ink">{a.title}</h3>
@@ -117,10 +117,10 @@ function Page() {
         </div>
       </section>
 
-      <section className={`bg-surface-sunken ${SECTION}`}>
+      <section className={`bg-surface ${SECTION}`}>
         <div className={CONTAINER}>
           <h2 className={`max-w-[24ch] ${H2}`}>Cómo es un proyecto</h2>
-          <ol className="mt-12 grid gap-8 min-[720px]:grid-cols-2 min-[1100px]:grid-cols-4">
+          <ol className="mt-12 grid gap-8 min-[1000px]:grid-cols-4">
             {IA_PROJECT_STEPS.map((s) => (
               <li key={s.n} className="min-w-0">
                 <span className="metric text-sm font-semibold text-brand">{s.n}</span>
@@ -168,7 +168,7 @@ function Page() {
         </div>
       </section>
 
-      <section className={`bg-surface-sunken ${SECTION}`}>
+      <section className={`bg-surface ${SECTION}`}>
         <div className={CONTAINER}>
           <h2 className={`max-w-[28ch] ${H2}`}>Hasta un 50 % de descuento con Kit 4.0</h2>
           <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
@@ -178,7 +178,7 @@ function Page() {
           <p className="mt-9">
             <Link
               to="/kit-4-0"
-              className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] border border-line-brand bg-action-soft px-8 text-[15px] font-semibold text-action-soft-text transition-colors duration-[160ms] hover:bg-teal-100 active:translate-y-px"
+              className="inline-flex h-12 items-center justify-center rounded-[var(--radius-md)] border border-line-brand bg-action-soft px-8 text-[15px] font-semibold text-action-soft-text transition-colors duration-[160ms] hover:bg-teal-100 active:translate-y-px"
             >
               Ver qué kit te corresponde
             </Link>

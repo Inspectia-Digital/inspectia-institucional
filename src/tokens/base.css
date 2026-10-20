@@ -22,6 +22,18 @@
     font-weight: var(--weight-semibold);
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-display);
+    /* Equilibra el largo de las líneas de un título en vez de dejar una palabra sola
+       abajo (Lineamientos §Tipografía). Estaba puesto a mano en algunos títulos y no en
+       otros; acá vale para todos. */
+    text-wrap: balance;
+  }
+
+  /* Evita la línea huérfana al final de un párrafo. `pretty` sólo trabaja las últimas
+     líneas, así que no tiene el costo de layout que tendría `balance` en texto largo. */
+  p,
+  li,
+  dd {
+    text-wrap: pretty;
   }
 
   /* El foco es visible en todo elemento interactivo, no sólo al navegar con teclado. */
@@ -39,11 +51,21 @@
     font-feature-settings: "tnum";
   }
 
+  /* La etiqueta de sección.
+     Lineamientos §Tipografía: 14px, peso 600, teal, y **nada en mayúscula** — "tampoco
+     las etiquetas de sección: van en tipo oración".
+     Era 12px en versales con tracking de .1em, que es la firma tipográfica que la versión
+     anterior de los lineamientos pedía. Se da vuelta entera: fuera el `text-transform`,
+     fuera el tracking ancho y de 12 a 14px. Los 82 usos del sitio ya traen el texto en
+     tipo oración en el JSX —la mayúscula la ponía esta regla— así que no hay copy que
+     reescribir. */
   .eyebrow {
-    font-size: var(--text-xs);
+    /* 14px literal y no --text-sm, que en esta escala es 13: los lineamientos fijan 14px
+       para la etiqueta de sección y el token más cercano no da ese número. Antes que
+       mover --text-sm —que lo usan otras treinta cosas— el valor va acá. */
+    font-size: 14px;
     font-weight: var(--weight-semibold);
-    letter-spacing: var(--tracking-widest);
-    text-transform: uppercase;
+    letter-spacing: 0;
     color: var(--text-brand);
   }
 
@@ -191,4 +213,64 @@
   textarea {
     font-size: 16px;
   }
+}
+
+/* Dos secciones seguidas no suman su padding (Lineamientos §Espacio).
+ 
+   Cada sección trae 112px arriba y 112 abajo, así que cada par dejaba 224px de aire —el
+   doble de lo que el documento pide— y en toda la página. Es la misma queja de "espacios
+   en blanco muy grandes" que apareció en la revisión de la home: bajar el token trataba el
+   síntoma, porque el problema es que se suman.
+
+   La sección que sigue a otra pierde su padding de arriba y el hueco queda en 112, que es
+   el de abajo de la anterior.
+
+   **Menos la primera después del encabezado.** El encabezado es la banda teal y su padding
+   está *adentro* del color: si la sección siguiente arranca en cero, el contenido queda
+   pegado al borde del teal sin un respiro blanco. Esa conserva el suyo.
+
+   Va **fuera de toda capa**, por el mismo motivo que la regla de los campos de acá arriba:
+   las utilidades de Tailwind viven en @layer utilities y lo que no está en ninguna capa les
+   gana sin necesidad de !important. */
+/* **Campo queda afuera.** Esta regla vale donde el fondo es siempre blanco y lo único que
+   separa dos secciones es el aire. En el micrositio de Campo los fondos alternan —claro,
+   blanco, claro, verde profundo— así que cada sección es un bloque de color y su padding
+   es interno: anularlo deja el título pegado al borde del color, que es exactamente lo que
+   pasaba en la banda verde. */
+/* El colapso vale **sólo entre dos secciones del mismo fondo**, que es el caso para el
+   que se escribió: lo único que las separa es el aire, y sumar dos paddings da el doble.
+
+   Una sección de color es otra cosa. Su padding está *adentro* del color, así que
+   anularlo pega el contenido al filo —fue justo lo que pasó con la banda teal de la home,
+   cuyo título quedó cortado contra el borde— y la que viene después necesita el suyo para
+   despegarse de ese filo. Las dos quedan exentas.
+
+   El encabezado entra por el mismo camino: es `bg-brand-deep` en las páginas internas y
+   `section:first-of-type` en las que no. */
+section + section:not([data-theme="campo"] section):not(.bg-brand-deep) {
+  padding-top: 0;
+}
+section:first-of-type + section,
+section.bg-brand-deep + section:not([data-theme="campo"] section) {
+  padding-top: var(--section-pad-sm);
+}
+@media (min-width: 640px) {
+  section:first-of-type + section,
+  section.bg-brand-deep + section:not([data-theme="campo"] section) {
+    padding-top: var(--section-pad-md);
+  }
+}
+@media (min-width: 1000px) {
+  section:first-of-type + section,
+  section.bg-brand-deep + section:not([data-theme="campo"] section) {
+    padding-top: var(--section-pad);
+  }
+}
+
+/* La banda de cierre vive fuera de <main>, así que `section + section` no la alcanza y
+   sumaba su padding al de la última sección: 208px antes del cierre, el doble de la
+   regla. Como la banda tiene borde arriba, su padding es interno y no se puede anular;
+   lo que se anula es el de abajo de la sección anterior, que es lo que sobra. */
+main > section:last-of-type:not([data-theme="campo"] section) {
+  padding-bottom: 0;
 }

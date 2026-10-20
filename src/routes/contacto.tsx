@@ -41,7 +41,7 @@ export const Route = createFileRoute("/contacto")({
   component: Page,
 });
 
-const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1100px]:py-[var(--section-pad)]";
+const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1000px]:py-[var(--section-pad)]";
 const CONTAINER = "mx-auto max-w-[var(--content-max)]";
 const H2 = "text-[28px] leading-tight text-ink md:text-[var(--text-section)]";
 
@@ -60,7 +60,7 @@ function Page() {
         <section className={`bg-surface ${SECTION}`}>
           <div className={CONTAINER}>
             <h2 className={H2}>Por dónde escribirnos</h2>
-            <ul className="mt-10 grid gap-8 min-[720px]:grid-cols-3">
+            <ul className="mt-10 grid gap-8 min-[1000px]:grid-cols-3">
               {CONTACT.phone && (
                 <ContactCard
                   name="phone"
@@ -93,7 +93,7 @@ function Page() {
       )}
 
       {OFFICES.length > 0 && (
-        <section className={`bg-surface-sunken ${SECTION}`}>
+        <section className={`bg-surface ${SECTION}`}>
           <div className={CONTAINER}>
             <h2 className={H2}>Dónde estamos</h2>
             <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
@@ -103,7 +103,7 @@ function Page() {
 
             {/* Direcciones, no enlaces a un mapa: sin la ubicación exacta confirmada, un
                 enlace armado con la dirección puede caer en la cuadra de al lado. */}
-            <address className="mt-10 grid gap-8 not-italic min-[720px]:grid-cols-2">
+            <address className="mt-10 grid gap-8 not-italic min-[1000px]:grid-cols-2">
               {OFFICES.map((o) => (
                 <div key={o.postalCode} className="flex min-w-0 gap-3">
                   <Icon name="map-pin" size="empty" className="mt-1 text-brand" />

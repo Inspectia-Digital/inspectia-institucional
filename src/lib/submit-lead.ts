@@ -18,12 +18,15 @@ import { mailField, openMailDraft } from "@/lib/mailto";
  * vino a sacar del sitio.
  */
 
-export type LeadForm = "roi" | "cotizacion" | "proveedor" | "diagnostico";
+export type LeadForm = "roi" | "cotizacion" | "proveedor" | "diagnostico" | "campo";
 
 export type LeadPayload = {
   form: LeadForm;
   nombre: string;
-  email: string;
+  /** Opcional desde el 20/10: el formulario de Campo pide teléfono y no correo, porque
+   *  así lo fija su plan y su boceto. Sin correo el aviso igual llega; lo que se pierde es
+   *  poder contestarlo con "responder". */
+  email?: string;
   telefono: string;
   /** La empresa de quien pide. En los dos formularios es lo mismo. */
   contexto: string;
@@ -52,13 +55,17 @@ const RESPALDO = {
     asunto: `Diagnóstico de IA · ${l.contexto}`,
     lineas: datos(l),
   }),
+  campo: (l: LeadPayload) => ({
+    asunto: `InspectIA Campo · ${l.contexto}`,
+    lineas: datos(l),
+  }),
 } satisfies Record<LeadForm, (l: LeadPayload) => { asunto: string; lineas: string[] }>;
 
 /** El cuerpo es el mismo en los dos: lo que cambia es el asunto y qué trae `detalle`. */
 const datos = (l: LeadPayload) => [
   mailField("Nombre", l.nombre),
   mailField("Empresa", l.contexto),
-  mailField("Correo", l.email),
+  ...(l.email ? [mailField("Correo", l.email)] : []),
   mailField("Teléfono", l.telefono),
   ...(l.detalle?.length ? ["", ...l.detalle] : []),
 ];

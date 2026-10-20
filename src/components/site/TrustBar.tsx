@@ -41,7 +41,7 @@ export function TrustBar({
   return (
     <section
       aria-label={title}
-      className={`${tone === "sunken" ? "bg-surface-sunken" : "bg-surface"} px-5 py-[var(--section-pad-sm)] md:px-8 md:py-[var(--section-pad-md)]`}
+      className={`${tone === "sunken" ? "bg-surface" : "bg-surface"} px-5 py-[var(--section-pad-sm)] md:px-8 md:py-[var(--section-pad-md)]`}
     >
       {/* El marco del carrusel se sale del ancho de contenido a propósito: los logos
           entran y salen contra el margen de la sección y no contra una línea invisible a

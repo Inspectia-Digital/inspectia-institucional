@@ -6,7 +6,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { CtaPair } from "@/components/site/CtaPair";
-import { ImplementationTimeline } from "@/components/site/ImplementationTimeline";
 import { RoiMini } from "@/components/roi/RoiMini";
 import { produccionModel } from "@/lib/roi/produccion";
 import { MODULE_BY_KEY, type ModuleKey } from "@/content/modules";
@@ -16,9 +15,13 @@ import { SHOW_PRICING } from "@/content/site";
 
 /** Bloques propios de la home. Los que se usan en más de una página viven en site/. */
 
-const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1100px]:py-[var(--section-pad)]";
+const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1000px]:py-[var(--section-pad)]";
 const CONTAINER = "mx-auto max-w-[var(--content-max)]";
-const H2 = "text-[28px] leading-tight text-ink md:text-[var(--text-section)]";
+/* La base no lleva color: concatenarle `text-on-brand` dejaba dos utilidades de color en
+   el mismo elemento y ganaba la que el CSS generado pusiera última, que resultó ser
+   `text-ink` — un título oscuro sobre la banda teal. El color lo pone cada uso. */
+const H2_BASE = "text-[28px] leading-tight md:text-[var(--text-section)]";
+const H2 = `${H2_BASE} text-ink`;
 
 /* ---------- 04 · El costo de no medir ---------- */
 
@@ -44,6 +47,11 @@ const COSTS: { title: string; body: string; modulo: ModuleKey }[] = [
 
 export function CostOfNotMeasuring() {
   return (
+    // Hundido y no blanco. Al subir este bloque por encima del catálogo quedaron tres
+    // secciones blancas seguidas —logos, problema, plataforma— separadas sólo por
+    // padding: el ojo las lee como un único bloque larguísimo y el aire entre ellas pasa
+    // a leerse como hueco en vez de como respiro. (Las tres ya eran blancas antes; el
+    // reordenamiento no lo causó, lo puso a la vista.)
     <section className={`bg-surface ${SECTION}`}>
       <div className={CONTAINER}>
         <p className="eyebrow">El costo de no medir</p>
@@ -53,7 +61,7 @@ export function CostOfNotMeasuring() {
           es el número, y sin el número no hay nada que corregir.
         </p>
 
-        <ul className="mt-12 grid gap-8 min-[720px]:grid-cols-3">
+        <ul className="mt-12 grid gap-8 min-[1000px]:grid-cols-3">
           {COSTS.map((c) => (
             <li key={c.modulo} className="min-w-0">
               <h3 className="text-[length:var(--text-card)] leading-snug text-ink">{c.title}</h3>
@@ -102,121 +110,156 @@ const CAPTURE_LEVELS = [
   },
 ];
 
+/**
+ * El único bloque con superficie de marca de la home (rediseño del 20/10).
+ *
+ * Antes el teal era el encabezado. Ahora el encabezado es blanco y el oscuro se reserva
+ * para este momento, que es donde el lector decide si puede empezar: los tres niveles de
+ * captura son la respuesta a "¿esto me sirve si no tengo nada instalado?".
+ *
+ * **La línea de seis etapas se fue de acá** a la página "Cómo empezar". Era el bloque más
+ * largo de la home y contaba un proceso que sólo le interesa a quien ya se convenció.
+ */
 export function StartFree() {
   return (
-    <section className={`bg-surface-sunken ${SECTION}`}>
+    <section id="como" className={`bg-brand-deep ${SECTION}`}>
       <div className={CONTAINER}>
-        <p className="eyebrow">Cómo se empieza</p>
-        <h2 className={`mt-4 max-w-[24ch] ${H2}`}>De la planilla a la IA, al ritmo de tu planta</h2>
+        <h2 className={`max-w-[24ch] ${H2_BASE} text-on-brand`}>
+          De la planilla a la IA, al ritmo de tu planta
+        </h2>
 
-        <ol className="mt-12 grid gap-8 min-[900px]:grid-cols-3">
+        <ol className="mt-12 grid gap-8 min-[1000px]:grid-cols-3">
           {CAPTURE_LEVELS.map((n, i) => (
             <li key={n.title} className="min-w-0">
-              <span className="metric text-sm font-semibold text-brand">
+              {/* El número en Mono: se evaluó pasarlo a Poppins tabular y se decidió
+                  dejar la versión que estaba. */}
+              <span className="metric text-sm font-semibold text-[var(--accent-on-brand)]">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <h3 className="mt-4 text-[length:var(--text-card)] leading-snug text-ink">
+              <h3 className="mt-4 text-[length:var(--text-card)] leading-snug text-on-brand">
                 {n.title}
               </h3>
-              <p className="mt-3 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
+              <p className="mt-3 text-[15px] leading-[var(--leading-normal)] text-on-brand-secondary">
                 {n.body}
               </p>
             </li>
           ))}
         </ol>
 
-        <p className="mt-10 max-w-[var(--read-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink">
-          Avanzás cuando el dato lo justifica, no antes.
-        </p>
-
-        <p className="mt-6 flex flex-wrap gap-x-8 gap-y-3">
-          <Link
-            to="/precios"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
-          >
-            Ver los precios
-            <Icon name="arrow-right" />
-          </Link>
-          <Link
-            to="/ia"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
-          >
-            Ver las aplicaciones de IA
-            <Icon name="arrow-right" />
-          </Link>
-        </p>
-
-        <CtaPair className="mt-9 max-w-md" plan="free" />
-
-        <div className="mt-16 rounded-[var(--radius-lg)] border border-line bg-surface p-8 md:p-10">
-          <h3 className="text-[length:var(--text-card)] leading-snug text-ink">
-            Cuando llega el hardware: 1 a 10 días
-          </h3>
-          <p className="mt-3 max-w-[var(--lead-max)] text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
-            De la reunión de arranque a los datos corriendo en producción. Estas son las seis
-            etapas, con lo que pasa en cada una.
+        {/* El pie, separado por una línea blanca tenue: el dato que más tranquiliza y
+            una sola acción. El boceto pone acá el botón "sobre teal", que es blanco con
+            texto verde profundo. */}
+        <div className="mt-12 flex flex-col gap-6 border-t border-[var(--border-on-brand)] pt-8 min-[1000px]:flex-row min-[1000px]:items-center min-[1000px]:justify-between">
+          <p className="min-w-0 max-w-[var(--lead-max)] text-[15px] leading-[var(--leading-normal)] text-on-brand-secondary">
+            Cuando hay que sumar hardware, la línea queda medida en{" "}
+            <span className="font-semibold text-on-brand">1 a 10 días</span>.
           </p>
-          {/* Sin `detailed`: en la home va la versión corta, sin entregables. */}
-          <div className="mt-8">
-            <ImplementationTimeline />
-          </div>
+          <CtaPair surface="brand" className="shrink-0 max-w-md" plan="free" />
         </div>
       </div>
     </section>
   );
 }
 
-/* ---------- 06b · IA y Kit 4.0, en una sola banda ---------- */
+/* ---------- 08 · El proyecto completo: IA, Kit 4.0 y marketplace ---------- */
 
 /**
- * Las dos eran bandas separadas, una abajo de la otra, cada una con un título, un párrafo
- * y un botón.
+ * Esto eran **dos secciones y tres encabezados seguidos**: "Sumale IA", "Y hasta un 50 %
+ * con Kit 4.0" y "Todo lo que el proyecto necesita, en un solo proveedor".
  *
- * **Medido el 19/10/2026: juntas ocupaban 951px de los que 384 eran padding.** Dos bloques
- * consecutivos con la misma forma y el mismo peso visual no se leen como dos ideas: se
- * leen como relleno, y es el patrón que hace que una página parezca armada por plantilla.
+ * Medido sobre producción el 19/10/2026: 711px + 1.601px = 2.312px, entre el 46 % y el
+ * 57 % de la home. Y los tres decían variantes de lo mismo —*además hacemos más cosas*—
+ * uno atrás del otro, justo después de que el lector venía siguiendo un argumento sobre
+ * medir su línea. Tres ofertas laterales en fila no suman: diluyen, y es el patrón que
+ * hace que una página se lea como armada por plantilla.
  *
- * Van juntas porque son una sola idea en dos tiempos: la IA es lo que podrías sumar, y el
- * Kit 4.0 es cómo lo pagás. Puestas lado a lado esa relación se ve sin explicarla.
+ * Como un solo bloque con tres puertas, la misma información se lee como lo que es: lo
+ * que hace falta para que el proyecto exista, de punta a punta. Una introducción en vez
+ * de tres, y las tres puertas en paralelo porque son alternativas, no pasos.
+ *
+ * **Qué se perdió.** Las seis categorías del marketplace venían con una línea de
+ * descripción cada una, en tarjetas. Acá quedan los nombres y las descripciones viven en
+ * `/plataforma/marketplace`, que es la página que existe para eso. Era el contenido que
+ * más espacio ocupaba y menos decidía.
  */
-export function IaAndKitBand() {
+
+/** Las seis categorías del marketplace. El detalle está en `/plataforma/marketplace`. */
+const MARKETPLACE_CATEGORIAS = [
+  "Hardware, sensores e IoT",
+  "ERP",
+  "WMS",
+  "Bots y automatización",
+  "Financiamiento",
+  "Datos y analítica",
+];
+
+export function ProjectBand() {
   return (
-    <section className={`bg-brand-deep ${SECTION}`}>
-      <div className={`${CONTAINER} grid gap-12 min-[900px]:grid-cols-2 min-[900px]:gap-16`}>
-        <div className="min-w-0">
-          <h2 className="max-w-[20ch] text-[28px] leading-tight text-on-brand md:text-[var(--text-section)]">
-            Sumale IA a tu planta
-          </h2>
-          <p className="mt-5 text-[15px] leading-[var(--leading-normal)] text-on-brand-secondary">
-            Detectamos defectos con cámaras, contamos producción sin tocar la máquina y anticipamos
-            fallas antes de que paren la línea. Partimos de un problema que se puede medir.
-          </p>
-          <p className="mt-7">
+    <section className={`border-t border-line bg-surface ${SECTION}`}>
+      <div className={CONTAINER}>
+        <p className="eyebrow">El proyecto completo</p>
+        <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+          Todo lo que el proyecto necesita, en un solo proveedor
+        </h2>
+        <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
+          Un proyecto de planta casi nunca es sólo software: hacen falta cámaras, sensores, un ERP
+          que hable con la línea, a veces financiamiento. Las tres puertas salen del mismo lugar,
+          así que no tenés que coordinar cinco proveedores.
+        </p>
+
+        {/* Tres columnas en desktop, apiladas en mobile. Los separadores son del lado
+            izquierdo de cada columna menos la primera, que es lo que evita el filete
+            colgando al final de la fila. */}
+        <div className="mt-12 grid gap-10 border-t border-line pt-10 min-[1000px]:grid-cols-3 min-[1000px]:gap-0">
+          <div className="min-w-0 min-[1000px]:pr-10">
+            <h3 className="text-lg font-semibold leading-snug text-ink">Sumale IA</h3>
+            <p className="mt-3 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
+              Detectamos defectos con cámaras, contamos producción sin tocar la máquina y
+              anticipamos fallas antes de que paren la línea.
+            </p>
             <Link
               to="/ia"
-              className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] bg-white px-7 text-[15px] font-semibold text-brand-deep transition-colors duration-[160ms] hover:bg-teal-050 active:translate-y-px"
+              className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
             >
               Ver aplicaciones de IA
+              <Icon name="arrow-right" />
             </Link>
-          </p>
-        </div>
+          </div>
 
-        <div className="min-w-0 min-[900px]:border-l min-[900px]:border-[var(--border-on-brand)] min-[900px]:pl-16">
-          <h2 className="max-w-[22ch] text-[28px] leading-tight text-on-brand md:text-[var(--text-section)]">
-            Y hasta un 50 % de descuento con Kit 4.0
-          </h2>
-          <p className="mt-5 text-[15px] leading-[var(--leading-normal)] text-on-brand-secondary">
-            Somos proveedores habilitados para todos los kits del programa. Te decimos cuál te
-            corresponde y, mientras sale el trámite, empezás gratis con una línea.
-          </p>
-          <p className="mt-7">
+          <div className="min-w-0 min-[1000px]:border-l min-[1000px]:border-line min-[1000px]:px-10">
+            <h3 className="text-lg font-semibold leading-snug text-ink">
+              Hasta un 50 % con Kit 4.0
+            </h3>
+            <p className="mt-3 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
+              Somos proveedores habilitados para todos los kits. Te decimos cuál te corresponde y,
+              mientras sale el trámite, empezás gratis con una línea.
+            </p>
             <Link
               to="/kit-4-0"
-              className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] border border-white/42 bg-white/12 px-7 text-[15px] font-semibold text-white transition-colors duration-[160ms] hover:bg-white/20 active:translate-y-px"
+              className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
             >
               Ver qué kit te corresponde
+              <Icon name="arrow-right" />
             </Link>
-          </p>
+          </div>
+
+          <div className="min-w-0 min-[1000px]:border-l min-[1000px]:border-line min-[1000px]:pl-10">
+            <h3 className="text-lg font-semibold leading-snug text-ink">Hardware e integración</h3>
+            {/* Los nombres en una lista y no en prosa: quien busca "WMS" o "ERP" tiene que
+                encontrar la palabra, igual que con los módulos en el encabezado. */}
+            <ul className="mt-3 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
+              {MARKETPLACE_CATEGORIAS.map((c) => (
+                <li key={c}>{c}</li>
+              ))}
+            </ul>
+            <Link
+              to="/plataforma/marketplace"
+              className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
+            >
+              Explorar el marketplace
+              <Icon name="arrow-right" />
+            </Link>
+          </div>
         </div>
       </div>
     </section>
@@ -230,7 +273,7 @@ export function PricingTeaser() {
   const desde = Math.min(...MODULE_PRICES.map((p) => p.usd));
 
   return (
-    <section className={`bg-surface-sunken ${SECTION}`}>
+    <section className={`bg-surface ${SECTION}`}>
       <div className={CONTAINER}>
         <p className="eyebrow">Precios</p>
         <h2 className={`mt-4 max-w-[24ch] ${H2}`}>El precio está publicado, módulo por módulo</h2>
@@ -253,83 +296,15 @@ export function PricingTeaser() {
   );
 }
 
-/* ---------- 08 · Marketplace ---------- */
-
-const MARKETPLACE = [
-  {
-    name: "Hardware, sensores e IoT",
-    body: "Cámaras, sensores, lectoras y la instalación en piso de planta.",
-  },
-  {
-    name: "ERP",
-    body: "Implementación del ERP y del enlace con la planta, para no recargar el dato a mano.",
-  },
-  {
-    name: "WMS",
-    body: "Gestión de depósito que recibe lo que cuentan los módulos de stock y recepción.",
-  },
-  {
-    name: "Bots y automatización",
-    body: "Tareas repetitivas de oficina y de piso, resueltas sin gente.",
-  },
-  {
-    name: "Financiamiento",
-    body: "Descuento de cheques y capital de trabajo para financiar el proyecto.",
-  },
-  {
-    name: "Datos y analítica",
-    body: "Tableros de gestión y BI sobre los datos que la plataforma genera.",
-  },
-];
-
-export function MarketplaceTeaser() {
-  return (
-    <section className={`bg-surface ${SECTION}`}>
-      <div className={CONTAINER}>
-        <p className="eyebrow">Marketplace</p>
-        <h2 className={`mt-4 max-w-[24ch] ${H2}`}>
-          Todo lo que el proyecto necesita, en un solo proveedor
-        </h2>
-        <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
-          Un proyecto de planta casi nunca es sólo software: hacen falta cámaras, sensores, un ERP
-          que hable con la línea, a veces financiamiento. Son servicios de terceros que
-          comercializamos nosotros, así que los contratás con InspectIA y no tenés que coordinar
-          cinco proveedores.
-        </p>
-
-        {/* Sin logos todavía: qué proveedor entra en cada categoría y con qué esquema
-            comercial está pendiente (§15.6). Y los logos de integración técnica no van
-            acá bajo ningún concepto (§11.6). */}
-        <ul className="mt-12 grid gap-6 min-[720px]:grid-cols-2 min-[1100px]:grid-cols-3">
-          {MARKETPLACE.map((c) => (
-            <li key={c.name} className="min-w-0 rounded-[var(--radius-lg)] border border-line p-6">
-              <h3 className="text-lg font-semibold leading-snug text-ink">{c.name}</h3>
-              <p className="mt-2 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
-                {c.body}
-              </p>
-            </li>
-          ))}
-        </ul>
-
-        <Link
-          to="/plataforma/marketplace"
-          className="mt-10 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
-        >
-          Explorar el marketplace
-          <Icon name="arrow-right" />
-        </Link>
-      </div>
-    </section>
-  );
-}
-
 /* ---------- 10 · Programa para consultores ---------- */
 
 export function PartnersBand() {
   return (
-    <section className="bg-surface-sunken px-5 py-16 md:px-8">
+    // Blanco entre dos hundidas (ROI y precios), por el mismo motivo que el bloque del
+    // costo de no medir: tres hundidas seguidas se leen como una sola.
+    <section className={`bg-surface ${SECTION}`}>
       <div
-        className={`${CONTAINER} flex flex-col gap-6 min-[900px]:flex-row min-[900px]:items-center min-[900px]:justify-between`}
+        className={`${CONTAINER} flex flex-col gap-6 min-[1000px]:flex-row min-[1000px]:items-center min-[1000px]:justify-between`}
       >
         {/* Sin foto y sin números: una sola idea. */}
         <div className="min-w-0 max-w-[52ch]">
@@ -437,7 +412,7 @@ export function Faq() {
  */
 export function HomeRoi() {
   return (
-    <section className={`bg-surface-sunken ${SECTION}`}>
+    <section className={`bg-surface ${SECTION}`}>
       <div className={CONTAINER}>
         <p className="eyebrow">Cuánto te rinde</p>
         <h2 className={`mt-4 max-w-[24ch] ${H2}`}>
@@ -456,6 +431,66 @@ export function HomeRoi() {
           Este es el escenario grueso. En la calculadora completa está el modelo de cada módulo, con
           sus supuestos y el costo de InspectIA a la vista.
         </p>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- 08 · Precio, consultoras y un solo proveedor ---------- */
+
+/**
+ * La franja de tres columnas que reemplaza a tres secciones sueltas.
+ *
+ * Antes esto eran `PricingTeaser`, `PartnersBand` y el bloque del marketplace: tres
+ * secciones de pantalla completa, cada una con su título, su párrafo y su enlace, una
+ * atrás de la otra. Son condiciones comerciales, no argumentos: quien llegó hasta acá ya
+ * decidió si le interesa el producto y lo que busca es saber cómo se contrata.
+ *
+ * Como franja ocupan un bloque en vez de tres y dicen lo mismo. El detalle de cada una
+ * vive en su página, que es la regla del rediseño: la home nombra, la interna explica.
+ */
+const FRANJA = [
+  {
+    title: "El precio está publicado",
+    body: "Módulo por módulo, con plan gratuito en cada uno. Sin pedir cotización.",
+    to: "/precios" as const,
+    cta: "Ver precios",
+  },
+  {
+    title: "Programa para consultoras",
+    body: "Si asesorás plantas, InspectIA es la parte de software de tu propuesta.",
+    to: "/partners" as const,
+    cta: "Conocer el programa",
+  },
+  {
+    title: "Todo en un solo proveedor",
+    body: "Hardware, integración con tu ERP, proyectos de IA y financiamiento.",
+    to: "/plataforma/marketplace" as const,
+    cta: "Ver qué incluye",
+  },
+];
+
+export function CommercialStrip() {
+  return (
+    <section id="precios" className={`bg-surface ${SECTION}`}>
+      <div className={CONTAINER}>
+        <ul className="grid gap-x-12 gap-y-9 border-t border-line pt-10 min-[1000px]:grid-cols-3">
+          {FRANJA.map((f) => (
+            <li key={f.title} className="min-w-0">
+              <h2 className="text-[19px] font-semibold leading-snug text-ink">{f.title}</h2>
+              <p className="mt-2 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
+                {f.body}
+              </p>
+              <Link
+                to={f.to}
+                className="mt-4 inline-flex items-center gap-1.5 text-[15px] font-medium text-brand hover:underline hover:underline-offset-4"
+              >
+                {f.cta}
+                <Icon name="arrow-right" />
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

@@ -135,3 +135,87 @@ export const breadcrumbJsonLd = (trail: { name: string; path: string }[]) => ({
     item: `${SITE_URL}${t.path}`,
   })),
 });
+
+/**
+ * El módulo como producto de software, para el resultado enriquecido de búsqueda.
+ *
+ * Es el schema que faltaba y el que más rinde en este caso: una página de módulo con
+ * precio publicado es, para un buscador, un producto con ofertas. `SoftwareApplication`
+ * —y no `Product` a secas— porque permite declarar `applicationCategory` y `featureList`,
+ * que es justamente lo que distingue a un módulo de otro.
+ *
+ * ## Las dos ofertas no se diferencian por funcionalidad
+ *
+ * Y el schema tiene que decirlo igual que la página. El plan gratuito de InspectIA limita
+ * **cantidad**, no funciones: una línea en vez de las que quieras, pero con todo lo que
+ * hace el módulo. Por eso las dos `Offer` comparten el mismo `featureList` del producto y
+ * se distinguen sólo en el precio y en `eligibleQuantity`. Declarar dos listas de features
+ * distintas sería describir un producto que no existe —y sería lo primero que un visitante
+ * comprobaría que es falso al crear la cuenta.
+ *
+ * `featureList` sale de los componentes del documento de visión, que es la lista real de
+ * lo que hace el módulo y no una selección hecha para el buscador.
+ */
+export const moduleJsonLd = (m: {
+  name: string;
+  slug: string;
+  description: string;
+  features: string[];
+  price: { usd: number; unit: string; free: string | null } | undefined;
+}) => {
+  const url = `${SITE_URL}/plataforma/${m.slug}`;
+
+  /* Sin precio no se declara ninguna oferta. Un `Offer` sin `price` es un dato vacío que
+     el buscador puede mostrar como "precio no disponible", que es peor que no decir nada. */
+  const offers = !m.price
+    ? []
+    : [
+        ...(m.price.free
+          ? [
+              {
+                "@type": "Offer",
+                name: "Plan gratuito",
+                price: 0,
+                priceCurrency: "USD",
+                // El límite no siempre viene con punto final ("1 línea, carga manual"),
+                // así que se agrega acá en vez de pedirle a cada entrada que lo traiga.
+                description: `${m.price.free.replace(/\.?$/, ".")} Sin tarjeta y sin vencimiento.`,
+                url,
+              },
+            ]
+          : []),
+        {
+          "@type": "Offer",
+          name: "Plan pago",
+          price: m.price.usd,
+          priceCurrency: "USD",
+          description: `Por ${m.price.unit} y por mes, con usuarios ilimitados.`,
+          url,
+        },
+      ];
+
+  return {
+    "@type": "SoftwareApplication",
+    name: `InspectIA ${m.name}`,
+    applicationCategory: "BusinessApplication",
+    applicationSubCategory: "Manufacturing Operations Management",
+    operatingSystem: "Web",
+    url,
+    description: m.description,
+    featureList: m.features,
+    provider: { "@type": "Organization", name: "InspectIA", url: SITE_URL },
+    ...(offers.length === 1 ? { offers: offers[0] } : {}),
+    ...(offers.length > 1
+      ? {
+          offers: {
+            "@type": "AggregateOffer",
+            priceCurrency: "USD",
+            lowPrice: 0,
+            highPrice: m.price!.usd,
+            offerCount: offers.length,
+            offers,
+          },
+        }
+      : {}),
+  };
+};

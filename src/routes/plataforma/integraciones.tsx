@@ -34,9 +34,9 @@ function Page() {
         lead="El ERP que nadie va a cambiar, el WMS del depósito, el PLC de hace treinta años y las cámaras que ya están puestas. InspectIA los lee y les devuelve lo que la planta produce."
       />
 
-      <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8 min-[1100px]:py-[var(--section-pad)]">
+      <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8 min-[1000px]:py-[var(--section-pad)]">
         <div className="mx-auto max-w-[var(--content-max)]">
-          <ul className="grid gap-x-8 gap-y-14 min-[720px]:grid-cols-2">
+          <ul className="grid gap-x-8 gap-y-14 min-[1000px]:grid-cols-2">
             {INTEGRATION_GROUPS.map((g) => (
               <li key={g.key} className="min-w-0">
                 <h2 className="text-[length:var(--text-card)] leading-snug text-ink">{g.title}</h2>
@@ -84,7 +84,7 @@ function Page() {
 
       {/* La pregunta que trae el visitante técnico y que la página no contestaba.
           Un párrafo y nada más: sin lista, sin tarjetas y sin CTA. */}
-      <section className="bg-surface-sunken px-5 py-[var(--section-pad-md)] md:px-8">
+      <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8">
         <div className="mx-auto max-w-[var(--content-max)]">
           <h2 className="max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
             Y si no hay integración, igual arranca

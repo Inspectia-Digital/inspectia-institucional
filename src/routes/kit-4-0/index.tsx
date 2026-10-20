@@ -59,7 +59,7 @@ export const Route = createFileRoute("/kit-4-0/")({
   component: Page,
 });
 
-const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1100px]:py-[var(--section-pad)]";
+const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1000px]:py-[var(--section-pad)]";
 const CONTAINER = "mx-auto max-w-[var(--content-max)]";
 const H2 = "text-[28px] leading-tight text-ink md:text-[var(--text-section)]";
 
@@ -133,10 +133,10 @@ function Page() {
         </div>
       </section>
 
-      <section className={`bg-surface-sunken ${SECTION}`}>
+      <section className={`bg-surface ${SECTION}`}>
         <div className={CONTAINER}>
           <h2 className={`max-w-[24ch] ${H2}`}>Cómo se hace</h2>
-          <ol className="mt-12 grid gap-8 min-[720px]:grid-cols-3">
+          <ol className="mt-12 grid gap-8 min-[1000px]:grid-cols-3">
             {[
               {
                 n: "01",
@@ -182,7 +182,7 @@ function Page() {
               onClick={() =>
                 pushEvent("signup_start", { source_page: sourcePage(), plan: "gratuito" })
               }
-              className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] bg-action px-8 text-[15px] font-semibold text-white transition-colors duration-[160ms] hover:bg-action-hover active:translate-y-px"
+              className="inline-flex h-12 items-center justify-center rounded-[var(--radius-md)] bg-action px-8 text-[15px] font-semibold text-white transition-colors duration-[160ms] hover:bg-action-hover active:translate-y-px"
             >
               Empezar gratis
             </a>
@@ -197,7 +197,7 @@ function Page() {
         </div>
       </section>
 
-      <section className={`bg-surface-sunken ${SECTION}`}>
+      <section className={`bg-surface ${SECTION}`}>
         <div className="mx-auto max-w-[50rem]">
           <h2 className={H2}>Preguntas sobre Kit 4.0</h2>
           <Accordion

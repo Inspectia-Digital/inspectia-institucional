@@ -50,12 +50,12 @@ function RoiPage() {
         cta={false}
       />
 
-      <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8 min-[1100px]:py-[var(--section-pad)]">
+      <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8 min-[1000px]:py-[var(--section-pad)]">
         <div className="mx-auto max-w-[var(--content-max)]">
           {/* Escritorio: pestañas con indicador de 2px en la activa.
               Mobile: un desplegable, porque cuatro pestañas no entran en 375px. */}
           <div className="border-b border-line">
-            <div className="hidden gap-8 min-[720px]:flex" role="tablist">
+            <div className="hidden gap-8 min-[640px]:flex" role="tablist">
               {ROI_MODELS.map((m) => {
                 const active = m.module === model.module;
                 return (
@@ -78,7 +78,7 @@ function RoiPage() {
               })}
             </div>
 
-            <label className="block pb-4 min-[720px]:hidden">
+            <label className="block pb-4 min-[640px]:hidden">
               <span className="mb-1.5 block text-[13px] font-medium text-ink-secondary">
                 Módulo
               </span>

@@ -35,9 +35,9 @@ function Page() {
         lead="Qué módulo se puso, qué cambió y con qué números. Los datos son los que el cliente autorizó a publicar."
       />
 
-      <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8 min-[1100px]:py-[var(--section-pad)]">
+      <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8 min-[1000px]:py-[var(--section-pad)]">
         <div className="mx-auto max-w-[var(--content-max)]">
-          <ul className="grid gap-6 min-[720px]:grid-cols-2 min-[1100px]:grid-cols-3">
+          <ul className="grid gap-6 min-[1000px]:grid-cols-3">
             {cases.map((c) => (
               <li key={c.slug} className="min-w-0">
                 <Link

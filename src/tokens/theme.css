@@ -13,10 +13,13 @@
   --text-secondary: var(--grey-600);
   --text-muted: var(--grey-500);
   --text-inverse: #ffffff;
-  /* Color del eyebrow, siempre. 5,62:1 sobre blanco. --teal-650 (4,60:1) es el mínimo;
-     --teal-600 ya falla. */
-  --text-brand: var(--teal-700);
-  --text-link: var(--teal-700);
+  /* Teal de acción: botón principal, enlaces y etiquetas de sección (Lineamientos §Color).
+     4,60:1 sobre blanco — pasa AA, y lo pasa con margen desde que la etiqueta subió de 12
+     a 14px. Antes acá iba --teal-700 (5,62:1) justamente porque a 12px en versales el
+     contraste tenía que ser el más alto de la paleta; ese motivo ya no existe.
+     --teal-600 (4,37:1) sigue fallando: es el piso de abajo, no una alternativa. */
+  --text-brand: var(--teal-650);
+  --text-link: var(--teal-650);
   --text-link-hover: var(--teal-800);
   /* Mientras un logo sea texto y no imagen va acá: 5,63:1. --grey-400 da 2,33:1 y es
      ilegible. La regla de "grises al 60%" es de opacidad de imagen, no de color de texto. */

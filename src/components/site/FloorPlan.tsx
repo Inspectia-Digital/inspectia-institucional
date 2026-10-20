@@ -270,7 +270,7 @@ function ModuleCard({
       onMouseLeave={onMouseLeave}
       className={cn(
         "absolute z-30 w-80 animate-rise-in rounded-[var(--radius-lg)] border border-line",
-        "bg-surface p-5 text-left shadow-[var(--shadow-md)]",
+        "bg-surface p-5 text-left",
         // Se coloca del lado con más espacio y nunca tapa su propio punto.
         side === "top" ? "bottom-full mb-3" : "top-full mt-3",
         align === "right" ? "right-0" : align === "left" ? "left-0" : "left-1/2 -translate-x-1/2",

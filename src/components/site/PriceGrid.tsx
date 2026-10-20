@@ -109,7 +109,7 @@ export function PriceGridCta() {
         href={SIGNUP_URL}
         rel="nofollow"
         onClick={() => pushEvent("signup_start", { source_page: sourcePage(), plan: "gratuito" })}
-        className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] bg-action px-8 text-[15px] font-semibold text-white transition-colors duration-[160ms] hover:bg-action-hover active:translate-y-px"
+        className="inline-flex h-12 items-center justify-center rounded-[var(--radius-md)] bg-action px-8 text-[15px] font-semibold text-white transition-colors duration-[160ms] hover:bg-action-hover active:translate-y-px"
       >
         Empezar gratis
       </a>

@@ -36,13 +36,29 @@ export const PLANT_PLAN = {
  * La captura de la aplicación que acompaña al encabezado de la home.
  *
  * **Mientras sea null, el hero va a una sola columna y a ancho completo**, que es mejor
- * que reservar el 40 % de la primera pantalla para un hueco. Era lo que pasaba hasta
- * ahora: la columna de texto estaba capada al 64 % esperando una foto que nunca llegó, y
- * el resultado era un encabezado con un vacío al lado.
+ * que reservar el 40 % de la primera pantalla para un hueco: una columna de texto capada
+ * esperando una imagen que no está se lee como un error de carga.
  *
- * Para publicarla: el archivo va a `assets-src/app/`, se mapea en
- * `scripts/optimize-images.mjs` y se corre `npm run images -- app`. El `alt` tiene que
- * describir lo que se ve en el tablero, no decir "captura de pantalla".
+ * ## Cómo publicarla
+ *
+ * 1. El archivo original va a `assets-src/app/tablero.png` (PNG, sin comprimir).
+ * 2. `npm run images -- app` lo reencoda a `/img/app/tablero.webp` y su variante chica.
+ * 3. Se completa este objeto con el `alt` y las medidas que imprime el script.
+ *
+ * ## Qué tiene que mostrar
+ *
+ * - **Un tablero, no un formulario ni una tabla.** Se dibuja a ~520px de ancho: lo que
+ *   tiene que leerse a ese tamaño son gráficos y números grandes, no filas de texto.
+ * - **Relación 4:3 o 3:2**, apaisada. Una captura de pantalla completa de 16:9 entra
+ *   demasiado chica en la columna.
+ * - **Datos de demostración, nunca de un cliente.** Una captura del tablero de un tenant
+ *   real publica su producción, sus paradas y sus defectos en la home. Si el único
+ *   tablero con datos lindos es el de una cuenta real, hay que maquillar los nombres y
+ *   los números antes, no después.
+ * - Sin barra del navegador, sin cursor, sin notificaciones del sistema operativo.
+ *
+ * El `alt` describe lo que se ve en el tablero —qué métricas, de qué— y no dice "captura
+ * de pantalla": eso ya lo sabe quien usa un lector de pantalla por el contexto.
  */
 export const APP_SHOT: { src: string; width: number; height: number; alt: string } | null = null;
 

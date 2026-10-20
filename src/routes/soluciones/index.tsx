@@ -21,7 +21,7 @@ export const Route = createFileRoute("/soluciones/")({
   component: SolutionsPage,
 });
 
-const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1100px]:py-[var(--section-pad)]";
+const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1000px]:py-[var(--section-pad)]";
 const CONTAINER = "mx-auto max-w-[var(--content-max)]";
 const H2 = "text-[28px] leading-tight text-ink md:text-[var(--text-section)]";
 
@@ -44,7 +44,7 @@ function SolutionsPage() {
 
           {/* TODO(equipo): las cards de industria llevan foto arriba a 16:10 (§11.5).
               Falta la fotografía propia de planta; hasta entonces van sin foto. */}
-          <ul className="mt-12 grid gap-6 min-[720px]:grid-cols-2 min-[1100px]:grid-cols-3">
+          <ul className="mt-12 grid gap-6 min-[1000px]:grid-cols-3">
             {industries.map((i) => (
               <li key={i.slug} className="min-w-0">
                 <Link
@@ -78,12 +78,12 @@ function SolutionsPage() {
       </section>
 
       {/* --- Por caso de uso --- */}
-      <section className={`bg-surface-sunken ${SECTION}`}>
+      <section className={`bg-surface ${SECTION}`}>
         <div className={CONTAINER}>
           <p className="eyebrow">Por caso de uso</p>
           <h2 className={`mt-4 ${H2}`}>O entrá por el problema</h2>
 
-          <ul className="mt-12 grid gap-6 min-[720px]:grid-cols-2 min-[1100px]:grid-cols-3">
+          <ul className="mt-12 grid gap-6 min-[1000px]:grid-cols-3">
             {USE_CASES.map((u) => (
               <li key={u.slug} className="min-w-0">
                 <Link
@@ -142,7 +142,7 @@ function CoverageMatrix() {
 
         {/* Desde 1100 para arriba, la matriz. Por debajo no funciona —ocho columnas no
             entran— así que se reemplaza por una lista, no por scroll horizontal. */}
-        <div className="mt-12 hidden min-[1100px]:block">
+        <div className="mt-12 hidden min-[1000px]:block">
           <table className="w-full border-collapse text-left">
             <caption className="sr-only">Módulos de InspectIA que aplican a cada industria</caption>
             <thead>
@@ -205,7 +205,7 @@ function CoverageMatrix() {
           </table>
         </div>
 
-        <ul className="mt-12 space-y-8 min-[1100px]:hidden">
+        <ul className="mt-12 space-y-8 min-[1000px]:hidden">
           {industries.map((i) => (
             <li key={i.slug} className="min-w-0">
               <h3 className="text-[15px] font-semibold text-ink">

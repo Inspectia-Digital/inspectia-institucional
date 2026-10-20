@@ -79,7 +79,9 @@ function IndustryPage() {
   ].filter(Boolean);
 
   const band = (name: string) =>
-    bands.indexOf(name) % 2 === 0 ? "bg-surface" : "bg-surface-sunken";
+    // Siempre blanco: los lineamientos del 19/10 prohíben alternar fondos. Se deja la
+    // función para no tocar los diez puntos de llamada.
+    "bg-surface";
 
   return (
     <SiteLayout industry={industry.slug}>

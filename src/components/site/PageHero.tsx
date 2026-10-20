@@ -33,9 +33,7 @@ export function PageHero({
       <div className="mx-auto max-w-[var(--content-max)]">
         <div className="hero-col max-w-[46rem]">
           {eyebrow && (
-            <p className="text-xs font-semibold uppercase tracking-[var(--tracking-widest)] text-[var(--accent-on-brand)]">
-              {eyebrow}
-            </p>
+            <p className="text-sm font-semibold text-[var(--accent-on-brand)]">{eyebrow}</p>
           )}
           <h1
             className="mt-4 text-[length:var(--text-hero)] leading-[var(--leading-hero)] tracking-[var(--tracking-hero)] text-on-brand"

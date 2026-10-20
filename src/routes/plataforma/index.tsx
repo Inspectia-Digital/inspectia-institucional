@@ -79,7 +79,7 @@ const ROLES = [
   },
 ];
 
-const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1100px]:py-[var(--section-pad)]";
+const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1000px]:py-[var(--section-pad)]";
 const CONTAINER = "mx-auto max-w-[var(--content-max)]";
 const H2 = "text-[28px] leading-tight text-ink md:text-[var(--text-section)]";
 
@@ -99,12 +99,9 @@ function PlatformPage() {
           <p className="eyebrow">La arquitectura</p>
           <h2 className={`mt-4 max-w-[20ch] ${H2}`}>Se apoya en lo que ya está instalado</h2>
 
-          <ol className="mt-12 grid gap-6 min-[720px]:grid-cols-3">
+          <ol className="mt-12 grid gap-6 min-[1000px]:grid-cols-3">
             {LAYERS.map((l, i) => (
-              <li
-                key={l.title}
-                className="min-w-0 rounded-[var(--radius-lg)] border border-line p-6"
-              >
+              <li key={l.title} className="min-w-0 border-t border-line pt-5">
                 <span className="metric text-sm font-semibold text-brand">
                   {String(i + 1).padStart(2, "0")}
                 </span>
@@ -121,7 +118,7 @@ function PlatformPage() {
       </section>
 
       {/* 03 */}
-      <section className={`bg-surface-sunken ${SECTION}`}>
+      <section className={`bg-surface ${SECTION}`}>
         <div className={CONTAINER}>
           <p className="eyebrow">Una sola base</p>
           <h2 className={`mt-4 max-w-[20ch] ${H2}`}>Tu planta se carga una vez</h2>
@@ -172,8 +169,8 @@ function PlatformPage() {
       {/* 05 · Servicio e integración nunca comparten grilla (§11.6): el servicio del
              marketplace se contrata con nosotros y lleva CTA; la integración no lleva
              ninguno. */}
-      <section className={`bg-surface-sunken ${SECTION}`}>
-        <div className={`${CONTAINER} grid gap-6 min-[720px]:grid-cols-2`}>
+      <section className={`bg-surface ${SECTION}`}>
+        <div className={`${CONTAINER} grid gap-6 min-[1000px]:grid-cols-2`}>
           <TeaserCard
             to="/plataforma/integraciones"
             eyebrow="Integraciones"
@@ -201,7 +198,7 @@ function PlatformPage() {
               Cada empresa ve sólo su información. No hay datos cruzados entre clientes, ni tableros
               comparativos, ni nada que salga de tu operación sin que lo decidas.
             </p>
-            <ul className="mt-12 grid gap-8 min-[720px]:grid-cols-3">
+            <ul className="mt-12 grid gap-8 min-[1000px]:grid-cols-3">
               {SECURITY.map((s) => (
                 <li key={s.title} className="min-w-0">
                   <h3 className="text-[length:var(--text-card)] leading-snug text-ink">
@@ -217,10 +214,10 @@ function PlatformPage() {
         </section>
       )}
 
-      {/* 07 · Alterna contra la anterior, que puede estar oculta. */}
-      <section
-        className={`${SHOW_SECURITY_SECTION ? "bg-surface-sunken" : "bg-surface"} ${SECTION}`}
-      >
+      {/* 07 · El fondo era condicional porque esta sección alternaba contra la anterior,
+          que puede estar oculta. Desde que el fondo del sitio es blanco siempre, no hay
+          contra qué alternar y la condición quedó sin sentido. */}
+      <section className={`bg-surface ${SECTION}`}>
         <div className={CONTAINER}>
           <p className="eyebrow">Roles y accesos</p>
           <h2 className={`mt-4 max-w-[24ch] ${H2}`}>Cada uno ve lo que necesita para su trabajo</h2>
@@ -230,7 +227,7 @@ function PlatformPage() {
             usuarios no se pagan por cabeza.
           </p>
 
-          <ul className="mt-12 grid gap-8 min-[720px]:grid-cols-3">
+          <ul className="mt-12 grid gap-8 min-[1000px]:grid-cols-3">
             {ROLES.map((r) => (
               <li key={r.title} className="min-w-0">
                 <h3 className="text-[length:var(--text-card)] leading-snug text-ink">{r.title}</h3>

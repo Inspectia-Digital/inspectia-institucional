@@ -37,12 +37,12 @@ type CtaPairProps = {
 
 // Alto **mínimo** y no alto fijo. Los dos botones son items de un contenedor que se
 // apila en columna abajo de 640px, y ahí `flex-1` es `flex: 1 1 0%` sobre el eje
-// vertical: el flex-basis de 0 le ganaba a `h-[52px]` y los dos botones principales del
+// vertical: el flex-basis de 0 le ganaba a `h-12` y los dos botones principales del
 // sitio colapsaban a 24px de alto en celular, que es el dispositivo por el que entra
 // casi todo el tráfico. Con min-height el flex no lo puede achicar, y `flex-1` sigue
 // dando el mismo ancho a los dos cuando van en fila, que es para lo que está.
 const HEIGHT: Record<Size, string> = {
-  default: "min-h-[52px]",
+  default: "min-h-12",
   bar: "min-h-10",
   mobile: "min-h-12",
 };
@@ -61,8 +61,12 @@ const FILLED: Record<Surface, string> = {
 };
 
 const SOFT: Record<Surface, string> = {
+  // Blanco con borde gris, no relleno teal claro: el rediseño del 20/10 quiere que el
+  // único color pleno de la sección sea el botón principal. Con los dos en teal —uno
+  // pleno y otro lavado— se leen como dos acciones del mismo peso, que es justo lo que
+  // la jerarquía nueva viene a evitar.
   white:
-    "bg-action-soft text-action-soft-text border border-line-brand hover:bg-teal-100 active:bg-teal-200",
+    "bg-surface text-ink border border-line-strong hover:border-line-brand hover:text-brand active:translate-y-px",
   // Sobre teal los dos nunca van blancos: se leerían como un solo bloque partido.
   brand: "bg-white/12 text-white border border-white/42 hover:bg-white/20 active:bg-white/28",
 };

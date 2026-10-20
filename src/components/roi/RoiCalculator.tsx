@@ -28,9 +28,9 @@ export function RoiCalculator({
 
   return (
     <div>
-      <div className="grid gap-8 min-[1100px]:grid-cols-[380px_1fr] min-[1100px]:gap-12">
+      <div className="grid gap-8 min-[1000px]:grid-cols-[380px_1fr] min-[1000px]:gap-12">
         {/* --- Parámetros --- */}
-        <div className="min-w-0 min-[1100px]:w-[380px]">
+        <div className="min-w-0 min-[1000px]:w-[380px]">
           <p className="eyebrow">Tu operación</p>
           <p className="mt-3 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
             {model.intro}
@@ -55,16 +55,20 @@ export function RoiCalculator({
             El pegado es sólo de 1100 para arriba: en 375px esta tarjeta —titular, dos
             cifras, avisos y supuestos— ocupa casi toda la pantalla, y fijarla taparía los
             sliders que se están moviendo. */}
-        <div className="order-first min-w-0 min-[1100px]:order-none">
-          <div className="min-[1100px]:sticky min-[1100px]:top-[calc(var(--navbar-h)+1rem)]">
-            <div className="rounded-[var(--radius-lg)] border border-line bg-surface-sunken p-8">
+        <div className="order-first min-w-0 min-[1000px]:order-none">
+          <div className="min-[1000px]:sticky min-[1000px]:top-[calc(var(--navbar-h)+1rem)]">
+            {/* El resultado conserva un filete teal arriba y no una caja: los lineamientos
+                  reservan la tarjeta para lo que se toca, y esto es la lectura de un
+                  control. El filete de marca es lo que lo sigue separando del cuerpo —sin
+                  él, el número que la página existe para mostrar se lee como un párrafo. */}
+            <div className="border-t-2 border-line-brand pt-6">
               <p className="eyebrow">Resultado</p>
               <p className="metric mt-4 text-[length:var(--text-data)] font-light leading-none text-ink">
                 {outcome.headline.value}
               </p>
               <p className="mt-3 text-[15px] text-ink-secondary">{outcome.headline.caption}</p>
 
-              <div className="mt-8 grid gap-6 min-[720px]:grid-cols-2">
+              <div className="mt-8 grid gap-6 min-[1000px]:grid-cols-2">
                 {outcome.support.map((s) => (
                   <div key={s.caption} className="min-w-0">
                     <p className="metric text-[length:var(--text-lead)] font-light leading-none text-ink">
@@ -91,7 +95,7 @@ export function RoiCalculator({
 
             {/* Los supuestos no se pliegan. Un modelo que los esconde no se puede discutir,
                 y lo que se compra acá es justamente la discusión. */}
-            <div className="mt-6 rounded-[var(--radius-lg)] border border-line p-6">
+            <div className="mt-8 border-t border-line pt-6">
               <h2 className="eyebrow">Con qué supuestos</h2>
               <p className="mt-3 text-[13px] leading-[var(--leading-normal)] text-ink-secondary">
                 Estos son los valores con los que se hizo la cuenta, incluido lo que cuesta

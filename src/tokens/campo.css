@@ -1,0 +1,160 @@
+/* InspectIA Campo — el tema de la vertical agropecuaria.
+
+   ## De dónde salen los valores
+
+   Del design system **InspectIA Agro** (artifact `Dj54X316vLAguHG9JqNxmP`, leído el
+   20/10/2026): las rampas `monte` y `brote` y la semántica de sus alias, copiadas con sus
+   hex exactos. No son valores deducidos de un boceto — una primera versión de este archivo
+   sí lo era y tenía el verde de acción cambiado por el de texto de marca.
+
+   ## Lo que ese sistema NO gobierna acá
+
+   Ese design system es el de la **aplicación**: su primera línea dice que es un tema sobre
+   los tokens de `oee-lite`, y habla de rail, barra superior, cards densas e Inter para la
+   interfaz. El micrositio es web institucional y sigue los lineamientos de la web —Poppins,
+   fondo blanco, sin cards por defecto, sin sombras—. De Agro se toma la **paleta**; la
+   forma la pone la web.
+
+   Una diferencia deliberada: Agro fija `surface-page` en `grey-050` y los lineamientos de
+   la web dicen "el fondo es blanco". Gana la web, porque es una página de la web.
+
+   ## Acotado a `[data-theme="campo"]`, nunca global
+
+   El selector es un atributo en el contenedor de la página, así que ningún otro lugar del
+   sitio cambia de color por existir este archivo. Si mañana Campo se muda a su propio
+   dominio, esto viaja con él y el sitio industrial no se entera.
+
+   **Ojo con el nombre:** la aplicación usa `data-vertical="agro"` y la web dice "Campo".
+   Son dos nombres para la misma vertical y conviene unificarlos antes de que haya más
+   superficies. Ver la nota al usuario del 20/10. */
+
+[data-theme="campo"] {
+  /* Verde monte: la marca de la vertical. */
+  --monte-950: #062b24;
+  --monte-900: #0a3f35; /* superficie de marca profunda */
+  --monte-800: #0d5446;
+  --monte-700: #0f6b57; /* texto y títulos de marca */
+  --monte-650: #11775f; /* acción: botones, links, foco — 5,5:1 */
+  --monte-500: #1a9a78;
+  --monte-300: #6fd1b0;
+  --monte-200: #a9e5cf;
+  --monte-100: #d6f2e8;
+  --monte-050: #eefaf5;
+
+  /* Verde brote: lo vivo y el estado OK. */
+  --brote-900: #0b4704;
+  --brote-800: #236f1e;
+  --brote-700: #2a7f25;
+  --brote-500: #41dc38; /* acento: dato en vivo. Nunca texto sobre fondo claro */
+  --brote-300: #9aea94; /* estado OK en oscuro: es el que sirve sobre monte-900 */
+  --brote-100: #e3f7df;
+
+  /* ---- Los alias del sistema, redefinidos ----
+     A partir de acá todo componente existente se pinta solo, sin tocar su código. */
+
+  /* El gris verdoso que alterna con el blanco en el boceto: encabezado, "Armado para tu
+     tipo de campo" y "Hablemos". Es casi neutro —no el lavado de marca `monte-050`, que
+     tira mucho más a verde— y es lo que hace que las cards blancas se despeguen del
+     fondo. */
+  --campo-pale: #f4f7f5;
+
+  /* Los tres tintes de los marcadores de foto de la sección de perfiles. Son del boceto y
+     existen sólo mientras falten las fotos (plan §6): cuando lleguen, estos tokens y el
+     arreglo `TINTE` de la página se van juntos. Verde para agricultura, tierra para
+     ganadería, cielo para feedlot. */
+  --campo-tinte-agricultura: var(--brote-100);
+  --campo-tinte-ganaderia: #f3ece3;
+  --campo-tinte-feedlot: #d9eef5;
+
+  --surface-page: #ffffff;
+  --surface-card: #ffffff;
+  --surface-sunken: var(--campo-pale);
+  --surface-brand-deep: var(--monte-900);
+  --surface-brand-subtle: var(--monte-050);
+
+  --text-brand: var(--monte-650);
+  --text-link: var(--monte-650);
+  --text-link-hover: var(--monte-800);
+
+  --border-brand: var(--monte-650);
+
+  --action-primary: var(--monte-650);
+  --action-primary-hover: var(--monte-700);
+  --action-primary-active: var(--monte-800);
+  --action-soft-bg: var(--monte-050);
+  --action-soft-text: var(--monte-800);
+
+  /* Sobre el verde profundo. `brote-300` es el que el sistema reserva para tema oscuro:
+     da 9,4:1 contra monte-900. `brote-500` es acento de dato en vivo y el propio sistema
+     dice que nunca va como texto sobre fondo claro, así que no se usa para la etiqueta. */
+  --accent-on-brand: var(--brote-300);
+  --accent-on-brand-subtle: var(--monte-200);
+  --text-on-brand: #ffffff;
+  --text-on-brand-secondary: rgba(255, 255, 255, 0.78);
+  --text-on-brand-label: rgba(255, 255, 255, 0.78);
+  --border-on-brand: rgba(255, 255, 255, 0.16);
+  --surface-on-brand: rgba(255, 255, 255, 0.08);
+
+  /* Los neutros y la tipografía NO se tocan: el sistema de Agro los hereda de InspectIA,
+     y la web ya los tiene resueltos con Poppins y la rampa de grises del sitio. */
+}
+
+/* Los títulos en verde profundo, el cuerpo en gris.
+ 
+   Es la diferencia más visible entre esta página y el resto del sitio —donde los títulos
+   van en gris casi negro— y está así en el boceto. Se aplica por selector y no moviendo
+   `--text-primary`, porque ese token también pinta el cuerpo y el boceto lo deja gris. */
+[data-theme="campo"] h1,
+[data-theme="campo"] h2,
+[data-theme="campo"] h3 {
+  color: var(--monte-900);
+}
+
+/* Sobre el verde profundo manda el color que pone la sección, no esta regla. */
+[data-theme="campo"] .bg-brand-deep h1,
+[data-theme="campo"] .bg-brand-deep h2,
+[data-theme="campo"] .bg-brand-deep h3 {
+  color: var(--text-on-brand);
+}
+
+/* El ritmo vertical propio del micrositio.
+ 
+   Campo heredaba el padding de sección de la web institucional —112px en escritorio, y
+   224 entre el encabezado y lo que sigue— y para una página de cinco bloques es
+   desproporcionado: el sitio grande tiene doce secciones y necesita ese aire para que no
+   se lea como una lista; acá sobra y deja huecos que se ven como errores.
+ 
+   80 en escritorio, 64 en tablet, 48 en celular. El micrositio entra en menos scroll, que
+   es lo que su plan pide ("una sola página, cinco bloques").
+ 
+   Se redefine el token y no cada sección: las secciones ya escriben
+   `py-[var(--section-pad-md)]`, así que cambiar el valor acá las corrige a todas. */
+[data-theme="campo"] {
+  --section-pad: 48px;
+  --section-pad-md: var(--section-pad);
+  --section-pad-sm: var(--section-pad);
+}
+@media (min-width: 640px) {
+  [data-theme="campo"] {
+    --section-pad: 64px;
+  }
+}
+@media (min-width: 1000px) {
+  [data-theme="campo"] {
+    --section-pad: 80px;
+  }
+}
+
+/* El titular del encabezado, con su propia proporción.
+ 
+   `--text-hero` del sitio es `6.25cqw`, calibrado contra una columna que llega a 46rem. La
+   de Campo es bastante más angosta —el boceto le da casi la mitad del ancho a la captura—
+   así que la misma proporción daba 26px entre 720 y 900, la mitad de lo que el boceto
+   muestra.
+ 
+   8cqw sobre la columna de Campo da ~46px en escritorio y baja parejo. Sigue atado a la
+   columna y no al viewport, que es lo que mantiene las tres líneas en todo el rango:
+   verificado de 375 a 1440. */
+[data-theme="campo"] {
+  --text-hero: clamp(30px, 8cqw, 46px);
+}

@@ -77,7 +77,7 @@ function UseCasePage() {
         </div>
       </section>
 
-      <section className="bg-surface-sunken px-5 py-[var(--section-pad-md)] md:px-8">
+      <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8">
         <div className="mx-auto max-w-[var(--content-max)]">
           <p className="eyebrow">Cómo se resuelve</p>
           <h2 className="mt-4 max-w-[30ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
@@ -102,7 +102,7 @@ function UseCasePage() {
       )}
 
       {industry && (
-        <section className="bg-surface-sunken px-5 py-[var(--section-pad-md)] md:px-8">
+        <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8">
           <div className="mx-auto max-w-[var(--content-max)]">
             <p className="eyebrow">Dónde más cuesta</p>
             <p className="mt-4 max-w-[var(--read-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink">

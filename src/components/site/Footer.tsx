@@ -44,8 +44,8 @@ export function Footer() {
             en la misma, que es lo que lo hacía medir 850px de alto. */}
         <div
           className={cn(
-            "grid grid-cols-1 gap-x-8 gap-y-12 min-[720px]:grid-cols-2",
-            NEWSLETTER_ENDPOINT ? "min-[1100px]:grid-cols-5" : "min-[1100px]:grid-cols-4",
+            "grid grid-cols-1 gap-x-8 gap-y-12",
+            NEWSLETTER_ENDPOINT ? "min-[1000px]:grid-cols-5" : "min-[1000px]:grid-cols-4",
           )}
         >
           {/* --- Marca --- */}
@@ -218,13 +218,13 @@ export function Footer() {
               La columna entera depende de que haya destino: sin él no se publica el
               formulario, y una columna con título y lead pero sin campo no dice nada. */}
           {NEWSLETTER_ENDPOINT && (
-            <div className="min-w-0 min-[720px]:col-span-2 min-[1100px]:col-span-1">
+            <div className="min-w-0 min-[640px]:col-span-2 min-[1000px]:col-span-1">
               <Newsletter />
             </div>
           )}
         </div>
 
-        <div className="mt-16 flex flex-col gap-4 border-t border-[var(--border-on-brand)] pt-6 min-[720px]:flex-row min-[720px]:items-center min-[720px]:justify-between">
+        <div className="mt-16 flex flex-col gap-4 border-t border-[var(--border-on-brand)] pt-6 min-[640px]:flex-row min-[640px]:items-center min-[640px]:justify-between">
           <p className="text-xs text-on-brand-label">© {year} InspectIA</p>
           <p className="flex items-center gap-6">
             <Link to="/legales" className="text-xs text-on-brand-label hover:text-on-brand">
@@ -250,13 +250,7 @@ function FooterHeading({
   children: React.ReactNode;
   className?: string;
 }) {
-  return (
-    <p
-      className={`text-xs font-semibold uppercase tracking-[var(--tracking-widest)] text-on-brand-label ${className}`}
-    >
-      {children}
-    </p>
-  );
+  return <p className={`text-sm font-semibold text-on-brand-label ${className}`}>{children}</p>;
 }
 
 /**

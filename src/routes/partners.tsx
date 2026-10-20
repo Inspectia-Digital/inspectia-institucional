@@ -130,7 +130,7 @@ const FAQ = [
    quedarse en cero sin que nadie lo notara. */
 const medirAlta = () => pushEvent("partner_signup_start", { source_page: sourcePage() });
 
-const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1100px]:py-[var(--section-pad)]";
+const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1000px]:py-[var(--section-pad)]";
 const CONTAINER = "mx-auto max-w-[var(--content-max)]";
 const H2 = "text-[28px] leading-tight text-ink md:text-[var(--text-section)]";
 
@@ -148,7 +148,7 @@ function Page() {
             href={PARTNER_SIGNUP_URL}
             rel="nofollow"
             onClick={medirAlta}
-            className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] bg-white px-8 text-[15px] font-semibold text-brand-deep transition-colors duration-[160ms] hover:bg-teal-050 active:translate-y-px"
+            className="inline-flex h-12 items-center justify-center rounded-[var(--radius-md)] bg-action px-8 text-[15px] font-semibold text-white transition-colors duration-[160ms] hover:bg-action-hover active:translate-y-px"
           >
             Crear mi cuenta de partner
           </a>
@@ -169,7 +169,7 @@ function Page() {
             y después hay que conseguir proveedores, coordinar la instalación y sostener el
             servicio. Ahí el proyecto se cae o se estira un año.
           </p>
-          <ul className="mt-12 grid gap-8 min-[720px]:grid-cols-3">
+          <ul className="mt-12 grid gap-8 min-[1000px]:grid-cols-3">
             {PAIN.map((p) => (
               <li key={p.title} className="min-w-0">
                 <h3 className="text-[length:var(--text-card)] leading-snug text-ink">{p.title}</h3>
@@ -182,10 +182,10 @@ function Page() {
         </div>
       </section>
 
-      <section className={`bg-surface-sunken ${SECTION}`}>
+      <section className={`bg-surface ${SECTION}`}>
         <div className={CONTAINER}>
           <h2 className={`max-w-[24ch] ${H2}`}>Tres pasos, y el segundo es el que cambia todo</h2>
-          <ol className="mt-12 grid gap-8 min-[720px]:grid-cols-3">
+          <ol className="mt-12 grid gap-8 min-[1000px]:grid-cols-3">
             {HOW.map((s) => (
               <li key={s.n} className="min-w-0">
                 <span className="metric text-sm font-semibold text-brand">{s.n}</span>
@@ -202,7 +202,7 @@ function Page() {
       </section>
 
       <section className={`bg-surface ${SECTION}`}>
-        <div className={`${CONTAINER} grid gap-12 min-[900px]:grid-cols-2`}>
+        <div className={`${CONTAINER} grid gap-12 min-[1000px]:grid-cols-2`}>
           <div className="min-w-0">
             <h2 className={H2}>Qué te llevás</h2>
             <ul className="mt-8 space-y-3">
@@ -243,7 +243,7 @@ function Page() {
           datos y el equipo contestaba. El programa dejó de funcionar así —quien quiere
           entra y se da de alta— y un formulario que promete "te escribimos nosotros"
           contradice de frente el botón de arriba. Se fue entero; el alta es el camino. */}
-      <section className={`bg-surface-sunken ${SECTION}`} id="empezar">
+      <section className={`bg-surface ${SECTION}`} id="empezar">
         <div className="mx-auto max-w-[50rem]">
           <h2 className={H2}>Cómo se entra</h2>
           <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
@@ -256,7 +256,7 @@ function Page() {
               href={PARTNER_SIGNUP_URL}
               rel="nofollow"
               onClick={medirAlta}
-              className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] bg-action px-8 text-[15px] font-semibold text-white transition-colors duration-[160ms] hover:bg-action-hover active:translate-y-px"
+              className="inline-flex h-12 items-center justify-center rounded-[var(--radius-md)] bg-action px-8 text-[15px] font-semibold text-white transition-colors duration-[160ms] hover:bg-action-hover active:translate-y-px"
             >
               Crear mi cuenta de partner
             </a>
@@ -287,13 +287,15 @@ function Page() {
         </div>
       </section>
 
-      {/* Cierre propio: esta página le habla a otra audiencia que el resto del sitio. */}
-      <section className="bg-brand-deep px-5 py-24 md:px-8">
+      {/* Cierre propio: esta página le habla a otra audiencia que el resto del sitio.
+          Blanco, como el resto de los cierres: el teal es del encabezado y uno por
+          página (Lineamientos §Color). */}
+      <section className="border-t border-line bg-surface px-5 py-[var(--section-pad)] md:px-8">
         <div className="mx-auto flex max-w-[var(--content-max)] flex-col items-center text-center">
-          <h2 className="max-w-[18ch] text-[28px] leading-tight text-on-brand md:text-[var(--text-section)]">
+          <h2 className="max-w-[18ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
             Empezá hoy y miralo por dentro
           </h2>
-          <p className="mt-5 max-w-[var(--lead-max)] text-on-brand-secondary">
+          <p className="mt-5 max-w-[var(--lead-max)] text-ink-secondary">
             La cuenta se crea en un minuto y no tiene costo. Si preferís entender el producto antes,
             agendá media hora y lo vemos con los clientes que tengas en mente.
           </p>
@@ -302,7 +304,7 @@ function Page() {
               href={PARTNER_SIGNUP_URL}
               rel="nofollow"
               onClick={medirAlta}
-              className="inline-flex h-[52px] items-center justify-center rounded-[var(--radius-md)] bg-white px-8 text-[15px] font-semibold text-brand-deep transition-colors duration-[160ms] hover:bg-teal-050 active:translate-y-px"
+              className="inline-flex h-12 items-center justify-center rounded-[var(--radius-md)] bg-white px-8 text-[15px] font-semibold text-brand-deep transition-colors duration-[160ms] hover:bg-teal-050 active:translate-y-px"
             >
               Crear mi cuenta de partner
             </a>
@@ -310,7 +312,7 @@ function Page() {
               href={DEMO_URL}
               target="_blank"
               rel="noopener noreferrer nofollow"
-              className="text-[15px] text-on-brand-secondary underline-offset-4 transition-colors duration-[160ms] hover:text-on-brand hover:underline"
+              className="text-[15px] text-ink-secondary underline-offset-4 transition-colors duration-[160ms] hover:text-brand hover:underline"
             >
               Agendar demo
             </a>

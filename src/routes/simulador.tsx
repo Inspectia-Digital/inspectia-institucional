@@ -60,7 +60,7 @@ const FAQ = [
   },
 ];
 
-const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1100px]:py-[var(--section-pad)]";
+const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1000px]:py-[var(--section-pad)]";
 const CONTAINER = "mx-auto max-w-[var(--content-max)]";
 const H2 = "text-[28px] leading-tight text-ink md:text-[var(--text-section)]";
 
@@ -80,7 +80,7 @@ function Page() {
         </div>
       </section>
 
-      <section className={`bg-surface-sunken ${SECTION}`}>
+      <section className={`bg-surface ${SECTION}`}>
         <div className="mx-auto max-w-[var(--read-max)]">
           <p className="eyebrow">Qué mide</p>
           <h2 className={`mt-4 ${H2}`}>Las tres pérdidas que el OEE separa</h2>
@@ -143,7 +143,7 @@ function Page() {
         </div>
       </section>
 
-      <section className={`bg-surface-sunken ${SECTION}`}>
+      <section className={`bg-surface ${SECTION}`}>
         <div className="mx-auto max-w-[50rem]">
           <p className="eyebrow">Preguntas</p>
           <h2 className={`mt-4 ${H2}`}>Sobre el indicador</h2>

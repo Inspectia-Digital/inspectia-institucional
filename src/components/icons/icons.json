@@ -803,6 +803,35 @@
           "label": "No incluido en el plan"
         }
       ]
+    },
+    {
+      "id": "Campo",
+      "items": [
+        {
+          "lucide": "droplets",
+          "label": "Agua"
+        },
+        {
+          "lucide": "fence",
+          "label": "Cercos"
+        },
+        {
+          "lucide": "cloud-sun",
+          "label": "Clima"
+        },
+        {
+          "lucide": "tag",
+          "label": "Hacienda"
+        },
+        {
+          "lucide": "package",
+          "label": "Insumos"
+        },
+        {
+          "lucide": "users",
+          "label": "Personal"
+        }
+      ]
     }
   ],
   "lexicon": [
