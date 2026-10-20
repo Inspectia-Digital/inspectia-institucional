@@ -36,6 +36,33 @@ export const CAMPO = {
     lead: "Agua, cercos, clima, hacienda, insumos y personal en una sola pantalla, con avisos por WhatsApp.",
     /** Los tres perfiles acordados con el socio. No se agregan otros sin acuerdo. */
     perfiles: ["Agricultura", "Ganadería", "Feedlot"],
+
+    /**
+     * La foto del encabezado.
+     *
+     * Se eligió entre otras por una razón concreta: **muestra cuatro de las seis
+     * capacidades que lista la página en un solo cuadro** —la aguada, el alambrado, la
+     * hacienda al fondo y un panel solar con su caja de control—. Esa última parte es la
+     * que la separa de una foto de campo cualquiera: no ilustra el rubro, muestra una
+     * aguada instrumentada, que es el paso 02 de "Empezás con lo que tenés".
+     *
+     * Va **sin recortar**: es 16:9 y el marco del hero está en 16:9 por eso mismo. Pasarla
+     * a un formato más alto obligaba a sacarle ancho, y a 1088px el ancho es justo lo que
+     * no sobra —la columna se dibuja a ~465px y eso cubre el doble de densidad, nada más—.
+     *
+     * El archivo que hay es la versión comprimida para web, no un original de cámara. Si
+     * aparece el original, reemplaza a `assets-src/campo/molino.jpg` y
+     * `npm run images -- campo` regenera las dos variantes.
+     */
+    foto: {
+      src: "/img/campo/molino.webp",
+      srcChico: "/img/campo/molino-760.webp",
+      anchoChico: 760,
+      width: 1088,
+      height: 608,
+      /* Describe lo que se ve, no "foto de campo": es lo que necesita quien no la ve. */
+      alt: "Un molino de viento y su bebedero en un potrero, con un panel solar montado en el poste, alambrado y hacienda pastando al fondo",
+    },
   },
 
   /** Bloque 2: seis tarjetas, una línea cada una. */

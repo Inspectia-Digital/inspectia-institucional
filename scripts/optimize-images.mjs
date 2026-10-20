@@ -213,6 +213,52 @@ async function optimizeAppShot() {
 }
 
 /**
+ * Las fotos de InspectIA Campo.
+ *
+ * El micrositio es la única parte del sitio con fotografía real: el design system de la
+ * vertical la pide —"campo real, con luz de día natural, encuadres abiertos, horizonte
+ * bajo"— y prohíbe la ilustración y el render.
+ *
+ * **La del encabezado se usa sin recortar.** Es 16:9 y el marco del hero quedó en 16:9
+ * justamente para eso: llevarla a un formato más alto obligaba a sacarle ancho, y el ancho
+ * es lo que más valor tiene acá —1088px cubren el doble de densidad en la columna de
+ * ~465px donde se dibuja—. El día que aparezca un original de cámara entra en este mismo
+ * lugar y las variantes se regeneran solas.
+ */
+const CAMPO_FOTOS = {
+  // El molino con su aguada. Muestra agua, cercos, hacienda y un panel solar con su caja
+  // de control: cuatro de las seis capacidades que lista la página, en un solo cuadro.
+  molino: { widths: [1088, 760] },
+};
+
+async function optimizeCampo() {
+  await mkdir(join(OUT, "campo"), { recursive: true });
+
+  for (const [slug, cfg] of Object.entries(CAMPO_FOTOS)) {
+    const from = join(RAW, "campo", `${slug}.jpg`);
+    try {
+      await stat(from);
+    } catch {
+      console.log(`  assets-src/campo/${slug}.jpg todavía no está — se omite.`);
+      continue;
+    }
+
+    for (const width of cfg.widths) {
+      const suffix = width === cfg.widths[0] ? "" : `-${width}`;
+      const to = join(OUT, "campo", `${slug}${suffix}.webp`);
+      const info = await sharp(from)
+        .resize({ width, withoutEnlargement: true })
+        .webp({ quality: 82 })
+        .toFile(to);
+      console.log(
+        `  ${slug}.jpg ${kb(await sizeOf(from))} → ${slug}${suffix}.webp ` +
+          `${kb(await sizeOf(to))} ${info.width}x${info.height}`,
+      );
+    }
+  }
+}
+
+/**
  * Lockup de marca.
  *
  * Hasta ahora la barra y el pie escribían "InspectIA" con tipografía, porque no había
@@ -406,6 +452,10 @@ if (corre("logos")) {
 if (corre("plano")) {
   console.log("Plano de planta:");
   await optimizePlant();
+}
+if (corre("campo")) {
+  console.log("Fotos de Campo:");
+  await optimizeCampo();
 }
 if (corre("app")) {
   console.log("Captura de la aplicación:");

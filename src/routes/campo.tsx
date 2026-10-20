@@ -280,17 +280,34 @@ function Hero() {
 function Tablero() {
   return (
     <div className="relative min-w-0">
-      {/* El marcador de la foto. Cuando exista, reemplaza este div por la imagen con el
-          marco del sistema: radius-lg y nada más. */}
-      <div className="flex aspect-[16/11] max-h-[20rem] items-start justify-end rounded-[var(--radius-lg)] bg-[var(--monte-100)] p-4">
-        <span className="rounded-[var(--radius-pill)] bg-surface px-3 py-1 text-[12px] text-ink-muted">
-          [Foto de campo · potrero con molino]
-        </span>
-      </div>
+      {/* La foto, con el marco del sistema: radio y nada más. Sin sombra y sin
+          perspectiva, que es lo que piden los lineamientos.
+
+          16:9 y no 16:11 como el marcador que había acá: la foto es 16:9 y llevarla a un
+          formato más alto le sacaba ancho, que a 1088px es justo lo que no sobra. */}
+      <img
+        src={CAMPO.hero.foto.src}
+        srcSet={`${CAMPO.hero.foto.srcChico} ${CAMPO.hero.foto.anchoChico}w, ${CAMPO.hero.foto.src} ${CAMPO.hero.foto.width}w`}
+        sizes="(max-width: 720px) 100vw, 45vw"
+        width={CAMPO.hero.foto.width}
+        height={CAMPO.hero.foto.height}
+        alt={CAMPO.hero.foto.alt}
+        // Está en la primera pantalla: no se difiere.
+        loading="eager"
+        fetchPriority="high"
+        decoding="async"
+        className="aspect-[16/9] w-full rounded-[var(--radius-lg)] object-cover"
+      />
 
       {/* La captura, montada sobre la foto y desbordando por abajo a la izquierda. */}
       <div
-        className={`${CARD} absolute -bottom-5 left-0 w-[min(100%,18rem)] p-4 shadow-[var(--shadow-md)] min-[640px]:-left-6`}
+        /* A la derecha y no a la izquierda como el boceto.
+
+           El boceto la ponía abajo a la izquierda, pero ahí tenía un marcador gris: daba
+           igual qué tapaba. Con la foto real, la izquierda es el molino y su aguada —el
+           sujeto, y lo único que muestra una aguada instrumentada—, y la derecha es campo
+           abierto. La tarjeta va donde no tapa nada. */
+        className={`${CARD} mt-4 w-full p-4 min-[1000px]:absolute min-[1000px]:-bottom-5 min-[1000px]:-right-6 min-[1000px]:mt-0 min-[1000px]:w-[18rem] min-[1000px]:shadow-[var(--shadow-md)]`}
       >
         <div className="flex items-baseline justify-between gap-3">
           <h2 className="text-[15px] font-semibold">Ahora en el campo</h2>
@@ -325,7 +342,7 @@ function Tablero() {
 
       {/* El alto que la captura ocupa fuera de la foto, para que no se monte sobre la
           sección siguiente. */}
-      <div className="h-5" aria-hidden="true" />
+      <div className="min-[1000px]:h-5" aria-hidden="true" />
     </div>
   );
 }
