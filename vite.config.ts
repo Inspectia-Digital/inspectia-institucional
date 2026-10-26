@@ -80,6 +80,32 @@ const nitroConfig = {
      * bien, no fallaba, y la cabecera no salía. */
     "/sitemap.xml": { headers: { "x-robots-tag": "noindex" } },
     "/robots.txt": { headers: { "x-robots-tag": "noindex" } },
+
+    /* Las imágenes de los mailings.
+     *
+     * Viven en una URL **fija y para siempre**: un correo ya enviado la va a seguir
+     * pidiendo años después, así que el nombre no lleva hash y el archivo no pasa por
+     * `npm run images` —quedan en PNG porque Outlook no muestra WebP—.
+     *
+     * ## Por qué una semana y no un año
+     *
+     * Un año con `immutable` sería lo normal para un archivo de URL fija, y acá es
+     * justamente lo que no conviene: si hay que corregir un logo, no se puede cambiar el
+     * nombre —rompería los correos ya enviados— así que el único camino es reemplazar el
+     * archivo en su sitio. Con `immutable` esa corrección no llegaría nunca a quien ya lo
+     * tiene cacheado. Una semana da el ahorro de tráfico que importa y deja la puerta
+     * abierta.
+     *
+     * Gmail es indiferente a esto: descarga la imagen una vez a su propio proxy y la
+     * sirve desde ahí. Quien aprovecha la caché es Outlook y los clientes de escritorio,
+     * que piden el archivo en cada apertura.
+     *
+     * Nada acá bloquea la carga desde un cliente de correo: las dos cabeceras globales
+     * —`nosniff` y HSTS— no lo hacen, y **no hay `cross-origin-resource-policy`**, que es
+     * la única que lo haría. Tampoco hace falta CORS: una `<img>` no lo pide. */
+    "/img/mailing/**": {
+      headers: { "cache-control": "public, max-age=604800" },
+    },
   },
 } as { preset?: string };
 
