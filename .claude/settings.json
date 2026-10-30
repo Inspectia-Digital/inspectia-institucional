@@ -34,7 +34,11 @@
       "PowerShell(git push *prod*)",
       "PowerShell(git -C * push *prod*)",
       "PowerShell(*qprod.py*)",
-      "PowerShell(*5442*)"
+      "PowerShell(*5442*)",
+      "PowerShell(git merge *prod*)",
+      "PowerShell(git -C * merge *prod*)",
+      "PowerShell(*oeelite-db-prod*)",
+      "PowerShell(gcloud * --project*prod*)"
     ]
   }
 }
