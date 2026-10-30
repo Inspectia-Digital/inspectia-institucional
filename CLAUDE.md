@@ -102,6 +102,14 @@ dominio definitivo no está confirmado. Canónicas, sitemap y robots dependen de
 
 ## Sistema de diseño
 
+**Fuente única (propuesta del 30/10, brief de configuración de Code):** la marca
+vive en `oee-lite/src/tokens/` (repo de la app). De ahí se copian `brand.css`,
+`colors.css` y `motion.css`, que hoy son idénticos en los dos repos salvo el fin
+de línea. Tipografía (Poppins, 16 px), radios, espaciado y tema son propios de la
+web y no se copian. El script de copia todavía no existe: si cambiás un color de
+marca, cambialo primero en la app y traelo acá igual, sin tocar valores en un solo
+lado.
+
 Los tokens son **los mismos que la aplicación** (`src/tokens/`: `brand.css`,
 `colors.css`, `typography.css`, `radius.css`, `spacing.css`, `motion.css`,
 `elevation.css`, `theme.css`, `base.css`), cargados desde `src/styles.css`.
