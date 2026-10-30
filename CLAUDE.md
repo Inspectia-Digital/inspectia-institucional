@@ -163,6 +163,28 @@ Varias rutas citan secciones de un documento fuente por número (`§7.9`, `§7.1
 **Ese documento no está en el repo.** Si vas a tocar contenido y una decisión cita
 una sección, pedila antes de contradecirla.
 
+## Cómo llega el trabajo a este repo
+
+Esta sesión **no ve la bandeja de la app** (`Apps/claude-code/entrada/`, que usa
+la sesión de `oee-lite`). El trabajo llega de dos formas:
+
+1. **Por el chat:** Estanislao lo pide directamente.
+2. **Por un brief:** Producto deja `docs/briefs/AAAA-MM-DD_BRIEF_<tema>.md` en este
+   repo. Al terminarlo, se marca al pie con `> PROCESADO <fecha>: <qué se hizo>`, o
+   `> NO GENERA TRABAJO <fecha>: <motivo>`, la misma convención de la bandeja de
+   la app, y se commitea junto con el trabajo.
+
+Si un pedido toca la app, el backlog o los precios, no se resuelve acá: se le avisa
+a Estanislao para que lo registre la sesión de la app. Los precios vigentes viven
+en `02_comercial/definiciones/05 - Catalogo, planes y precios.md` de la carpeta
+general de InspectIA, no en este repo.
+
+**Publicar:** `main` despliega directo a Cloud Run, sin PR. Pushear a `main` es
+publicar, así que se hace sólo con el OK de Estanislao. Los permisos de
+`.claude/settings.json` piden confirmación o bloquean lo peligroso (push a prod,
+`git add -A`, force push, borrar ramas remotas); no se relajan sin decisión de
+dirección.
+
 ## Cómo se trabaja acá
 
 | Tarea | Skill |
