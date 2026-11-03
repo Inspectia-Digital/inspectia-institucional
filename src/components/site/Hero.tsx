@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { MODULE_PRICES } from "@/content/pricing";
 import { CtaPair } from "@/components/site/CtaPair";
-import { ProductCard } from "@/components/site/ProductCard";
+import { APP_SHOT } from "@/content/assets";
 
 /**
  * Hero de la home (rediseño del 20/10/2026).
@@ -82,10 +82,30 @@ export function Hero() {
           </p>
         </div>
 
-        {/* La vista del producto. En celular no se muestra: a 375px un panel con tres filas
-            de datos no se lee, y lo que empuja ahí son el titular y los botones. */}
+        {/* La vista del producto. En celular no se muestra: a 375px un tablero no se lee,
+            y lo que empuja ahí son el titular y los botones.
+
+            Desde el 3/11/2026 es la captura y no el `ProductCard` dibujado. El panel de
+            tres filas existió mientras `APP_SHOT` fue null y cumplió: ocupaba la columna
+            sin prometer una pantalla que no se podía mostrar. Ahora que la imagen está,
+            un dibujo de la aplicación al lado de la aplicación es una abstracción de
+            menos valor. El marco —borde y esquinas redondeadas— es el que traía el panel,
+            así que el peso visual de la columna no cambia. */}
         <div className="hidden min-[1000px]:block">
-          <ProductCard />
+          <img
+            src={APP_SHOT.src}
+            srcSet={`${APP_SHOT.src760} 760w, ${APP_SHOT.src} 1100w`}
+            sizes="480px"
+            width={APP_SHOT.width}
+            height={APP_SHOT.height}
+            alt={APP_SHOT.alt}
+            /* Sin lazy ni async: está en la primera pantalla y es el elemento con más
+               superficie del encabezado, o sea el candidato a LCP. Diferirlo retrasa
+               justamente lo que se mide. */
+            fetchPriority="high"
+            decoding="sync"
+            className="w-full rounded-[14px] border border-line"
+          />
         </div>
       </div>
     </section>

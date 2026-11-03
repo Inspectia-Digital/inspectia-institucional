@@ -60,7 +60,71 @@ export const PLANT_PLAN = {
  * El `alt` describe lo que se ve en el tablero —qué métricas, de qué— y no dice "captura
  * de pantalla": eso ya lo sabe quien usa un lector de pantalla por el contexto.
  */
-export const APP_SHOT: { src: string; width: number; height: number; alt: string } | null = null;
+export const APP_SHOT = {
+  src: "/img/app/tablero.webp",
+  /** Variante para pantallas chicas, servida por srcset. */
+  src760: "/img/app/tablero-760.webp",
+  width: 1100,
+  height: 733,
+  alt: "Tablero de InspectIA con el OEE de la planta, su evolución en el último mes y el OEE de cada línea",
+} as const;
+
+/**
+ * Las capturas de las páginas de módulo.
+ *
+ * **Sólo cinco, y no es un pendiente: Mantenimiento y Energía no existen en la
+ * aplicación.** `oee-lite/src/modules/` no tiene carpeta para ninguno de los dos, así que
+ * no hay pantalla que capturar. Esas dos páginas van sin imagen y el bloque "Qué hace"
+ * queda a una columna, que es como estaban las siete hasta ahora. El día que el módulo
+ * exista entra su captura acá y la página no cambia de forma.
+ *
+ * Valen las mismas reglas que para `APP_SHOT`, con dos diferencias de medida: se dibujan
+ * al ancho de la columna de contenido —1120px, no media columna— y la relación es **16:10**
+ * apaisada, que es la de una ventana de aplicación entera. Los originales son 1920x1200.
+ *
+ * El `alt` dice qué se ve en cada tablero. No dice "captura de pantalla": el contexto ya
+ * lo da.
+ */
+export const MODULE_SHOTS: Record<
+  string,
+  { src: string; src1120: string; width: number; height: number; alt: string }
+> = {
+  produccion: {
+    src: "/img/app/produccion.webp",
+    src1120: "/img/app/produccion-1120.webp",
+    width: 1680,
+    height: 1050,
+    alt: "Tablero de una línea en vivo: OEE del turno, sus tres componentes y las unidades producidas cada 15 minutos, con una parada y un tramo lento marcados",
+  },
+  calidad: {
+    src: "/img/app/calidad.webp",
+    src1120: "/img/app/calidad-1120.webp",
+    width: 1680,
+    height: 1050,
+    alt: "Pareto de defectos con rechazo y retrabajo separados, la curva acumulada y la calidad de cada línea",
+  },
+  stock: {
+    src: "/img/app/stock.webp",
+    src1120: "/img/app/stock-1120.webp",
+    width: 1680,
+    height: 1050,
+    alt: "Stock por producto con los días de cobertura de cada uno y una diferencia de conteo marcada",
+  },
+  trazabilidad: {
+    src: "/img/app/trazabilidad.webp",
+    src1120: "/img/app/trazabilidad-1120.webp",
+    width: 1680,
+    height: 1050,
+    alt: "Un lote con su genealogía, de la materia prima a los despachos, su vencimiento y la conciliación de unidades",
+  },
+  tareas: {
+    src: "/img/app/tareas.webp",
+    src1120: "/img/app/tareas-1120.webp",
+    width: 1680,
+    height: 1050,
+    alt: "La cobertura de un turno: quién está asignado a cada puesto, los puestos sin cubrir y quién está disponible",
+  },
+};
 
 export const LOCKUP = {
   /** Teal sobre fondos claros. */

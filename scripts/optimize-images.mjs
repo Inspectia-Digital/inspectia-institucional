@@ -183,33 +183,67 @@ async function optimizePlant() {
  */
 const APP_SHOT_WIDTHS = [1100, 760];
 
-async function optimizeAppShot() {
-  const from = join(RAW, "app", "tablero.png");
+/**
+ * Las capturas de módulo se dibujan al ancho de la columna de contenido —1120px— y no en
+ * media columna como la del encabezado, así que llevan números propios: 1680 cubre
+ * pantallas de densidad alta y 1120 es el tamaño al que se ven. Los originales son
+ * 1920x1200, o sea que las dos salen de achicar y ninguna se amplía.
+ */
+const MODULE_SHOT_WIDTHS = [1680, 1120];
+
+/** Los cinco módulos con pantalla en la aplicación. Mantenimiento y Energía no tienen. */
+const MODULE_SHOTS = ["produccion", "calidad", "stock", "trazabilidad", "tareas"];
+
+/**
+ * Reencoda un original de `assets-src/app` a sus variantes y devuelve las medidas de la
+ * grande, que son las que hay que copiar a `src/content/assets.ts`.
+ *
+ * Devuelve null si el archivo no está, sin tirar abajo la corrida: son assets que se
+ * agregan de a uno y hacer que `npm run images` se caiga entero obligaría a comentar
+ * líneas cada vez.
+ */
+async function reencodeAppShot(nombre, widths) {
+  const from = join(RAW, "app", `${nombre}.png`);
   try {
     await stat(from);
   } catch {
-    console.log("  assets-src/app/tablero.png todavía no está — nada que hacer.");
-    return;
+    console.log(`  assets-src/app/${nombre}.png todavía no está — nada que hacer.`);
+    return null;
   }
 
-  await mkdir(join(OUT, "app"), { recursive: true });
   let medidas = null;
-  for (const width of APP_SHOT_WIDTHS) {
-    const suffix = width === APP_SHOT_WIDTHS[0] ? "" : `-${width}`;
-    const to = join(OUT, "app", `tablero${suffix}.webp`);
+  for (const width of widths) {
+    const suffix = width === widths[0] ? "" : `-${width}`;
+    const to = join(OUT, "app", `${nombre}${suffix}.webp`);
     const info = await sharp(from)
       .resize({ width, withoutEnlargement: true })
       .webp({ quality: 86 })
       .toFile(to);
     if (!medidas) medidas = info;
     console.log(
-      `  tablero.png → tablero${suffix}.webp ${kb(await sizeOf(to))} ${info.width}x${info.height}`,
+      `  ${nombre}.png → ${nombre}${suffix}.webp ${kb(await sizeOf(to))} ${info.width}x${info.height}`,
     );
   }
-  console.log(
-    `  → en APP_SHOT: width: ${medidas.width}, height: ${medidas.height}, ` +
-      `src: "/img/app/tablero.webp"`,
-  );
+  return medidas;
+}
+
+async function optimizeAppShot() {
+  await mkdir(join(OUT, "app"), { recursive: true });
+
+  const hero = await reencodeAppShot("tablero", APP_SHOT_WIDTHS);
+  if (hero) {
+    console.log(
+      `  → en APP_SHOT: width: ${hero.width}, height: ${hero.height}, ` +
+        `src: "/img/app/tablero.webp"`,
+    );
+  }
+
+  for (const nombre of MODULE_SHOTS) {
+    const medidas = await reencodeAppShot(nombre, MODULE_SHOT_WIDTHS);
+    if (medidas) {
+      console.log(`  → en MODULE_SHOTS.${nombre}: ${medidas.width}x${medidas.height}`);
+    }
+  }
 }
 
 /**

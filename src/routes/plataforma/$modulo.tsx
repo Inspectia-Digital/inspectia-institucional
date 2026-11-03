@@ -14,6 +14,7 @@ import { RoiCalculator } from "@/components/roi/RoiCalculator";
 import { MODULE_BY_KEY, MODULES, type PlatformModule, type ModuleKey } from "@/content/modules";
 import { COMBO_MAX_DISCOUNT, COMBO_POINTS_PER_MODULE, priceOf } from "@/content/pricing";
 import { MODULE_DETAIL } from "@/content/module-detail";
+import { MODULE_SHOTS } from "@/content/assets";
 import { useModuleViewEvent } from "@/lib/useViewEvents";
 import { breadcrumbJsonLd, faqJsonLd, moduleJsonLd, pageHead, siteTitle } from "@/lib/seo";
 import { roiModelFor } from "@/lib/roi";
@@ -158,7 +159,14 @@ function ModulePage() {
       </section>
 
       {/* 04 */}
-      {m.does && <WhatItDoes title={m.doesTitle} items={m.does} bg={"bg-surface"} />}
+      {m.does && (
+        <WhatItDoes
+          title={m.doesTitle}
+          items={m.does}
+          shot={MODULE_SHOTS[m.key]}
+          bg={"bg-surface"}
+        />
+      )}
 
       {/* 04b y 04c · El detalle funcional, del documento de visión. Los siete módulos lo
           tienen, así que en la práctica estas dos secciones se renderizan siempre; la
@@ -253,10 +261,12 @@ function Problem({ items, bg }: { items: string[]; bg: string }) {
 function WhatItDoes({
   title,
   items,
+  shot,
   bg,
 }: {
   title?: string;
   items: { title: string; body: string }[];
+  shot?: (typeof MODULE_SHOTS)[string];
   bg: string;
 }) {
   return (
@@ -269,10 +279,33 @@ function WhatItDoes({
           {title}
         </h2>
 
-        {/* TODO(equipo): faltan las capturas del producto. El patrón de esta sección es
-            zigzag —texto y captura alternados—, pero hasta que existan las imágenes va a
-            una sola columna al ancho de lectura. Sin mockup de notebook, sin placeholder
-            gris y sin ilustración: un hueco vacío es peor que no tener la columna. */}
+        {/* La captura del módulo, a lo ancho y una sola vez.
+
+            El patrón que estaba previsto acá era un zigzag —texto y captura alternados—,
+            y no se construyó: cada módulo tiene cuatro entradas en la lista, así que el
+            zigzag literal pedía veinte capturas, cada una ilustrando una afirmación
+            puntual sin repetirse con las otras tres del mismo módulo. No es realizable, y
+            un zigzag a medio llenar se lee como roto. Una captura muestra el módulo
+            entero y la lista de abajo lo explica, que es el reparto que corresponde.
+
+            **Dos módulos no tienen captura y no es un pendiente:** Mantenimiento y Energía
+            no existen todavía en la aplicación (ver `MODULE_SHOTS`). Ahí `shot` viene
+            vacío y la sección queda como estaba, a una columna. Sin placeholder gris y
+            sin mockup de notebook: un hueco vacío es peor que no tener la imagen. */}
+        {shot && (
+          <img
+            src={shot.src}
+            srcSet={`${shot.src1120} 1120w, ${shot.src} 1680w`}
+            sizes="(min-width: 1180px) 1120px, 100vw"
+            width={shot.width}
+            height={shot.height}
+            alt={shot.alt}
+            loading="lazy"
+            decoding="async"
+            className="mt-10 w-full rounded-[14px] border border-line"
+          />
+        )}
+
         <ol className="mt-12 max-w-[var(--read-max)] space-y-10">
           {items.map((item, i) => (
             <li key={item.title} className="min-w-0">
