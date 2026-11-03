@@ -10,8 +10,14 @@
  * Sale del entorno para que el preview y producción no se declaren la misma URL —dos
  * dominios que dicen ser canónicos del mismo contenido es contenido duplicado—.
  *
- * TODO(equipo): confirmar el dominio definitivo. inspectia.ai sale de que la aplicación
- * vive en app.inspectia.ai, pero no está escrito en ninguna parte del documento.
+ * **Confirmado el 3/11/2026:** el institucional va en el ápice y la aplicación en un
+ * subdominio. Es el reparto que ya suponían `APP_URL` y `SIGNUP_URL` acá abajo, que
+ * apuntan a `app.inspectia.ai` desde antes; lo que faltaba era que alguien lo dijera.
+ *
+ * De este valor cuelgan las canónicas, el sitemap, el robots y los `og:image` absolutos,
+ * así que moverlo no es cambiar una constante: es reescribir todas las URLs que el
+ * buscador ya indexó. Si alguna vez cambia, va con redirecciones 301 desde el dominio
+ * viejo y no a secas.
  */
 export const SITE_URL: string =
   // `import.meta.env` no existe cuando el script del sitemap importa este archivo desde
