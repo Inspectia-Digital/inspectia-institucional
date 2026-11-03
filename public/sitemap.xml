@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://inspectia.ai/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image><image:loc>https://inspectia.ai/img/app/inspectia-tablero-oee.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://inspectia.ai/plataforma</loc>
@@ -14,26 +16,31 @@
     <loc>https://inspectia.ai/plataforma/produccion</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <image:image><image:loc>https://inspectia.ai/img/app/inspectia-software-oee-produccion.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://inspectia.ai/plataforma/calidad</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <image:image><image:loc>https://inspectia.ai/img/app/inspectia-control-de-calidad.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://inspectia.ai/plataforma/stock</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <image:image><image:loc>https://inspectia.ai/img/app/inspectia-control-de-stock-inventario.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://inspectia.ai/plataforma/trazabilidad</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <image:image><image:loc>https://inspectia.ai/img/app/inspectia-trazabilidad-lotes.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://inspectia.ai/plataforma/tareas</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <image:image><image:loc>https://inspectia.ai/img/app/inspectia-asignacion-tareas-turno.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://inspectia.ai/plataforma/mantenimiento</loc>

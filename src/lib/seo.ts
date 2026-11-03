@@ -162,6 +162,8 @@ export const moduleJsonLd = (m: {
   description: string;
   features: string[];
   price: { usd: number; unit: string; free: string | null } | undefined;
+  /** Captura del módulo, ruta desde la raíz. Los dos módulos sin pantalla no la traen. */
+  screenshot?: string;
 }) => {
   const url = `${SITE_URL}/plataforma/${m.slug}`;
 
@@ -203,6 +205,13 @@ export const moduleJsonLd = (m: {
     url,
     description: m.description,
     featureList: m.features,
+    /* `screenshot` es la propiedad que schema.org tiene para esto en SoftwareApplication,
+       y es de las pocas de ese tipo que un buscador puede mostrar. Va absoluta, como
+       `url`: un rastreador de datos estructurados no resuelve rutas relativas.
+
+       Condicional porque Mantenimiento y Energía no tienen pantalla en la aplicación.
+       Declarar la propiedad vacía sería peor que no declararla. */
+    ...(m.screenshot ? { screenshot: `${SITE_URL}${m.screenshot}` } : {}),
     provider: { "@type": "Organization", name: "InspectIA", url: SITE_URL },
     ...(offers.length === 1 ? { offers: offers[0] } : {}),
     ...(offers.length > 1

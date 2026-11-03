@@ -51,12 +51,14 @@ export const Route = createFileRoute("/plataforma/$modulo")({
        documento de visión; si un módulo todavía no los tiene, se declara sin `featureList`
        en vez de inventar una lista. */
     const detalle = MODULE_DETAIL[m.key];
+    const shot = MODULE_SHOTS[m.key];
     const producto = moduleJsonLd({
       name: m.name,
       slug: m.slug,
       description: m.seoDescription ?? m.promise,
       features: detalle?.components.map((c) => c.name) ?? [],
       price: priceOf(m.key),
+      screenshot: shot?.src,
     });
 
     return pageHead({
@@ -65,6 +67,11 @@ export const Route = createFileRoute("/plataforma/$modulo")({
       title: siteTitle(m.seoTitle ?? m.name),
       description: m.seoDescription ?? m.promise,
       path: `/plataforma/${m.slug}`,
+      /* La tarjeta de compartido del módulo, no la genérica del sitio. Las siete páginas
+         compartían la misma imagen —el render de planta— así que un enlace a Calidad y uno
+         a Stock se veían idénticos en WhatsApp. Los dos módulos sin pantalla siguen con la
+         genérica, que es el comportamiento por omisión de `pageHead`. */
+      image: shot?.og,
       // Un solo bloque con todas las entidades, en vez de varios scripts compitiendo por
       // describir la misma página.
       jsonLd: {
@@ -293,17 +300,27 @@ function WhatItDoes({
             vacío y la sección queda como estaba, a una columna. Sin placeholder gris y
             sin mockup de notebook: un hueco vacío es peor que no tener la imagen. */}
         {shot && (
-          <img
-            src={shot.src}
-            srcSet={`${shot.src1120} 1120w, ${shot.src} 1680w`}
-            sizes="(min-width: 1180px) 1120px, 100vw"
-            width={shot.width}
-            height={shot.height}
-            alt={shot.alt}
-            loading="lazy"
-            decoding="async"
-            className="mt-10 w-full rounded-[14px] border border-line"
-          />
+          /* `figure` y no un div: la imagen y su epígrafe son una unidad, y el epígrafe
+             queda asociado a la imagen para un lector de pantalla y para un buscador sin
+             que haga falta un aria-describedby. */
+          <figure className="mt-10">
+            <img
+              src={shot.src}
+              srcSet={`${shot.src1120} 1120w, ${shot.src} 1680w`}
+              sizes="(min-width: 1180px) 1120px, 100vw"
+              width={shot.width}
+              height={shot.height}
+              alt={shot.alt}
+              loading="lazy"
+              decoding="async"
+              className="w-full rounded-[14px] border border-line"
+            />
+            {/* El epígrafe al ancho de lectura y no al de la imagen: a 1120px una línea de
+                texto de 15px es incómoda de leer. */}
+            <figcaption className="mt-3 max-w-[var(--read-max)] text-[15px] leading-[var(--leading-normal)] text-ink-muted">
+              {shot.caption}
+            </figcaption>
+          </figure>
         )}
 
         <ol className="mt-12 max-w-[var(--read-max)] space-y-10">

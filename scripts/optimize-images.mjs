@@ -191,8 +191,25 @@ const APP_SHOT_WIDTHS = [1100, 760];
  */
 const MODULE_SHOT_WIDTHS = [1680, 1120];
 
-/** Los cinco módulos con pantalla en la aplicación. Mantenimiento y Energía no tienen. */
-const MODULE_SHOTS = ["produccion", "calidad", "stock", "trazabilidad", "tareas"];
+/**
+ * Los cinco módulos con pantalla en la aplicación. Mantenimiento y Energía no tienen.
+ *
+ * **El archivo de salida no se llama como el de entrada**, y es a propósito. El original
+ * lo nombra quien lo dibuja y le alcanza con `stock.png`; el publicado es una URL que
+ * Google Imágenes lee como texto, así que lleva la keyword de la página donde vive. Es
+ * una señal débil pero gratis, y el único momento barato de decidirla es antes de
+ * publicar: después cambiar el nombre es romper una URL que ya se indexó.
+ */
+const MODULE_SHOTS = [
+  { origen: "produccion", publicado: "inspectia-software-oee-produccion" },
+  { origen: "calidad", publicado: "inspectia-control-de-calidad" },
+  { origen: "stock", publicado: "inspectia-control-de-stock-inventario" },
+  { origen: "trazabilidad", publicado: "inspectia-trazabilidad-lotes" },
+  { origen: "tareas", publicado: "inspectia-asignacion-tareas-turno" },
+];
+
+/** La del encabezado, por el mismo criterio. */
+const HERO_SHOT = { origen: "tablero", publicado: "inspectia-tablero-oee" };
 
 /**
  * Reencoda un original de `assets-src/app` a sus variantes y devuelve las medidas de la
@@ -202,47 +219,105 @@ const MODULE_SHOTS = ["produccion", "calidad", "stock", "trazabilidad", "tareas"
  * agregan de a uno y hacer que `npm run images` se caiga entero obligaría a comentar
  * líneas cada vez.
  */
-async function reencodeAppShot(nombre, widths) {
-  const from = join(RAW, "app", `${nombre}.png`);
+async function reencodeAppShot({ origen, publicado }, widths) {
+  const from = join(RAW, "app", `${origen}.png`);
   try {
     await stat(from);
   } catch {
-    console.log(`  assets-src/app/${nombre}.png todavía no está — nada que hacer.`);
+    console.log(`  assets-src/app/${origen}.png todavía no está — nada que hacer.`);
     return null;
   }
 
   let medidas = null;
   for (const width of widths) {
     const suffix = width === widths[0] ? "" : `-${width}`;
-    const to = join(OUT, "app", `${nombre}${suffix}.webp`);
+    const to = join(OUT, "app", `${publicado}${suffix}.webp`);
     const info = await sharp(from)
       .resize({ width, withoutEnlargement: true })
       .webp({ quality: 86 })
       .toFile(to);
     if (!medidas) medidas = info;
     console.log(
-      `  ${nombre}.png → ${nombre}${suffix}.webp ${kb(await sizeOf(to))} ${info.width}x${info.height}`,
+      `  ${origen}.png → ${publicado}${suffix}.webp ${kb(await sizeOf(to))} ${info.width}x${info.height}`,
     );
   }
   return medidas;
 }
 
+/**
+ * La tarjeta de compartido de una página de módulo.
+ *
+ * **No alcanza con apuntar `og:image` a la captura.** La captura es 16:10 y la tarjeta es
+ * 1,91:1, así que LinkedIn y WhatsApp la recortan al centro y se comen el 16 % del alto
+ * —que acá es la barra de filtros arriba y el pie de la tabla abajo—. Hay que componer
+ * una imagen a medida, que es lo que ya hacía la etapa OG con el render de planta.
+ *
+ * El recorte va **desde arriba**, no desde el centro: en los seis tableros lo que vale
+ * está en la franja superior —el título, la fila de indicadores y el arranque del
+ * gráfico— y lo que se pierde abajo son filas de tabla que a ese tamaño no se leen igual.
+ *
+ * Lleva la misma banda de marca que la OG general: sin ella la tarjeta es una captura
+ * suelta que no dice de quién es.
+ */
+async function ogDeModulo({ origen, publicado }) {
+  const from = join(RAW, "app", `${origen}.png`);
+  try {
+    await stat(from);
+  } catch {
+    return null;
+  }
+
+  const BAND = 132;
+  const to = join(OUT, "og", `${publicado}-og.jpg`);
+
+  const fondo = await sharp(from)
+    .resize({ width: 1200, height: 630 - BAND, fit: "cover", position: "top" })
+    .toBuffer();
+
+  const banda = await sharp({
+    create: { width: 1200, height: BAND, channels: 4, background: "#084749" },
+  })
+    .png()
+    .toBuffer();
+
+  const marca = await sharp(join(OUT, "brand", "lockup-blanco.webp"))
+    .resize({ height: 56, fit: "inside" })
+    .png()
+    .toBuffer();
+
+  await sharp({
+    create: { width: 1200, height: 630, channels: 4, background: "#084749" },
+  })
+    .composite([
+      { input: fondo, top: 0, left: 0 },
+      { input: banda, top: 630 - BAND, left: 0 },
+      { input: marca, top: 630 - BAND + 38, left: 64 },
+    ])
+    .jpeg({ quality: 82, mozjpeg: true })
+    .toFile(to);
+
+  console.log(`  ${origen}.png → og/${publicado}-og.jpg ${kb(await sizeOf(to))}`);
+  return to;
+}
+
 async function optimizeAppShot() {
   await mkdir(join(OUT, "app"), { recursive: true });
+  await mkdir(join(OUT, "og"), { recursive: true });
 
-  const hero = await reencodeAppShot("tablero", APP_SHOT_WIDTHS);
+  const hero = await reencodeAppShot(HERO_SHOT, APP_SHOT_WIDTHS);
   if (hero) {
     console.log(
       `  → en APP_SHOT: width: ${hero.width}, height: ${hero.height}, ` +
-        `src: "/img/app/tablero.webp"`,
+        `src: "/img/app/${HERO_SHOT.publicado}.webp"`,
     );
   }
 
-  for (const nombre of MODULE_SHOTS) {
-    const medidas = await reencodeAppShot(nombre, MODULE_SHOT_WIDTHS);
+  for (const shot of MODULE_SHOTS) {
+    const medidas = await reencodeAppShot(shot, MODULE_SHOT_WIDTHS);
     if (medidas) {
-      console.log(`  → en MODULE_SHOTS.${nombre}: ${medidas.width}x${medidas.height}`);
+      console.log(`  → en MODULE_SHOTS.${shot.origen}: ${medidas.width}x${medidas.height}`);
     }
+    await ogDeModulo(shot);
   }
 }
 

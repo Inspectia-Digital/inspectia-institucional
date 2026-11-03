@@ -61,9 +61,9 @@ export const PLANT_PLAN = {
  * de pantalla": eso ya lo sabe quien usa un lector de pantalla por el contexto.
  */
 export const APP_SHOT = {
-  src: "/img/app/tablero.webp",
+  src: "/img/app/inspectia-tablero-oee.webp",
   /** Variante para pantallas chicas, servida por srcset. */
-  src760: "/img/app/tablero-760.webp",
+  src760: "/img/app/inspectia-tablero-oee-760.webp",
   width: 1100,
   height: 733,
   alt: "Tablero de InspectIA con el OEE de la planta, su evolución en el último mes y el OEE de cada línea",
@@ -84,45 +84,78 @@ export const APP_SHOT = {
  *
  * El `alt` dice qué se ve en cada tablero. No dice "captura de pantalla": el contexto ya
  * lo da.
+ *
+ * Cada una trae además:
+ *
+ * - **`caption`**, el epígrafe que se dibuja debajo. No repite el `alt`: el `alt` describe
+ *   lo que se ve para quien no lo ve, y el epígrafe le dice a quien sí lo ve qué tiene que
+ *   mirar. Un epígrafe es de lo poco que se lee incluso cuando no se lee el cuerpo, así
+ *   que cada uno cuenta el caso concreto del tablero y no una línea de folleto.
+ * - **`og`**, la tarjeta de compartido de esa página. No es la captura: es una composición
+ *   de 1200x630 con la banda de marca, porque la captura es 16:10 y la tarjeta 1,91:1, y
+ *   apuntar `og:image` al archivo directo deja que cada red la recorte por su cuenta.
  */
 export const MODULE_SHOTS: Record<
   string,
-  { src: string; src1120: string; width: number; height: number; alt: string }
+  {
+    src: string;
+    src1120: string;
+    width: number;
+    height: number;
+    alt: string;
+    caption: string;
+    og: string;
+  }
 > = {
   produccion: {
-    src: "/img/app/produccion.webp",
-    src1120: "/img/app/produccion-1120.webp",
+    src: "/img/app/inspectia-software-oee-produccion.webp",
+    src1120: "/img/app/inspectia-software-oee-produccion-1120.webp",
     width: 1680,
     height: 1050,
     alt: "Tablero de una línea en vivo: OEE del turno, sus tres componentes y las unidades producidas cada 15 minutos, con una parada y un tramo lento marcados",
+    caption:
+      "La línea de panes durante el turno de mañana. Cada barra son 15 minutos contra el ritmo ideal, y la parada por cambio de formato queda registrada con su motivo.",
+    og: "/img/og/inspectia-software-oee-produccion-og.jpg",
   },
   calidad: {
-    src: "/img/app/calidad.webp",
-    src1120: "/img/app/calidad-1120.webp",
+    src: "/img/app/inspectia-control-de-calidad.webp",
+    src1120: "/img/app/inspectia-control-de-calidad-1120.webp",
     width: 1680,
     height: 1050,
     alt: "Pareto de defectos con rechazo y retrabajo separados, la curva acumulada y la calidad de cada línea",
+    caption:
+      "Tres defectos explican el 74 % de las unidades con problema. El rechazo se descarta y el retrabajo se recupera, así que cada uno cuenta por separado.",
+    og: "/img/og/inspectia-control-de-calidad-og.jpg",
   },
   stock: {
-    src: "/img/app/stock.webp",
-    src1120: "/img/app/stock-1120.webp",
+    src: "/img/app/inspectia-control-de-stock-inventario.webp",
+    src1120: "/img/app/inspectia-control-de-stock-inventario-1120.webp",
     width: 1680,
     height: 1050,
     alt: "Stock por producto con los días de cobertura de cada uno y una diferencia de conteo marcada",
+    caption:
+      "Cuatro productos de 62 están abajo de los siete días de cobertura. La diferencia de la manteca apareció en el conteo de esta mañana, no en el inventario de fin de mes.",
+    og: "/img/og/inspectia-control-de-stock-inventario-og.jpg",
   },
   trazabilidad: {
-    src: "/img/app/trazabilidad.webp",
-    src1120: "/img/app/trazabilidad-1120.webp",
+    src: "/img/app/inspectia-trazabilidad-lotes.webp",
+    src1120: "/img/app/inspectia-trazabilidad-lotes-1120.webp",
     width: 1680,
     height: 1050,
     alt: "Un lote con su genealogía, de la materia prima a los despachos, su vencimiento y la conciliación de unidades",
+    caption:
+      "Un lote de pan lactal, de la harina al remito. La sal fina entró sin lote cargado y el sistema lo muestra en vez de rechazar la carga.",
+    og: "/img/og/inspectia-trazabilidad-lotes-og.jpg",
   },
   tareas: {
-    src: "/img/app/tareas.webp",
-    src1120: "/img/app/tareas-1120.webp",
+    src: "/img/app/inspectia-asignacion-tareas-turno.webp",
+    src1120: "/img/app/inspectia-asignacion-tareas-turno-1120.webp",
     width: 1680,
     height: 1050,
     alt: "La cobertura de un turno: quién está asignado a cada puesto, los puestos sin cubrir y quién está disponible",
+    caption:
+      "El turno de mañana, armado el día anterior. Quedan dos puestos sin cubrir, y para el operario que avisó que no viene el sistema propone a alguien que ya trabajó en ese puesto.",
+    og: "/img/og/inspectia-asignacion-tareas-turno-og.jpg",
   },
 };
 

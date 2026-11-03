@@ -20,6 +20,26 @@ const { SHOW_PRICING, SHOW_RESOURCES, SITE_URL } = await import("../src/content/
 const { approvedCases } = await import("../src/content/cases.ts");
 const { IA_APPLICATIONS } = await import("../src/content/ia.ts");
 const { KITS } = await import("../src/content/kit40.ts");
+const { APP_SHOT, MODULE_SHOTS } = await import("../src/content/assets.ts");
+
+/**
+ * Las capturas que se declaran con su página, por la extensión de imagen del sitemap.
+ *
+ * Sirve para que Google Imágenes las encuentre sin depender de rastrear el HTML y de que
+ * el `srcset` no la confunda. Es un empujón chico —las imágenes del cuerpo se descubren
+ * igual— pero el costo es una línea por URL.
+ *
+ * **Sólo se emite `image:loc`.** La extensión define además `image:title`, `image:caption`
+ * y `image:license`, y Google dejó de usarlas en 2022: declararlas sería ruido que
+ * aparenta metadata. El epígrafe y el texto alternativo viven en el HTML, que es donde se
+ * leen.
+ */
+const imagenesDe = (loc) => {
+  if (loc === "/") return [APP_SHOT.src];
+  const m = loc.match(/^\/plataforma\/([a-z-]+)$/);
+  const shot = m && MODULE_SHOTS[m[1]];
+  return shot ? [shot.src] : [];
+};
 
 /** prioridad: qué tan cerca de la compra está la página, no cuánto nos gusta. */
 const urls = [
@@ -76,13 +96,16 @@ const urls = [
 ];
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 ${urls
   .map(
     (u) => `  <url>
     <loc>${SITE_URL}${u.loc}</loc>
     <changefreq>${u.changefreq}</changefreq>
-    <priority>${u.priority}</priority>
+    <priority>${u.priority}</priority>${imagenesDe(u.loc)
+      .map((src) => `\n    <image:image><image:loc>${SITE_URL}${src}</image:loc></image:image>`)
+      .join("")}
   </url>`,
   )
   .join("\n")}
