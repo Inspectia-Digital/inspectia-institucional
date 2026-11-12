@@ -36,6 +36,20 @@ type ConversionEvents = {
    * no que la cuenta se creó: eso pasa en la aplicación y lo mide el backend.
    */
   partner_signup_start: { source_page: string };
+  /**
+   * Clic en «Quiero conocerlo», el botón único de las funcionalidades que todavía no
+   * están (andon, costo por unidad, conector MCP).
+   *
+   * **Por qué es conversión y no interacción.** En esas páginas no hay «Empezar gratis»
+   * —ofrecer una cuenta para algo que no existe es la forma más rápida de perderla— así
+   * que este clic es la única salida comercial que la página tiene. Y como `/contacto`
+   * todavía no tiene formulario con destino, el clic es además **lo último que se puede
+   * medir**: no hay un envío que contar después.
+   *
+   * `feature` viaja con el mismo parámetro que usa `solution_view`, así que en GA4 la
+   * página y su pedido se cruzan sin una dimensión nueva.
+   */
+  feature_request_click: { source_page: string; feature: string };
 };
 
 type EngagementEvents = {
