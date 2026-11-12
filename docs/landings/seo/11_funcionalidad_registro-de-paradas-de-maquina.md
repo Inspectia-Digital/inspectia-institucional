@@ -34,6 +34,12 @@
 
 **capture:** Manual desde la pantalla del puesto (plan gratuito, una línea) → Automático con la señal del PLC o de un sensor.
 
+**see — «Qué ves en InspectIA»** (captura `inspectia-software-oee-produccion`):
+- Las unidades cada 15 minutos contra el ritmo ideal: a ritmo, lento o parada.
+- Lo que pasó en el turno: cada parada con su hora, su motivo y cuánto duró.
+- Cada estación con su estado y su rendimiento de la última hora.
+- Lo producido contra el plan del turno.
+
 **related:**
 - Monitoreo automático de OEE → `/plataforma/produccion/monitoreo-automatico-de-oee`
 - Mantenimiento → `/plataforma/mantenimiento`

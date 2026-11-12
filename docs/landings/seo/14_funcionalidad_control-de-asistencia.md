@@ -36,7 +36,7 @@
 **related (del ingreso a la línea):**
 - Tareas y asistencia: estaciones y tareas del turno, asignadas sobre quién está presente → `/plataforma/tareas`
 - Producción: unidades por hora por persona, en cada estación → `/plataforma/produccion`
-- Costos: el costo por operario, con las horas fichadas
+- Costo por unidad: las horas-hombre de cada orden, valorizadas con el valor hora de cada categoría → `/plataforma/produccion/costo-por-unidad`
 
 **Para quién:** chips de industrias con enlace. Línea: Funciona en una o en varias plantas: cada terminal se asigna a la suya.
 

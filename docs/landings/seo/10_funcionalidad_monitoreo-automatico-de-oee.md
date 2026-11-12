@@ -31,6 +31,12 @@
 
 **capture:** Manual (plan gratuito, una línea) → Automático (PLC, sensor o lectora) → IA (visión sobre la línea, como proyecto aparte).
 
+**see — «Qué ves en InspectIA»** (captura `inspectia-tablero-oee`):
+- El OEE de la planta y sus tres factores, con cuánto subió o bajó contra el período anterior.
+- El OEE día por día, contra el objetivo de la planta.
+- Cada línea contra el objetivo, para ver cuál baja el promedio.
+- La semana, el mes o el año, con un clic.
+
 **related:**
 - Registro de paradas de máquina → `/plataforma/produccion/registro-de-paradas-de-maquina`
 - Calidad: el rechazo entra solo al indicador → `/plataforma/calidad`

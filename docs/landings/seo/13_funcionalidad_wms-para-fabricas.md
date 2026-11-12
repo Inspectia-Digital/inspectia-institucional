@@ -27,10 +27,16 @@
 **does:**
 1. **¿Qué tiene que tener un WMS de planta?** — Posiciones, recepción, movimientos y pedidos, como cualquier WMS, y además el consumo contra la orden de producción y el ingreso del terminado. Es lo que no tiene uno de distribución.
 2. **Del camión a la línea y de la línea al pedido** — Lo que baja del camión se recibe contra el remito y se guarda en su posición. Lo que se consume se descuenta contra la orden. El terminado ingresa sin doble carga y sale contra el pedido.
-3. **Conteo cíclico sin parar** — Se cuentan algunas posiciones por día, en los huecos de la operación, y la diferencia contra el sistema aparece en el momento.
+3. **El conteo, contra el sistema** — Lo contado se compara con lo que dice el sistema y la diferencia aparece en el momento. El ajuste queda con su motivo y con quién lo hizo.
 4. **Con un celular** — El operario trabaja con un Android común. No hay terminales que comprar para empezar.
 
 **capture:** Manual con el celular (plan gratuito, cinco posiciones) → Automático con lectoras y etiquetas → IA: recepción con cámara en el muelle e inventario con drones en las posiciones altas.
+
+**see — «Qué ves en InspectIA»** (captura `inspectia-control-de-stock-inventario`):
+- El stock de cada producto, lo que sale por día y cuántos días cubre.
+- Los productos que no llegan al límite de cobertura, marcados.
+- Las diferencias de conteo contra el sistema, con quién contó y cuándo, y el ajuste.
+- Qué pedir hoy, según la demora de cada proveedor.
 
 **related:**
 - Producción: el consumo se descuenta solo contra la orden → `/plataforma/produccion`

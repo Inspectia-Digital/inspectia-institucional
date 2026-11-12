@@ -32,6 +32,12 @@
 
 **capture:** Manual: el lote se carga en el puesto, con la orden (plan gratuito, una línea) → Automático: lectura de etiquetas y conexión con la línea.
 
+**see — «Qué ves en InspectIA»** (captura `inspectia-trazabilidad-lotes`):
+- De dónde vino el lote: cada materia prima e insumo con su lote y su vencimiento.
+- Adónde fue: cada ruta con su remito, la venta directa y lo que queda en depósito con su posición.
+- La conciliación del lote: producido, despachado, en depósito y diferencia.
+- Los controles del lote con su resultado, y el informe para descargar.
+
 **related:**
 - Con Stock, el retiro es completo: de la recepción al pedido, lote por lote → `/plataforma/stock`
 - Calidad: los resultados quedan pegados al lote → `/plataforma/calidad`

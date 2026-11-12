@@ -36,10 +36,20 @@
 | `12_funcionalidad_trazabilidad-alimentaria.md` | Funcionalidad nueva | `/plataforma/trazabilidad/trazabilidad-alimentaria` |
 | `13_funcionalidad_wms-para-fabricas.md` | Funcionalidad nueva | `/plataforma/stock/wms-para-fabricas` |
 | `14_funcionalidad_control-de-asistencia.md` | Funcionalidad nueva | `/plataforma/tareas/control-de-asistencia` |
+| `16_funcionalidad_mrp-y-escenarios.md` | Funcionalidad nueva | `/plataforma/produccion/mrp-y-escenarios` |
+| `17_funcionalidad_plan-de-produccion.md` | Funcionalidad nueva | `/plataforma/produccion/plan-de-produccion` |
+| `18_funcionalidad_parte-de-produccion-digital.md` | Funcionalidad nueva | `/plataforma/produccion/parte-de-produccion` |
+| `19_funcionalidad_mantenimiento-por-horas-de-uso.md` | Funcionalidad nueva | `/plataforma/mantenimiento/mantenimiento-por-horas-de-uso` |
+| `1A_funcionalidad_andon-pantalla-de-planta.md` | Funcionalidad **planificada** (a pedido) | `/plataforma/produccion/andon-digital` |
+| `1B_funcionalidad_costo-por-unidad.md` | Funcionalidad **parcial** (a pedido) | `/plataforma/produccion/costo-por-unidad` |
 | `20_guia_como-calcular-el-oee.md` | Guía nueva | `/guias/como-calcular-el-oee` |
 | `21_guia_motivos-de-parada.md` | Guía nueva | `/guias/motivos-de-parada` |
 | `22_guia_retiro-de-lotes.md` | Guía nueva | `/guias/retiro-de-lotes` |
 | `../2026-11-11_REFERENCIA_control-de-acceso-facial.html` | Referencia visual de una página de funcionalidad | — |
+
+**Páginas planificadas o parciales (1A, 1B).** Se publican igual, porque posicionan algo que se construye si un cliente lo pide. Llevan la banda «Lo estamos habilitando con nuestros clientes» y un solo CTA, «Quiero conocerlo», al formulario de contacto con su origen (`andon`, `costos`), como la página de MCP. No llevan «Empezar gratis». Cuando la funcionalidad exista, pasan al `CtaPair` estándar.
+
+**Regla de validación SEO (12/11/2026).** Ninguna página nueva se publica sin una línea «Validación SEO» en su archivo: el término principal y los secundarios comparados en Google Trends (5 años, mundo en español y por país cuando cambia), las consultas relacionadas y qué hay en la SERP (informativa o comercial, quién compite). El título se ancla en el término con volumen, no en el nombre interno de la funcionalidad. Ejemplo: «simulación de producción» da 0 y «MRP» tiene volumen, así que la página de escenarios es «MRP y escenarios». Keyword Planner afina los volúmenes absolutos cuando esté.
 
 **Queda para la próxima tanda:** MES para pymes, planificación de la producción y la guía «WMS de distribución contra WMS de planta». Esperan datos de Keyword Planner y una definición de producto.
 
