@@ -8,7 +8,7 @@
 ## SEO
 
 - **seoTitle:** Software de mantenimiento preventivo por horas de uso
-- **seoDescription:** Cada servicio vence por fecha o por horas de uso, lo que llegue primero. Las horas salen de la producción real o del horómetro, y el responsable recibe el aviso.
+- **seoDescription:** Cada servicio vence por fecha o por horas de uso, lo que llegue primero. Las horas salen de la producción o del horómetro, y avisa al responsable.
 - **Schema:** Service + FAQPage + BreadcrumbList
 
 ## Contenido

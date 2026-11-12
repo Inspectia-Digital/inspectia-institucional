@@ -8,7 +8,7 @@ import { Icon } from "@/components/icons/Icon";
 
 const TITLE = "Plataforma modular para plantas y depósitos · InspectIA";
 const DESCRIPTION =
-  "Ocho módulos sobre una sola base: la misma estructura de plantas y líneas, los mismos usuarios, el mismo tablero. Sumás un módulo y no hay nada que volver a cargar.";
+  "Ocho módulos sobre una sola base: la misma estructura de plantas y líneas, los mismos usuarios, el mismo tablero. Sumás uno y no hay nada que volver a cargar.";
 
 /**
  * Pillar page de producto y destino del mega-menú (§7.2).

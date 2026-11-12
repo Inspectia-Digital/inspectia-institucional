@@ -10,7 +10,7 @@ import { Icon } from "@/components/icons/Icon";
 
 const TITLE = "Calculadora de ROI para proyectos de planta · InspectIA";
 const DESCRIPTION =
-  "Calculá el retorno de medir tu producción, tu calidad o tu inventario. Sin registrarte, con los supuestos y el costo a la vista, y el informe en PDF si lo querés.";
+  "Calculá el retorno de medir tu producción, tu calidad o tu inventario. Sin registrarte, con los supuestos a la vista y el informe en PDF si lo querés.";
 
 /**
  * Calculadora de ROI (§7.7). Es el activo de conversión del sitio y la herramienta con la

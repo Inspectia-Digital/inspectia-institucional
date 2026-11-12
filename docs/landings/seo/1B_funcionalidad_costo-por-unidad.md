@@ -12,7 +12,7 @@
 
 ## SEO
 
-- **seoTitle:** Costo de producción por unidad: materiales, mano de obra y energía
+- **seoTitle:** Costo de producción por unidad: materiales y mano de obra
 - **seoDescription:** Cuánto cuesta producir cada unidad de tus productos con lo que pasó en planta: materiales, horas-hombre valorizadas y energía por kilo, período por período.
 - **Schema:** Service + FAQPage + BreadcrumbList
 

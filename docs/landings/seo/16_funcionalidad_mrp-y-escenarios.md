@@ -8,7 +8,7 @@
 
 ## SEO
 
-- **seoTitle:** MRP y escenarios de producción: materiales, máquinas y costos
+- **seoTitle:** MRP y escenarios: materiales, máquinas y costos
 - **seoDescription:** Cálculo de necesidades de materiales con tus recetas y tu stock, más la capacidad de producción: horas de máquina, operarios, costo de compras y stock final.
 - **Schema:** Service + FAQPage + BreadcrumbList
 

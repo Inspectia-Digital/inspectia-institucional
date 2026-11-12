@@ -918,7 +918,7 @@ export const FEATURES: Feature[] = [
     eyebrow: "Producción · MRP y escenarios",
     h1: "MRP y escenarios: todo lo que hace falta para producir lo que querés",
     lead: "El cálculo de necesidades de materiales de un MRP, con la capacidad de producción al lado. Cargás cuánto querés producir de cada producto en un período, o partís de los pedidos abiertos, y ves todo lo que implica: la materia prima que falta y cuánto cuesta comprarla, las horas de máquina contra las que tenés, los operarios por turno y cómo queda el stock. Comparás escenarios antes de comprometerte.",
-    seoTitle: "MRP y escenarios de producción: materiales, máquinas y costos",
+    seoTitle: "MRP y escenarios: materiales, máquinas y costos",
     seoDescription:
       "Cálculo de necesidades de materiales con tus recetas y tu stock, más la capacidad de producción: horas de máquina, operarios, costo de compras y stock final.",
 
@@ -1207,7 +1207,7 @@ export const FEATURES: Feature[] = [
     lead: "El supervisor anota las paradas cuando pasan y, al cerrar cada orden, lo producido y lo rechazado. No hace falta ningún sensor. Cuando termina el turno, el parte llega por mail a la gerencia con el OEE ya calculado.",
     seoTitle: "Parte de producción digital por turno, sin planillas",
     seoDescription:
-      "Registro de producción sin papel: el supervisor carga cada orden al cerrarla y al terminar el turno el parte llega por mail: producido contra plan, OEE, paradas y lo que hay que revisar.",
+      "Registro de producción sin papel: el supervisor carga cada orden al cerrarla y al terminar el turno el parte llega por mail, con el OEE ya calculado.",
 
     heroPanel: {
       title: "Parte del turno mañana · Línea 2",
@@ -1344,7 +1344,7 @@ export const FEATURES: Feature[] = [
     lead: "Definís cada servicio por días, por horas de uso o por las dos cosas, y vence lo que llegue primero. Las horas se cuentan solas con lo que la máquina produjo, o con el horómetro si lo cargás a mano. El responsable recibe el aviso antes de que venza.",
     seoTitle: "Software de mantenimiento preventivo por horas de uso",
     seoDescription:
-      "Cada servicio vence por fecha o por horas de uso, lo que llegue primero. Las horas salen de la producción real o del horómetro, y el responsable recibe el aviso.",
+      "Cada servicio vence por fecha o por horas de uso, lo que llegue primero. Las horas salen de la producción o del horómetro, y avisa al responsable.",
 
     heroPanel: {
       title: "Próximos vencimientos",
@@ -1495,7 +1495,7 @@ export const FEATURES: Feature[] = [
     eyebrow: "Producción · Andon digital",
     h1: "Andon digital: cómo viene cada línea, a la vista de toda la planta",
     lead: "Una pantalla en la planta muestra cada línea en vivo: cuánto lleva producido contra el plan, el OEE, si está parada y cuánto tiempo se perdió en el turno. El que pasa por la línea sabe en segundos si va bien o hay que actuar.",
-    seoTitle: "Andon digital: el estado de cada línea en una pantalla de planta",
+    seoTitle: "Andon digital: el estado de cada línea en la planta",
     seoDescription:
       "Una pantalla en la planta con cada línea en vivo: producido contra plan, OEE, paradas y tiempo perdido. Sin tableros a mano ni luces aparte.",
 
@@ -1642,7 +1642,7 @@ export const FEATURES: Feature[] = [
     eyebrow: "Producción · Costo por unidad",
     h1: "Costo de producción por unidad, con datos de planta",
     lead: "Cuánto te cuesta producir cada kilo o cada unidad, armado con datos de la planta y no con estándares de una planilla: los materiales a su costo de compra, las horas-hombre de cada orden valorizadas con el valor hora de cada categoría y la energía que consumió la producción del mes.",
-    seoTitle: "Costo de producción por unidad: materiales, mano de obra y energía",
+    seoTitle: "Costo de producción por unidad: materiales y mano de obra",
     seoDescription:
       "Cuánto cuesta producir cada unidad de tus productos con lo que pasó en planta: materiales, horas-hombre valorizadas y energía por kilo, período por período.",
 

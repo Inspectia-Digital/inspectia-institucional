@@ -9,7 +9,7 @@
 
 ## SEO
 
-- **seoTitle:** Andon digital: el estado de cada línea en una pantalla de planta
+- **seoTitle:** Andon digital: el estado de cada línea en la planta
 - **seoDescription:** Una pantalla en la planta con cada línea en vivo: producido contra plan, OEE, paradas y tiempo perdido. Sin tableros a mano ni luces aparte.
 - **Schema:** Service + FAQPage + BreadcrumbList
 

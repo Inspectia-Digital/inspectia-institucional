@@ -9,7 +9,7 @@
 ## SEO
 
 - **seoTitle:** Parte de producción digital por turno, sin planillas
-- **seoDescription:** Registro de producción sin papel: el supervisor carga cada orden al cerrarla y al terminar el turno el parte llega por mail: producido contra plan, OEE, paradas y lo que hay que revisar.
+- **seoDescription:** Registro de producción sin papel: el supervisor carga cada orden al cerrarla y al terminar el turno el parte llega por mail, con el OEE ya calculado.
 - **Schema:** Service + FAQPage + BreadcrumbList
 
 ## Contenido
