@@ -2,8 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { TrustBar } from "@/components/site/TrustBar";
-import { CONTACT } from "@/content/site";
-import { breadcrumbJsonLd, pageHead } from "@/lib/seo";
+import { CONTACT, SITE_URL } from "@/content/site";
+import { breadcrumbJsonLd, organizationJsonLd, pageHead } from "@/lib/seo";
 
 const TITLE = "Quiénes somos · InspectIA";
 // 153 caracteres. La versión del documento contaba 172; el recorte es el que el propio
@@ -20,7 +20,11 @@ const DESCRIPTION =
  * plata. Como cierre de "Nosotros" funciona para quien la busca y es invisible para
  * quien no. **No existe `/inversores` y no hay que crearla.**
  *
- * `Organization` no se declara acá: ya está en la home y duplicarlo no aporta.
+ * **`AboutPage` con la organización adentro**, y no sólo la miga. La entidad estaba
+ * declarada únicamente en la home: para un buscador —y para un motor de respuesta, que es
+ * donde más pesa— la página que explica quién es la empresa no decía de quién habla. No
+ * es un duplicado del de la home: ahí `Organization` es la ficha del sitio, acá es el
+ * `mainEntity` de la página que la describe, que es lo que `AboutPage` significa.
  */
 export const Route = createFileRoute("/nosotros")({
   head: () =>
@@ -30,7 +34,15 @@ export const Route = createFileRoute("/nosotros")({
       path: "/nosotros",
       jsonLd: {
         "@context": "https://schema.org",
-        "@graph": [breadcrumbJsonLd([{ name: "Quiénes somos", path: "/nosotros" }])],
+        "@graph": [
+          breadcrumbJsonLd([{ name: "Quiénes somos", path: "/nosotros" }]),
+          {
+            "@type": "AboutPage",
+            name: "Quiénes somos",
+            url: `${SITE_URL}/nosotros`,
+            mainEntity: organizationJsonLd(),
+          },
+        ],
       },
     }),
   component: Page,

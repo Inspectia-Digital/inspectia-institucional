@@ -144,6 +144,16 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
+              {/* El índice de industrias. Hasta acá ninguna de las 60 páginas del sitio
+                  lo enlazaba —el menú va derecho a cada industria— así que para un
+                  buscador era una página huérfana, y es el pilar del que cuelgan las
+                  siete. Va pegado a su propia lista, con la misma forma que «Todas las
+                  guías» más abajo. */}
+              <li className="min-w-0">
+                <Link to="/soluciones" className={FOOTER_LINK}>
+                  Todas las industrias
+                </Link>
+              </li>
               {/* Las cinco guías de problema, que hasta noviembre de 2026 eran los casos
                   de uso de /soluciones. El índice completo va más abajo, en Recursos. */}
               {problemGuides().map((g) => (

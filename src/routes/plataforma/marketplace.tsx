@@ -56,6 +56,13 @@ function Page() {
 
       <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8 min-[1000px]:py-[var(--section-pad)]">
         <div className="mx-auto max-w-[var(--content-max)]">
+          {/* El catálogo necesita su propio encabezado. Sin él la página iba del H1 a
+              los H3 de cada tarjeta, que para un lector de pantalla es un nivel que
+              falta: no hay forma de saber que esas tarjetas son una lista ni de qué.
+              Invisible porque el hero ya dice de qué va la página y un título repetido
+              arriba del filtro no le agrega nada a quien ve la pantalla. */}
+          <h2 className="sr-only">Los servicios, por categoría</h2>
+
           {/* Pills y no un desplegable: siete opciones se leen de un vistazo y elegir una
               es un clic, contra tres de un select. */}
           <div className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 md:mx-0 md:px-0">

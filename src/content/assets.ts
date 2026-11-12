@@ -213,3 +213,33 @@ export const PARTNER_LOGO: Record<PartnerSlug, string> = {
   "tecnologia-bi": "/img/partners/tecnologia-bi.webp",
   teksis: "/img/partners/teksis.webp",
 };
+
+/**
+ * Las medidas reales de cada archivo de logo.
+ *
+ * Para que el navegador reserve el lugar antes de que la imagen llegue. El CSS fija el
+ * alto y topea el ancho, así que estas medidas no cambian lo que se dibuja: lo que
+ * cambia es que la fila deja de correrse mientras cargan dieciséis imágenes.
+ *
+ * Salen de los archivos de `public/img/partners/`, ya pasados por `npm run images`. Si
+ * se reemplaza un logo, hay que volver a leerlas.
+ */
+export const PARTNER_LOGO_SIZE: Record<PartnerSlug, { width: number; height: number }> = {
+  "antea-group": { width: 347, height: 185 },
+  arnx: { width: 221, height: 192 },
+  auren: { width: 430, height: 192 },
+  balluff: { width: 1080, height: 139 },
+  bps: { width: 447, height: 192 },
+  cygnus: { width: 194, height: 45 },
+  emprelatam: { width: 889, height: 192 },
+  "google-for-startups": { width: 222, height: 192 },
+  "las-marias": { width: 283, height: 192 },
+  miebach: { width: 152, height: 56 },
+  "molens-greenmills": { width: 516, height: 192 },
+  motorola: { width: 192, height: 192 },
+  quantit: { width: 192, height: 192 },
+  sitecno: { width: 128, height: 162 },
+  springwall: { width: 192, height: 192 },
+  "tecnologia-bi": { width: 989, height: 188 },
+  teksis: { width: 1031, height: 192 },
+};

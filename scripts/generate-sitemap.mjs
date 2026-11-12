@@ -85,6 +85,14 @@ const urls = [
     loc: `/guias/${g.slug}`,
     priority: "0.7",
     changefreq: "monthly",
+    /* El único `lastmod` del mapa, y a propósito.
+       Es el campo que un buscador sí mira para decidir si vale la pena volver, pero sólo
+       mientras sea cierto: declarar la fecha del despliegue en las 60 URLs haría que todo
+       el sitio se "actualizara" cada vez que alguien toca un color, y un `lastmod` que
+       miente se deja de leer para el dominio entero. Las guías son las únicas páginas con
+       una fecha de contenido real —la misma que muestran y que va al `Article`— así que
+       son las únicas que lo declaran. */
+    lastmod: g.updated,
   })),
   // La página devuelve 404 mientras no haya un caso aprobado para publicar, así que
   // tampoco se declara: una URL en el sitemap que responde 404 es un error de rastreo.
@@ -125,7 +133,12 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 ${urls
   .map(
     (u) => `  <url>
-    <loc>${SITE_URL}${u.loc}</loc>
+    <loc>${SITE_URL}${u.loc}</loc>${
+      u.lastmod
+        ? `
+    <lastmod>${u.lastmod}</lastmod>`
+        : ""
+    }
     <changefreq>${u.changefreq}</changefreq>
     <priority>${u.priority}</priority>${imagenesDe(u.loc)
       .map((src) => `\n    <image:image><image:loc>${SITE_URL}${src}</image:loc></image:image>`)

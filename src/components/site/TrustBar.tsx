@@ -131,6 +131,12 @@ function LogoImg({ partner, eager = false }: { partner: Partner; eager?: boolean
          Motorola mide 48. Ocho veces más superficie para la misma jerarquía. El tope de
          ancho con object-contain baja el logotipo largo hasta que las dos manchas pesan
          parecido, que es lo que quiere decir "altura óptica homogénea". */
+      /* Las medidas del archivo, para que el navegador reserve el lugar antes de que la
+         imagen llegue. El CSS fija el alto y topea el ancho, así que lo que se dibuja no
+         cambia; lo que cambia es que hasta acá eran dieciséis imágenes sin medida
+         —treinta y dos contando el bucle— y cada una que entraba corría la fila. */
+      width={partner.width}
+      height={partner.height}
       className="h-10 w-auto max-w-32 object-contain opacity-70 grayscale transition-opacity duration-200 hover:opacity-100 md:h-12 md:max-w-38"
     />
   );

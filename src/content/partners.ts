@@ -1,4 +1,4 @@
-import { PARTNER_LOGO, type PartnerSlug } from "./assets";
+import { PARTNER_LOGO, PARTNER_LOGO_SIZE, type PartnerSlug } from "./assets";
 
 /**
  * Las cuatro familias de organizaciones que hoy conviven mezcladas en una sola fila de
@@ -30,6 +30,9 @@ export type Partner = {
   name: string;
   family: PartnerFamily;
   logo: string;
+  /** Las medidas del archivo, para que la imagen reserve su lugar al cargar. */
+  width: number;
+  height: number;
 };
 
 const partner = (slug: PartnerSlug, name: string, family: PartnerFamily): Partner => ({
@@ -37,6 +40,7 @@ const partner = (slug: PartnerSlug, name: string, family: PartnerFamily): Partne
   name,
   family,
   logo: PARTNER_LOGO[slug],
+  ...PARTNER_LOGO_SIZE[slug],
 });
 
 export const PARTNERS: Partner[] = [
