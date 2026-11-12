@@ -85,6 +85,20 @@
   --color-status-warn-bg: var(--status-warn-bg);
   --color-status-stop: var(--status-stop);
   --color-status-stop-bg: var(--status-stop-bg);
+  --color-status-info: var(--status-info);
+  --color-status-info-bg: var(--status-info-bg);
+  /* El texto de una pastilla, que es el único que pasa AA sobre el relleno lavado. */
+  --color-status-ok-strong: var(--status-ok-strong);
+  --color-status-warn-strong: var(--status-warn-strong);
+  --color-status-info-strong: var(--status-info-strong);
+  --color-status-stop-strong: var(--status-stop-strong);
+  /* Los rellenos lavados, para la pastilla sobre fondo claro; sobre el panel oscuro
+     se invierten: relleno fuerte y texto lavado. */
+  --color-green-100: var(--green-100);
+  --color-red-100: var(--red-100);
+  --color-blue-100: var(--blue-100);
+  --color-grey-150: var(--grey-150);
+  --color-grey-700: var(--grey-700);
 
   /* Contrato de shadcn: lo consumen los primitivos de components/ui. */
   --color-background: var(--background);

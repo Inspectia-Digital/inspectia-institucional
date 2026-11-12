@@ -89,6 +89,18 @@
   --status-info: var(--blue-600);
   --status-info-bg: var(--blue-100);
 
+  /* Los de arriba están pensados como relleno con texto blanco. Una pastilla hace lo
+     contrario —texto de color sobre el relleno lavado— y ahí los mismos valores no
+     llegan a 4,5:1: verde 4,26, ámbar 3,94, azul 4,31. Estos tres son los que sí, y
+     son los únicos que van como color de texto de una pastilla:
+     verde 5,63:1 · ámbar 5,41:1 · azul 5,46:1, cada uno sobre su propio -bg. */
+  --status-ok-strong: var(--green-700);
+  --status-warn-strong: var(--amber-800);
+  --status-info-strong: var(--blue-700);
+  /* --red-600 da 4,46:1 sobre --red-100 y se queda a cuatro centésimas del piso.
+     --red-700 da 5,87:1 y ya estaba en la rampa. */
+  --status-stop-strong: var(--red-700);
+
   /* ---------- Contrato shadcn ----------
      Este repo consume los tokens sin envolver —bg-background resuelve a var(--background)
      directo—, así que van como color y no como tripleta HSL. */

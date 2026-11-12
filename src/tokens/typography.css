@@ -36,6 +36,18 @@
      columna de 768px. Requiere container-type:inline-size en la columna que lo contiene. */
   --text-hero: clamp(26px, 6.25cqw, 56px);
 
+  /* El mismo titular, cuando comparte el hero con el panel del producto en vez de
+     ocupar el ancho entero (guía de funcionalidades §3.1). 6.25cqw está calibrado
+     sobre una columna de 768px y en una de ~530 daría 33px: más chico que un título
+     de sección, que es al revés de la jerarquía. 8cqw sobre esa columna da ~43px y
+     mantiene la regla de tres líneas en escritorio. Mismo requisito: container-type en
+     la columna.
+
+     El piso es 26px, el mismo de --text-hero: por debajo de eso el titular quedaría más
+     chico que un título de sección. A 390px dos de los cinco H1 llegan igual a cuatro
+     líneas, y eso no lo arregla el tamaño sino un titular más corto. */
+  --text-hero-split: clamp(26px, 8cqw, 46px);
+
   --leading-hero: 1.06;
   --leading-tight: 1.12;
   --leading-snug: 1.3;

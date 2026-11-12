@@ -30,6 +30,11 @@
 
   /* Acento cálido — único color no-teal de la paleta de datos. Es el color del
      OEE total: la métrica que resume a las otras tres tiene que separarse de ellas. */
+  /* Un paso más oscuro que --amber-700, y existe por una sola razón: el texto de una
+     pastilla ámbar sobre --amber-100. --amber-700 da 3,94:1 ahí y el piso es 4,5:1 para
+     texto chico; este da 5,41:1. Es el valor que fija la guía de funcionalidades
+     (12/11/2026 §3.11) y no un ajuste de gusto. */
+  --amber-800:#8a5608;
   --amber-700:#a8690a;
   --amber-500:#e08b2c;
   --amber-300:#f3c07a;
@@ -43,6 +48,9 @@
   --red-700:#a81b2c;
   --red-600:#c92137;
   --red-100:#fbdfe3;
+  /* Mismo motivo que --amber-800: --blue-600 sobre --blue-100 da 4,31:1 y no llega.
+     Este da 5,46:1. */
+  --blue-700:#255f96;
   --blue-600:#2a6fb0;
   --blue-100:#dfeaf6;
 }
