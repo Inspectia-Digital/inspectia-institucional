@@ -164,8 +164,9 @@ export const serviceJsonLd = (f: {
   description: string;
   /** Las capacidades del bloque "Qué hace". */
   features: string[];
-  /** El módulo al que pertenece, como servicio del que es parte. */
-  module: { name: string; slug: string };
+  /** El módulo al que pertenece, como servicio del que es parte. Opcional: el conector
+   *  MCP no cuelga de un módulo, es transversal a la plataforma. */
+  module?: { name: string; slug: string };
 }) => ({
   "@type": "Service",
   name: `InspectIA ${f.name}`,
@@ -174,11 +175,15 @@ export const serviceJsonLd = (f: {
   description: f.description,
   provider: { "@type": "Organization", name: "InspectIA", url: SITE_URL },
   areaServed: { "@type": "Country", name: "Argentina" },
-  isPartOf: {
-    "@type": "SoftwareApplication",
-    name: `InspectIA ${f.module.name}`,
-    url: `${SITE_URL}/plataforma/${f.module.slug}`,
-  },
+  ...(f.module
+    ? {
+        isPartOf: {
+          "@type": "SoftwareApplication",
+          name: `InspectIA ${f.module.name}`,
+          url: `${SITE_URL}/plataforma/${f.module.slug}`,
+        },
+      }
+    : {}),
   ...(f.features.length
     ? {
         hasOfferCatalog: {

@@ -12,9 +12,18 @@ import { Icon } from "@/components/icons/Icon";
  * la tuya, sin presentación— se dice acá al lado del botón, y por eso /demo no necesita
  * ser una página: es una redirección al calendario (§7.10).
  */
+/* El copy del cierre del sitio, exportado porque hay una segunda forma de cierre que lo
+   necesita: las páginas de funcionalidad cierran con un panel tintado en vez de esta
+   banda (guía de funcionalidades §3.12) y las que no traen un cierre propio usan este
+   mismo texto. Exportarlo es lo que evita tenerlo escrito dos veces y que una de las dos
+   copias se quede vieja. */
+export const CLOSE_TITLE = "Veinte minutos y te mostramos tu propia línea medida";
+export const CLOSE_LEAD =
+  "Elegís el horario y hablás con alguien que entiende de planta. Sin presentación de PowerPoint. Si preferís arrancar solo, creá la cuenta y probá el plan gratuito hoy.";
+
 export function BottomCta({
-  title = "Veinte minutos y te mostramos tu propia línea medida",
-  lead = "Elegís el horario y hablás con alguien que entiende de planta. Sin presentación de PowerPoint. Si preferís arrancar solo, creá la cuenta y probá el plan gratuito hoy.",
+  title = CLOSE_TITLE,
+  lead = CLOSE_LEAD,
   module,
   industry,
   /** La etiqueta del botón de demo, donde lo que se agenda no es una demo.
@@ -42,7 +51,7 @@ export function BottomCta({
        anterior ahora que no hay cambio de fondo que lo haga. */
     <section className="border-t border-line bg-surface px-5 py-[var(--section-pad)] md:px-8">
       <div className="mx-auto flex max-w-[var(--content-max)] flex-col items-center text-center">
-        <h2 className="max-w-[18ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+        <h2 className="max-w-[18ch] text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
           {title}
         </h2>
         <p className="mt-5 max-w-[var(--lead-max)] text-ink-secondary">{lead}</p>

@@ -21,6 +21,7 @@ const { GUIDES } = await import("../src/content/guides.ts");
 const { SHOW_PRICING, SHOW_RESOURCES, SITE_URL } = await import("../src/content/site.ts");
 const { approvedCases } = await import("../src/content/cases.ts");
 const { IA_APPLICATIONS } = await import("../src/content/ia.ts");
+const { MCP } = await import("../src/content/mcp.ts");
 const { KITS } = await import("../src/content/kit40.ts");
 const { APP_SHOT, MODULE_SHOTS } = await import("../src/content/assets.ts");
 
@@ -101,6 +102,9 @@ const urls = [
     priority: "0.7",
     changefreq: "monthly",
   })),
+  // El conector MCP no es una aplicación del catálogo de IA —no se cotiza como proyecto—
+  // así que entra por su propio contenido.
+  { loc: MCP.path, priority: "0.7", changefreq: "monthly" },
   { loc: "/kit-4-0", priority: "0.9", changefreq: "monthly" },
   ...KITS.map((k) => ({
     loc: `/kit-4-0/${k.slug}`,

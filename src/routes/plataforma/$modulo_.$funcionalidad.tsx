@@ -1,19 +1,29 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { SiteLayout } from "@/components/site/SiteLayout";
-import { PageHero } from "@/components/site/PageHero";
-import { BottomCta } from "@/components/site/BottomCta";
+import { FeatureHero } from "@/components/site/FeatureHero";
+import { ProductPanel, PanelFrame } from "@/components/site/ProductPanel";
 import { RichText } from "@/components/site/RichText";
+import {
+  ARROW_LINK,
+  ARROW_LINK_WRAP,
+  Band,
+  Close,
+  Crumbs,
+  Faq,
+  GRID_2,
+  RelatedBand,
+  RequestCta,
+  SectionBlock,
+  Steps,
+  cols,
+} from "@/components/site/featureSections";
 import { MODULE_BY_KEY } from "@/content/modules";
-import { FEATURE_BY_SLUG } from "@/content/features";
+import { FEATURE_BY_SLUG, type Feature, type FeatureShot } from "@/content/features";
+import { INDUSTRIES } from "@/content/solutions";
 import { useFeatureViewEvent } from "@/lib/useViewEvents";
 import { breadcrumbJsonLd, faqJsonLd, pageHead, serviceJsonLd, siteTitle } from "@/lib/seo";
 import { Icon } from "@/components/icons/Icon";
+import { cn } from "@/lib/utils";
 
 /**
  * Plantilla de las páginas de funcionalidad: `/plataforma/<módulo>/<búsqueda>`.
@@ -40,6 +50,16 @@ import { Icon } from "@/components/icons/Icon";
  * **Sin precio propio.** La señal de precio y la grilla de planes viven en la página del
  * módulo, que es la unidad que se compra. Una funcionalidad con su propio precio diría que
  * se vende suelta.
+ *
+ * ## Una plantilla, once páginas
+ *
+ * Las secciones viven en `components/site/featureSections.tsx` porque las comparte con la
+ * página del conector MCP, que usa el mismo diseño en versión corta. Acá queda lo que es
+ * propio de una funcionalidad: el loader que valida el módulo padre, el head con su schema
+ * y el orden de las secciones de la guía §3.13.
+ *
+ * Las secciones opcionales no se renderizan donde el contenido no las trae, así que una
+ * funcionalidad nueva se agrega escribiendo contenido y nada más.
  */
 export const Route = createFileRoute("/plataforma/$modulo_/$funcionalidad")({
   loader: ({ params }) => {
@@ -51,7 +71,7 @@ export const Route = createFileRoute("/plataforma/$modulo_/$funcionalidad")({
        duplicado generado por nosotros, de los peores de detectar—.
 
        Se compara contra el `slug` del módulo y no contra su `key`: hoy son iguales en los
-       cuatro módulos con funcionalidad, y el catálogo ya renombró slugs sin tocar claves
+       cinco módulos con funcionalidad, y el catálogo ya renombró slugs sin tocar claves
        tres veces. */
     if (!feature || !module || module.slug !== params.modulo) throw notFound();
     return { slug: feature.slug };
@@ -91,285 +111,384 @@ export const Route = createFileRoute("/plataforma/$modulo_/$funcionalidad")({
   component: FeaturePage,
 });
 
+/**
+ * El nombre de la funcionalidad metido en una frase.
+ *
+ * Era `f.name.toLowerCase()` y producía "Preguntas sobre monitoreo automático de oee": la
+ * sigla se comía en los dos títulos que arman la frase con el nombre. Acá sólo baja la
+ * primera letra, y ni eso si la primera palabra es una sigla —WMS para fábricas, MRP y
+ * escenarios—, que es el caso que rompía al revés.
+ */
+const enFrase = (name: string) => {
+  const [first = ""] = name.split(" ");
+  const esSigla = first.length > 1 && first === first.toUpperCase();
+  return esSigla ? name : name.charAt(0).toLowerCase() + name.slice(1);
+};
+
 function FeaturePage() {
   const { slug } = Route.useLoaderData();
   const f = FEATURE_BY_SLUG.get(slug)!;
   const m = MODULE_BY_KEY.get(f.module)!;
   useFeatureViewEvent(f.slug);
 
+  /* Los chips salen del catálogo de industrias y no del contenido de la funcionalidad: la
+     etiqueta la renombra `solutions.ts` y una industria sin publicar no puede recibir un
+     enlace, porque su ruta devuelve 404. */
+  const industries = (f.industries ?? [])
+    .map((s) => INDUSTRIES.find((i) => i.slug === s && i.published))
+    .filter((i): i is NonNullable<typeof i> => Boolean(i));
+
+  const aPedido = f.status === "a-pedido";
+  /* Un panel oscuro en el hero ya usa la única superficie de teal profundo que los
+     lineamientos permiten por página, así que la banda de relacionadas va clara. Se deduce
+     del contenido y no se declara aparte: así no hay forma de que una página nueva quede
+     con dos superficies oscuras por olvidarse de un campo. */
+  const bandaClara = f.heroPanel?.tone === "dark";
+
   return (
+    /* El cierre del sitio se apaga en todas: estas páginas cierran con el panel tintado de
+       `Close`, también donde el copy es el del sitio (guía §3.12). Y las que no se
+       contratan solas cierran con su franja, que es su único CTA. */
     <SiteLayout
       module={m.key}
-      // Asistencia cierra con una visita técnica a la planta y no con la banda del sitio:
-      // lo que se agenda ahí es distinto, porque hay que ver el ingreso antes de cotizar.
-      bottomCta={!f.cta}
+      bottomCta={false}
+      requestOrigin={aPedido ? f.requestOrigin : undefined}
     >
-      <PageHero eyebrow={f.eyebrow} title={f.h1} lead={f.lead} module={m.key} />
+      <FeatureHero
+        eyebrow={f.eyebrow}
+        title={f.h1}
+        lead={f.lead}
+        note={f.heroNote}
+        panel={f.heroPanel}
+        module={m.key}
+        demoLabel={f.cta?.demoLabel}
+        requestOrigin={aPedido ? f.requestOrigin : undefined}
+        secondary={aPedido ? { label: "Ver cómo funciona", hash: "como-funciona" } : undefined}
+      />
 
-      <Crumbs module={{ name: m.name, slug: m.slug }} name={f.name} />
+      <Crumbs
+        trail={[
+          { label: "Plataforma", to: "/plataforma" },
+          { label: m.name, to: `/plataforma/${m.slug}` },
+        ]}
+        name={f.name}
+      />
 
-      {/* 02 */}
-      <Block eyebrow="El problema" title="Si algo de esto te suena, es esto">
-        <ul className="mt-12 max-w-[var(--read-max)] space-y-6">
+      {/* El problema, a dos columnas. Eran cuatro párrafos a tamaño lead en una columna
+          angosta: ocupaban una pantalla entera para decir cuatro cosas de una línea. */}
+      <SectionBlock eyebrow="El problema" title="Si algo de esto te suena, es esto">
+        <ul className={cn("mt-12 grid gap-x-12 gap-y-7", GRID_2)}>
           {f.problem.map((item) => (
             <li
               key={item}
-              className="text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink"
+              className="min-w-0 border-t border-line pt-5 text-base leading-[var(--leading-normal)] text-ink"
             >
               {item}
             </li>
           ))}
         </ul>
-      </Block>
+      </SectionBlock>
 
-      {/* 03 · Sólo asistencia: qué trae el proyecto. */}
+      {/* Qué incluye. Sólo asistencia: es la única que vende equipo además de software. */}
       {f.includesBlock && (
-        <Block eyebrow="Qué incluye" title={f.includesBlock.title}>
-          <ul className="mt-12 grid gap-x-12 gap-y-9 min-[1000px]:grid-cols-2">
+        <SectionBlock eyebrow="Qué incluye" title={f.includesBlock.title}>
+          <ul className={cn("mt-12 grid gap-x-6 gap-y-9", cols(f.includesBlock.items.length))}>
             {f.includesBlock.items.map((item) => (
               <li key={item.title} className="min-w-0 border-t border-line pt-5">
-                <h3 className="text-[length:var(--text-card)] leading-snug text-ink">
+                <Icon name={item.icon} size="brand" className="text-brand" />
+                <h3 className="mt-3 text-[19px] font-semibold leading-snug tracking-[var(--tracking-tight)] text-ink">
                   {item.title}
                 </h3>
-                <p className="mt-2 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
+                <p className="mt-2 text-base leading-[var(--leading-normal)] text-ink-secondary">
                   {item.body}
                 </p>
               </li>
             ))}
           </ul>
-        </Block>
+        </SectionBlock>
       )}
 
-      {/* 03b · La franja de una idea. Con línea arriba y abajo en vez de fondo propio:
-              los lineamientos reservan el cambio de fondo y acá lo que hace falta es
-              separar, no destacar. */}
-      {f.band && (
-        <section className="px-5 md:px-8">
-          <div className="mx-auto max-w-[var(--content-max)] border-y border-line py-10">
-            <h2 className="text-[length:var(--text-card)] leading-snug text-ink">{f.band.title}</h2>
-            <p className="mt-3 max-w-[var(--read-max)] text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
-              {f.band.body}
-            </p>
+      {/* La franja, en su lugar de §3.13 cuando es una idea más de la página. En las que no
+          se contratan solas la franja es el cierre, así que baja al final. */}
+      {f.band && !aPedido && f.band.to && (
+        <Band
+          title={f.band.title}
+          body={f.band.body}
+          action={
+            <Link to={f.band.to} activeOptions={{ exact: true }} className={ARROW_LINK}>
+              {f.band.linkLabel}
+              <Icon name="arrow-right" />
+            </Link>
+          }
+        />
+      )}
+
+      <SectionBlock
+        id="como-funciona"
+        eyebrow="Cómo funciona"
+        title={`Cómo funciona ${enFrase(f.name)}`}
+      >
+        <Steps items={f.does} render={(body) => <RichText text={body} />} />
+
+        {f.doesNote && (
+          <p className="mt-12 max-w-[var(--read-max)] border-l-2 border-line-brand pl-5 text-base leading-[var(--leading-normal)] text-ink">
+            <RichText text={f.doesNote} />
+          </p>
+        )}
+      </SectionBlock>
+
+      {/* Qué ves adentro. Es la sección que la versión anterior no tenía, y la que contesta
+          lo que una página de software tiene que contestar antes que nada. */}
+      {f.see && <See see={f.see} />}
+
+      {/* Cómo entra el dato. Es la objeción número uno —"no tengo sensores"— y la respuesta
+          del producto es que se puede empezar sin nada. Tres bloques y no un párrafo: lo
+          que importa es que son niveles y que el primero no necesita hardware. */}
+      {f.capture && f.capture.length > 0 && (
+        <SectionBlock
+          eyebrow="Cómo se toma el dato"
+          title="Se empieza a mano y se automatiza después"
+        >
+          <ul className={cn("mt-12 grid gap-x-6 gap-y-9", cols(f.capture.length))}>
+            {f.capture.map((c) => (
+              <li key={c.level} className="min-w-0 border-t border-line pt-5">
+                <p className="text-sm font-semibold text-brand">{c.level}</p>
+                <p className="mt-2 text-base leading-[var(--leading-normal)] text-ink-secondary">
+                  {c.body}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </SectionBlock>
+      )}
+
+      {f.related && f.related.length > 0 && (
+        <RelatedBand
+          eyebrow={f.relatedTitle ?? "Con qué se combina"}
+          title={f.relatedHeading ?? "Lo que se le suma"}
+          lead={f.relatedLead}
+          items={f.related}
+          tone={bandaClara ? "light" : "deep"}
+        />
+      )}
+
+      {/* Para quién. Chips y no una lista de enlaces: son siete destinos de un renglón y
+          una lista vertical de siete los haría parecer el índice de la página. */}
+      {industries.length > 0 && (
+        <section className="px-5 py-[var(--section-pad-md)] md:px-8">
+          <div className="mx-auto max-w-[var(--content-max)]">
+            <h2 className="text-[19px] font-semibold leading-snug tracking-[var(--tracking-tight)] text-ink">
+              Para plantas y centros de distribución
+            </h2>
+            <ul className="mt-6 flex flex-wrap gap-2.5">
+              {industries.map((i) => (
+                <li key={i.slug}>
+                  <Link
+                    to="/soluciones/$industria"
+                    params={{ industria: i.slug }}
+                    activeOptions={{ exact: true }}
+                    className="inline-flex min-h-11 items-center rounded-[var(--radius-pill)] border border-line-strong px-4 text-sm text-ink transition-colors duration-[160ms] hover:border-line-brand hover:text-brand"
+                  >
+                    {i.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            {f.industriesNote && (
+              <p className="mt-6 max-w-[var(--read-max)] text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
+                {f.industriesNote}
+              </p>
+            )}
           </div>
         </section>
       )}
 
-      {/* 04 */}
-      <Block eyebrow="Qué hace" title={`Cómo funciona ${f.name.toLowerCase()}`}>
-        <ol className="mt-12 max-w-[var(--read-max)] space-y-10">
-          {f.does.map((item, i) => (
-            <li key={item.title} className="min-w-0">
-              <span className="metric text-sm font-semibold text-brand">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h3 className="mt-3 text-[length:var(--text-card)] leading-snug text-ink">
-                {item.title}
-              </h3>
-              <p className="mt-3 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
-                <RichText text={item.body} />
-              </p>
-            </li>
-          ))}
-        </ol>
-
-        {f.doesNote && (
-          <p className="mt-10 max-w-[var(--read-max)] border-l-2 border-line-brand pl-5 text-[15px] leading-[var(--leading-normal)] text-ink">
-            {f.doesNote}
-          </p>
-        )}
-      </Block>
-
-      {/* 05 · Cómo entra el dato. Es la objeción número uno —"no tengo sensores"— y la
-              respuesta del producto es que se puede empezar sin nada. */}
-      {f.capture && (
-        <Block eyebrow="Cómo se toma el dato" title="Se empieza a mano y se automatiza después">
-          <p className="mt-8 max-w-[var(--read-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink">
-            {f.capture}
-          </p>
-        </Block>
-      )}
-
-      {/* 06 */}
-      {f.related && f.related.length > 0 && (
-        <Block eyebrow="Con qué se combina" title={f.relatedTitle ?? "Lo que se le suma"}>
-          <ul className="mt-10 max-w-[var(--read-max)] space-y-4">
-            {f.related.map((r) => (
-              <li key={r.to} className="min-w-0">
-                <Link
-                  to={r.to}
-                  className="inline-flex items-start gap-1.5 text-[15px] leading-[var(--leading-normal)] text-brand hover:underline hover:underline-offset-4"
-                >
-                  {r.label}
-                  <Icon name="arrow-right" />
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </Block>
-      )}
-
-      {/* 07 */}
       {f.conditions && f.conditions.length > 0 && (
-        <Block eyebrow="Condiciones" title="Cómo se contrata">
-          <ul className="mt-10 max-w-[var(--read-max)] space-y-4">
+        <SectionBlock eyebrow="Condiciones" title="Para empezar sin trabas">
+          <ul className={cn("mt-12 grid gap-x-6 gap-y-9", cols(f.conditions.length))}>
             {f.conditions.map((c) => (
-              <li
-                key={c.label}
-                className="text-[15px] leading-[var(--leading-normal)] text-ink-secondary"
-              >
-                {c.label}
+              <li key={c.title} className="min-w-0 border-t border-line pt-5">
+                <p className="text-sm font-semibold text-brand">{c.tag}</p>
+                <h3 className="mt-2 text-[19px] font-semibold leading-snug tracking-[var(--tracking-tight)] text-ink">
+                  {c.title}
+                </h3>
+                <p className="mt-2 text-base leading-[var(--leading-normal)] text-ink-secondary">
+                  {c.body}
+                </p>
                 {c.to && (
-                  <>
-                    {" "}
-                    <Link to={c.to} className="text-brand hover:underline hover:underline-offset-4">
-                      Ver más
-                    </Link>
-                  </>
+                  <Link
+                    to={c.to}
+                    activeOptions={{ exact: true }}
+                    className={cn(ARROW_LINK, "mt-4")}
+                  >
+                    Ver más
+                    <Icon name="arrow-right" />
+                  </Link>
                 )}
               </li>
             ))}
           </ul>
-        </Block>
+        </SectionBlock>
       )}
 
-      {/* 08 */}
-      <section className="px-5 py-[var(--section-pad-md)] md:px-8">
-        <div className="mx-auto max-w-[50rem]">
-          <h2 className="text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
-            Preguntas sobre {f.name.toLowerCase()}
-          </h2>
-          <Accordion
-            type="single"
-            collapsible
-            defaultValue="feat-faq-0"
-            className="mt-10 border-t border-line"
-          >
-            {f.faq.map((item, i) => (
-              <AccordionItem key={item.q} value={`feat-faq-${i}`} className="border-line">
-                <AccordionTrigger className="py-5 text-left text-[17px] font-medium text-ink hover:no-underline">
-                  {item.q}
-                </AccordionTrigger>
-                <AccordionContent className="pb-5 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
-                  {item.a}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
-      </section>
+      <Faq title={`Preguntas sobre ${enFrase(f.name)}`} items={f.faq} />
 
-      {/* 09 · Las salidas obligadas: la guía y el módulo. Es el cruce que convierte tres
-              páginas sueltas en un grupo, y el que más se olvida. */}
-      <Block eyebrow="Seguir leyendo" title="La guía y el módulo">
-        <ul className="mt-10 max-w-[var(--read-max)] space-y-4">
+      {/* Las salidas obligadas: la guía y el módulo. Es el cruce que convierte tres páginas
+          sueltas en un grupo, y el que más se olvida. En bloques y no en lista: así se ve
+          que son dos destinos distintos y no dos renglones de lo mismo.
+
+          El título mira los enlaces antes de prometerlos. Cuatro de las once páginas no
+          tienen guía todavía —y MRP perdió la suya al sacarle el enlace a un `/blog` que
+          no existe—, así que "La guía y el módulo" encabezaba un solo renglón que decía
+          "Producción". El lector que baja hasta ahí buscando la guía se encuentra con que
+          no está, y eso es peor que no haberla ofrecido. */}
+      <SectionBlock
+        eyebrow="Seguir leyendo"
+        title={
+          f.links.some((l) => l.to.startsWith("/guias/"))
+            ? "La guía y el módulo"
+            : f.links.length > 1
+              ? "El módulo y lo que sigue"
+              : "El módulo"
+        }
+      >
+        <ul className={cn("mt-12 grid gap-x-6 gap-y-9", cols(f.links.length))}>
           {f.links.map((l) => (
-            <li key={l.to} className="min-w-0">
+            <li key={l.to} className="min-w-0 border-t border-line pt-5">
               <Link
                 to={l.to}
-                className="inline-flex items-start gap-1.5 text-[15px] font-semibold leading-[var(--leading-normal)] text-brand hover:underline hover:underline-offset-4"
+                activeOptions={{ exact: true }}
+                className={cn(
+                  ARROW_LINK_WRAP,
+                  "text-[19px] font-semibold leading-snug tracking-[var(--tracking-tight)]",
+                )}
               >
-                {l.label}
-                <Icon name="arrow-right" />
+                {l.label} <Icon name="arrow-right" className="inline align-[-0.1em]" />
               </Link>
             </li>
           ))}
         </ul>
-      </Block>
+      </SectionBlock>
 
-      {/* Cierre propio, sólo donde lo que se agenda no es la demo del sitio. */}
-      {f.cta && (
-        <BottomCta
-          title={f.cta.title}
-          lead={f.cta.lead}
-          demoLabel={f.cta.demoLabel}
-          module={m.key}
-        />
+      {/* El cierre. En una funcionalidad que se contrata, el panel con los dos botones del
+          sitio. En una que todavía no, su franja con el botón único: un solo CTA en toda la
+          página, que es lo que corresponde cuando lo que se ofrece es una conversación. */}
+      {aPedido && f.band ? (
+        <section className="px-5 pb-[var(--section-pad-md)] md:px-8">
+          <div className="mx-auto max-w-[var(--content-max)]">
+            <div className="grid items-center gap-8 rounded-[14px] bg-brand-subtle px-8 py-12 md:px-12 md:py-14 min-[1000px]:grid-cols-2 min-[1000px]:gap-14">
+              <h2 className="max-w-[20ch] text-[28px] leading-tight text-brand-deep md:text-[length:var(--text-section)]">
+                {f.band.title}
+              </h2>
+              <div className="min-w-0">
+                <p className="text-base leading-[var(--leading-normal)] text-ink-secondary">
+                  {f.band.body}
+                </p>
+                <RequestCta
+                  origin={f.band.origin ?? f.requestOrigin ?? "contacto"}
+                  label={f.band.linkLabel}
+                  className="mt-7"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+      ) : (
+        !aPedido && (
+          <Close
+            title={f.cta?.title}
+            lead={f.cta?.lead}
+            demoLabel={f.cta?.demoLabel}
+            module={m.key}
+          />
+        )
       )}
     </SiteLayout>
   );
 }
 
-/* ---------- La miga de pan, visible ---------- */
+/* ---------- Piezas propias de esta plantilla ---------- */
 
 /**
- * La ruta hasta acá, como enlaces.
+ * «Qué ves en InspectIA»: la lista a la izquierda y el producto a la derecha.
  *
- * No es decoración ni es sólo para el dato estructurado: una página de tercer nivel sin
- * salida hacia arriba deja al visitante que llegó de una búsqueda sin forma de ver el
- * módulo completo, que es donde está el precio.
- *
- * Va debajo del hero y no adentro: en el hero compite con el H1, que es lo único que tiene
- * que leerse en la primera pantalla.
- *
- * ## `activeOptions={{ exact: true }}` en los dos enlaces, y hace falta
- *
- * Por omisión `Link` marca un enlace como activo cuando la ruta actual **empieza** con su
- * destino, y le pone `aria-current="page"`. En una miga de pan eso significa que estando en
- * `/plataforma/produccion/monitoreo-automatico-de-oee` los tres elementos se declaran la
- * página actual: Plataforma, Producción y la funcionalidad. Un lector de pantalla anuncia
- * tres veces "página actual" en una lista de tres, que es exactamente lo contrario de lo
- * que la miga viene a comunicar. Con `exact` sólo coincide la hoja, y la hoja no es un
- * enlace.
+ * El producto es la captura real cuando la hay y un panel dibujado cuando la captura
+ * muestra otra cosa. Asistencia es el segundo caso: la captura del módulo Tareas muestra
+ * la cobertura de un turno —quién está en cada puesto— y esta sección habla de la
+ * asistencia del día y del mes, que no es lo mismo.
  */
-function Crumbs({ module: m, name }: { module: { name: string; slug: string }; name: string }) {
-  const link = "text-ink-muted transition-colors duration-[160ms] hover:text-brand";
-
+function See({ see }: { see: NonNullable<Feature["see"]> }) {
   return (
-    <nav aria-label="Ruta" className="px-5 pt-10 md:px-8">
-      <ol className="mx-auto flex max-w-[var(--content-max)] flex-wrap items-center gap-x-2 gap-y-1 text-[13px]">
-        <li>
-          <Link to="/plataforma" activeOptions={{ exact: true }} className={link}>
-            Plataforma
-          </Link>
-        </li>
-        <li aria-hidden="true" className="text-line">
-          /
-        </li>
-        <li>
-          <Link
-            to="/plataforma/$modulo"
-            params={{ modulo: m.slug }}
-            activeOptions={{ exact: true }}
-            className={link}
-          >
-            {m.name}
-          </Link>
-        </li>
-        <li aria-hidden="true" className="text-line">
-          /
-        </li>
-        {/* El último no es un enlace: es la página donde se está. */}
-        <li aria-current="page" className="text-ink-secondary">
-          {name}
-        </li>
-      </ol>
-    </nav>
+    <section className="px-5 py-[var(--section-pad-md)] md:px-8">
+      <div className="mx-auto grid max-w-[var(--content-max)] items-center gap-10 min-[1000px]:grid-cols-2 min-[1000px]:gap-14">
+        <div className="min-w-0">
+          {/* Sin etiqueta arriba del título. La llevaba, con el nombre del bloque, y
+              cuando una página trae su propio título la etiqueta lo contradecía: el andon
+              se mira en un televisor de la planta y "Qué ves en InspectIA" encima de "Qué
+              ves en la pantalla" decía dos cosas distintas de lo mismo. */}
+          <h2 className="max-w-[28ch] text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
+            {see.title ?? "Qué ves en InspectIA"}
+          </h2>
+
+          {see.items && see.items.length > 0 && (
+            <ul className="mt-8 space-y-4">
+              {see.items.map((item) => (
+                <li
+                  key={item}
+                  className="flex gap-3 text-base leading-[var(--leading-normal)] text-ink-secondary"
+                >
+                  <span aria-hidden="true" className="shrink-0 text-brand">
+                    &rarr;
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {see.panel ? (
+          <ProductPanel data={see.panel} className="min-w-0" />
+        ) : (
+          see.shot && <Shot shot={see.shot} />
+        )}
+      </div>
+    </section>
   );
 }
 
-/* ---------- Envoltorio de sección ----------
-   Las ocho secciones repetían las mismas cuatro clases de contenedor y el mismo par
-   eyebrow + h2. Acá es un componente porque son ocho usos en un archivo, no porque
-   convenga abstraer un `section` en general. */
-
-function Block({
-  eyebrow,
-  title,
-  children,
-}: {
-  eyebrow: string;
-  title: string;
-  children: React.ReactNode;
-}) {
+/**
+ * Una captura real, con el marco de los lineamientos.
+ *
+ * `figure` y no un div: la imagen y su epígrafe son una unidad, y así el epígrafe queda
+ * asociado a la imagen para un lector de pantalla y para un buscador sin un
+ * `aria-describedby`.
+ *
+ * `sizes` declara media columna y no el ancho entero: estas capturas se dibujan al lado de
+ * la lista, así que a 1440px el navegador tiene que bajar la variante de 1120 y no la de
+ * 1680.
+ */
+function Shot({ shot }: { shot: FeatureShot }) {
   return (
-    <section className="px-5 py-[var(--section-pad-md)] md:px-8">
-      <div className="mx-auto max-w-[var(--content-max)]">
-        <p className="eyebrow">{eyebrow}</p>
-        <h2 className="mt-4 max-w-[28ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
-          {title}
-        </h2>
-        {children}
-      </div>
-    </section>
+    <figure className="min-w-0">
+      <PanelFrame>
+        <img
+          src={shot.src}
+          srcSet={`${shot.small} ${shot.smallWidth}w, ${shot.src} ${shot.width}w`}
+          sizes="(min-width: 1000px) 520px, 100vw"
+          width={shot.width}
+          height={shot.height}
+          alt={shot.alt}
+          loading="lazy"
+          decoding="async"
+          className="w-full rounded-[10px]"
+        />
+      </PanelFrame>
+      {shot.caption && (
+        <figcaption className="mt-3 text-[15px] leading-[var(--leading-normal)] text-ink-muted">
+          {shot.caption}
+        </figcaption>
+      )}
+    </figure>
   );
 }

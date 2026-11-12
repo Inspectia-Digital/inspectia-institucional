@@ -27,7 +27,23 @@ const DESCRIPTION =
  * documento aprobado, a diferencia del resto. Conviene que alguien lo lea antes de
  * publicar.
  */
+/**
+ * De dónde viene la consulta.
+ *
+ * Las funcionalidades planificadas o parciales —el andon, el costo por unidad, el
+ * conector MCP— no llevan «Empezar gratis»: mandan acá con un botón único y su origen en
+ * la URL. **Hoy esta página no tiene formulario**, así que el parámetro no prellena nada;
+ * sirve para saber de qué página salió la consulta, que GA4 registra solo porque viaja en
+ * la ubicación de la página. Cuando el formulario exista, el campo ya está.
+ *
+ * Se valida en vez de dejarlo suelto porque sin `validateSearch` la ruta declara que no
+ * tiene parámetros y `Link` con `search` no compila.
+ */
+type ContactoSearch = { origen?: string };
+
 export const Route = createFileRoute("/contacto")({
+  validateSearch: (search: Record<string, unknown>): ContactoSearch =>
+    typeof search.origen === "string" && search.origen ? { origen: search.origen } : {},
   head: () =>
     pageHead({
       title: TITLE,
@@ -43,7 +59,7 @@ export const Route = createFileRoute("/contacto")({
 
 const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1000px]:py-[var(--section-pad)]";
 const CONTAINER = "mx-auto max-w-[var(--content-max)]";
-const H2 = "text-[28px] leading-tight text-ink md:text-[var(--text-section)]";
+const H2 = "text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]";
 
 function Page() {
   const hayContacto = CONTACT.phone || CONTACT.email || CONTACT.linkedin;

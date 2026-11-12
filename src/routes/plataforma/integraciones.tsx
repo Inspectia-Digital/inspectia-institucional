@@ -82,11 +82,32 @@ function Page() {
         </div>
       </section>
 
+      {/* Los asistentes de IA son la otra punta: no se integra un sistema con InspectIA,
+          se integra InspectIA con el asistente de quien pregunta. */}
+      <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8">
+        <div className="mx-auto max-w-[var(--content-max)]">
+          <h2 className="max-w-[24ch] text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
+            Asistentes de IA
+          </h2>
+          <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
+            Conectá tu asistente de IA a InspectIA y consultá tu operación en palabras, con los
+            mismos números que ves en la plataforma. Funciona con Claude y con ChatGPT.
+          </p>
+          <Link
+            to="/ia/conecta-claude-y-chatgpt"
+            className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
+          >
+            Ver el conector para asistentes
+            <Icon name="arrow-right" />
+          </Link>
+        </div>
+      </section>
+
       {/* La pregunta que trae el visitante técnico y que la página no contestaba.
           Un párrafo y nada más: sin lista, sin tarjetas y sin CTA. */}
       <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8">
         <div className="mx-auto max-w-[var(--content-max)]">
-          <h2 className="max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+          <h2 className="max-w-[24ch] text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
             Y si no hay integración, igual arranca
           </h2>
           <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">

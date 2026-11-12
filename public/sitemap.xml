@@ -78,6 +78,36 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://inspectia.ai/plataforma/produccion/mrp-y-escenarios</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/plataforma/produccion/plan-de-produccion</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/plataforma/produccion/parte-de-produccion</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/plataforma/mantenimiento/mantenimiento-por-horas-de-uso</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/plataforma/produccion/andon-digital</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/plataforma/produccion/costo-por-unidad</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://inspectia.ai/plataforma/integraciones</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -209,6 +239,11 @@
   </url>
   <url>
     <loc>https://inspectia.ai/ia/agentes</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/ia/conecta-claude-y-chatgpt</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

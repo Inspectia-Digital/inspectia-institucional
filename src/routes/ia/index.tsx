@@ -43,7 +43,7 @@ export const Route = createFileRoute("/ia/")({
 
 const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1000px]:py-[var(--section-pad)]";
 const CONTAINER = "mx-auto max-w-[var(--content-max)]";
-const H2 = "text-[28px] leading-tight text-ink md:text-[var(--text-section)]";
+const H2 = "text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]";
 
 function Page() {
   return (
@@ -114,6 +114,29 @@ function Page() {
               </li>
             ))}
           </ul>
+        </div>
+      </section>
+
+      {/* El conector para asistentes. Va aparte del catálogo de arriba y no adentro:
+          las aplicaciones de esa lista son proyectos de visión que se cotizan uno por
+          uno, y esto es una funcionalidad de la plataforma. */}
+      <section className={`bg-surface ${SECTION}`}>
+        <div className={CONTAINER}>
+          <p className="eyebrow">Conector para asistentes</p>
+          <h2 className={`mt-4 max-w-[24ch] ${H2}`}>
+            Preguntale a Claude o ChatGPT cómo viene tu planta
+          </h2>
+          <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
+            Conectá tu asistente de IA a InspectIA y consultá tu operación en palabras, con los
+            mismos números que ves en la plataforma.
+          </p>
+          <Link
+            to="/ia/conecta-claude-y-chatgpt"
+            className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
+          >
+            Ver el conector
+            <Icon name="arrow-right" />
+          </Link>
         </div>
       </section>
 

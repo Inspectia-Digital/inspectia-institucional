@@ -31,6 +31,7 @@ import { Route as GuiasIndexRouteImport } from './routes/guias/index'
 import { Route as GuiasGuiaRouteImport } from './routes/guias/$guia'
 import { Route as IaIndexRouteImport } from './routes/ia/index'
 import { Route as IaAplicacionRouteImport } from './routes/ia/$aplicacion'
+import { Route as IaConectaClaudeYChatgptRouteImport } from './routes/ia/conecta-claude-y-chatgpt'
 import { Route as Kit40IndexRouteImport } from './routes/kit-4-0/index'
 import { Route as Kit40KitRouteImport } from './routes/kit-4-0/$kit'
 import { Route as PlataformaIndexRouteImport } from './routes/plataforma/index'
@@ -152,6 +153,11 @@ const IaAplicacionRoute = IaAplicacionRouteImport.update({
   path: '/ia/$aplicacion',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IaConectaClaudeYChatgptRoute = IaConectaClaudeYChatgptRouteImport.update({
+  id: '/ia/conecta-claude-y-chatgpt',
+  path: '/ia/conecta-claude-y-chatgpt',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const Kit40IndexRoute = Kit40IndexRouteImport.update({
   id: '/kit-4-0/',
   path: '/kit-4-0/',
@@ -225,6 +231,7 @@ export interface FileRoutesByFullPath {
   '/tymeo': typeof TymeoRoute
   '/guias/$guia': typeof GuiasGuiaRoute
   '/ia/$aplicacion': typeof IaAplicacionRoute
+  '/ia/conecta-claude-y-chatgpt': typeof IaConectaClaudeYChatgptRoute
   '/kit-4-0/$kit': typeof Kit40KitRoute
   '/plataforma/$modulo': typeof PlataformaModuloRoute
   '/plataforma/integraciones': typeof PlataformaIntegracionesRoute
@@ -259,6 +266,7 @@ export interface FileRoutesByTo {
   '/tymeo': typeof TymeoRoute
   '/guias/$guia': typeof GuiasGuiaRoute
   '/ia/$aplicacion': typeof IaAplicacionRoute
+  '/ia/conecta-claude-y-chatgpt': typeof IaConectaClaudeYChatgptRoute
   '/kit-4-0/$kit': typeof Kit40KitRoute
   '/plataforma/$modulo': typeof PlataformaModuloRoute
   '/plataforma/integraciones': typeof PlataformaIntegracionesRoute
@@ -294,6 +302,7 @@ export interface FileRoutesById {
   '/tymeo': typeof TymeoRoute
   '/guias/$guia': typeof GuiasGuiaRoute
   '/ia/$aplicacion': typeof IaAplicacionRoute
+  '/ia/conecta-claude-y-chatgpt': typeof IaConectaClaudeYChatgptRoute
   '/kit-4-0/$kit': typeof Kit40KitRoute
   '/plataforma/$modulo': typeof PlataformaModuloRoute
   '/plataforma/integraciones': typeof PlataformaIntegracionesRoute
@@ -330,6 +339,7 @@ export interface FileRouteTypes {
     | '/tymeo'
     | '/guias/$guia'
     | '/ia/$aplicacion'
+    | '/ia/conecta-claude-y-chatgpt'
     | '/kit-4-0/$kit'
     | '/plataforma/$modulo'
     | '/plataforma/integraciones'
@@ -364,6 +374,7 @@ export interface FileRouteTypes {
     | '/tymeo'
     | '/guias/$guia'
     | '/ia/$aplicacion'
+    | '/ia/conecta-claude-y-chatgpt'
     | '/kit-4-0/$kit'
     | '/plataforma/$modulo'
     | '/plataforma/integraciones'
@@ -398,6 +409,7 @@ export interface FileRouteTypes {
     | '/tymeo'
     | '/guias/$guia'
     | '/ia/$aplicacion'
+    | '/ia/conecta-claude-y-chatgpt'
     | '/kit-4-0/$kit'
     | '/plataforma/$modulo'
     | '/plataforma/integraciones'
@@ -433,6 +445,7 @@ export interface RootRouteChildren {
   TymeoRoute: typeof TymeoRoute
   GuiasGuiaRoute: typeof GuiasGuiaRoute
   IaAplicacionRoute: typeof IaAplicacionRoute
+  IaConectaClaudeYChatgptRoute: typeof IaConectaClaudeYChatgptRoute
   Kit40KitRoute: typeof Kit40KitRoute
   PlataformaModuloRoute: typeof PlataformaModuloRoute
   PlataformaIntegracionesRoute: typeof PlataformaIntegracionesRoute
@@ -603,6 +616,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IaAplicacionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ia/conecta-claude-y-chatgpt': {
+      id: '/ia/conecta-claude-y-chatgpt'
+      path: '/ia/conecta-claude-y-chatgpt'
+      fullPath: '/ia/conecta-claude-y-chatgpt'
+      preLoaderRoute: typeof IaConectaClaudeYChatgptRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/kit-4-0/': {
       id: '/kit-4-0/'
       path: '/kit-4-0'
@@ -697,6 +717,7 @@ const rootRouteChildren: RootRouteChildren = {
   TymeoRoute: TymeoRoute,
   GuiasGuiaRoute: GuiasGuiaRoute,
   IaAplicacionRoute: IaAplicacionRoute,
+  IaConectaClaudeYChatgptRoute: IaConectaClaudeYChatgptRoute,
   Kit40KitRoute: Kit40KitRoute,
   PlataformaModuloRoute: PlataformaModuloRoute,
   PlataformaIntegracionesRoute: PlataformaIntegracionesRoute,
