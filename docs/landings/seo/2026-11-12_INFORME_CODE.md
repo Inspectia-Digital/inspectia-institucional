@@ -2,7 +2,7 @@
 
 **Fecha:** 12/11/2026 · **De:** sesión de Claude Code · **Para:** dirección
 **Fuentes:** `00_BRIEF_SEO_WEB.md`, `02_GUIA_DISENO_FUNCIONALIDADES.md` y los archivos `10_` a `1B_`.
-**Estado:** todo en la rama de trabajo, **commiteado y sin publicar**.
+**Estado:** commiteado y **publicado** en `main`, que despliega directo a Cloud Run.
 
 ---
 
@@ -155,16 +155,25 @@ Medido sobre el build de producción, las **60 URLs del sitemap**.
 - **Cero scroll horizontal, cero sombras en el cuerpo, una superficie de teal profundo como
   máximo** por página, y **todos los H1 en tres líneas o menos** a 1440 y a 390 px.
 
-### Para corregir
+### Lo que se corrigió
 
-| Qué | Dónde | Por qué importa |
-|---|---|---|
-| **Tres `seoTitle` pasan los 60 caracteres** | `16_` (61), `1A_` (64), `1B_` (66) | Google corta en ~60 px de ancho. El helper ya saca el sufijo «· InspectIA» cuando no entra, pero el término propio sigue largo. **Es copy: no lo acorté** |
-| **Cuatro `description` pasan los 160** | `18_` (186), `/plataforma` (164), `19_` (161), `/roi` (162) | La de `18_` pierde 26 caracteres en el resultado. Mismo criterio: es copy |
-| **`/soluciones` no tiene ni un enlace entrante** | El índice de industrias | Ninguna de las 60 páginas enlaza al índice; el menú va directo a cada industria. Para un buscador es una página huérfana, y es justo el pilar de las siete de industria |
-| **`/plataforma/marketplace` salta de H1 a H3** | Esa ruta | Jerarquía rota para lectores de pantalla y para el parser de encabezados |
-| **El sitemap no declara `lastmod`** | `scripts/generate-sitemap.mjs` | Trae `priority` y `changefreq`, que los buscadores ignoran hace años, y no el único campo que sí miran para decidir si vale la pena volver |
-| **34 logos de partners sin `width`/`height`** | La barra de confianza de la home | Riesgo de salto de maquetado (CLS) mientras cargan |
+Los seis hallazgos del chequeo están arreglados y vueltos a medir.
+
+| Qué | Cómo quedó |
+|---|---|
+| **Tres `seoTitle` de más de 60 caracteres** | 47, 51 y 57. El término de búsqueda se queda entero y adelante; lo que se recortó es la enumeración de atrás, que el buscador cortaba igual. Corregido también en los archivos `16_`, `1A_` y `1B_`, que son la fuente |
+| **Cuatro `description` de más de 160** | 149, 146, 157 y 150. Ídem en `18_` y `19_` |
+| **`/soluciones` sin un solo enlace entrante** | «Todas las industrias» en el pie, con la misma forma que «Todas las guías». Ahora la enlazan las 59 páginas restantes |
+| **`/plataforma/marketplace` saltaba de H1 a H3** | Un H2 para lectores de pantalla sobre el catálogo. Ninguna de las 60 páginas saltea un nivel |
+| **El sitemap no declaraba `lastmod`** | Lo declaran **las ocho guías y nada más**, con su fecha de contenido real. Poner la fecha del despliegue en las 60 haría que el sitio entero se «actualizara» cada vez que alguien toca un color, y un `lastmod` que miente se deja de leer para el dominio entero |
+| **34 logos de partners sin medidas** | Las medidas reales de cada archivo, leídas con `sharp`, en `PARTNER_LOGO_SIZE`. Cero imágenes sin medida en la home |
+
+Y la que estaba en la lista de motores de respuesta: **`/nosotros` declara `AboutPage` con
+la organización como `mainEntity`.** Hasta acá la entidad existía sólo en la home, así que
+la página que explica quién es la empresa no decía de quién hablaba.
+
+El único aviso que queda del barrido es que `/contacto` tiene un título de 20 caracteres
+—«Contacto · InspectIA»—, que está bien así.
 
 ### Motores de respuesta (IA generativas)
 
@@ -173,14 +182,9 @@ páginas, encabezados escritos como la pregunta del lector («¿Cuánta materia 
 necesito?»), fechas visibles en las guías y `Article` con `dateModified` real y no la del
 build. Eso es lo que hace que un pasaje se pueda citar solo.
 
-Dos cosas que no están y conviene decidir:
-
-- **No hay `llms.txt`.** Es una convención propuesta, **ningún motor grande documentó que
-  la use**, y por eso no la agregué por mi cuenta. Cuesta un archivo; la decisión es si
-  vale publicar algo que hoy nadie lee.
-- **No hay página de entidad para «InspectIA» fuera de la home.** `/nosotros` no declara
-  `Organization` ni `AboutPage`: la única declaración de la entidad está en la home. Es el
-  cambio más barato con efecto en el grafo de entidades.
+Queda una sola cosa por decidir: **no hay `llms.txt`.** Es una convención propuesta,
+**ningún motor grande documentó que la use**, y por eso no la agregué por mi cuenta. Cuesta
+un archivo; la decisión es si vale publicar algo que hoy nadie lee.
 
 ### Analítica
 
@@ -241,25 +245,21 @@ Medido sobre el build de producción, las doce páginas de funcionalidad a 1440 
 
 ## 9. Lo que queda pendiente
 
-**De copy, tuyo:**
-
-1. Acortar los tres `seoTitle` de más de 60 caracteres y las cuatro `description` de más de
-   160 (§6).
-2. Decidir si `/plataforma/produccion/costo-por-unidad` y `/plataforma/produccion/andon-digital`
-   se anuncian en algún lado más que en la página de Producción: hoy tienen un solo enlace
-   entrante cada una.
+Los seis hallazgos del chequeo están cerrados (§6). Lo que sigue abierto:
 
 **De producto, para cuando haya:**
 
-3. Las capturas de las seis funcionalidades nuevas, que hoy van con panel dibujado.
-4. El formulario de `/contacto` con destino, que es donde termina el recorrido de las tres
-   páginas a pedido.
+1. Las capturas de las seis funcionalidades nuevas, que hoy van con panel dibujado.
+2. El formulario de `/contacto` con destino, que es donde termina el recorrido de las tres
+   páginas a pedido. Mientras no exista, el clic en «Quiero conocerlo» es lo último que se
+   mide.
 
-**De sitio, chico y acotado:**
+**De contenido, tuyo:**
 
-5. Enlazar `/soluciones` desde algún lado.
-6. El salto H1→H3 de `/plataforma/marketplace`.
-7. `lastmod` en el sitemap y `width`/`height` en los logos de partners.
-8. `Organization` o `AboutPage` en `/nosotros`.
+3. Decidir si `/plataforma/produccion/andon-digital` y `/plataforma/mantenimiento/mantenimiento-por-horas-de-uso`
+   se anuncian en algún lado más que en la página de su módulo: hoy tienen un solo enlace
+   entrante cada una.
+4. Si vale publicar un `llms.txt`.
 
-**Del lado de GA4 y GTM:** los tres puntos de §6.
+**Del lado de GA4 y GTM:** los tres puntos de §6, y es lo único que bloquea que los eventos
+de las páginas nuevas lleguen a un informe.
