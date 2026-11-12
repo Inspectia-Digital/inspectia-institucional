@@ -17,11 +17,16 @@ export function BottomCta({
   lead = "Elegís el horario y hablás con alguien que entiende de planta. Sin presentación de PowerPoint. Si preferís arrancar solo, creá la cuenta y probá el plan gratuito hoy.",
   module,
   industry,
+  /** La etiqueta del botón de demo, donde lo que se agenda no es una demo.
+   *  Control de asistencia agenda una visita técnica a la planta: hay que ver el ingreso
+   *  y lo que ya está instalado antes de poder cotizar. */
+  demoLabel,
 }: {
   title?: string;
   lead?: string;
   module?: string;
   industry?: string;
+  demoLabel?: string;
 }) {
   return (
     /* Blanco, y no teal como hasta el 19/10/2026.
@@ -42,7 +47,12 @@ export function BottomCta({
         </h2>
         <p className="mt-5 max-w-[var(--lead-max)] text-ink-secondary">{lead}</p>
 
-        <CtaPair module={module} industry={industry} className="mt-9 max-w-md" />
+        <CtaPair
+          module={module}
+          industry={industry}
+          {...(demoLabel ? { demoLabel } : {})}
+          className="mt-9 max-w-md"
+        />
 
         {WHATSAPP_URL && (
           <a

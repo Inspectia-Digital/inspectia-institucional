@@ -45,7 +45,26 @@ type EngagementEvents = {
   module_view: { module: string };
   /** Hover o tap en un punto del plano. Una vez por módulo y por sesión. */
   floorplan_module_open: { module: string };
-  solution_view: { industry?: string; use_case?: string };
+  /**
+   * Vista de una página de contenido que no es un módulo: industria, guía o funcionalidad.
+   *
+   * `use_case` quedó del modelo anterior, donde `/soluciones/casos-de-uso/*` eran cinco
+   * páginas propias. Esas páginas se mudaron a `/guias/*` en noviembre de 2026 y ahora
+   * viajan en `guide`; el parámetro viejo se conserva declarado porque **los datos
+   * históricos de GA4 están bajo ese nombre** y borrarlo del contrato no los borra del
+   * informe, sólo hace que nadie entienda de dónde salieron.
+   *
+   * **Pendiente del lado de GA4, y conviene saberlo:** `guide` y `feature` viajan en el
+   * dataLayer y la etiqueta los manda, pero hasta que no se registren como dimensiones
+   * personalizadas no van a aparecer en ningún informe. El disparador no hace falta
+   * tocarlo: filtra por nombre de evento y el evento no cambió.
+   */
+  solution_view: {
+    industry?: string;
+    use_case?: string;
+    guide?: string;
+    feature?: string;
+  };
   pricing_plan_click: { plan: string; addons_selected: string[]; price_shown: number };
   marketplace_lead: { service: string; category: string; direction: string };
   /** Pedido de diagnóstico desde /ia. Se dispara al enviar, no al abrir el formulario:

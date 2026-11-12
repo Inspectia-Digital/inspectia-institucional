@@ -9,11 +9,13 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { ModuleGrid } from "@/components/site/ModuleGrid";
 import { CtaPair } from "@/components/site/CtaPair";
+import { RichText } from "@/components/site/RichText";
 import { PlanTiers } from "@/components/site/PlanTiers";
 import { RoiCalculator } from "@/components/roi/RoiCalculator";
 import { MODULE_BY_KEY, MODULES, type PlatformModule, type ModuleKey } from "@/content/modules";
 import { COMBO_MAX_DISCOUNT, COMBO_POINTS_PER_MODULE, priceOf } from "@/content/pricing";
 import { MODULE_DETAIL } from "@/content/module-detail";
+import { featuresOf, type Feature } from "@/content/features";
 import { MODULE_SHOTS } from "@/content/assets";
 import { useModuleViewEvent } from "@/lib/useViewEvents";
 import { breadcrumbJsonLd, faqJsonLd, moduleJsonLd, pageHead, siteTitle } from "@/lib/seo";
@@ -95,6 +97,9 @@ function ModulePage() {
   // El detalle funcional del documento de visión: pasos, componentes y cruces.
   const detail = MODULE_DETAIL[m.key];
 
+  // Las páginas de funcionalidad que cuelgan de este módulo.
+  const features = featuresOf(m.key);
+
   /* Acá vivía un repartidor de fondos que alternaba blanco y gris según la posición de
      cada sección, para que ninguna quedara pegada a otra del mismo color.
 
@@ -174,6 +179,14 @@ function ModulePage() {
           bg={"bg-surface"}
         />
       )}
+
+      {/* 04a · Las funcionalidades del módulo.
+              Va justo después de "Qué hace" y antes del detalle funcional: quien acaba de
+              leer qué hace el módulo es el que puede querer entrar al detalle de una de
+              sus partes, y más abajo —después de la tabla de componentes y del precio— el
+              enlace ya no lo encuentra nadie. Cuatro de los siete módulos no tienen
+              ninguna y la sección no se renderiza. */}
+      {features.length > 0 && <Features items={features} moduleSlug={m.slug} />}
 
       {/* 04b y 04c · El detalle funcional, del documento de visión. Los siete módulos lo
           tienen, así que en la práctica estas dos secciones se renderizan siempre; la
@@ -338,6 +351,57 @@ function WhatItDoes({
             </li>
           ))}
         </ol>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- 04a · Funcionalidades ---------- */
+
+/**
+ * Las páginas de funcionalidad del módulo.
+ *
+ * **Es el único enlace que tienen.** Una funcionalidad es una URL de tercer nivel que
+ * nadie va a escribir a mano: si el módulo no la enlaza, existe sólo en el sitemap, y una
+ * página a la que no apunta ningún enlace interno es una página que el buscador rastrea
+ * con desgano y que nadie encuentra navegando. Por eso la sección no es opcional donde hay
+ * funcionalidades, aunque el bloque sea corto.
+ *
+ * Con línea arriba de cada ítem y sin tarjeta, igual que "De qué está hecho": son dos o
+ * tres enlaces con una línea de texto, y encerrarlos en cajas les da un peso visual que no
+ * les corresponde al lado de la captura del módulo.
+ */
+function Features({ items, moduleSlug }: { items: Feature[]; moduleSlug: string }) {
+  return (
+    <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8">
+      <div className="mx-auto max-w-[var(--content-max)]">
+        <p className="eyebrow">Funcionalidades</p>
+        <h2 className="mt-4 max-w-[28ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+          En detalle
+        </h2>
+
+        <ul className="mt-12 grid gap-x-12 gap-y-9 min-[1000px]:grid-cols-2">
+          {items.map((f) => (
+            <li key={f.slug} className="min-w-0 border-t border-line pt-5">
+              <h3 className="text-[length:var(--text-card)] leading-snug text-ink">
+                {/* La ruta de destino va **sin** el guion bajo: el archivo se llama
+                    `$modulo_.$funcionalidad.tsx` y ese guion es sólo la vía de escape del
+                    anidamiento, así que el enrutador lo saca de la URL. El `id` lo lleva y
+                    el `to` no. */}
+                <Link
+                  to="/plataforma/$modulo/$funcionalidad"
+                  params={{ modulo: moduleSlug, funcionalidad: f.slug }}
+                  className="text-brand hover:underline hover:underline-offset-4"
+                >
+                  {f.name}
+                </Link>
+              </h3>
+              <p className="mt-2 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
+                {f.blurb}
+              </p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
@@ -573,8 +637,10 @@ function ModuleFaq({
               <AccordionTrigger className="py-5 text-left text-[17px] font-medium text-ink hover:no-underline">
                 {item.q}
               </AccordionTrigger>
+              {/* Con `RichText`: una respuesta puede enlazar a la guía que la desarrolla,
+                  y en el `FAQPage` esa misma respuesta viaja sin la sintaxis. */}
               <AccordionContent className="pb-5 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
-                {item.a}
+                <RichText text={item.a} />
               </AccordionContent>
             </AccordionItem>
           ))}

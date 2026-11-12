@@ -80,6 +80,29 @@ const LEGACY_REDIRECTS: Record<string, string> = {
   "/textil-y-moda": "/soluciones/textil",
   "/maquinaria": "/soluciones/maquinarias",
 
+  /* Los cinco casos de uso, que pasaron a ser guías (noviembre de 2026).
+   *
+   * **No son URLs del WordPress: las publicó este sitio y Google ya las indexó**, con
+   * impresiones propias —scrap 574, inventario descuadrado 386, paradas 125—. Por eso van
+   * acá y no se descartan: redirigirlas conserva lo que esas páginas ya acumularon, y son
+   * justamente las que más impresiones tienen fuera de la home.
+   *
+   * El slug cambia además de la carpeta, y es a propósito: `scrap` no es una búsqueda,
+   * `como-reducir-el-scrap` sí. La URL vieja decía dónde estaba la página en el sitio; la
+   * nueva dice qué responde.
+   *
+   * Un solo salto: la clave es la URL vieja y el valor es el destino final, nunca otra
+   * entrada de esta tabla. */
+  "/soluciones/casos-de-uso/scrap": "/guias/como-reducir-el-scrap",
+  "/soluciones/casos-de-uso/paradas": "/guias/como-reducir-las-paradas-de-maquina",
+  "/soluciones/casos-de-uso/inventario-descuadrado": "/guias/inventario-que-no-cuadra",
+  "/soluciones/casos-de-uso/recepcion": "/guias/como-acelerar-la-recepcion-de-mercaderia",
+  "/soluciones/casos-de-uso/accidentes": "/guias/prevenir-accidentes-en-planta-con-camaras",
+  /* El índice nunca existió como página —la ruta era sólo `$caso`— así que esta entrada no
+   * rescata nada indexado. Va igual porque es la URL que alguien escribe al recortar a
+   * mano una de las cinco de arriba, y porque sin ella ese recorte cae en el 404. */
+  "/soluciones/casos-de-uso": "/guias",
+
   // /simulador no figura acá a propósito: la URL se conserva tal cual, con su propia
   // página. Era la que más tráfico de búsqueda traía y el término se pierde si redirige.
 };

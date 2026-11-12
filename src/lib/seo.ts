@@ -70,6 +70,22 @@ export const siteTitle = (term: string) => {
   return withBrand.length <= 60 ? withBrand : term;
 };
 
+/**
+ * Saca las marcas en línea de un texto de contenido: deja la etiqueta del enlace y el
+ * texto de la negrita, sin la sintaxis.
+ *
+ * **Para qué.** Una respuesta de FAQ puede llevar un enlace a la guía que la desarrolla
+ * —la vista la renderiza con `RichText`— y ese mismo texto va al `FAQPage`. Si el
+ * `[etiqueta](/ruta)` viaja crudo al dato estructurado, lo que el buscador publica en el
+ * resultado es literalmente "está en la guía [cómo calcular el OEE](/guias/...)".
+ *
+ * El marcado de schema.org admite HTML en `text`, pero no vale la pena: habría que
+ * convertir la sintaxis a etiquetas y escapar el resto. En el resultado de búsqueda lo que
+ * se lee es la respuesta, no el enlace.
+ */
+const sinMarcas = (text: string) =>
+  text.replace(/\*\*([^*]+)\*\*/g, "$1").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
+
 /** Preguntas y respuestas, con el marcado que Google usa para el acordeón del resultado. */
 export const faqJsonLd = (items: { q: string; a: string }[]) => ({
   "@context": "https://schema.org",
@@ -77,7 +93,7 @@ export const faqJsonLd = (items: { q: string; a: string }[]) => ({
   mainEntity: items.map((f) => ({
     "@type": "Question",
     name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.a },
+    acceptedAnswer: { "@type": "Answer", text: sinMarcas(f.a) },
   })),
 });
 
@@ -122,6 +138,94 @@ const postalAddress = (o: (typeof OFFICES)[number]) => ({
   addressRegion: o.region,
   postalCode: o.postalCode,
   addressCountry: o.country,
+});
+
+/**
+ * La funcionalidad como `Service`, según pide el brief de SEO del 11/11/2026 (§5).
+ *
+ * **Honestidad sobre qué hace y qué no.** `Service` es un tipo válido de schema.org y
+ * describe bien lo que es una página de funcionalidad, pero **no es un tipo que produzca
+ * un resultado enriquecido en Google**: no hay galería, ni estrellas, ni panel. Lo que
+ * aporta es desambiguación —que un buscador entienda qué ofrece la página y de quién— y
+ * eso sirve para el grafo de entidades y para los motores de respuesta, no para ganar
+ * píxeles en el SERP. Quien venga a revisar por qué la prueba de resultados enriquecidos
+ * no muestra nada para estas páginas: es por esto, y está bien así.
+ *
+ * El `FAQPage` que lo acompaña tampoco rinde lo que rendía: desde agosto de 2023 Google
+ * restringió ese resultado enriquecido a sitios de gobierno y de salud. Se declara igual
+ * porque es correcto y porque los motores de respuesta lo leen.
+ *
+ * No declara `offers`: el precio vive en la página del módulo, que es la unidad que se
+ * compra. Una funcionalidad con precio propio diría que se vende suelta, y no se vende.
+ */
+export const serviceJsonLd = (f: {
+  name: string;
+  path: string;
+  description: string;
+  /** Las capacidades del bloque "Qué hace". */
+  features: string[];
+  /** El módulo al que pertenece, como servicio del que es parte. */
+  module: { name: string; slug: string };
+}) => ({
+  "@type": "Service",
+  name: `InspectIA ${f.name}`,
+  serviceType: f.name,
+  url: `${SITE_URL}${f.path}`,
+  description: f.description,
+  provider: { "@type": "Organization", name: "InspectIA", url: SITE_URL },
+  areaServed: { "@type": "Country", name: "Argentina" },
+  isPartOf: {
+    "@type": "SoftwareApplication",
+    name: `InspectIA ${f.module.name}`,
+    url: `${SITE_URL}/plataforma/${f.module.slug}`,
+  },
+  ...(f.features.length
+    ? {
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: `Qué hace ${f.name}`,
+          itemListElement: f.features.map((name) => ({
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name },
+          })),
+        },
+      }
+    : {}),
+});
+
+/**
+ * La guía como `Article`.
+ *
+ * A diferencia de `Service`, éste **sí** es un tipo que Google usa, y es el que
+ * corresponde: una guía es contenido editorial con fecha y autor, no una ficha de
+ * producto.
+ *
+ * `datePublished` y `dateModified` salen del campo `updated` del contenido y no de la
+ * fecha del build. Declarar la fecha del despliegue haría que las ocho guías se
+ * "actualizaran" cada vez que alguien toca un color del sitio, que es una forma de
+ * mentirle al buscador que además se detecta.
+ *
+ * El autor es la organización y no una persona: no hay firma en estas páginas, y declarar
+ * una persona que no figura en la página es un dato estructurado que no se puede verificar.
+ */
+export const articleJsonLd = (g: {
+  headline: string;
+  description: string;
+  path: string;
+  /** ISO 8601, `AAAA-MM-DD`. */
+  updated: string;
+  /** La imagen de compartido de la guía, ruta desde la raíz. */
+  image?: string;
+}) => ({
+  "@type": "Article",
+  headline: g.headline,
+  description: g.description,
+  mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}${g.path}` },
+  datePublished: g.updated,
+  dateModified: g.updated,
+  author: { "@type": "Organization", name: "InspectIA", url: SITE_URL },
+  publisher: { "@type": "Organization", name: "InspectIA", url: SITE_URL },
+  ...(g.image ? { image: `${SITE_URL}${g.image}` } : {}),
 });
 
 /** Migas, para que el resultado de búsqueda muestre la jerarquía y no la URL cruda. */

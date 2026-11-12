@@ -27,6 +27,8 @@ import { Route as RoiRouteImport } from './routes/roi'
 import { Route as SimuladorRouteImport } from './routes/simulador'
 import { Route as StockPickingRouteImport } from './routes/stock-picking'
 import { Route as TymeoRouteImport } from './routes/tymeo'
+import { Route as GuiasIndexRouteImport } from './routes/guias/index'
+import { Route as GuiasGuiaRouteImport } from './routes/guias/$guia'
 import { Route as IaIndexRouteImport } from './routes/ia/index'
 import { Route as IaAplicacionRouteImport } from './routes/ia/$aplicacion'
 import { Route as Kit40IndexRouteImport } from './routes/kit-4-0/index'
@@ -38,7 +40,7 @@ import { Route as PlataformaMarketplaceRouteImport } from './routes/plataforma/m
 import { Route as SolucionesIndexRouteImport } from './routes/soluciones/index'
 import { Route as SolucionesIndustriaRouteImport } from './routes/soluciones/$industria'
 import { Route as SolucionesCasosRouteImport } from './routes/soluciones/casos'
-import { Route as SolucionesCasosDeUsoCasoRouteImport } from './routes/soluciones/casos-de-uso/$caso'
+import { Route as PlataformaModuloFuncionalidadRouteImport } from './routes/plataforma/$modulo_.$funcionalidad'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -130,6 +132,16 @@ const TymeoRoute = TymeoRouteImport.update({
   path: '/tymeo',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GuiasIndexRoute = GuiasIndexRouteImport.update({
+  id: '/guias/',
+  path: '/guias/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuiasGuiaRoute = GuiasGuiaRouteImport.update({
+  id: '/guias/$guia',
+  path: '/guias/$guia',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IaIndexRoute = IaIndexRouteImport.update({
   id: '/ia/',
   path: '/ia/',
@@ -185,10 +197,10 @@ const SolucionesCasosRoute = SolucionesCasosRouteImport.update({
   path: '/soluciones/casos',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SolucionesCasosDeUsoCasoRoute =
-  SolucionesCasosDeUsoCasoRouteImport.update({
-    id: '/soluciones/casos-de-uso/$caso',
-    path: '/soluciones/casos-de-uso/$caso',
+const PlataformaModuloFuncionalidadRoute =
+  PlataformaModuloFuncionalidadRouteImport.update({
+    id: '/plataforma/$modulo_/$funcionalidad',
+    path: '/plataforma/$modulo/$funcionalidad',
     getParentRoute: () => rootRouteImport,
   } as any)
 
@@ -211,6 +223,7 @@ export interface FileRoutesByFullPath {
   '/simulador': typeof SimuladorRoute
   '/stock-picking': typeof StockPickingRoute
   '/tymeo': typeof TymeoRoute
+  '/guias/$guia': typeof GuiasGuiaRoute
   '/ia/$aplicacion': typeof IaAplicacionRoute
   '/kit-4-0/$kit': typeof Kit40KitRoute
   '/plataforma/$modulo': typeof PlataformaModuloRoute
@@ -218,11 +231,12 @@ export interface FileRoutesByFullPath {
   '/plataforma/marketplace': typeof PlataformaMarketplaceRoute
   '/soluciones/$industria': typeof SolucionesIndustriaRoute
   '/soluciones/casos': typeof SolucionesCasosRoute
+  '/guias/': typeof GuiasIndexRoute
   '/ia/': typeof IaIndexRoute
   '/kit-4-0/': typeof Kit40IndexRoute
   '/plataforma/': typeof PlataformaIndexRoute
   '/soluciones/': typeof SolucionesIndexRoute
-  '/soluciones/casos-de-uso/$caso': typeof SolucionesCasosDeUsoCasoRoute
+  '/plataforma/$modulo/$funcionalidad': typeof PlataformaModuloFuncionalidadRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -243,6 +257,7 @@ export interface FileRoutesByTo {
   '/simulador': typeof SimuladorRoute
   '/stock-picking': typeof StockPickingRoute
   '/tymeo': typeof TymeoRoute
+  '/guias/$guia': typeof GuiasGuiaRoute
   '/ia/$aplicacion': typeof IaAplicacionRoute
   '/kit-4-0/$kit': typeof Kit40KitRoute
   '/plataforma/$modulo': typeof PlataformaModuloRoute
@@ -250,11 +265,12 @@ export interface FileRoutesByTo {
   '/plataforma/marketplace': typeof PlataformaMarketplaceRoute
   '/soluciones/$industria': typeof SolucionesIndustriaRoute
   '/soluciones/casos': typeof SolucionesCasosRoute
+  '/guias': typeof GuiasIndexRoute
   '/ia': typeof IaIndexRoute
   '/kit-4-0': typeof Kit40IndexRoute
   '/plataforma': typeof PlataformaIndexRoute
   '/soluciones': typeof SolucionesIndexRoute
-  '/soluciones/casos-de-uso/$caso': typeof SolucionesCasosDeUsoCasoRoute
+  '/plataforma/$modulo/$funcionalidad': typeof PlataformaModuloFuncionalidadRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -276,6 +292,7 @@ export interface FileRoutesById {
   '/simulador': typeof SimuladorRoute
   '/stock-picking': typeof StockPickingRoute
   '/tymeo': typeof TymeoRoute
+  '/guias/$guia': typeof GuiasGuiaRoute
   '/ia/$aplicacion': typeof IaAplicacionRoute
   '/kit-4-0/$kit': typeof Kit40KitRoute
   '/plataforma/$modulo': typeof PlataformaModuloRoute
@@ -283,11 +300,12 @@ export interface FileRoutesById {
   '/plataforma/marketplace': typeof PlataformaMarketplaceRoute
   '/soluciones/$industria': typeof SolucionesIndustriaRoute
   '/soluciones/casos': typeof SolucionesCasosRoute
+  '/guias/': typeof GuiasIndexRoute
   '/ia/': typeof IaIndexRoute
   '/kit-4-0/': typeof Kit40IndexRoute
   '/plataforma/': typeof PlataformaIndexRoute
   '/soluciones/': typeof SolucionesIndexRoute
-  '/soluciones/casos-de-uso/$caso': typeof SolucionesCasosDeUsoCasoRoute
+  '/plataforma/$modulo_/$funcionalidad': typeof PlataformaModuloFuncionalidadRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -310,6 +328,7 @@ export interface FileRouteTypes {
     | '/simulador'
     | '/stock-picking'
     | '/tymeo'
+    | '/guias/$guia'
     | '/ia/$aplicacion'
     | '/kit-4-0/$kit'
     | '/plataforma/$modulo'
@@ -317,11 +336,12 @@ export interface FileRouteTypes {
     | '/plataforma/marketplace'
     | '/soluciones/$industria'
     | '/soluciones/casos'
+    | '/guias/'
     | '/ia/'
     | '/kit-4-0/'
     | '/plataforma/'
     | '/soluciones/'
-    | '/soluciones/casos-de-uso/$caso'
+    | '/plataforma/$modulo/$funcionalidad'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -342,6 +362,7 @@ export interface FileRouteTypes {
     | '/simulador'
     | '/stock-picking'
     | '/tymeo'
+    | '/guias/$guia'
     | '/ia/$aplicacion'
     | '/kit-4-0/$kit'
     | '/plataforma/$modulo'
@@ -349,11 +370,12 @@ export interface FileRouteTypes {
     | '/plataforma/marketplace'
     | '/soluciones/$industria'
     | '/soluciones/casos'
+    | '/guias'
     | '/ia'
     | '/kit-4-0'
     | '/plataforma'
     | '/soluciones'
-    | '/soluciones/casos-de-uso/$caso'
+    | '/plataforma/$modulo/$funcionalidad'
   id:
     | '__root__'
     | '/'
@@ -374,6 +396,7 @@ export interface FileRouteTypes {
     | '/simulador'
     | '/stock-picking'
     | '/tymeo'
+    | '/guias/$guia'
     | '/ia/$aplicacion'
     | '/kit-4-0/$kit'
     | '/plataforma/$modulo'
@@ -381,11 +404,12 @@ export interface FileRouteTypes {
     | '/plataforma/marketplace'
     | '/soluciones/$industria'
     | '/soluciones/casos'
+    | '/guias/'
     | '/ia/'
     | '/kit-4-0/'
     | '/plataforma/'
     | '/soluciones/'
-    | '/soluciones/casos-de-uso/$caso'
+    | '/plataforma/$modulo_/$funcionalidad'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -407,6 +431,7 @@ export interface RootRouteChildren {
   SimuladorRoute: typeof SimuladorRoute
   StockPickingRoute: typeof StockPickingRoute
   TymeoRoute: typeof TymeoRoute
+  GuiasGuiaRoute: typeof GuiasGuiaRoute
   IaAplicacionRoute: typeof IaAplicacionRoute
   Kit40KitRoute: typeof Kit40KitRoute
   PlataformaModuloRoute: typeof PlataformaModuloRoute
@@ -414,11 +439,12 @@ export interface RootRouteChildren {
   PlataformaMarketplaceRoute: typeof PlataformaMarketplaceRoute
   SolucionesIndustriaRoute: typeof SolucionesIndustriaRoute
   SolucionesCasosRoute: typeof SolucionesCasosRoute
+  GuiasIndexRoute: typeof GuiasIndexRoute
   IaIndexRoute: typeof IaIndexRoute
   Kit40IndexRoute: typeof Kit40IndexRoute
   PlataformaIndexRoute: typeof PlataformaIndexRoute
   SolucionesIndexRoute: typeof SolucionesIndexRoute
-  SolucionesCasosDeUsoCasoRoute: typeof SolucionesCasosDeUsoCasoRoute
+  PlataformaModuloFuncionalidadRoute: typeof PlataformaModuloFuncionalidadRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -549,6 +575,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TymeoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/guias/': {
+      id: '/guias/'
+      path: '/guias'
+      fullPath: '/guias/'
+      preLoaderRoute: typeof GuiasIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guias/$guia': {
+      id: '/guias/$guia'
+      path: '/guias/$guia'
+      fullPath: '/guias/$guia'
+      preLoaderRoute: typeof GuiasGuiaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ia/': {
       id: '/ia/'
       path: '/ia'
@@ -626,11 +666,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SolucionesCasosRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/soluciones/casos-de-uso/$caso': {
-      id: '/soluciones/casos-de-uso/$caso'
-      path: '/soluciones/casos-de-uso/$caso'
-      fullPath: '/soluciones/casos-de-uso/$caso'
-      preLoaderRoute: typeof SolucionesCasosDeUsoCasoRouteImport
+    '/plataforma/$modulo_/$funcionalidad': {
+      id: '/plataforma/$modulo_/$funcionalidad'
+      path: '/plataforma/$modulo/$funcionalidad'
+      fullPath: '/plataforma/$modulo/$funcionalidad'
+      preLoaderRoute: typeof PlataformaModuloFuncionalidadRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -655,6 +695,7 @@ const rootRouteChildren: RootRouteChildren = {
   SimuladorRoute: SimuladorRoute,
   StockPickingRoute: StockPickingRoute,
   TymeoRoute: TymeoRoute,
+  GuiasGuiaRoute: GuiasGuiaRoute,
   IaAplicacionRoute: IaAplicacionRoute,
   Kit40KitRoute: Kit40KitRoute,
   PlataformaModuloRoute: PlataformaModuloRoute,
@@ -662,11 +703,12 @@ const rootRouteChildren: RootRouteChildren = {
   PlataformaMarketplaceRoute: PlataformaMarketplaceRoute,
   SolucionesIndustriaRoute: SolucionesIndustriaRoute,
   SolucionesCasosRoute: SolucionesCasosRoute,
+  GuiasIndexRoute: GuiasIndexRoute,
   IaIndexRoute: IaIndexRoute,
   Kit40IndexRoute: Kit40IndexRoute,
   PlataformaIndexRoute: PlataformaIndexRoute,
   SolucionesIndexRoute: SolucionesIndexRoute,
-  SolucionesCasosDeUsoCasoRoute: SolucionesCasosDeUsoCasoRoute,
+  PlataformaModuloFuncionalidadRoute: PlataformaModuloFuncionalidadRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

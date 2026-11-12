@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { LOCKUP } from "@/content/assets";
 import { MODULES } from "@/content/modules";
-import { INDUSTRIES, USE_CASES } from "@/content/solutions";
+import { INDUSTRIES } from "@/content/solutions";
+import { problemGuides } from "@/content/guides";
 import {
   APP_URL,
   CONTACT,
@@ -143,17 +144,24 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
-              {USE_CASES.map((u) => (
-                <li key={u.slug} className="min-w-0">
-                  <Link
-                    to="/soluciones/casos-de-uso/$caso"
-                    params={{ caso: u.slug }}
-                    className={FOOTER_LINK}
-                  >
-                    {u.name}
+              {/* Las cinco guías de problema, que hasta noviembre de 2026 eran los casos
+                  de uso de /soluciones. El índice completo va más abajo, en Recursos. */}
+              {problemGuides().map((g) => (
+                <li key={g.slug} className="min-w-0">
+                  <Link to="/guias/$guia" params={{ guia: g.slug }} className={FOOTER_LINK}>
+                    {g.title}
                   </Link>
                 </li>
               ))}
+              {/* El brief pedía el índice en una columna «Recursos» del pie, y esa columna
+                  no existe: el hub de recursos está detrás de `SHOW_RESOURCES`, apagado.
+                  Va acá, pegado a sus propias guías, en lugar de abrir una columna de un
+                  solo enlace. Cuando Recursos se publique, se muda con el resto. */}
+              <li className="min-w-0">
+                <Link to="/guias" className={FOOTER_LINK}>
+                  Todas las guías
+                </Link>
+              </li>
             </ul>
           </div>
 

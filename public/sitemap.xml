@@ -53,6 +53,31 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://inspectia.ai/plataforma/produccion/monitoreo-automatico-de-oee</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/plataforma/produccion/registro-de-paradas-de-maquina</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/plataforma/trazabilidad/trazabilidad-alimentaria</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/plataforma/stock/wms-para-fabricas</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/plataforma/tareas/control-de-asistencia</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://inspectia.ai/plataforma/integraciones</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -103,29 +128,49 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://inspectia.ai/soluciones/casos-de-uso/scrap</loc>
+    <loc>https://inspectia.ai/guias</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://inspectia.ai/soluciones/casos-de-uso/paradas</loc>
+    <loc>https://inspectia.ai/guias/como-calcular-el-oee</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://inspectia.ai/soluciones/casos-de-uso/inventario-descuadrado</loc>
+    <loc>https://inspectia.ai/guias/motivos-de-parada</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://inspectia.ai/soluciones/casos-de-uso/recepcion</loc>
+    <loc>https://inspectia.ai/guias/retiro-de-lotes</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://inspectia.ai/soluciones/casos-de-uso/accidentes</loc>
+    <loc>https://inspectia.ai/guias/como-reducir-el-scrap</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/guias/como-reducir-las-paradas-de-maquina</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/guias/inventario-que-no-cuadra</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/guias/como-acelerar-la-recepcion-de-mercaderia</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://inspectia.ai/guias/prevenir-accidentes-en-planta-con-camaras</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://inspectia.ai/simulador</loc>

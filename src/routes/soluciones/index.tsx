@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { MODULES } from "@/content/modules";
-import { USE_CASES, publishedIndustries } from "@/content/solutions";
+import { publishedIndustries } from "@/content/solutions";
+import { problemGuides } from "@/content/guides";
 import { pageHead } from "@/lib/seo";
 import { Icon } from "@/components/icons/Icon";
 
@@ -77,33 +78,37 @@ function SolutionsPage() {
         </div>
       </section>
 
-      {/* --- Por caso de uso --- */}
+      {/* --- Por problema ---
+          Eran los cinco casos de uso; desde noviembre de 2026 son guías y viven en
+          /guias. La sección se queda porque el recorrido "entro por el problema" sigue
+          siendo válido: lo que cambió es que la página de destino responde en vez de
+          vender, que es lo que la gente que busca el problema estaba pidiendo. */}
       <section className={`bg-surface ${SECTION}`}>
         <div className={CONTAINER}>
-          <p className="eyebrow">Por caso de uso</p>
+          <p className="eyebrow">Por problema</p>
           <h2 className={`mt-4 ${H2}`}>O entrá por el problema</h2>
 
           <ul className="mt-12 grid gap-6 min-[1000px]:grid-cols-3">
-            {USE_CASES.map((u) => (
-              <li key={u.slug} className="min-w-0">
+            {problemGuides().map((g) => (
+              <li key={g.slug} className="min-w-0">
                 <Link
-                  to="/soluciones/casos-de-uso/$caso"
-                  params={{ caso: u.slug }}
+                  to="/guias/$guia"
+                  params={{ guia: g.slug }}
                   className="group flex h-full flex-col rounded-[var(--radius-lg)] bg-surface p-6"
                 >
-                  {/* El titular de la card es el dolor en primera persona; el nombre del
-                      caso va como ancla, que es donde el término de búsqueda sirve. */}
+                  {/* El titular de la card es el dolor en primera persona; el nombre de la
+                      guía va como ancla, que es donde el término de búsqueda sirve. */}
                   <h3 className="text-[length:var(--text-lead)] font-medium leading-snug text-ink">
-                    «{u.pain}»
+                    «{g.pain}»
                   </h3>
                   <p className="mt-4 text-sm text-ink-secondary">
-                    {u.modules
+                    {g.modules
                       .map((k) => MODULES.find((m) => m.key === k)?.name)
                       .filter(Boolean)
                       .join(" · ")}
                   </p>
                   <span className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-semibold text-brand">
-                    {u.name}
+                    {g.title}
                     <Icon
                       name="arrow-right"
                       className="transition-transform duration-[160ms] group-hover:translate-x-0.5"

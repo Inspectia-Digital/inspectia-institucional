@@ -15,7 +15,9 @@ import { fileURLToPath } from "node:url";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 const { MODULES } = await import("../src/content/modules.ts");
-const { INDUSTRIES, USE_CASES } = await import("../src/content/solutions.ts");
+const { INDUSTRIES } = await import("../src/content/solutions.ts");
+const { FEATURES } = await import("../src/content/features.ts");
+const { GUIDES } = await import("../src/content/guides.ts");
 const { SHOW_PRICING, SHOW_RESOURCES, SITE_URL } = await import("../src/content/site.ts");
 const { approvedCases } = await import("../src/content/cases.ts");
 const { IA_APPLICATIONS } = await import("../src/content/ia.ts");
@@ -50,6 +52,17 @@ const urls = [
     priority: "0.9",
     changefreq: "monthly",
   })),
+  /* Las funcionalidades, un nivel abajo de su módulo. Prioridad igual a la del módulo
+     (0.9) y no menor: la búsqueda que atacan —"monitoreo automático de OEE"— es más
+     específica que la de categoría, así que está más cerca de la compra, no más lejos. */
+  ...FEATURES.map((f) => ({
+    // El slug del módulo y no su clave: hoy coinciden en los cuatro módulos con
+    // funcionalidad, y el día que uno se renombre sin tocar la clave —ya pasó tres veces
+    // con el catálogo de octubre— esta línea seguiría generando la URL vieja.
+    loc: `/plataforma/${MODULES.find((m) => m.key === f.module).slug}/${f.slug}`,
+    priority: "0.9",
+    changefreq: "monthly",
+  })),
   { loc: "/plataforma/integraciones", priority: "0.6", changefreq: "monthly" },
   { loc: "/plataforma/marketplace", priority: "0.7", changefreq: "monthly" },
   { loc: "/soluciones", priority: "0.8", changefreq: "monthly" },
@@ -60,9 +73,16 @@ const urls = [
     priority: "0.8",
     changefreq: "monthly",
   })),
-  ...USE_CASES.map((u) => ({
-    loc: `/soluciones/casos-de-uso/${u.slug}`,
-    priority: "0.8",
+  /* Las guías. Los cinco casos de uso estaban acá bajo /soluciones/casos-de-uso y se
+     fueron a /guias: las URLs viejas salen del mapa y entran las nuevas, que es la mitad
+     del trabajo de una mudanza con 301 —la otra mitad la hace `http-policy.ts`—.
+
+     0.7 y no 0.8: una guía responde una pregunta y no vende nada, así que está un paso
+     más lejos de la compra que una página de industria. */
+  { loc: "/guias", priority: "0.6", changefreq: "monthly" },
+  ...GUIDES.map((g) => ({
+    loc: `/guias/${g.slug}`,
+    priority: "0.7",
     changefreq: "monthly",
   })),
   // La página devuelve 404 mientras no haya un caso aprobado para publicar, así que

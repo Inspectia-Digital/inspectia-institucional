@@ -9,7 +9,8 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/PageHero";
 import { ModuleGrid } from "@/components/site/ModuleGrid";
 import { MODULES } from "@/content/modules";
-import { INDUSTRIES, USE_CASES } from "@/content/solutions";
+import { INDUSTRIES } from "@/content/solutions";
+import { problemGuides } from "@/content/guides";
 import { useSolutionViewEvent } from "@/lib/useViewEvents";
 import { breadcrumbJsonLd, faqJsonLd, pageHead, siteTitle } from "@/lib/seo";
 import { Icon } from "@/components/icons/Icon";
@@ -58,9 +59,13 @@ function IndustryPage() {
     .map((k) => MODULES.find((m) => m.key === k))
     .filter((m): m is NonNullable<typeof m> => Boolean(m));
 
-  // Los casos de uso que resuelven los módulos de esta industria. Es la otra mitad del
-  // cruce: sin esto, las páginas de caso de uso enlazan acá y no reciben nada de vuelta.
-  const cases = USE_CASES.filter((u) => u.modules.some((k) => industry.modules.includes(k)));
+  /* Las guías de problema que resuelven los módulos de esta industria. Es la otra mitad
+     del cruce: sin esto, cada guía enlaza acá —por su `worstIn`— y no recibe nada de
+     vuelta, que es como se arma un grupo de páginas que no se sostienen entre sí.
+
+     Sólo las de problema: una guía de procedimiento como "cómo calcular el OEE" aplica a
+     las siete industrias por igual, así que listarla en cada una no informa nada. */
+  const cases = problemGuides().filter((g) => g.modules.some((k) => industry.modules.includes(k)));
 
   /**
    * Alternancia de fondo, calculada sobre las secciones que **esta** industria renderiza.
@@ -183,14 +188,14 @@ function IndustryPage() {
               Los problemas que resuelven estos módulos
             </h2>
             <ul className="mt-10 flex flex-wrap gap-x-8 gap-y-4">
-              {cases.map((u) => (
-                <li key={u.slug} className="min-w-0">
+              {cases.map((g) => (
+                <li key={g.slug} className="min-w-0">
                   <Link
-                    to="/soluciones/casos-de-uso/$caso"
-                    params={{ caso: u.slug }}
+                    to="/guias/$guia"
+                    params={{ guia: g.slug }}
                     className="inline-flex items-center gap-1.5 text-[15px] font-semibold text-brand hover:underline hover:underline-offset-4"
                   >
-                    {u.name}
+                    {g.title}
                     <Icon name="arrow-right" />
                   </Link>
                 </li>

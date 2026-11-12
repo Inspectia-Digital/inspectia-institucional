@@ -10,7 +10,8 @@ import {
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { LOCKUP } from "@/content/assets";
 import { MODULES } from "@/content/modules";
-import { INDUSTRIES, USE_CASES } from "@/content/solutions";
+import { INDUSTRIES } from "@/content/solutions";
+import { problemGuides } from "@/content/guides";
 import { IA_APPLICATIONS } from "@/content/ia";
 import { approvedCases } from "@/content/cases";
 import { APP_URL, SHOW_PRICING, SIGNUP_URL } from "@/content/site";
@@ -159,12 +160,15 @@ export function Navbar() {
                       </MenuRow>
                     ))}
                   </MenuColumn>
-                  <MenuColumn title="Por caso de uso">
-                    {USE_CASES.map((u) => (
-                      <MenuRow key={u.slug} to={`/soluciones/casos-de-uso/${u.slug}`}>
-                        {u.name}
+                  {/* «Guías» y no «Por caso de uso»: las cinco páginas se mudaron a
+                      /guias en noviembre de 2026, con 301. Son las mismas cinco. */}
+                  <MenuColumn title="Guías">
+                    {problemGuides().map((g) => (
+                      <MenuRow key={g.slug} to={`/guias/${g.slug}`}>
+                        {g.title}
                       </MenuRow>
                     ))}
+                    <MenuRow to="/guias">Ver todas las guías</MenuRow>
                   </MenuColumn>
                   <MenuColumn title="Con IA">
                     {IA_APPLICATIONS.filter((a) => a.hasPage).map((a) => (
@@ -310,16 +314,21 @@ export function Navbar() {
                           </MobileRow>
                         </li>
                       ))}
-                      {USE_CASES.map((u) => (
-                        <li key={u.slug}>
+                      {problemGuides().map((g) => (
+                        <li key={g.slug}>
                           <MobileRow
-                            to={`/soluciones/casos-de-uso/${u.slug}`}
+                            to={`/guias/${g.slug}`}
                             onNavigate={() => setMobileOpen(false)}
                           >
-                            {u.name}
+                            {g.title}
                           </MobileRow>
                         </li>
                       ))}
+                      <li>
+                        <MobileRow to="/guias" onNavigate={() => setMobileOpen(false)}>
+                          Ver todas las guías
+                        </MobileRow>
+                      </li>
                     </ul>
                   </AccordionContent>
                 </AccordionItem>

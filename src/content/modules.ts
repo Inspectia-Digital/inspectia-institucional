@@ -193,9 +193,24 @@ export const MODULES: PlatformModule[] = [
     // Se reescribió la bajada: el módulo se llamaba TYMEO y la bajada lo nombraba. Hoy se
     // Producción y el nombre viejo no queda en ninguna parte del sitio.
     lead: "Medí el OEE de cada línea en tiempo real —cuánto de su capacidad está usando realmente—, detectá cuándo se frenó y clasificá por qué. Con eso sabés qué máquina te cuesta plata, en qué turno y con qué producto. Empezás gratis cargando los datos a mano y automatizás la captura cuando quieras.",
-    seoTitle: "Software de OEE y control de producción",
+    /* Reescritos el 11/11/2026 para recuperar la demanda de OEE.
+     *
+     * Esta página es la heredera de `/oee-control/`, que tenía 3.206 impresiones; hoy
+     * tiene 93 en posición 16,9. Y las búsquedas que importan están en primera y segunda
+     * página **con cero clics**: "software para cálculo de oee" 352 impresiones en
+     * posición 3,6, "monitoreo automático de oee" 186 en 2,8.
+     *
+     * El título anterior —"Software de OEE y control de producción"— no contenía el verbo
+     * que la gente busca. Nadie busca "control de producción": buscan *calcular* el OEE.
+     * El nuevo lleva "calculá el OEE" literal y deja "software de OEE" al principio, que
+     * es la búsqueda de categoría.
+     *
+     * La descripción suma lo que distingue a InspectIA de los resultados que la rodean:
+     * que se puede arrancar con carga manual y que el precio está publicado. Los dos son
+     * verificables en la propia página, así que no es una promesa que el clic desmienta. */
+    seoTitle: "Software de OEE: medí y calculá el OEE de cada línea",
     seoDescription:
-      "Medí el OEE de cada línea en tiempo real, con las paradas clasificadas y el plan contra real por turno, línea y operario. Empezá gratis, sin hardware.",
+      "Software para calcular el OEE en tiempo real, con carga manual o conectado al PLC. Paradas por motivo y plan contra real. Plan gratuito y precio publicado.",
     doesTitle: "Cuatro cosas, y las cuatro salen del mismo dato",
     faqTitle: "Preguntas sobre el módulo de Producción",
     roiTitle: "Cuánto vale un punto de OEE en tu línea",
@@ -234,6 +249,14 @@ export const MODULES: PlatformModule[] = [
     ],
 
     faq: [
+      /* Va primera y no es un detalle de orden: responde "software para cálculo de OEE",
+         la búsqueda con más impresiones del sitio fuera de la marca (352 en posición 3,6)
+         y cero clics. El acordeón abre la primera por omisión, así que esta respuesta se
+         ve sin tocar nada —y es la que un motor de respuesta puede extraer—. */
+      {
+        q: "¿Cómo calcula el OEE?",
+        a: "Multiplica disponibilidad, rendimiento y calidad de cada línea, con los datos del turno: cuánto tiempo estuvo produciendo, a qué velocidad contra la ideal y cuántas unidades salieron buenas. El cálculo se hace solo, por línea, turno, producto y corrida. Si querés ver la fórmula con un ejemplo, está en la guía [cómo calcular el OEE](/guias/como-calcular-el-oee).",
+      },
       {
         q: "¿Cómo mide el OEE si mi máquina no tiene sensores?",
         a: "Al principio, con carga manual: el operario registra desde un formulario qué produjo y cuándo se frenó la línea, y el OEE se calcula con eso. Es exacto en la medida en que se cargue bien, y alcanza para tener el número y empezar a comparar turnos. Cuando querés que el dato se tome solo, se conecta el PLC o se agrega una lectora en el puesto.",
@@ -439,8 +462,22 @@ export const MODULES: PlatformModule[] = [
         body: "Lo que baja del camión, lo que se guarda, lo que se consume contra cada orden y lo que sale en un pedido son el mismo registro. No hay tres planillas que después hay que conciliar.",
       },
       {
-        title: "Contra lo que dice tu WMS",
-        body: "El control se hace contra el sistema que ya usás, así que lo que se corrige se corrige donde estaba el error. No es un inventario paralelo.",
+        /* Reescrito el 11/11/2026, junto con la pregunta de abajo y con la publicación de
+           `/plataforma/stock/wms-para-fabricas`.
+
+           **Las tres cosas van juntas o ninguna.** El texto anterior decía que el módulo
+           no es un WMS —"El control se hace contra el sistema que ya usás… No es un
+           inventario paralelo"— y la página de funcionalidad dice que sí lo es, para una
+           fábrica. Publicar una sin la otra deja al sitio contradiciéndose a sí mismo en
+           dos URLs que se enlazan entre sí, y es la clase de cosa que un comprador usa
+           para desconfiar del resto.
+
+           Lo que cambió no es la posición comercial sino su alcance: el módulo funciona
+           contra un WMS existente **y** funciona solo cuando no hay ninguno, que es el
+           caso de la mayoría de las plantas chicas. Antes sólo se afirmaba la primera
+           mitad. */
+        title: "Funciona solo o contra tu WMS",
+        body: "Si no tenés WMS, el módulo es el sistema del depósito de la planta: posiciones, movimientos, recepción y pedidos. Si ya tenés uno, el control se hace contra él y lo que se corrige se corrige donde estaba el error.",
       },
     ],
 
@@ -450,8 +487,12 @@ export const MODULES: PlatformModule[] = [
         a: "No. Se usa el celular Android del operario o uno común de gama baja. Es el módulo con el requisito más chico de todos: no hay hardware que comprar para empezar.",
       },
       {
-        q: "¿Reemplaza a mi WMS?",
-        a: "No, trabaja contra él. El WMS sigue siendo el sistema del depósito; lo que hace este módulo es controlar que lo que dice coincida con lo que hay en la posición, y marcar dónde no.",
+        /* "¿Es un WMS?" y no "¿Reemplaza a mi WMS?": la pregunta anterior sólo la hace
+           quien ya tiene uno, y la mitad del mercado al que apunta el módulo no tiene
+           ninguno. Para ésos, la respuesta anterior —"No, trabaja contra él"— sonaba a que
+           el módulo necesitaba un WMS para servir de algo. */
+        q: "¿Es un WMS?",
+        a: "Sí, uno pensado para el depósito de una fábrica: une la materia prima, el consumo contra la orden y el producto terminado en el mismo registro. Si ya usás un WMS, trabaja contra él y no hay que reemplazarlo. Más detalle en [WMS para fábricas](/plataforma/stock/wms-para-fabricas).",
       },
       {
         q: "¿Hay que etiquetar las posiciones?",
