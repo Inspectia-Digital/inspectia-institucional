@@ -132,7 +132,7 @@ const medirAlta = () => pushEvent("partner_signup_start", { source_page: sourceP
 
 const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1000px]:py-[var(--section-pad)]";
 const CONTAINER = "mx-auto max-w-[var(--content-max)]";
-const H2 = "text-[28px] leading-tight text-ink md:text-[var(--text-section)]";
+const H2 = "text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]";
 
 function Page() {
   return (
@@ -292,7 +292,7 @@ function Page() {
           página (Lineamientos §Color). */}
       <section className="border-t border-line bg-surface px-5 py-[var(--section-pad)] md:px-8">
         <div className="mx-auto flex max-w-[var(--content-max)] flex-col items-center text-center">
-          <h2 className="max-w-[18ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+          <h2 className="max-w-[18ch] text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
             Empezá hoy y miralo por dentro
           </h2>
           <p className="mt-5 max-w-[var(--lead-max)] text-ink-secondary">

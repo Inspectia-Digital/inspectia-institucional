@@ -74,7 +74,7 @@ export function AudienceTabs() {
     <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8 min-[1000px]:py-[var(--section-pad)]">
       <div className="mx-auto max-w-[var(--content-max)]">
         <p className="eyebrow">Según quién sos</p>
-        <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+        <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
           ¿Desde dónde lo mirás?
         </h2>
 

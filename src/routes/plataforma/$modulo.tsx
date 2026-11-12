@@ -202,7 +202,7 @@ function ModulePage() {
         <section className={`${"bg-surface"} px-5 py-[var(--section-pad-md)] md:px-8`}>
           <div className="mx-auto max-w-[var(--content-max)]">
             <p className="eyebrow">Cuánto te rinde</p>
-            <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+            <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
               {m.roiTitle}
             </h2>
             {m.roiLead && (
@@ -255,7 +255,7 @@ function Problem({ items, bg }: { items: string[]; bg: string }) {
     <section className={`${bg} px-5 py-[var(--section-pad-md)] md:px-8`}>
       <div className="mx-auto max-w-[var(--content-max)]">
         <p className="eyebrow">El problema</p>
-        <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+        <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
           Si algo de esto te suena, es esto
         </h2>
 
@@ -295,7 +295,7 @@ function WhatItDoes({
     >
       <div className="mx-auto max-w-[var(--content-max)]">
         <p className="eyebrow">Qué hace</p>
-        <h2 className="mt-4 max-w-[28ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+        <h2 className="mt-4 max-w-[28ch] text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
           {title}
         </h2>
 
@@ -376,7 +376,7 @@ function Features({ items, moduleSlug }: { items: Feature[]; moduleSlug: string 
     <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8">
       <div className="mx-auto max-w-[var(--content-max)]">
         <p className="eyebrow">Funcionalidades</p>
-        <h2 className="mt-4 max-w-[28ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+        <h2 className="mt-4 max-w-[28ch] text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
           En detalle
         </h2>
 
@@ -429,7 +429,7 @@ function HowItWorks({ steps, answers, bg }: { steps: string[]; answers: string; 
         <div className="grid gap-8 min-[1000px]:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] min-[1000px]:gap-16">
           <div className="min-w-0">
             <p className="eyebrow">Cómo funciona</p>
-            <h2 className="mt-4 text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+            <h2 className="mt-4 text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
               De la configuración al resultado
             </h2>
           </div>
@@ -494,7 +494,7 @@ function Components({
     >
       <div className="mx-auto max-w-[var(--content-max)]">
         <p className="eyebrow">De qué está hecho</p>
-        <h2 className="mt-4 max-w-[28ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+        <h2 className="mt-4 max-w-[28ch] text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
           Todo lo que incluye {moduleName}
         </h2>
 
@@ -529,7 +529,7 @@ function PriceAndFree({ m, bg }: { m: PlatformModule; bg: string }) {
     <section id="planes" className={`${bg} px-5 py-[var(--section-pad-md)] md:px-8`}>
       <div className="mx-auto max-w-[var(--content-max)]">
         <p className="eyebrow">Empezar</p>
-        <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+        <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
           Empezá gratis, hoy, sin instalar nada
         </h2>
 
@@ -622,7 +622,7 @@ function ModuleFaq({
   return (
     <section className={`${bg} px-5 py-[var(--section-pad-md)] md:px-8`}>
       <div className="mx-auto max-w-[50rem]">
-        <h2 className="text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+        <h2 className="text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
           {title}
         </h2>
 
@@ -692,7 +692,7 @@ function Related({
     <section className={`${bg} px-5 py-[var(--section-pad-md)] md:px-8`}>
       <div className="mx-auto max-w-[var(--content-max)]">
         <p className="eyebrow">{m.relatedEyebrow ?? "Se apoya en"}</p>
-        <h2 className="mt-4 max-w-[28ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+        <h2 className="mt-4 max-w-[28ch] text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
           {m.relatedTitle ?? "Un módulo resuelve un problema. Juntos, gobiernan la operación."}
         </h2>
 

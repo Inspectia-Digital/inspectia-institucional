@@ -132,7 +132,7 @@ function GuidePage() {
       {g.faq && (
         <section className="px-5 py-[var(--section-pad-md)] md:px-8">
           <div className="mx-auto max-w-[50rem]">
-            <h2 className="text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+            <h2 className="text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
               Preguntas frecuentes
             </h2>
             <Accordion

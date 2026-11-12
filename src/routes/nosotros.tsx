@@ -67,7 +67,7 @@ const THESIS = [
 
 const SECTION = "px-5 md:px-8 py-[var(--section-pad-md)] min-[1000px]:py-[var(--section-pad)]";
 const CONTAINER = "mx-auto max-w-[var(--content-max)]";
-const H2 = "text-[28px] leading-tight text-ink md:text-[var(--text-section)]";
+const H2 = "text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]";
 const LEAD =
   "mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary";
 

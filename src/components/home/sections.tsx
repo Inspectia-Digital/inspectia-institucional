@@ -20,7 +20,7 @@ const CONTAINER = "mx-auto max-w-[var(--content-max)]";
 /* La base no lleva color: concatenarle `text-on-brand` dejaba dos utilidades de color en
    el mismo elemento y ganaba la que el CSS generado pusiera última, que resultó ser
    `text-ink` — un título oscuro sobre la banda teal. El color lo pone cada uso. */
-const H2_BASE = "text-[28px] leading-tight md:text-[var(--text-section)]";
+const H2_BASE = "text-[28px] leading-tight md:text-[length:var(--text-section)]";
 const H2 = `${H2_BASE} text-ink`;
 
 /* ---------- 04 · El costo de no medir ---------- */
@@ -198,7 +198,7 @@ export function ProjectBand() {
     <section className={`border-t border-line bg-surface ${SECTION}`}>
       <div className={CONTAINER}>
         <p className="eyebrow">El proyecto completo</p>
-        <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+        <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
           Todo lo que el proyecto necesita, en un solo proveedor
         </h2>
         <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">

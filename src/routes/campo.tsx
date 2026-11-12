@@ -55,7 +55,7 @@ export const Route = createFileRoute("/campo")({
 
 const PAD = "px-5 py-[var(--section-pad-md)] md:px-8";
 const CONTAINER = "mx-auto max-w-[var(--content-max)]";
-const H2 = "text-[28px] leading-tight md:text-[var(--text-section)]";
+const H2 = "text-[28px] leading-tight md:text-[length:var(--text-section)]";
 const CARD = "rounded-[var(--radius-lg)] border border-line bg-surface";
 
 /** Los anclajes del menú propio. Van acá para que el menú y las secciones no se separen. */

@@ -100,7 +100,7 @@ function IndustryPage() {
         <section className={`${band("problems")} px-5 py-[var(--section-pad-md)] md:px-8`}>
           <div className="mx-auto max-w-[var(--content-max)]">
             <p className="eyebrow">El problema</p>
-            <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+            <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
               Lo que pasa en una planta de este rubro
             </h2>
             <ul className="mt-12 max-w-[var(--read-max)] space-y-6">
@@ -120,7 +120,7 @@ function IndustryPage() {
       <section className={`${band("modules")} px-5 py-[var(--section-pad-md)] md:px-8`}>
         <div className="mx-auto max-w-[var(--content-max)]">
           <p className="eyebrow">Los módulos que aplican</p>
-          <h2 className="mt-4 text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+          <h2 className="mt-4 text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
             Por dónde conviene empezar
           </h2>
           <ModuleGrid modules={modules} className="mt-12" />
@@ -155,7 +155,7 @@ function IndustryPage() {
           {/* Más angosto que el resto de la página, como en la página de módulo: una
               respuesta de cuatro líneas a 1200px de ancho no se lee, se barre. */}
           <div className="mx-auto max-w-[50rem]">
-            <h2 className="text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+            <h2 className="text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
               {industry.faqTitle ?? `Preguntas sobre ${industry.name.toLowerCase()}`}
             </h2>
 
@@ -184,7 +184,7 @@ function IndustryPage() {
         <section className={`${band("cases")} px-5 py-[var(--section-pad-md)] md:px-8`}>
           <div className="mx-auto max-w-[var(--content-max)]">
             <p className="eyebrow">Por problema</p>
-            <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+            <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
               Los problemas que resuelven estos módulos
             </h2>
             <ul className="mt-10 flex flex-wrap gap-x-8 gap-y-4">

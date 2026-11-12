@@ -149,7 +149,7 @@ function Page() {
           crear una cuenta gratis, viene a resolver un proyecto. */}
       <section className="bg-surface px-5 pb-[var(--section-pad-md)] md:px-8">
         <div className="mx-auto max-w-[var(--content-max)] border-t border-line pt-10">
-          <h2 className="max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+          <h2 className="max-w-[24ch] text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
             ¿No sabés cuál necesitás?
           </h2>
           <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
@@ -175,7 +175,7 @@ function Page() {
       <section className="bg-surface px-5 py-[var(--section-pad-md)] md:px-8">
         <div className="mx-auto max-w-[var(--content-max)]">
           <p className="eyebrow">Para proveedores</p>
-          <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+          <h2 className="mt-4 max-w-[24ch] text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
             Quiero ofrecer mi servicio
           </h2>
           <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">

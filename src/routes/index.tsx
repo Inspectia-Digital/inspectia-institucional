@@ -107,7 +107,7 @@ function Platform() {
             legible un párrafo. */}
         <div className="mx-auto max-w-[var(--lead-max)] text-center">
           <p className="eyebrow">La plataforma</p>
-          <h2 className="mt-4 text-[28px] leading-tight text-ink md:text-[var(--text-section)]">
+          <h2 className="mt-4 text-[28px] leading-tight text-ink md:text-[length:var(--text-section)]">
             Una sola plataforma para toda tu operación
           </h2>
           <p className="mt-6 text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
