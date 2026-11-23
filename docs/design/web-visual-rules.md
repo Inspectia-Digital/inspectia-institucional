@@ -97,10 +97,37 @@ abierta: necesita aire y se rompe si se aprieta.
   IA, render 3D de stock ni cerebros o redes de nodos.
 - **El hexágono** de la marca, si aparece, una vez por página y nunca como trama de fondo.
 
-## Prueba social
+## Prueba social y logos de sistemas
 
 Logos en **escala de grises al 60% de opacidad**, a **altura óptica homogénea** (no a ancho igual),
 en una sola fila y sin carrusel automático: un carrusel que se mueve solo obliga a esperar para leer.
+
+### Los logos de las integraciones (cambio del 20/11/2026)
+
+**Esta regla reemplaza la de §11.6 que decía que una integración no lleva logo.** Esa versión
+existía para que una integración no se confundiera con un servicio del marketplace, que sí se
+contrata; el efecto real fue una sección entera sin la única señal que contesta la pregunta que
+trae el visitante técnico, que es «¿está el mío?».
+
+Las integraciones llevan logo. Lo que las sigue distinguiendo de un servicio del marketplace es
+que **no tienen precio, ni ficha, ni botón de contratar**, y que nunca comparten grilla con uno.
+Eso de §11.6 no cambia.
+
+Cómo se dibujan:
+
+- **Un solo tono.** Gris (`--grey-600`, el token `text-logo`) o teal, nunca la paleta de la marca:
+  cincuenta y seis logos a color son un muro de sponsors, no una lista de sistemas soportados.
+- **Un solo alto** —24 px— y el ancho que salga. Nunca a ancho igual.
+- **Sin animación, sin hover que mueva nada, sin carrusel.**
+- **El nombre va al lado del logo, en texto.** El logo no es la etiqueta accesible: el de
+  Inductive Automation no dice «Ignition», y el de un grupo no dice qué producto se integra.
+- **El sistema sin SVG va con el nombre solo**, en `--grey-600`. No hay estado intermedio.
+- **Un logo equivocado es peor que el nombre solo.** Antes de usar un glifo de un paquete hay que
+  verificar de quién es: `simple-icons` tiene un slug `katana` y es el Katana de Foundry, software
+  de iluminación 3D, no el Katana MRP de la lista de ERP.
+
+Origen de los archivos: `simple-icons` (CC0), copiados a `src/content/brand-logos.ts` por
+`npm run logos`. El paquete entero no entra al bundle: se copian sólo los que se usan.
 
 ## Iconos
 

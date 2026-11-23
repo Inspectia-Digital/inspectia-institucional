@@ -15,7 +15,9 @@ export type PartnerFamily =
   | "cliente"
   /** Servicio de tercero que comercializamos nosotros (§7.4). */
   | "marketplace"
-  /** Sistema con el que la plataforma se integra. Sin logo comercial ni precio (§11.6). */
+  /** Sistema con el que la plataforma se integra. Con logo desde el 20/11/2026, pero sin
+   *  precio, sin ficha y sin CTA, que es lo que lo distingue de un servicio (§11.6 y la
+   *  sección de logos de sistemas de docs/design/web-visual-rules.md). */
   | "integracion"
   /** Programa, aceleradora o respaldo institucional. */
   | "respaldo"
