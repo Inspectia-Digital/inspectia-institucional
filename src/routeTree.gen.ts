@@ -27,6 +27,8 @@ import { Route as RoiRouteImport } from './routes/roi'
 import { Route as SimuladorRouteImport } from './routes/simulador'
 import { Route as StockPickingRouteImport } from './routes/stock-picking'
 import { Route as TymeoRouteImport } from './routes/tymeo'
+import { Route as BlogIndexRouteImport } from './routes/blog/index'
+import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
 import { Route as GuiasIndexRouteImport } from './routes/guias/index'
 import { Route as GuiasGuiaRouteImport } from './routes/guias/$guia'
 import { Route as IaIndexRouteImport } from './routes/ia/index'
@@ -134,6 +136,16 @@ const StockPickingRoute = StockPickingRouteImport.update({
 const TymeoRoute = TymeoRouteImport.update({
   id: '/tymeo',
   path: '/tymeo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GuiasIndexRoute = GuiasIndexRouteImport.update({
@@ -249,6 +261,7 @@ export interface FileRoutesByFullPath {
   '/simulador': typeof SimuladorRoute
   '/stock-picking': typeof StockPickingRoute
   '/tymeo': typeof TymeoRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/guias/$guia': typeof GuiasGuiaRoute
   '/ia/$aplicacion': typeof IaAplicacionRoute
   '/ia/conecta-claude-y-chatgpt': typeof IaConectaClaudeYChatgptRoute
@@ -260,6 +273,7 @@ export interface FileRoutesByFullPath {
   '/soluciones/casos': typeof SolucionesCasosRoute
   '/soluciones/control-de-fasoneros': typeof SolucionesControlDeFasonerosRoute
   '/soluciones/produccion-a-fason': typeof SolucionesProduccionAFasonRoute
+  '/blog/': typeof BlogIndexRoute
   '/guias/': typeof GuiasIndexRoute
   '/ia/': typeof IaIndexRoute
   '/integraciones/': typeof IntegracionesIndexRoute
@@ -287,6 +301,7 @@ export interface FileRoutesByTo {
   '/simulador': typeof SimuladorRoute
   '/stock-picking': typeof StockPickingRoute
   '/tymeo': typeof TymeoRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/guias/$guia': typeof GuiasGuiaRoute
   '/ia/$aplicacion': typeof IaAplicacionRoute
   '/ia/conecta-claude-y-chatgpt': typeof IaConectaClaudeYChatgptRoute
@@ -298,6 +313,7 @@ export interface FileRoutesByTo {
   '/soluciones/casos': typeof SolucionesCasosRoute
   '/soluciones/control-de-fasoneros': typeof SolucionesControlDeFasonerosRoute
   '/soluciones/produccion-a-fason': typeof SolucionesProduccionAFasonRoute
+  '/blog': typeof BlogIndexRoute
   '/guias': typeof GuiasIndexRoute
   '/ia': typeof IaIndexRoute
   '/integraciones': typeof IntegracionesIndexRoute
@@ -326,6 +342,7 @@ export interface FileRoutesById {
   '/simulador': typeof SimuladorRoute
   '/stock-picking': typeof StockPickingRoute
   '/tymeo': typeof TymeoRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/guias/$guia': typeof GuiasGuiaRoute
   '/ia/$aplicacion': typeof IaAplicacionRoute
   '/ia/conecta-claude-y-chatgpt': typeof IaConectaClaudeYChatgptRoute
@@ -337,6 +354,7 @@ export interface FileRoutesById {
   '/soluciones/casos': typeof SolucionesCasosRoute
   '/soluciones/control-de-fasoneros': typeof SolucionesControlDeFasonerosRoute
   '/soluciones/produccion-a-fason': typeof SolucionesProduccionAFasonRoute
+  '/blog/': typeof BlogIndexRoute
   '/guias/': typeof GuiasIndexRoute
   '/ia/': typeof IaIndexRoute
   '/integraciones/': typeof IntegracionesIndexRoute
@@ -366,6 +384,7 @@ export interface FileRouteTypes {
     | '/simulador'
     | '/stock-picking'
     | '/tymeo'
+    | '/blog/$slug'
     | '/guias/$guia'
     | '/ia/$aplicacion'
     | '/ia/conecta-claude-y-chatgpt'
@@ -377,6 +396,7 @@ export interface FileRouteTypes {
     | '/soluciones/casos'
     | '/soluciones/control-de-fasoneros'
     | '/soluciones/produccion-a-fason'
+    | '/blog/'
     | '/guias/'
     | '/ia/'
     | '/integraciones/'
@@ -404,6 +424,7 @@ export interface FileRouteTypes {
     | '/simulador'
     | '/stock-picking'
     | '/tymeo'
+    | '/blog/$slug'
     | '/guias/$guia'
     | '/ia/$aplicacion'
     | '/ia/conecta-claude-y-chatgpt'
@@ -415,6 +436,7 @@ export interface FileRouteTypes {
     | '/soluciones/casos'
     | '/soluciones/control-de-fasoneros'
     | '/soluciones/produccion-a-fason'
+    | '/blog'
     | '/guias'
     | '/ia'
     | '/integraciones'
@@ -442,6 +464,7 @@ export interface FileRouteTypes {
     | '/simulador'
     | '/stock-picking'
     | '/tymeo'
+    | '/blog/$slug'
     | '/guias/$guia'
     | '/ia/$aplicacion'
     | '/ia/conecta-claude-y-chatgpt'
@@ -453,6 +476,7 @@ export interface FileRouteTypes {
     | '/soluciones/casos'
     | '/soluciones/control-de-fasoneros'
     | '/soluciones/produccion-a-fason'
+    | '/blog/'
     | '/guias/'
     | '/ia/'
     | '/integraciones/'
@@ -481,6 +505,7 @@ export interface RootRouteChildren {
   SimuladorRoute: typeof SimuladorRoute
   StockPickingRoute: typeof StockPickingRoute
   TymeoRoute: typeof TymeoRoute
+  BlogSlugRoute: typeof BlogSlugRoute
   GuiasGuiaRoute: typeof GuiasGuiaRoute
   IaAplicacionRoute: typeof IaAplicacionRoute
   IaConectaClaudeYChatgptRoute: typeof IaConectaClaudeYChatgptRoute
@@ -492,6 +517,7 @@ export interface RootRouteChildren {
   SolucionesCasosRoute: typeof SolucionesCasosRoute
   SolucionesControlDeFasonerosRoute: typeof SolucionesControlDeFasonerosRoute
   SolucionesProduccionAFasonRoute: typeof SolucionesProduccionAFasonRoute
+  BlogIndexRoute: typeof BlogIndexRoute
   GuiasIndexRoute: typeof GuiasIndexRoute
   IaIndexRoute: typeof IaIndexRoute
   IntegracionesIndexRoute: typeof IntegracionesIndexRoute
@@ -627,6 +653,20 @@ declare module '@tanstack/react-router' {
       path: '/tymeo'
       fullPath: '/tymeo'
       preLoaderRoute: typeof TymeoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/guias/': {
@@ -777,6 +817,7 @@ const rootRouteChildren: RootRouteChildren = {
   SimuladorRoute: SimuladorRoute,
   StockPickingRoute: StockPickingRoute,
   TymeoRoute: TymeoRoute,
+  BlogSlugRoute: BlogSlugRoute,
   GuiasGuiaRoute: GuiasGuiaRoute,
   IaAplicacionRoute: IaAplicacionRoute,
   IaConectaClaudeYChatgptRoute: IaConectaClaudeYChatgptRoute,
@@ -788,6 +829,7 @@ const rootRouteChildren: RootRouteChildren = {
   SolucionesCasosRoute: SolucionesCasosRoute,
   SolucionesControlDeFasonerosRoute: SolucionesControlDeFasonerosRoute,
   SolucionesProduccionAFasonRoute: SolucionesProduccionAFasonRoute,
+  BlogIndexRoute: BlogIndexRoute,
   GuiasIndexRoute: GuiasIndexRoute,
   IaIndexRoute: IaIndexRoute,
   IntegracionesIndexRoute: IntegracionesIndexRoute,
