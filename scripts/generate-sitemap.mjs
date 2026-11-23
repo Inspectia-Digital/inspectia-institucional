@@ -24,6 +24,9 @@ const { IA_APPLICATIONS } = await import("../src/content/ia.ts");
 const { MCP } = await import("../src/content/mcp.ts");
 const { KITS } = await import("../src/content/kit40.ts");
 const { APP_SHOT, MODULE_SHOTS } = await import("../src/content/assets.ts");
+const { CATEGORY_PAGES, SYSTEM_PAGES, HUB } = await import("../src/content/integrations.ts");
+const { FASON_PAGES } = await import("../src/content/fason.ts");
+const { publishedPosts } = await import("../src/content/blog.ts");
 
 /**
  * Las capturas que se declaran con su página, por la extensión de imagen del sitemap.
@@ -64,13 +67,37 @@ const urls = [
     priority: "0.9",
     changefreq: "monthly",
   })),
-  { loc: "/plataforma/integraciones", priority: "0.6", changefreq: "monthly" },
+  /* Integraciones, que dejó de colgar de /plataforma (noviembre de 2026).
+     La URL vieja sale del mapa y entran las seis nuevas; el 301 lo pone `http-policy.ts`.
+
+     0.8 en el hub y en las categorías, y no 0.6 como tenía la página anterior: «¿se
+     integra con mi ERP?» es una objeción de compra, no una curiosidad técnica, y las
+     páginas por sistema atacan la intención más específica que hay en esta sección
+     («odoo OEE»), así que van con la misma prioridad que una funcionalidad. */
+  { loc: "/integraciones", priority: "0.8", changefreq: "monthly" },
+  ...CATEGORY_PAGES.map((p) => ({
+    loc: `/integraciones/${p.slug}`,
+    priority: "0.8",
+    changefreq: "monthly",
+  })),
+  ...SYSTEM_PAGES.map((p) => ({
+    loc: `/integraciones/${p.slug}`,
+    priority: "0.9",
+    changefreq: "monthly",
+  })),
   { loc: "/plataforma/marketplace", priority: "0.7", changefreq: "monthly" },
   { loc: "/soluciones", priority: "0.8", changefreq: "monthly" },
   // Sólo las industrias publicadas: las otras cuatro no tienen todavía un problema ni un
   // dato propios, y una página vacía indexada es peor que ninguna página.
   ...INDUSTRIES.filter((i) => i.published).map((i) => ({
     loc: `/soluciones/${i.slug}`,
+    priority: "0.8",
+    changefreq: "monthly",
+  })),
+  /* Las dos de fasón. Van con la prioridad de una industria porque son lo mismo para la
+     búsqueda —una entrada por cómo trabaja la planta— aunque no sean un rubro. */
+  ...FASON_PAGES.map((p) => ({
+    loc: p.path,
     priority: "0.8",
     changefreq: "monthly",
   })),
@@ -98,6 +125,21 @@ const urls = [
   // tampoco se declara: una URL en el sitemap que responde 404 es un error de rastreo.
   ...(approvedCases().length > 0
     ? [{ loc: "/soluciones/casos", priority: "0.6", changefreq: "monthly" }]
+    : []),
+  /* El blog entra con el primer artículo publicado y no antes.
+     Un índice vacío declarado en el mapa es una página delgada ofrecida al rastreo, y el
+     borrador no se declara nunca: su URL devuelve 404. Es la misma regla que ya usa
+     /soluciones/casos. Se enciende solo. */
+  ...(publishedPosts().length > 0
+    ? [
+        { loc: "/blog", priority: "0.6", changefreq: "weekly" },
+        ...publishedPosts().map((p) => ({
+          loc: `/blog/${p.slug}`,
+          priority: "0.7",
+          changefreq: "monthly",
+          lastmod: p.updated ?? p.date,
+        })),
+      ]
     : []),
   { loc: "/simulador", priority: "0.8", changefreq: "monthly" },
   { loc: "/roi", priority: "0.9", changefreq: "monthly" },
@@ -179,8 +221,99 @@ Disallow: /demo
 Sitemap: ${SITE_URL}/sitemap.xml
 `;
 
+/**
+ * llms.txt.
+ *
+ * Es el índice del sitio para un asistente: markdown plano, una línea por página y una
+ * descripción de qué responde cada una. No reemplaza al sitemap —ese le habla a un
+ * rastreador y lleva prioridad y frecuencia— sino que resuelve el otro problema: un
+ * modelo que llega con una pregunta concreta tiene que poder elegir **una** página sin
+ * rastrear sesenta.
+ *
+ * **Ningún motor documenta hoy que lo lea**, y se publica igual por dos motivos: cuesta
+ * una línea por URL y se genera del mismo contenido que el resto, así que no se
+ * desincroniza; y la sección de integraciones y la de fasón son justamente las que un
+ * comprador industrial pregunta a un asistente antes de buscar en Google.
+ *
+ * Se arma de los módulos de contenido, nunca a mano: una lista escrita a mano se separa
+ * del sitio en la segunda página que alguien agrega.
+ */
+const seccion = (titulo, items) =>
+  items.length === 0 ? "" : `\n## ${titulo}\n\n${items.join("\n")}\n`;
+
+const linea = (nombre, loc, nota) => `- [${nombre}](${SITE_URL}${loc}): ${nota}`;
+
+const llms = `# InspectIA
+
+> Plataforma SaaS que mide y mejora la operación de una fábrica: OEE y producción,
+> calidad, stock, trazabilidad, tareas, energía y mantenimiento. Funciona sobre la
+> infraestructura que la planta ya tiene —el PLC, el SCADA, el ERP, las cámaras— y se
+> puede empezar con carga manual, sin hardware. Multi-planta, en español, para pymes
+> industriales de América Latina y España.
+
+Los precios y los planes de cada módulo están en la página del módulo. Lo que se cotiza
+por proyecto lo dice la página que lo ofrece.
+${seccion("Plataforma", [
+  linea(
+    "Cómo funciona la plataforma",
+    "/plataforma",
+    "Los ocho módulos sobre una sola base de plantas, líneas y usuarios.",
+  ),
+  ...MODULES.map((m) => linea(m.name, `/plataforma/${m.slug}`, m.promise)),
+])}${seccion(
+  "Funcionalidades",
+  FEATURES.map((f) =>
+    linea(f.name, `/plataforma/${MODULES.find((m) => m.key === f.module).slug}/${f.slug}`, f.blurb),
+  ),
+)}${seccion("Integraciones", [
+  linea(
+    HUB.name,
+    "/integraciones",
+    "Con qué ERP, SCADA, PLC, WMS y sistemas de trazabilidad trabaja, sistema por sistema.",
+  ),
+  ...CATEGORY_PAGES.map((p) => linea(p.name, `/integraciones/${p.slug}`, p.seoDescription)),
+  ...SYSTEM_PAGES.map((p) => linea(p.name, `/integraciones/${p.slug}`, p.seoDescription)),
+])}${seccion("Soluciones", [
+  linea("Por industria y por problema", "/soluciones", "Qué módulos usa cada rubro."),
+  ...INDUSTRIES.filter((i) => i.published).map((i) =>
+    linea(i.name, `/soluciones/${i.slug}`, i.pain),
+  ),
+  ...FASON_PAGES.map((p) => linea(p.name, p.path, p.seoDescription)),
+])}${seccion("Guías", [
+  linea("Índice de guías", "/guias", "Cómo se hace cada cosa, en español neutro."),
+  ...GUIDES.map((g) => linea(g.title, `/guias/${g.slug}`, g.seoDescription)),
+])}${seccion(
+  "Blog",
+  publishedPosts().length > 0
+    ? [
+        linea("Índice del blog", "/blog", "Definiciones, cálculos y explicaciones técnicas."),
+        ...publishedPosts().map((p) => linea(p.title, `/blog/${p.slug}`, p.seoDescription)),
+      ]
+    : [],
+)}${seccion("Herramientas y contacto", [
+  linea(
+    "Simulador de OEE",
+    "/simulador",
+    "Calcular el OEE de una línea con datos propios, sin registrarse.",
+  ),
+  linea(
+    "Calculadora de retorno",
+    "/roi",
+    "Cuánto se recupera de medir producción, calidad o inventario.",
+  ),
+  linea(
+    "Asistentes de IA",
+    MCP.path,
+    "Conectar Claude o ChatGPT a los datos de la planta, en sólo lectura.",
+  ),
+  linea("Contacto", "/contacto", "Pedir una demostración o contar qué sistema se usa."),
+  linea("Quiénes somos", "/nosotros", "La empresa, el equipo y los socios."),
+])}`;
+
 await writeFile(join(ROOT, "public", "sitemap.xml"), sitemap, "utf8");
 await writeFile(join(ROOT, "public", "robots.txt"), robots, "utf8");
+await writeFile(join(ROOT, "public", "llms.txt"), llms, "utf8");
 
 console.log(`sitemap.xml: ${urls.length} URLs sobre ${SITE_URL}`);
 console.log("robots.txt: listo");
+console.log(`llms.txt: ${llms.split("\n").filter((l) => l.startsWith("- [")).length} páginas`);

@@ -1,0 +1,78 @@
+# InspectIA
+
+> Plataforma SaaS que mide y mejora la operación de una fábrica: OEE y producción,
+> calidad, stock, trazabilidad, tareas, energía y mantenimiento. Funciona sobre la
+> infraestructura que la planta ya tiene —el PLC, el SCADA, el ERP, las cámaras— y se
+> puede empezar con carga manual, sin hardware. Multi-planta, en español, para pymes
+> industriales de América Latina y España.
+
+Los precios y los planes de cada módulo están en la página del módulo. Lo que se cotiza
+por proyecto lo dice la página que lo ofrece.
+
+## Plataforma
+
+- [Cómo funciona la plataforma](https://inspectia.ai/plataforma): Los ocho módulos sobre una sola base de plantas, líneas y usuarios.
+- [Producción](https://inspectia.ai/plataforma/produccion): OEE en tiempo real, paradas clasificadas y plan contra real, por turno, línea, puesto y operario.
+- [Calidad](https://inspectia.ai/plataforma/calidad): El defecto queda registrado donde pasa, y el rechazo impacta el indicador de producción sin cargarlo dos veces.
+- [Stock](https://inspectia.ai/plataforma/stock): Qué entró, qué se consumió, qué se produjo y qué salió, contra qué orden y en qué posición.
+- [Trazabilidad](https://inspectia.ai/plataforma/trazabilidad): De qué lote salió cada producto y en qué condiciones se fabricó, para adelante y para atrás.
+- [Tareas](https://inspectia.ai/plataforma/tareas): La tarea de planta con responsable, plazo y evidencia, en cualquier área.
+- [Mantenimiento](https://inspectia.ai/plataforma/mantenimiento): El preventivo corre por horas reales de máquina, no por calendario.
+- [Energía](https://inspectia.ai/plataforma/energia): Cuánta energía cuesta cada unidad producida, no cuánta gasta la planta.
+
+## Funcionalidades
+
+- [Monitoreo automático de OEE](https://inspectia.ai/plataforma/produccion/monitoreo-automatico-de-oee): El dato sale del PLC o de un sensor en la línea, sin carga manual.
+- [Registro de paradas de máquina](https://inspectia.ai/plataforma/produccion/registro-de-paradas-de-maquina): Cada parada con su motivo, en dos toques desde el puesto.
+- [Trazabilidad alimentaria](https://inspectia.ai/plataforma/trazabilidad/trazabilidad-alimentaria): Informe de un lote y retiro acotado para plantas de alimentos.
+- [WMS para fábricas](https://inspectia.ai/plataforma/stock/wms-para-fabricas): Posiciones, consumo contra la orden y producto terminado en el mismo registro.
+- [Control de asistencia en planta](https://inspectia.ai/plataforma/tareas/control-de-asistencia): La fichada cruzada con el horario y con el puesto.
+- [MRP y escenarios](https://inspectia.ai/plataforma/produccion/mrp-y-escenarios): El cálculo de necesidades de materiales de un MRP, con la capacidad al lado.
+- [Plan de producción](https://inspectia.ai/plataforma/produccion/plan-de-produccion): Los pedidos de clientes entran con sus productos y sus fechas de entrega.
+- [Parte de producción](https://inspectia.ai/plataforma/produccion/parte-de-produccion): El supervisor anota las paradas cuando pasan y lo producido al cerrar cada orden.
+- [Mantenimiento por horas de uso](https://inspectia.ai/plataforma/mantenimiento/mantenimiento-por-horas-de-uso): Cada servicio vence por días, por horas de uso o por las dos cosas.
+- [Andon digital](https://inspectia.ai/plataforma/produccion/andon-digital): Una pantalla en la planta muestra cada línea en vivo.
+- [Costo por unidad](https://inspectia.ai/plataforma/produccion/costo-por-unidad): Cuánto te cuesta producir cada kilo o cada unidad, con datos de la planta.
+
+## Integraciones
+
+- [Integraciones](https://inspectia.ai/integraciones): Con qué ERP, SCADA, PLC, WMS y sistemas de trazabilidad trabaja, sistema por sistema.
+- [ERP](https://inspectia.ai/integraciones/erp): Conectá tu ERP con la planta: productos, recetas, órdenes y pedidos entran a InspectIA, y la producción real, los lotes y los consumos vuelven al ERP.
+- [SCADA y PLC](https://inspectia.ai/integraciones/scada-plc): Leemos estado, contadores y alarmas de tu SCADA o tu PLC por OPC UA, Modbus TCP o MQTT, sin tocar su programa, y calculamos el OEE y las paradas en vivo.
+- [WMS](https://inspectia.ai/integraciones/wms): InspectIA lleva el depósito de la planta y tu WMS el centro de distribución. El producto terminado pasa con lote, vencimiento y cantidad, sin recargarlo.
+- [Trazabilidad](https://inspectia.ai/integraciones/trazabilidad): InspectIA registra qué lotes de materia prima se transformaron en qué lote de producto, y lo comparte con el estándar GS1 EPCIS 2.0 con GTIN y GLN.
+- [Odoo](https://inspectia.ai/integraciones/odoo): Las órdenes de fabricación de Odoo entran a InspectIA y vuelven con lo producido, el scrap, el lote, los consumos por lote y las paradas. Odoo 16 a 19.
+- [Proficy iFIX](https://inspectia.ai/integraciones/ifix): Leemos tu iFIX en sólo lectura por su servidor OPC UA: estado, contadores y alarmas de cada máquina se convierten en OEE y paradas con causa.
+
+## Soluciones
+
+- [Por industria y por problema](https://inspectia.ai/soluciones): Qué módulos usa cada rubro.
+- [Alimentos y bebidas](https://inspectia.ai/soluciones/alimentos): La merma y las caducidades se descubren cuando el lote ya salió.
+- [Autopartista y metalmecánica](https://inspectia.ai/soluciones/autopartista): Una pieza que sale mal llega al cliente y vuelve con penalización.
+- [Logística y centros de distribución](https://inspectia.ai/soluciones/logistica): El sistema dice una cosa y el rack dice otra.
+- [Textil y moda](https://inspectia.ai/soluciones/textil): Una falla chica arruina el lote completo, y se descubre cuando el cliente lo devuelve.
+- [Farmacéutica](https://inspectia.ai/soluciones/farmaceutica): Todo tiene que quedar registrado, y casi todo se registra a mano.
+- [Cosmética](https://inspectia.ai/soluciones/cosmetica): El envase, la etiqueta y la presentación son el producto: una falla visual llega al consumidor como una falla de la marca.
+- [Maquinarias e insumos industriales](https://inspectia.ai/soluciones/maquinarias): El poro, la grieta o la rebaba que no se ve a simple vista vuelve como pieza rechazada.
+- [Producción a fasón](https://inspectia.ai/soluciones/produccion-a-fason): Para fábricas que producen para otras marcas: pedidos y entregas por marca, lotes y trazabilidad separados, y un reporte para cada marca sin mostrar tu planta.
+- [Control de fasoneros](https://inspectia.ai/soluciones/control-de-fasoneros): Si tu marca produce en fábricas de terceros: cómo vienen tus pedidos, el estado de cada lote, tus insumos en la fábrica y la trazabilidad, sin pedir planillas.
+
+## Guías
+
+- [Índice de guías](https://inspectia.ai/guias): Cómo se hace cada cosa, en español neutro.
+- [Cómo calcular el OEE](https://inspectia.ai/guias/como-calcular-el-oee): La fórmula del OEE con un ejemplo resuelto: disponibilidad, rendimiento y calidad de una línea, qué datos hacen falta y los errores más comunes al calcularlo.
+- [Motivos de parada](https://inspectia.ai/guias/motivos-de-parada): Cómo armar una lista de motivos de parada que los operarios usen: cuántos motivos, cómo agruparlos y un ejemplo para una línea de envasado.
+- [Retiro de lotes](https://inspectia.ai/guias/retiro-de-lotes): Qué datos hacen falta para retirar sólo los lotes afectados: trazabilidad hacia atrás y hacia adelante, bloqueo de lotes y el informe que hay que tener listo.
+- [Cómo reducir el scrap](https://inspectia.ai/guias/como-reducir-el-scrap): Qué es el scrap, cómo calcular la tasa de scrap de una línea y qué datos registrar para bajarla, con un ejemplo.
+- [Cómo reducir las paradas de máquina](https://inspectia.ai/guias/como-reducir-las-paradas-de-maquina): Paradas programadas y no planificadas: cómo registrarlas, ordenarlas por motivo y atacar primero la que más tiempo cuesta.
+- [Inventario que no cuadra](https://inspectia.ai/guias/inventario-que-no-cuadra): Las causas más comunes de un inventario descuadrado y cómo cuadrarlo con conteo cíclico, sin parar el depósito.
+- [Cómo acelerar la recepción](https://inspectia.ai/guias/como-acelerar-la-recepcion-de-mercaderia): Qué frena la recepción en el muelle y cómo controlar lo que baja del camión sin planillas ni doble carga.
+- [Prevenir accidentes con cámaras](https://inspectia.ai/guias/prevenir-accidentes-en-planta-con-camaras): Cómo usar las cámaras de seguridad existentes para detectar situaciones de riesgo y avisar en el momento.
+
+## Herramientas y contacto
+
+- [Simulador de OEE](https://inspectia.ai/simulador): Calcular el OEE de una línea con datos propios, sin registrarse.
+- [Calculadora de retorno](https://inspectia.ai/roi): Cuánto se recupera de medir producción, calidad o inventario.
+- [Asistentes de IA](https://inspectia.ai/ia/conecta-claude-y-chatgpt): Conectar Claude o ChatGPT a los datos de la planta, en sólo lectura.
+- [Contacto](https://inspectia.ai/contacto): Pedir una demostración o contar qué sistema se usa.
+- [Quiénes somos](https://inspectia.ai/nosotros): La empresa, el equipo y los socios.
