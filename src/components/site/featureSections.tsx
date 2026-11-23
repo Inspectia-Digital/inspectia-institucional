@@ -104,19 +104,24 @@ export function Steps({
   items,
   render,
 }: {
-  items: { title: string; body: string }[];
+  /** Sin `title`, el paso va sólo con su número: un recorrido donde cada paso es una
+   *  frase entera no tiene un nombre que resuma la frase, y un título vacío deja un
+   *  encabezado sin texto en el árbol de accesibilidad. */
+  items: { title?: string; body: string }[];
   render?: (body: string) => React.ReactNode;
 }) {
   return (
     <ol className={cn("mt-12 grid gap-x-6 gap-y-9", cols(items.length))}>
       {items.map((item, i) => (
-        <li key={item.title} className="min-w-0 border-t-2 border-teal-650 pt-5">
+        <li key={item.title || i} className="min-w-0 border-t-2 border-teal-650 pt-5">
           <span className="metric text-sm font-semibold text-brand">
             {String(i + 1).padStart(2, "0")}
           </span>
-          <h3 className="mt-2 text-[19px] font-semibold leading-snug tracking-[var(--tracking-tight)] text-ink">
-            {item.title}
-          </h3>
+          {item.title && (
+            <h3 className="mt-2 text-[19px] font-semibold leading-snug tracking-[var(--tracking-tight)] text-ink">
+              {item.title}
+            </h3>
+          )}
           <p className="mt-2 text-base leading-[var(--leading-normal)] text-ink-secondary">
             {render ? render(item.body) : item.body}
           </p>

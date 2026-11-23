@@ -43,6 +43,14 @@ export function FeatureHero({
   requestOrigin,
   /** El enlace de texto al lado del botón único, para bajar a la explicación. */
   secondary,
+  /**
+   * La etiqueta de estado, arriba del título (base de integraciones §4, punto 1).
+   *
+   * Va en gris y con borde, nunca en verde ni en ámbar: los lineamientos reservan los
+   * colores de estado para el interior de un panel de producto, y acá lo que se está
+   * diciendo no es el estado de una máquina sino en qué etapa está una integración.
+   */
+  status,
 }: {
   eyebrow: string;
   title: string;
@@ -53,6 +61,7 @@ export function FeatureHero({
   demoLabel?: string;
   requestOrigin?: string;
   secondary?: { label: string; hash: string };
+  status?: string;
 }) {
   return (
     /* El relleno de abajo es corto a propósito: lo que sigue es la miga de pan, que es
@@ -69,6 +78,13 @@ export function FeatureHero({
       >
         <div className="hero-col min-w-0">
           <p className="eyebrow">{eyebrow}</p>
+          {status && (
+            <p className="mt-3">
+              <span className="inline-flex items-center rounded-[var(--radius-pill)] border border-line-strong px-3 py-1 text-[13px] font-medium text-ink-secondary">
+                {status}
+              </span>
+            </p>
+          )}
           <h1
             className="mt-4 text-[length:var(--text-hero-split)] leading-[var(--leading-hero)] tracking-[var(--tracking-hero)] text-brand-deep"
             style={{ textWrap: "balance" }}

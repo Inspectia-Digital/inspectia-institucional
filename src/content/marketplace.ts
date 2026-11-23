@@ -8,7 +8,7 @@ import type { ModuleKey } from "./modules";
  * adicional y la razón por la que a un proveedor le conviene entrar antes que competir.
  *
  * **No son integraciones.** La integración es qué sistema soporta la plataforma y vive en
- * /plataforma/integraciones, sin precio ni CTA. Esto se contrata con nosotros (§11.6).
+ * /integraciones, sin precio ni CTA. Esto se contrata con nosotros (§11.6).
  *
  * TODO(equipo): falta el esquema comercial de cada servicio —reventa con margen, comisión
  * o derivación— y a quién se le factura. Hasta tenerlo, la ficha de servicio no se puede

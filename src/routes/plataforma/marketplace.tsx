@@ -20,7 +20,7 @@ const DESCRIPTION =
  *
  * **La distinción que sostiene esta página:** el marketplace son servicios de terceros que
  * comercializamos, con precio y CTA. Las integraciones son información técnica, viven en
- * /plataforma/integraciones y no llevan ni precio ni CTA. Nunca comparten grilla, y en
+ * /integraciones y no llevan ni precio ni CTA. Nunca comparten grilla, y en
  * esta página **no se usa "integrado" ni "integración" para describir un servicio**: si el
  * copy dice "ya integrado", el visitante entiende capacidad técnica y se pierde la
  * distinción que el resto del sitio construyó.
@@ -215,7 +215,7 @@ function Page() {
             ¿Buscás con qué sistemas se conecta la plataforma? Eso está en integraciones.
           </p>
           <Link
-            to="/plataforma/integraciones"
+            to="/integraciones"
             className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline hover:underline-offset-4"
           >
             Ver las integraciones

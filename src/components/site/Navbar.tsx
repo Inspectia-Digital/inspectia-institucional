@@ -43,7 +43,7 @@ import { Icon } from "@/components/icons/Icon";
 
 const PLATFORM_LINKS = [
   { label: "Cómo funciona la plataforma", to: "/plataforma" },
-  { label: "Integraciones", to: "/plataforma/integraciones" },
+  { label: "Integraciones", to: "/integraciones" },
   { label: "Marketplace", to: "/plataforma/marketplace" },
 ];
 

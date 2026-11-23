@@ -193,7 +193,7 @@ export function Footer() {
                 </Link>
               </li>
               <li className="min-w-0">
-                <Link to="/plataforma/integraciones" className={FOOTER_LINK}>
+                <Link to="/integraciones" className={FOOTER_LINK}>
                   Integraciones
                 </Link>
               </li>

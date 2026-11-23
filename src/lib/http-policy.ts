@@ -103,6 +103,17 @@ const LEGACY_REDIRECTS: Record<string, string> = {
    * mano una de las cinco de arriba, y porque sin ella ese recorte cae en el 404. */
   "/soluciones/casos-de-uso": "/guias",
 
+  /* Integraciones, que dejó de ser una página de la plataforma (noviembre de 2026).
+   *
+   * Es el mismo caso que los casos de uso: una URL que **publicó este sitio** y que Google
+   * conoce, no una heredada del WordPress. Pasó de ser una página sola con cuatro grupos
+   * de nombres a la cabeza de una sección de seis páginas, y la URL corta es la que le
+   * corresponde: `/integraciones/erp` y `/integraciones/odoo` no son partes de la
+   * plataforma, son la respuesta a «¿se integra con lo que ya tengo?».
+   *
+   * Un solo salto, como todas: el valor es el destino final y no otra entrada de la tabla. */
+  "/plataforma/integraciones": "/integraciones",
+
   // /simulador no figura acá a propósito: la URL se conserva tal cual, con su propia
   // página. Era la que más tráfico de búsqueda traía y el término se pierde si redirige.
 };

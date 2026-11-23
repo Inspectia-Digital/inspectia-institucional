@@ -172,7 +172,7 @@ function PlatformPage() {
       <section className={`bg-surface ${SECTION}`}>
         <div className={`${CONTAINER} grid gap-6 min-[1000px]:grid-cols-2`}>
           <TeaserCard
-            to="/plataforma/integraciones"
+            to="/integraciones"
             eyebrow="Integraciones"
             title="Con qué se conecta"
             body="Qué ERP, WMS, PLC y sensórica soporta la plataforma. Es información técnica: no hay nada que contratar acá."
@@ -257,7 +257,7 @@ function TeaserCard({
   body,
   cta,
 }: {
-  to: "/plataforma/integraciones" | "/plataforma/marketplace";
+  to: "/integraciones" | "/plataforma/marketplace";
   eyebrow: string;
   title: string;
   body: string;

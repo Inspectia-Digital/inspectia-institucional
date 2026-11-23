@@ -32,11 +32,12 @@ import { Route as GuiasGuiaRouteImport } from './routes/guias/$guia'
 import { Route as IaIndexRouteImport } from './routes/ia/index'
 import { Route as IaAplicacionRouteImport } from './routes/ia/$aplicacion'
 import { Route as IaConectaClaudeYChatgptRouteImport } from './routes/ia/conecta-claude-y-chatgpt'
+import { Route as IntegracionesIndexRouteImport } from './routes/integraciones/index'
+import { Route as IntegracionesSlugRouteImport } from './routes/integraciones/$slug'
 import { Route as Kit40IndexRouteImport } from './routes/kit-4-0/index'
 import { Route as Kit40KitRouteImport } from './routes/kit-4-0/$kit'
 import { Route as PlataformaIndexRouteImport } from './routes/plataforma/index'
 import { Route as PlataformaModuloRouteImport } from './routes/plataforma/$modulo'
-import { Route as PlataformaIntegracionesRouteImport } from './routes/plataforma/integraciones'
 import { Route as PlataformaMarketplaceRouteImport } from './routes/plataforma/marketplace'
 import { Route as SolucionesIndexRouteImport } from './routes/soluciones/index'
 import { Route as SolucionesIndustriaRouteImport } from './routes/soluciones/$industria'
@@ -158,6 +159,16 @@ const IaConectaClaudeYChatgptRoute = IaConectaClaudeYChatgptRouteImport.update({
   path: '/ia/conecta-claude-y-chatgpt',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IntegracionesIndexRoute = IntegracionesIndexRouteImport.update({
+  id: '/integraciones/',
+  path: '/integraciones/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IntegracionesSlugRoute = IntegracionesSlugRouteImport.update({
+  id: '/integraciones/$slug',
+  path: '/integraciones/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const Kit40IndexRoute = Kit40IndexRouteImport.update({
   id: '/kit-4-0/',
   path: '/kit-4-0/',
@@ -176,11 +187,6 @@ const PlataformaIndexRoute = PlataformaIndexRouteImport.update({
 const PlataformaModuloRoute = PlataformaModuloRouteImport.update({
   id: '/plataforma/$modulo',
   path: '/plataforma/$modulo',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PlataformaIntegracionesRoute = PlataformaIntegracionesRouteImport.update({
-  id: '/plataforma/integraciones',
-  path: '/plataforma/integraciones',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlataformaMarketplaceRoute = PlataformaMarketplaceRouteImport.update({
@@ -232,14 +238,15 @@ export interface FileRoutesByFullPath {
   '/guias/$guia': typeof GuiasGuiaRoute
   '/ia/$aplicacion': typeof IaAplicacionRoute
   '/ia/conecta-claude-y-chatgpt': typeof IaConectaClaudeYChatgptRoute
+  '/integraciones/$slug': typeof IntegracionesSlugRoute
   '/kit-4-0/$kit': typeof Kit40KitRoute
   '/plataforma/$modulo': typeof PlataformaModuloRoute
-  '/plataforma/integraciones': typeof PlataformaIntegracionesRoute
   '/plataforma/marketplace': typeof PlataformaMarketplaceRoute
   '/soluciones/$industria': typeof SolucionesIndustriaRoute
   '/soluciones/casos': typeof SolucionesCasosRoute
   '/guias/': typeof GuiasIndexRoute
   '/ia/': typeof IaIndexRoute
+  '/integraciones/': typeof IntegracionesIndexRoute
   '/kit-4-0/': typeof Kit40IndexRoute
   '/plataforma/': typeof PlataformaIndexRoute
   '/soluciones/': typeof SolucionesIndexRoute
@@ -267,14 +274,15 @@ export interface FileRoutesByTo {
   '/guias/$guia': typeof GuiasGuiaRoute
   '/ia/$aplicacion': typeof IaAplicacionRoute
   '/ia/conecta-claude-y-chatgpt': typeof IaConectaClaudeYChatgptRoute
+  '/integraciones/$slug': typeof IntegracionesSlugRoute
   '/kit-4-0/$kit': typeof Kit40KitRoute
   '/plataforma/$modulo': typeof PlataformaModuloRoute
-  '/plataforma/integraciones': typeof PlataformaIntegracionesRoute
   '/plataforma/marketplace': typeof PlataformaMarketplaceRoute
   '/soluciones/$industria': typeof SolucionesIndustriaRoute
   '/soluciones/casos': typeof SolucionesCasosRoute
   '/guias': typeof GuiasIndexRoute
   '/ia': typeof IaIndexRoute
+  '/integraciones': typeof IntegracionesIndexRoute
   '/kit-4-0': typeof Kit40IndexRoute
   '/plataforma': typeof PlataformaIndexRoute
   '/soluciones': typeof SolucionesIndexRoute
@@ -303,14 +311,15 @@ export interface FileRoutesById {
   '/guias/$guia': typeof GuiasGuiaRoute
   '/ia/$aplicacion': typeof IaAplicacionRoute
   '/ia/conecta-claude-y-chatgpt': typeof IaConectaClaudeYChatgptRoute
+  '/integraciones/$slug': typeof IntegracionesSlugRoute
   '/kit-4-0/$kit': typeof Kit40KitRoute
   '/plataforma/$modulo': typeof PlataformaModuloRoute
-  '/plataforma/integraciones': typeof PlataformaIntegracionesRoute
   '/plataforma/marketplace': typeof PlataformaMarketplaceRoute
   '/soluciones/$industria': typeof SolucionesIndustriaRoute
   '/soluciones/casos': typeof SolucionesCasosRoute
   '/guias/': typeof GuiasIndexRoute
   '/ia/': typeof IaIndexRoute
+  '/integraciones/': typeof IntegracionesIndexRoute
   '/kit-4-0/': typeof Kit40IndexRoute
   '/plataforma/': typeof PlataformaIndexRoute
   '/soluciones/': typeof SolucionesIndexRoute
@@ -340,14 +349,15 @@ export interface FileRouteTypes {
     | '/guias/$guia'
     | '/ia/$aplicacion'
     | '/ia/conecta-claude-y-chatgpt'
+    | '/integraciones/$slug'
     | '/kit-4-0/$kit'
     | '/plataforma/$modulo'
-    | '/plataforma/integraciones'
     | '/plataforma/marketplace'
     | '/soluciones/$industria'
     | '/soluciones/casos'
     | '/guias/'
     | '/ia/'
+    | '/integraciones/'
     | '/kit-4-0/'
     | '/plataforma/'
     | '/soluciones/'
@@ -375,14 +385,15 @@ export interface FileRouteTypes {
     | '/guias/$guia'
     | '/ia/$aplicacion'
     | '/ia/conecta-claude-y-chatgpt'
+    | '/integraciones/$slug'
     | '/kit-4-0/$kit'
     | '/plataforma/$modulo'
-    | '/plataforma/integraciones'
     | '/plataforma/marketplace'
     | '/soluciones/$industria'
     | '/soluciones/casos'
     | '/guias'
     | '/ia'
+    | '/integraciones'
     | '/kit-4-0'
     | '/plataforma'
     | '/soluciones'
@@ -410,14 +421,15 @@ export interface FileRouteTypes {
     | '/guias/$guia'
     | '/ia/$aplicacion'
     | '/ia/conecta-claude-y-chatgpt'
+    | '/integraciones/$slug'
     | '/kit-4-0/$kit'
     | '/plataforma/$modulo'
-    | '/plataforma/integraciones'
     | '/plataforma/marketplace'
     | '/soluciones/$industria'
     | '/soluciones/casos'
     | '/guias/'
     | '/ia/'
+    | '/integraciones/'
     | '/kit-4-0/'
     | '/plataforma/'
     | '/soluciones/'
@@ -446,14 +458,15 @@ export interface RootRouteChildren {
   GuiasGuiaRoute: typeof GuiasGuiaRoute
   IaAplicacionRoute: typeof IaAplicacionRoute
   IaConectaClaudeYChatgptRoute: typeof IaConectaClaudeYChatgptRoute
+  IntegracionesSlugRoute: typeof IntegracionesSlugRoute
   Kit40KitRoute: typeof Kit40KitRoute
   PlataformaModuloRoute: typeof PlataformaModuloRoute
-  PlataformaIntegracionesRoute: typeof PlataformaIntegracionesRoute
   PlataformaMarketplaceRoute: typeof PlataformaMarketplaceRoute
   SolucionesIndustriaRoute: typeof SolucionesIndustriaRoute
   SolucionesCasosRoute: typeof SolucionesCasosRoute
   GuiasIndexRoute: typeof GuiasIndexRoute
   IaIndexRoute: typeof IaIndexRoute
+  IntegracionesIndexRoute: typeof IntegracionesIndexRoute
   Kit40IndexRoute: typeof Kit40IndexRoute
   PlataformaIndexRoute: typeof PlataformaIndexRoute
   SolucionesIndexRoute: typeof SolucionesIndexRoute
@@ -623,6 +636,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IaConectaClaudeYChatgptRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/integraciones/': {
+      id: '/integraciones/'
+      path: '/integraciones'
+      fullPath: '/integraciones/'
+      preLoaderRoute: typeof IntegracionesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/integraciones/$slug': {
+      id: '/integraciones/$slug'
+      path: '/integraciones/$slug'
+      fullPath: '/integraciones/$slug'
+      preLoaderRoute: typeof IntegracionesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/kit-4-0/': {
       id: '/kit-4-0/'
       path: '/kit-4-0'
@@ -649,13 +676,6 @@ declare module '@tanstack/react-router' {
       path: '/plataforma/$modulo'
       fullPath: '/plataforma/$modulo'
       preLoaderRoute: typeof PlataformaModuloRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/plataforma/integraciones': {
-      id: '/plataforma/integraciones'
-      path: '/plataforma/integraciones'
-      fullPath: '/plataforma/integraciones'
-      preLoaderRoute: typeof PlataformaIntegracionesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/plataforma/marketplace': {
@@ -718,14 +738,15 @@ const rootRouteChildren: RootRouteChildren = {
   GuiasGuiaRoute: GuiasGuiaRoute,
   IaAplicacionRoute: IaAplicacionRoute,
   IaConectaClaudeYChatgptRoute: IaConectaClaudeYChatgptRoute,
+  IntegracionesSlugRoute: IntegracionesSlugRoute,
   Kit40KitRoute: Kit40KitRoute,
   PlataformaModuloRoute: PlataformaModuloRoute,
-  PlataformaIntegracionesRoute: PlataformaIntegracionesRoute,
   PlataformaMarketplaceRoute: PlataformaMarketplaceRoute,
   SolucionesIndustriaRoute: SolucionesIndustriaRoute,
   SolucionesCasosRoute: SolucionesCasosRoute,
   GuiasIndexRoute: GuiasIndexRoute,
   IaIndexRoute: IaIndexRoute,
+  IntegracionesIndexRoute: IntegracionesIndexRoute,
   Kit40IndexRoute: Kit40IndexRoute,
   PlataformaIndexRoute: PlataformaIndexRoute,
   SolucionesIndexRoute: SolucionesIndexRoute,
