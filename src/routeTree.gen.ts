@@ -42,6 +42,8 @@ import { Route as PlataformaMarketplaceRouteImport } from './routes/plataforma/m
 import { Route as SolucionesIndexRouteImport } from './routes/soluciones/index'
 import { Route as SolucionesIndustriaRouteImport } from './routes/soluciones/$industria'
 import { Route as SolucionesCasosRouteImport } from './routes/soluciones/casos'
+import { Route as SolucionesControlDeFasonerosRouteImport } from './routes/soluciones/control-de-fasoneros'
+import { Route as SolucionesProduccionAFasonRouteImport } from './routes/soluciones/produccion-a-fason'
 import { Route as PlataformaModuloFuncionalidadRouteImport } from './routes/plataforma/$modulo_.$funcionalidad'
 
 const IndexRoute = IndexRouteImport.update({
@@ -209,6 +211,18 @@ const SolucionesCasosRoute = SolucionesCasosRouteImport.update({
   path: '/soluciones/casos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SolucionesControlDeFasonerosRoute =
+  SolucionesControlDeFasonerosRouteImport.update({
+    id: '/soluciones/control-de-fasoneros',
+    path: '/soluciones/control-de-fasoneros',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const SolucionesProduccionAFasonRoute =
+  SolucionesProduccionAFasonRouteImport.update({
+    id: '/soluciones/produccion-a-fason',
+    path: '/soluciones/produccion-a-fason',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const PlataformaModuloFuncionalidadRoute =
   PlataformaModuloFuncionalidadRouteImport.update({
     id: '/plataforma/$modulo_/$funcionalidad',
@@ -244,6 +258,8 @@ export interface FileRoutesByFullPath {
   '/plataforma/marketplace': typeof PlataformaMarketplaceRoute
   '/soluciones/$industria': typeof SolucionesIndustriaRoute
   '/soluciones/casos': typeof SolucionesCasosRoute
+  '/soluciones/control-de-fasoneros': typeof SolucionesControlDeFasonerosRoute
+  '/soluciones/produccion-a-fason': typeof SolucionesProduccionAFasonRoute
   '/guias/': typeof GuiasIndexRoute
   '/ia/': typeof IaIndexRoute
   '/integraciones/': typeof IntegracionesIndexRoute
@@ -280,6 +296,8 @@ export interface FileRoutesByTo {
   '/plataforma/marketplace': typeof PlataformaMarketplaceRoute
   '/soluciones/$industria': typeof SolucionesIndustriaRoute
   '/soluciones/casos': typeof SolucionesCasosRoute
+  '/soluciones/control-de-fasoneros': typeof SolucionesControlDeFasonerosRoute
+  '/soluciones/produccion-a-fason': typeof SolucionesProduccionAFasonRoute
   '/guias': typeof GuiasIndexRoute
   '/ia': typeof IaIndexRoute
   '/integraciones': typeof IntegracionesIndexRoute
@@ -317,6 +335,8 @@ export interface FileRoutesById {
   '/plataforma/marketplace': typeof PlataformaMarketplaceRoute
   '/soluciones/$industria': typeof SolucionesIndustriaRoute
   '/soluciones/casos': typeof SolucionesCasosRoute
+  '/soluciones/control-de-fasoneros': typeof SolucionesControlDeFasonerosRoute
+  '/soluciones/produccion-a-fason': typeof SolucionesProduccionAFasonRoute
   '/guias/': typeof GuiasIndexRoute
   '/ia/': typeof IaIndexRoute
   '/integraciones/': typeof IntegracionesIndexRoute
@@ -355,6 +375,8 @@ export interface FileRouteTypes {
     | '/plataforma/marketplace'
     | '/soluciones/$industria'
     | '/soluciones/casos'
+    | '/soluciones/control-de-fasoneros'
+    | '/soluciones/produccion-a-fason'
     | '/guias/'
     | '/ia/'
     | '/integraciones/'
@@ -391,6 +413,8 @@ export interface FileRouteTypes {
     | '/plataforma/marketplace'
     | '/soluciones/$industria'
     | '/soluciones/casos'
+    | '/soluciones/control-de-fasoneros'
+    | '/soluciones/produccion-a-fason'
     | '/guias'
     | '/ia'
     | '/integraciones'
@@ -427,6 +451,8 @@ export interface FileRouteTypes {
     | '/plataforma/marketplace'
     | '/soluciones/$industria'
     | '/soluciones/casos'
+    | '/soluciones/control-de-fasoneros'
+    | '/soluciones/produccion-a-fason'
     | '/guias/'
     | '/ia/'
     | '/integraciones/'
@@ -464,6 +490,8 @@ export interface RootRouteChildren {
   PlataformaMarketplaceRoute: typeof PlataformaMarketplaceRoute
   SolucionesIndustriaRoute: typeof SolucionesIndustriaRoute
   SolucionesCasosRoute: typeof SolucionesCasosRoute
+  SolucionesControlDeFasonerosRoute: typeof SolucionesControlDeFasonerosRoute
+  SolucionesProduccionAFasonRoute: typeof SolucionesProduccionAFasonRoute
   GuiasIndexRoute: typeof GuiasIndexRoute
   IaIndexRoute: typeof IaIndexRoute
   IntegracionesIndexRoute: typeof IntegracionesIndexRoute
@@ -706,6 +734,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SolucionesCasosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/soluciones/control-de-fasoneros': {
+      id: '/soluciones/control-de-fasoneros'
+      path: '/soluciones/control-de-fasoneros'
+      fullPath: '/soluciones/control-de-fasoneros'
+      preLoaderRoute: typeof SolucionesControlDeFasonerosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/soluciones/produccion-a-fason': {
+      id: '/soluciones/produccion-a-fason'
+      path: '/soluciones/produccion-a-fason'
+      fullPath: '/soluciones/produccion-a-fason'
+      preLoaderRoute: typeof SolucionesProduccionAFasonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/plataforma/$modulo_/$funcionalidad': {
       id: '/plataforma/$modulo_/$funcionalidad'
       path: '/plataforma/$modulo/$funcionalidad'
@@ -744,6 +786,8 @@ const rootRouteChildren: RootRouteChildren = {
   PlataformaMarketplaceRoute: PlataformaMarketplaceRoute,
   SolucionesIndustriaRoute: SolucionesIndustriaRoute,
   SolucionesCasosRoute: SolucionesCasosRoute,
+  SolucionesControlDeFasonerosRoute: SolucionesControlDeFasonerosRoute,
+  SolucionesProduccionAFasonRoute: SolucionesProduccionAFasonRoute,
   GuiasIndexRoute: GuiasIndexRoute,
   IaIndexRoute: IaIndexRoute,
   IntegracionesIndexRoute: IntegracionesIndexRoute,

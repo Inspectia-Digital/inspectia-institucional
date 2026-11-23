@@ -13,6 +13,23 @@ import type { ModuleKey } from "./modules";
 
 export type Industry = {
   slug: string;
+  /**
+   * Qué clase de página es.
+   *
+   * `/soluciones/<slug>` nació para rubros y va a recibir productos: la medición por
+   * producto (plan del blog §5) dice que «software para fábrica de {producto}» es una
+   * búsqueda comercial y por lo tanto una landing, y la forma de esa landing es la misma
+   * que la de un rubro —problema propio, módulos que aplican, preguntas—.
+   *
+   * El campo existe para que ese día sea agregar una entrada y no cambiar la plantilla.
+   * Lo único que cambia con el valor es la palabra: la etiqueta del hero y la de la card
+   * dicen «Soluciones» igual, pero el texto del enlace y el del vacío hablan de un rubro
+   * o de un producto. Por omisión es `"industria"`, así que las diez entradas actuales no
+   * declaran nada.
+   *
+   * **No habilita por sí solo publicar un producto**: eso espera la medición de volumen.
+   */
+  kind?: "industria" | "producto";
   /** Etiqueta del menú y de la card. */
   name: string;
   /** Titular de la página. Distinto del `name`. */
@@ -278,3 +295,7 @@ export const INDUSTRIES: Industry[] = [
  */
 
 export const publishedIndustries = () => INDUSTRIES.filter((i) => i.published);
+
+/** Los rubros publicados, sin los productos. Es lo que lista la grilla del hub. */
+export const publishedByKind = (kind: Industry["kind"] = "industria") =>
+  INDUSTRIES.filter((i) => i.published && (i.kind ?? "industria") === kind);

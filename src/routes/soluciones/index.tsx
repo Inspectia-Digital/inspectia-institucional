@@ -4,6 +4,7 @@ import { PageHero } from "@/components/site/PageHero";
 import { MODULES } from "@/content/modules";
 import { publishedIndustries } from "@/content/solutions";
 import { problemGuides } from "@/content/guides";
+import { FASON_PAGES } from "@/content/fason";
 import { pageHead } from "@/lib/seo";
 import { Icon } from "@/components/icons/Icon";
 
@@ -109,6 +110,46 @@ function SolutionsPage() {
                   </p>
                   <span className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-semibold text-brand">
                     {g.title}
+                    <Icon
+                      name="arrow-right"
+                      className="transition-transform duration-[160ms] group-hover:translate-x-0.5"
+                    />
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* --- Por relación comercial ---
+          Fasón no es un rubro: es cómo se reparte el trabajo entre una marca y una
+          fábrica, y le habla a los dos lados. Por eso no está en la grilla de industrias
+          de arriba y tiene su propia sección, que además es la única entrada a las dos
+          páginas desde el sitio. */}
+      <section className={`bg-surface ${SECTION}`}>
+        <div className={CONTAINER}>
+          <p className="eyebrow">Por cómo producís</p>
+          <h2 className={`mt-4 ${H2}`}>Si producís para otras marcas, o en fábricas de otros</h2>
+          <p className="mt-6 max-w-[var(--lead-max)] text-[length:var(--text-lead)] leading-[var(--leading-normal)] text-ink-secondary">
+            Fasón, maquila o fabricación por contrato: el mismo modelo con tres nombres. Cada lado
+            ve lo suyo y nada del otro.
+          </p>
+
+          <ul className="mt-12 grid gap-6 min-[1000px]:grid-cols-2">
+            {FASON_PAGES.map((p) => (
+              <li key={p.slug} className="min-w-0">
+                <Link
+                  to={p.path}
+                  activeOptions={{ exact: true }}
+                  className="group flex h-full flex-col rounded-[var(--radius-lg)] border border-line p-6 transition-[border-color,box-shadow] duration-[160ms] hover:border-line-brand hover:shadow-[var(--shadow-sm)]"
+                >
+                  <h3 className="text-[length:var(--text-card)] leading-snug text-ink">{p.name}</h3>
+                  <p className="mt-3 text-[15px] leading-[var(--leading-normal)] text-ink-secondary">
+                    {p.pain}
+                  </p>
+                  <span className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-semibold text-brand">
+                    Ver {p.name.toLowerCase()}
                     <Icon
                       name="arrow-right"
                       className="transition-transform duration-[160ms] group-hover:translate-x-0.5"
